@@ -78,7 +78,8 @@ namespace EricMediaCenter
         {
             if (File.Exists(ParserPath))
             {
-                Assembly ass = Assembly.LoadFile(ParserPath);
+                byte[] assemblyBytes = File.ReadAllBytes(ParserPath);
+                Assembly ass = Assembly.Load(assemblyBytes);
                 Type[] types = ass.GetTypes();
                 bool found = false;
                 foreach (Type t in ass.GetTypes())
@@ -130,7 +131,8 @@ namespace EricMediaCenter
 
             if (File.Exists(ParserPath))
             {
-                Assembly ass = Assembly.LoadFile(ParserPath);
+                byte[] assemblyBytes = File.ReadAllBytes(ParserPath);
+                Assembly ass = Assembly.Load(assemblyBytes);
                 Type[] types = ass.GetTypes();
                 bool found = false;
                 foreach (Type t in ass.GetTypes())
@@ -139,6 +141,7 @@ namespace EricMediaCenter
                     {
                         found = true;
                         parser = (IEMCParserPlugin)Activator.CreateInstance(t);
+                        listBox1.Items.Clear();
                         listBox1.Items.AddRange(parser.GetSupportedWebsites());
                         label1.Text = "Parser loaded, version " + parser.Version;
                     }
