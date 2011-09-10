@@ -8,6 +8,6 @@ namespace EMCMasterPluginLib
 {
     public interface IWebsiteParser
     {
-        AbstractParsedWebsite FindInterestingContent(string content, string url, CookieContainer cookies);
+        ParsedWebsite FindInterestingContent(string content, string url, CookieContainer cookies);
     }
 }
