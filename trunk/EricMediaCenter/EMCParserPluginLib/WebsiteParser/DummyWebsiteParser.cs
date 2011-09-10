@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EMCMasterPluginLib;
-using EMCParserPluginLib.ParsedWebsite;
 
 namespace EMCParserPluginLib.WebsiteParser
 {
@@ -11,9 +10,9 @@ namespace EMCParserPluginLib.WebsiteParser
     {
         #region IWebsiteParser Members
 
-        public AbstractParsedWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
+        public ParsedWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
         {
-            return new DummyParsedWebsite(url);
+            return new ParsedWebsite(url);
         }
 
         #endregion

@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParsedWebsite\DummyParsedWebsite.cs" />
+    <Compile Include="WebsiteParser\MovShareParser.cs" />
     <Compile Include="WebsiteParser\DummyWebsiteParser.cs" />
     <Compile Include="WebsiteParser\MegaVideoParser.cs" />
     <Compile Include="WebsiteParserFactory.cs" />
@@ -50,6 +50,22 @@
     <ProjectReference Include="..\EMCMasterPluginLib\EMCMasterPluginLib.csproj">
       <Project>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</Project>
       <Name>EMCMasterPluginLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityCollections\EricUtilityCollections2011.csproj">
+      <Project>{E6120916-9399-4BF5-8F95-19D79DF74067}</Project>
+      <Name>EricUtilityCollections2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
+      <Project>{980F8DE9-2F6E-4A96-849D-23754B364271}</Project>
+      <Name>EricUtilityNetworking2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityWinForms\EricUtilityWinForms2011.csproj">
+      <Project>{ABF7D9DE-3646-4737-8EFC-5C3D5FD1CFA5}</Project>
+      <Name>EricUtilityWinForms2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
+      <Project>{E88C4AEF-1B0B-45C0-A08D-CBCDA35C1E62}</Project>
+      <Name>EricUtility2011</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
