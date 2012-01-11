@@ -11,12 +11,19 @@ namespace EMCParserPluginLib
     {
         public Version Version
         {
-            get { return new Version(0, 2, 3); }
+            get { return new Version(0, 2, 5); }
         }
         private static readonly Dictionary<string, IWebsiteParser> Supported = new Dictionary<string, IWebsiteParser>()
         {
-            {"megavideo.com",new MegaVideoParser()},
+            //{"megavideo.com",new MegaVideoParser()}, BROKEN
+            //{"novamov.com",new NovaMovParser()}, BROKEN
+
+            //{"playhd.org",new PlayHDParser()}, GONE :(
+            
+            {"gorillavid.com",new GorillaVidParser()},
             {"movshare.net",new MovShareParser()},
+            {"putlocker.com",new PutLockerSockShareParser()},
+            {"sockshare.com",new PutLockerSockShareParser()},
         };
 
         public string UniqueName
