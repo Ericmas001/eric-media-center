@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractParsedWebsite.cs" />
+    <Compile Include="ParsedWebsite.cs" />
     <Compile Include="IEMCParserPlugin.cs" />
     <Compile Include="IEMCMasterPlugin.cs" />
     <Compile Include="IWebsiteParser.cs" />
