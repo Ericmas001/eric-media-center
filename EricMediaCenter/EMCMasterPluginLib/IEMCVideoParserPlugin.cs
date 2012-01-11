@@ -5,9 +5,9 @@ using System.Text;
 
 namespace EMCMasterPluginLib
 {
-    public interface IEMCParserPlugin : IEMCMasterPlugin
+    public interface IEMCVideoParserPlugin : IEMCMasterPlugin
     {
-        IWebsiteParser GetWebsiteParser(string uniqueName);
+        IVideoWebsiteParser GetWebsiteParser(string uniqueName);
         string[] GetSupportedWebsites();
     }
 }

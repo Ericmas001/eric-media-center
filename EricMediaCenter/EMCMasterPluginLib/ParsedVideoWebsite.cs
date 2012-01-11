@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EMCMasterPluginLib
 {
-    public class ParsedWebsite
+    public class ParsedVideoWebsite
     {
         public enum Extension
         {
@@ -47,20 +47,20 @@ namespace EMCMasterPluginLib
             set { m_DownloadUrl = value; }
         }
 
-        public ParsedWebsite(string url)
+        public ParsedVideoWebsite(string url)
         {
             m_Url = url;
             m_Success = false;
         }
 
-        public ParsedWebsite(string url, Extension ext,string video)
+        public ParsedVideoWebsite(string url, Extension ext,string video)
         {
             m_Success = true;
             m_Url = url;
             m_VideoUrl = video;
         }
 
-        public ParsedWebsite(string url, Extension ext, string video, string download)
+        public ParsedVideoWebsite(string url, Extension ext, string video, string download)
         {
             m_Success = true;
             m_Url = url;

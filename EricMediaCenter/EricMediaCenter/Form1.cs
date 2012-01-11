@@ -17,7 +17,7 @@ namespace EricMediaCenter
 {
     public partial class Form1 : Form
     {
-        IEMCParserPlugin parser = null;
+        IEMCVideoParserPlugin parser = null;
 
         string next = null;
 
@@ -88,7 +88,7 @@ namespace EricMediaCenter
                     if (!found && t.GetInterface("IEMCParserPlugin") != null)
                     {
                         found = true;
-                        parser = (IEMCParserPlugin)Activator.CreateInstance(t);
+                        parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
                         listBox1.Items.AddRange(parser.GetSupportedWebsites());
                         label1.Text = "Parser loaded, version " + parser.Version;
                     }
@@ -144,7 +144,7 @@ namespace EricMediaCenter
                     if (!found && t.GetInterface("IEMCParserPlugin") != null)
                     {
                         found = true;
-                        parser = (IEMCParserPlugin)Activator.CreateInstance(t);
+                        parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
                         listBox1.Items.Clear();
                         listBox1.Items.AddRange(parser.GetSupportedWebsites());
                         label1.Text = "Parser loaded, version " + parser.Version;
@@ -160,7 +160,7 @@ namespace EricMediaCenter
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ParsedWebsite site = null;
+            ParsedVideoWebsite site = null;
             if (parser != null)
             {
                 foreach (string s in parser.GetSupportedWebsites())

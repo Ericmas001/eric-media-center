@@ -8,8 +8,8 @@
     <ProjectGuid>{9EBE1828-E6A5-4B3D-B64E-A000D50D58FA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EMCParserPluginLib</RootNamespace>
-    <AssemblyName>EMCParserPluginLib</AssemblyName>
+    <RootNamespace>EMCVideoParserPluginLib</RootNamespace>
+    <AssemblyName>EMCVideoParserPluginLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WebsiteParser\Broken\NovaMovParser.cs" />
-    <Compile Include="WebsiteParser\PutLockerSockShareParser.cs" />
-    <Compile Include="WebsiteParser\Gone\PlayHDParser.cs" />
-    <Compile Include="WebsiteParser\GorillaVidParser.cs" />
-    <Compile Include="WebsiteParser\MovShareParser.cs" />
-    <Compile Include="WebsiteParser\DummyWebsiteParser.cs" />
-    <Compile Include="WebsiteParser\Broken\MegaVideoParser.cs" />
-    <Compile Include="WebsiteParserFactory.cs" />
+    <Compile Include="VideoWebsiteParser\Broken\NovaMovParser.cs" />
+    <Compile Include="VideoWebsiteParser\PutLockerSockShareParser.cs" />
+    <Compile Include="VideoWebsiteParser\Gone\PlayHDParser.cs" />
+    <Compile Include="VideoWebsiteParser\GorillaVidParser.cs" />
+    <Compile Include="VideoWebsiteParser\MovShareParser.cs" />
+    <Compile Include="VideoWebsiteParser\DummyWebsiteParser.cs" />
+    <Compile Include="VideoWebsiteParser\Broken\MegaVideoParser.cs" />
+    <Compile Include="VideoWebsiteParserFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

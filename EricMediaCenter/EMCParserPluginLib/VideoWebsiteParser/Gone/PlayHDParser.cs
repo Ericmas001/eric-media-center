@@ -6,11 +6,11 @@ using EMCMasterPluginLib;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 
-namespace EMCParserPluginLib.WebsiteParser
+namespace EMCVideoParserPluginLib.VideoWebsiteParser.Gone
 {
-    public class PlayHDParser : IWebsiteParser
+    public class PlayHDParser : IVideoWebsiteParser
     {
-        public ParsedWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
+        public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
         {
             string baseURL = "http://www.playhd.org/";
             string title = "Dedicated Servers Power hosting - ";
@@ -23,10 +23,10 @@ namespace EMCParserPluginLib.WebsiteParser
             string deb = "var movieURL  = \"";
             int ideb = res.IndexOf(deb) + deb.Length;
             if (ideb < deb.Length)
-                return new ParsedWebsite(url);
+                return new ParsedVideoWebsite(url);
             int ifin = res.IndexOf("\"", ideb);
             string newurl = res.Substring(ideb, ifin - ideb).Replace(":81", "");
-            return new ParsedWebsite(url,ParsedWebsite.Extension.Flv, newurl);
+            return new ParsedVideoWebsite(url,ParsedVideoWebsite.Extension.Flv, newurl);
         }
     }
 }

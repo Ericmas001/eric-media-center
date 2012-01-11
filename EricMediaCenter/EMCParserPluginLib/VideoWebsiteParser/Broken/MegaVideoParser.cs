@@ -5,13 +5,13 @@ using System.Text;
 using EMCMasterPluginLib;
 using EricUtility;
 
-namespace EMCParserPluginLib.WebsiteParser
+namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
 {
-    public class MegaVideoParser : IWebsiteParser
+    public class MegaVideoParser : IVideoWebsiteParser
     {
-        public ParsedWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
+        public ParsedVideoWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
         {
-            return new ParsedWebsite(url,ParsedWebsite.Extension.Flv,getVideoUrl(content));
+            return new ParsedVideoWebsite(url,ParsedVideoWebsite.Extension.Flv,getVideoUrl(content));
         }
         public string getVideoUrl(string src)
         {
