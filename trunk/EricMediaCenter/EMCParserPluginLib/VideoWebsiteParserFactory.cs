@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EMCMasterPluginLib;
-using EMCParserPluginLib.WebsiteParser;
+using EMCVideoParserPluginLib.VideoWebsiteParser;
 
-namespace EMCParserPluginLib
+namespace EMCVideoParserPluginLib
 {
-    public class WebsiteParserFactory : IEMCParserPlugin
+    public class VideoWebsiteParserFactory : IEMCVideoParserPlugin
     {
         public Version Version
         {
             get { return new Version(0, 2, 5); }
         }
-        private static readonly Dictionary<string, IWebsiteParser> Supported = new Dictionary<string, IWebsiteParser>()
+        private static readonly Dictionary<string, IVideoWebsiteParser> Supported = new Dictionary<string, IVideoWebsiteParser>()
         {
             //{"megavideo.com",new MegaVideoParser()}, BROKEN
             //{"novamov.com",new NovaMovParser()}, BROKEN
@@ -41,7 +41,7 @@ namespace EMCParserPluginLib
             return true;
         }
 
-        public IWebsiteParser GetWebsiteParser(string uniqueName)
+        public IVideoWebsiteParser GetWebsiteParser(string uniqueName)
         {
             if (Supported.ContainsKey(uniqueName))
                 return Supported[uniqueName];

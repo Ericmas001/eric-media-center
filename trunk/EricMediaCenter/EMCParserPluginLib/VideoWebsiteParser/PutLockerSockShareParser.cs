@@ -6,11 +6,11 @@ using EMCMasterPluginLib;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 
-namespace EMCParserPluginLib.WebsiteParser
+namespace EMCVideoParserPluginLib.VideoWebsiteParser
 {
-    public class PutLockerSockShareParser : IWebsiteParser
+    public class PutLockerSockShareParser : IVideoWebsiteParser
     {
-        public ParsedWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
+        public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
         {
             string beginurl = "http://www.sockshare.com";
             if( url.Contains("www.putlocker.com") )
@@ -24,12 +24,12 @@ namespace EMCParserPluginLib.WebsiteParser
                 res = GatheringUtility.GetPageSource(url, cookies, "hash=" + hash + "&confirm=Continue+as+Free+User");
             }
             if (res.Contains("This file doesn't exist"))
-                return new ParsedWebsite(url);
+                return new ParsedVideoWebsite(url);
             string rssU = beginurl + StringUtility.Extract(res, "playlist: '", "',");
             string info = GatheringUtility.GetPageSource(rssU, cookies);
             string result = StringUtility.Extract(info, "<media:content url=\"", "\"");
 
-            return new ParsedWebsite(url, ParsedWebsite.Extension.Flv, result);
+            return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, result);
         }
     }
 }

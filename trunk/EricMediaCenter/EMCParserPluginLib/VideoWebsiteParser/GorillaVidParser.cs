@@ -6,11 +6,11 @@ using EMCMasterPluginLib;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 
-namespace EMCParserPluginLib.WebsiteParser
+namespace EMCVideoParserPluginLib.VideoWebsiteParser
 {
-    public class GorillaVidParser : IWebsiteParser
+    public class GorillaVidParser : IVideoWebsiteParser
     {
-        public ParsedWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
+        public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
         {
             while (res.Contains("Please wait while we verify your request"))
             {
@@ -22,9 +22,9 @@ namespace EMCParserPluginLib.WebsiteParser
 
             string newurl = StringUtility.Extract(res, "file:\"", "\"");
             if (newurl != null)
-                return new ParsedWebsite(url, ParsedWebsite.Extension.Flv, newurl);
+                return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, newurl);
             else
-                return new ParsedWebsite(url);
+                return new ParsedVideoWebsite(url);
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Net;
 
 namespace EMCMasterPluginLib
 {
-    public interface IWebsiteParser
+    public interface IVideoWebsiteParser
     {
-        ParsedWebsite FindInterestingContent(string content, string url, CookieContainer cookies);
+        ParsedVideoWebsite FindInterestingContent(string content, string url, CookieContainer cookies);
     }
 }

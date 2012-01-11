@@ -6,11 +6,11 @@ using EMCMasterPluginLib;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 
-namespace EMCParserPluginLib.WebsiteParser
+namespace EMCVideoParserPluginLib.VideoWebsiteParser
 {
-    public class MovShareParser : IWebsiteParser
+    public class MovShareParser : IVideoWebsiteParser
     {
-        public ParsedWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
+        public ParsedVideoWebsite FindInterestingContent(string content, string url, System.Net.CookieContainer cookies)
         {
             //What a great robot check ! :)
             while (content.Contains("Please click continue to video to prove you're not a robot"))
@@ -18,14 +18,14 @@ namespace EMCParserPluginLib.WebsiteParser
 
             string newurl = StringUtility.Extract(content, "s1.addVariable(\"file\",\"", "\"");
             if (newurl != null)
-                return new ParsedWebsite(url, ParsedWebsite.Extension.Flv,newurl);
+                return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv,newurl);
             else
             {
                 string divxurl = StringUtility.Extract(content, "<param name=\"src\" value=\"", "\"");
                 if (divxurl != null)
-                    return new ParsedWebsite(url, ParsedWebsite.Extension.Avi, divxurl);
+                    return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Avi, divxurl);
                 else
-                    return new ParsedWebsite(url);
+                    return new ParsedVideoWebsite(url);
             }
         }
     }
