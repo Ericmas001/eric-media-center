@@ -11,6 +11,7 @@ using System.Reflection;
 using EMCMasterPluginLib;
 using EricUtility.Networking.Gathering;
 using EricUtilityNetworking;
+using System.Net;
 
 namespace EricMediaCenter
 {
@@ -94,7 +95,10 @@ namespace EricMediaCenter
                 }
             }
             else
+            {
+                parser = null;
                 label1.Text = "No Parser found";
+            }
             
                 string list = GatheringUtility.GetPageSource("http://www.ericmas001.com/EMC/plugins/list.txt");
                 string[] plugins = list.Split('\n');
@@ -148,7 +152,35 @@ namespace EricMediaCenter
                 }
             }
             else
+            {
+                parser = null;
                 label1.Text = "No Parser found";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ParsedWebsite site = null;
+            if (parser != null)
+            {
+                foreach (string s in parser.GetSupportedWebsites())
+                {
+                    if (site == null && textBox1.Text.Contains(s))
+                    {
+                        CookieContainer cookies = new CookieContainer();
+                        site = parser.GetWebsiteParser(s).FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text,cookies);
+                    }
+                }
+            }
+            if (site == null || !site.Success)
+            {
+                textBox2.Text = textBox1.Text = "ERROR !!";
+            }
+            else
+            {
+                textBox2.Text = site.VideoUrl;
+                textBox3.Text = site.DownloadUrl;
+            }
         }
     }
 }

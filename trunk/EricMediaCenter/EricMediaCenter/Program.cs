@@ -13,6 +13,10 @@ namespace EricMediaCenter
         [STAThread]
         static void Main()
         {
+            // HTTP POST Returns The Error: 417 “Expectation Failed.” (C#)
+            // http://stackoverflow.com/questions/566437/http-post-returns-the-error-417-expectation-failed-c
+            System.Net.ServicePointManager.Expect100Continue = false;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
