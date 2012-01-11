@@ -40,9 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WebsiteParser\Broken\NovaMovParser.cs" />
+    <Compile Include="WebsiteParser\PutLockerSockShareParser.cs" />
+    <Compile Include="WebsiteParser\Gone\PlayHDParser.cs" />
+    <Compile Include="WebsiteParser\GorillaVidParser.cs" />
     <Compile Include="WebsiteParser\MovShareParser.cs" />
     <Compile Include="WebsiteParser\DummyWebsiteParser.cs" />
-    <Compile Include="WebsiteParser\MegaVideoParser.cs" />
+    <Compile Include="WebsiteParser\Broken\MegaVideoParser.cs" />
     <Compile Include="WebsiteParserFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +72,7 @@
       <Name>EricUtility2011</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
