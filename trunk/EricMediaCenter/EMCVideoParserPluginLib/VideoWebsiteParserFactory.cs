@@ -55,7 +55,10 @@ namespace EMCVideoParserPluginLib
 
         public string[] GetSupportedWebsites()
         {
-            return Supported.Keys.ToArray();
+            string[] supported = new string[Supported.Count];
+            Supported.Keys.CopyTo(supported, 0);
+            return supported;
+            //return Supported.Keys.ToArray();
         }
     }
 }
