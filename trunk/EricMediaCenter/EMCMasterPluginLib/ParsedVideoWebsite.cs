@@ -11,7 +11,9 @@ namespace EMCMasterPluginLib
         {
             Unknown, 
             Flv,
-            Avi
+            Avi,
+            Mov,
+            Mp4
         }
         private readonly string m_Url;
         public string Url { get { return m_Url; } }

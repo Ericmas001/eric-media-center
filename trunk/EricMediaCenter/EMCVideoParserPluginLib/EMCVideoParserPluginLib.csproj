@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VideoWebsiteParser\Broken\ZShareParser.cs" />
+    <Compile Include="VideoWebsiteParser\Broken\YoutubeParser.cs" />
+    <Compile Include="VideoWebsiteParser\Broken\VideoWeedParser.cs" />
     <Compile Include="VideoWebsiteParser\Broken\NovaMovParser.cs" />
+    <Compile Include="VideoWebsiteParser\Gone\WiseVidParser.cs" />
+    <Compile Include="VideoWebsiteParser\StageVuParser.cs" />
     <Compile Include="VideoWebsiteParser\PutLockerSockShareParser.cs" />
     <Compile Include="VideoWebsiteParser\Gone\PlayHDParser.cs" />
     <Compile Include="VideoWebsiteParser\GorillaVidParser.cs" />
