@@ -18,7 +18,6 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
             while (res.Contains("Continue as Free User"))
             {
                 string u = GatheringUtility.GetPageUrl(url, cookies, "", "application/x-www-form-urlencoded");
-                url = beginurl + u;
                 string hash = StringUtility.Extract(res, "<input type=\"hidden\" value=\"", "\"");
                 res = GatheringUtility.GetPageSource(url, cookies, "hash=" + hash + "&confirm=Continue+as+Free+User");
             }
