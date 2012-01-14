@@ -11,7 +11,7 @@ namespace EMCVideoParserPluginLib
     {
         public Version Version
         {
-            get { return new Version(0, 3, 0); }
+            get { return new Version(0, 3, 1); }
         }
         private static readonly Dictionary<string, IVideoWebsiteParser> Supported = new Dictionary<string, IVideoWebsiteParser>()
         {
@@ -39,7 +39,7 @@ namespace EMCVideoParserPluginLib
 
         public string FullName
         {
-            get { return "EMC Official Website VideoParser Factory"; }
+            get { return "Official Website VideoParser"; }
         }
 
         public bool Load()
