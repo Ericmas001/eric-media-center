@@ -62,7 +62,6 @@
             this.btnTest.UseVisualStyleBackColor = false;
             this.btnTest.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
             this.btnTest.ToggleStateChanged += new System.EventHandler(this.btnMenu_ToggleStateChanged);
-            this.btnTest.Click += new System.EventHandler(this.btnMenu_Click);
             // 
             // btnSettings
             // 
@@ -83,7 +82,6 @@
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLACK;
             this.btnSettings.ToggleStateChanged += new System.EventHandler(this.btnMenu_ToggleStateChanged);
-            this.btnSettings.Click += new System.EventHandler(this.btnMenu_Click);
             // 
             // panel1
             // 
