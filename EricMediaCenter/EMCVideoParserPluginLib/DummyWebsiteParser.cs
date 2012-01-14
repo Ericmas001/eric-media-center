@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using EMCMasterPluginLib.VideoParser;
 
-namespace EMCVideoParserPluginLib.VideoWebsiteParser
+namespace EMCFakeVP001PluginLib
 {
     public class DummyWebsiteParser : IVideoWebsiteParser
     {
