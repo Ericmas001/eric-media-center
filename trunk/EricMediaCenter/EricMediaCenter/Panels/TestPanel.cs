@@ -18,8 +18,12 @@ namespace EricMediaCenter.Panels
     public partial class TestPanel : UserControl
     {
         IEMCVideoParserPlugin parser = null;
+        IEMCVideoParserPlugin parser1 = null;
+        IEMCVideoParserPlugin parser2 = null;
 
         string next = null;
+        string nextF1 = null;
+        string nextF2 = null;
 
         /// <summary>
         ///   Gets the fully qualified name of the ".options.xml" file.
@@ -71,6 +75,36 @@ namespace EricMediaCenter.Panels
                 return path.ToString();
             }
         }
+        private static string ParserFake1Path
+        {
+            get
+            {
+                // Build the directory.
+                StringBuilder path = new StringBuilder();
+                path.Append(EMCPath);
+
+                // Add the file name.
+                path.Append(Path.DirectorySeparatorChar);
+                path.Append("EMCFakeVP001.dll");
+
+                return path.ToString();
+            }
+        }
+        private static string ParserFake2Path
+        {
+            get
+            {
+                // Build the directory.
+                StringBuilder path = new StringBuilder();
+                path.Append(EMCPath);
+
+                // Add the file name.
+                path.Append(Path.DirectorySeparatorChar);
+                path.Append("EMCFakeVP002.dll");
+
+                return path.ToString();
+            }
+        }
         public TestPanel()
         {
             InitializeComponent();
@@ -91,14 +125,58 @@ namespace EricMediaCenter.Panels
                         found = true;
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
                         listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
-                        label1.Text = "Parser loaded, version " + parser.Version;
+                        lblOfficialVP.Text = "Parser loaded, version " + parser.Version;
                     }
                 }
             }
             else
             {
                 parser = null;
-                label1.Text = "No Parser found";
+                lblOfficialVP.Text = "No Parser found";
+            }
+            if (File.Exists(ParserFake1Path))
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(ParserFake1Path);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
+                    {
+                        found = true;
+                        parser1 = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
+                        listBox1.Items.AddRange(parser1.GetSupportedWebsites().Keys.ToArray());
+                        lblFakeVP001.Text = "Parser loaded, version " + parser1.Version;
+                    }
+                }
+            }
+            else
+            {
+                parser1 = null;
+                lblFakeVP001.Text = "No Parser found";
+            }
+            if (File.Exists(ParserFake2Path))
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(ParserFake2Path);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
+                    {
+                        found = true;
+                        parser2 = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
+                        listBox1.Items.AddRange(parser2.GetSupportedWebsites().Keys.ToArray());
+                        lblFakeVP002.Text = "Parser loaded, version " + parser2.Version;
+                    }
+                }
+            }
+            else
+            {
+                parser1 = null;
+                lblFakeVP002.Text = "No Parser found";
             }
 
             string list = GatheringUtility.GetPageSource("http://www.ericmas001.com/EMC/plugins/list.txt");
@@ -112,12 +190,34 @@ namespace EricMediaCenter.Panels
                 {
                     if (parser == null || v > parser.Version)
                     {
-                        label1.Text = "A new version of the parser is available !!!";
-                        next = "http://www.ericmas001.com/EMC/plugins/"+name+"_" + v.ToString(3) + ".dll";
-                        button1.Visible = true;
+                        lblOfficialVP.Text = "A new version of the parser is available !!!";
+                        next = "http://www.ericmas001.com/EMC/plugins/" + name + "_" + v.ToString(3) + ".dll";
+                        btnOfficialVP.Visible = true;
                     }
                     else
-                        button1.Visible = false;
+                        btnOfficialVP.Visible = false;
+                }
+                if (name == "EMCFakeVP001PluginLib")
+                {
+                    if (parser1 == null || v > parser1.Version)
+                    {
+                        lblFakeVP001.Text = "A new version of the parser is available !!!";
+                        nextF1 = "http://www.ericmas001.com/EMC/plugins/" + name + "_" + v.ToString(3) + ".dll";
+                        btnFakeVP001.Visible = true;
+                    }
+                    else
+                        btnFakeVP001.Visible = false;
+                }
+                if (name == "EMCFakeVP002PluginLib")
+                {
+                    if (parser2 == null || v > parser2.Version)
+                    {
+                        lblFakeVP002.Text = "A new version of the parser is available !!!";
+                        nextF2 = "http://www.ericmas001.com/EMC/plugins/" + name + "_" + v.ToString(3) + ".dll";
+                        btnFakeVP002.Visible = true;
+                    }
+                    else
+                        btnFakeVP002.Visible = false;
                 }
             }
 
@@ -130,14 +230,30 @@ namespace EricMediaCenter.Panels
         private void button1_Click(object sender, EventArgs e)
         {
             DownloadItem it = new DownloadItem(next, EMCPath, "EMCVideoParser.dll");
-            button1.Visible = false;
+            btnOfficialVP.Visible = false;
             it.DownloadFileCompleted += new AsyncCompletedEventHandler(it_DownloadFileCompleted);
+            it.StartDownload();
+        }
+
+        private void btnFakeVP001_Click(object sender, EventArgs e)
+        {
+            DownloadItem it = new DownloadItem(nextF1, EMCPath, "EMCFakeVP001.dll");
+            btnFakeVP001.Visible = false;
+            it.DownloadFileCompleted += new AsyncCompletedEventHandler(it_DownloadFile1Completed);
+            it.StartDownload();
+        }
+
+        private void btnFakeVP002_Click(object sender, EventArgs e)
+        {
+            DownloadItem it = new DownloadItem(nextF2, EMCPath, "EMCFakeVP002.dll");
+            btnFakeVP002.Visible = false;
+            it.DownloadFileCompleted += new AsyncCompletedEventHandler(it_DownloadFile2Completed);
             it.StartDownload();
         }
 
         void it_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            label1.Text = "Téléchargement terminé";
+            lblOfficialVP.Text = "Téléchargement terminé";
 
             if (File.Exists(ParserPath))
             {
@@ -153,14 +269,72 @@ namespace EricMediaCenter.Panels
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
                         listBox1.Items.Clear();
                         listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
-                        label1.Text = "Parser loaded, version " + parser.Version;
+                        lblOfficialVP.Text = "Parser loaded, version " + parser.Version;
                     }
                 }
             }
             else
             {
                 parser = null;
-                label1.Text = "No Video Parser found";
+                lblOfficialVP.Text = "No Video Parser found";
+            }
+        }
+
+        void it_DownloadFile1Completed(object sender, AsyncCompletedEventArgs e)
+        {
+            lblFakeVP001.Text = "Téléchargement terminé";
+
+            if (File.Exists(ParserFake1Path))
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(ParserFake1Path);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
+                    {
+                        found = true;
+                        parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
+                        listBox1.Items.Clear();
+                        listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
+                        lblFakeVP001.Text = "Parser loaded, version " + parser.Version;
+                    }
+                }
+            }
+            else
+            {
+                parser = null;
+                lblFakeVP001.Text = "No Video Parser found";
+            }
+        }
+
+        void it_DownloadFile2Completed(object sender, AsyncCompletedEventArgs e)
+        {
+            lblFakeVP002.Text = "Téléchargement terminé";
+
+            if (File.Exists(ParserFake2Path))
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(ParserFake2Path);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
+                    {
+                        found = true;
+                        parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
+                        listBox1.Items.Clear();
+                        listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
+                        lblFakeVP002.Text = "Parser loaded, version " + parser.Version;
+                    }
+                }
+            }
+            else
+            {
+                parser = null;
+                lblFakeVP002.Text = "No Video Parser found";
             }
         }
 
