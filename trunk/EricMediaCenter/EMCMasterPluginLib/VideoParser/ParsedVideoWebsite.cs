@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EMCMasterPluginLib
+namespace EMCMasterPluginLib.VideoParser
 {
     public class ParsedVideoWebsite
     {

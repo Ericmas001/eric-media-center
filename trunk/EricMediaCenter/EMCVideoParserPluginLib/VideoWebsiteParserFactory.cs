@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using EMCMasterPluginLib;
 using EMCVideoParserPluginLib.VideoWebsiteParser;
+using EMCMasterPluginLib.VideoParser;
 
 namespace EMCVideoParserPluginLib
 {
@@ -10,7 +11,7 @@ namespace EMCVideoParserPluginLib
     {
         public Version Version
         {
-            get { return new Version(0, 2, 7); }
+            get { return new Version(0, 3, 0); }
         }
         private static readonly Dictionary<string, IVideoWebsiteParser> Supported = new Dictionary<string, IVideoWebsiteParser>()
         {
@@ -33,12 +34,12 @@ namespace EMCVideoParserPluginLib
 
         public string UniqueName
         {
-            get { return "parser"; }
+            get { return "videoParserEMC"; }
         }
 
         public string FullName
         {
-            get { return "Website Parser Factory"; }
+            get { return "EMC Official Website VideoParser Factory"; }
         }
 
         public bool Load()
@@ -46,19 +47,9 @@ namespace EMCVideoParserPluginLib
             return true;
         }
 
-        public IVideoWebsiteParser GetWebsiteParser(string uniqueName)
+        Dictionary<string, IVideoWebsiteParser> IEMCVideoParserPlugin.GetSupportedWebsites()
         {
-            if (Supported.ContainsKey(uniqueName))
-                return Supported[uniqueName];
-            return new DummyWebsiteParser();
-        }
-
-        public string[] GetSupportedWebsites()
-        {
-            string[] supported = new string[Supported.Count];
-            Supported.Keys.CopyTo(supported, 0);
-            return supported;
-            //return Supported.Keys.ToArray();
+            return VideoWebsiteParserFactory.Supported;
         }
     }
 }

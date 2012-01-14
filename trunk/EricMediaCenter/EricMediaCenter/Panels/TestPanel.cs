@@ -8,10 +8,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
-using EMCMasterPluginLib;
 using EricUtilityNetworking;
 using System.Net;
 using EricUtility.Networking.Gathering;
+using EMCMasterPluginLib.VideoParser;
 
 namespace EricMediaCenter.Panels
 {
@@ -66,7 +66,7 @@ namespace EricMediaCenter.Panels
 
                 // Add the file name.
                 path.Append(Path.DirectorySeparatorChar);
-                path.Append("EMCParser.dll");
+                path.Append("EMCVideoParser.dll");
 
                 return path.ToString();
             }
@@ -90,7 +90,7 @@ namespace EricMediaCenter.Panels
                     {
                         found = true;
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
-                        listBox1.Items.AddRange(parser.GetSupportedWebsites());
+                        listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
                         label1.Text = "Parser loaded, version " + parser.Version;
                     }
                 }
@@ -108,12 +108,12 @@ namespace EricMediaCenter.Panels
                 string[] info = p.Split(';');
                 string name = info[0];
                 Version v = new Version(info[1]);
-                if (name == "parser")
+                if (name == "videoParserEMC")
                 {
                     if (parser == null || v > parser.Version)
                     {
                         label1.Text = "A new version of the parser is available !!!";
-                        next = "http://www.ericmas001.com/EMC/plugins/parser_" + v.ToString(3) + ".dll";
+                        next = "http://www.ericmas001.com/EMC/plugins/"+name+"_" + v.ToString(3) + ".dll";
                         button1.Visible = true;
                     }
                     else
@@ -129,7 +129,7 @@ namespace EricMediaCenter.Panels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DownloadItem it = new DownloadItem(next, EMCPath, "EMCParser.dll");
+            DownloadItem it = new DownloadItem(next, EMCPath, "EMCVideoParser.dll");
             button1.Visible = false;
             it.DownloadFileCompleted += new AsyncCompletedEventHandler(it_DownloadFileCompleted);
             it.StartDownload();
@@ -152,7 +152,7 @@ namespace EricMediaCenter.Panels
                         found = true;
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
                         listBox1.Items.Clear();
-                        listBox1.Items.AddRange(parser.GetSupportedWebsites());
+                        listBox1.Items.AddRange(parser.GetSupportedWebsites().Keys.ToArray());
                         label1.Text = "Parser loaded, version " + parser.Version;
                     }
                 }
@@ -160,7 +160,7 @@ namespace EricMediaCenter.Panels
             else
             {
                 parser = null;
-                label1.Text = "No Parser found";
+                label1.Text = "No Video Parser found";
             }
         }
 
@@ -169,12 +169,12 @@ namespace EricMediaCenter.Panels
             ParsedVideoWebsite site = null;
             if (parser != null)
             {
-                foreach (string s in parser.GetSupportedWebsites())
+                foreach (string s in parser.GetSupportedWebsites().Keys)
                 {
                     if (site == null && textBox1.Text.Contains(s))
                     {
                         CookieContainer cookies = new CookieContainer();
-                        site = parser.GetWebsiteParser(s).FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text, cookies);
+                        site = parser.GetSupportedWebsites()[s].FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text, cookies);
                     }
                 }
             }

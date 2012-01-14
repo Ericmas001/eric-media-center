@@ -27,10 +27,7 @@ namespace EricMediaCenter
             InitializeComponent();
             panels.Add(btnTest.Name, new TestPanel());
             panels.Add(btnSettings.Name, new SettingsPanel());
-        }
-
-        private void btnMenu_Click(object sender, EventArgs e)
-        {
+            btnTest.Toggle = CheckState.Checked;
         }
 
         private void btnMenu_ToggleStateChanged(object sender, EventArgs e)

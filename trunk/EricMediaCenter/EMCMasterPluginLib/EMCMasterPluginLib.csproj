@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParsedVideoWebsite.cs" />
-    <Compile Include="IEMCVideoParserPlugin.cs" />
+    <Compile Include="VideoParser\ParsedVideoWebsite.cs" />
+    <Compile Include="VideoParser\IEMCVideoParserPlugin.cs" />
     <Compile Include="IEMCMasterPlugin.cs" />
-    <Compile Include="IVideoWebsiteParser.cs" />
+    <Compile Include="VideoParser\IVideoWebsiteParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

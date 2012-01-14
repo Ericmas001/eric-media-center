@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EMCMasterPluginLib;
+using EMCMasterPluginLib.VideoParser;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 
