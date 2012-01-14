@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using EMCMasterPluginLib;
-using EricUtility.Networking.Gathering;
 using EricUtilityNetworking;
 using System.Net;
+using EricUtility.Networking.Gathering;
 
-namespace EricMediaCenter
+namespace EricMediaCenter.Panels
 {
-    public partial class Form1 : Form
+    public partial class TestPanel : UserControl
     {
         IEMCVideoParserPlugin parser = null;
 
@@ -54,6 +54,7 @@ namespace EricMediaCenter
                 }
                 return path.ToString();
             }
+
         }
         private static string ParserPath
         {
@@ -70,7 +71,7 @@ namespace EricMediaCenter
                 return path.ToString();
             }
         }
-        public Form1()
+        public TestPanel()
         {
             InitializeComponent();
         }
@@ -85,7 +86,7 @@ namespace EricMediaCenter
                 bool found = false;
                 foreach (Type t in ass.GetTypes())
                 {
-                    if (!found && t.GetInterface("IEMCParserPlugin") != null)
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
                     {
                         found = true;
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
@@ -99,26 +100,31 @@ namespace EricMediaCenter
                 parser = null;
                 label1.Text = "No Parser found";
             }
-            
-                string list = GatheringUtility.GetPageSource("http://www.ericmas001.com/EMC/plugins/list.txt");
-                string[] plugins = list.Split('\n');
-                foreach (string p in plugins)
+
+            string list = GatheringUtility.GetPageSource("http://www.ericmas001.com/EMC/plugins/list.txt");
+            string[] plugins = list.Split('\n');
+            foreach (string p in plugins)
+            {
+                string[] info = p.Split(';');
+                string name = info[0];
+                Version v = new Version(info[1]);
+                if (name == "parser")
                 {
-                    string[] info = p.Split(';');
-                    string name = info[0];
-                    Version v = new Version(info[1]);
-                    if( name == "parser" )
+                    if (parser == null || v > parser.Version)
                     {
-                        if (parser == null || v > parser.Version)
-                        {
-                            label1.Text = "A new version of the parser is available !!!";
-                            next = "http://www.ericmas001.com/EMC/plugins/parser_" + v.ToString(3) + ".dll";
-                            button1.Visible = true;
-                        }
-                        else
-                            button1.Visible = false;
+                        label1.Text = "A new version of the parser is available !!!";
+                        next = "http://www.ericmas001.com/EMC/plugins/parser_" + v.ToString(3) + ".dll";
+                        button1.Visible = true;
                     }
+                    else
+                        button1.Visible = false;
                 }
+            }
+
+            //TEST
+            //parser = new VideoWebsiteParserFactory();
+            //listBox1.Items.AddRange(parser.GetSupportedWebsites());
+            //label1.Text = "Parser loaded, version " + parser.Version;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -141,7 +147,7 @@ namespace EricMediaCenter
                 bool found = false;
                 foreach (Type t in ass.GetTypes())
                 {
-                    if (!found && t.GetInterface("IEMCParserPlugin") != null)
+                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
                     {
                         found = true;
                         parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
@@ -168,7 +174,7 @@ namespace EricMediaCenter
                     if (site == null && textBox1.Text.Contains(s))
                     {
                         CookieContainer cookies = new CookieContainer();
-                        site = parser.GetWebsiteParser(s).FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text,cookies);
+                        site = parser.GetWebsiteParser(s).FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text, cookies);
                     }
                 }
             }
