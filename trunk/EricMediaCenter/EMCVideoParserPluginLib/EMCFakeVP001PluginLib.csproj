@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E2DFF10-744B-4C8E-BB92-C701B3DAA2F6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EMCFakeVP001PluginLib</RootNamespace>
+    <AssemblyName>EMCFakeVP001PluginLib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DummyWebsiteParser.cs" />
+    <Compile Include="Fake001VWPFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EMCMasterPluginLib\EMCMasterPluginLib.csproj">
+      <Project>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</Project>
+      <Name>EMCMasterPluginLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityCollections\EricUtilityCollections2011.csproj">
+      <Project>{E6120916-9399-4BF5-8F95-19D79DF74067}</Project>
+      <Name>EricUtilityCollections2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
+      <Project>{980F8DE9-2F6E-4A96-849D-23754B364271}</Project>
+      <Name>EricUtilityNetworking2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtilityWinForms\EricUtilityWinForms2011.csproj">
+      <Project>{ABF7D9DE-3646-4737-8EFC-5C3D5FD1CFA5}</Project>
+      <Name>EricUtilityWinForms2011</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
+      <Project>{E88C4AEF-1B0B-45C0-A08D-CBCDA35C1E62}</Project>
+      <Name>EricUtility2011</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="VideoWebsiteParser\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
