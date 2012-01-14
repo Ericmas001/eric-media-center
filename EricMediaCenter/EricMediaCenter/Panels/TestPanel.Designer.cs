@@ -38,13 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnOfficialVP = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.lblOfficialVP = new System.Windows.Forms.Label();
-            this.btnFakeVP001 = new System.Windows.Forms.Button();
-            this.lblFakeVP001 = new System.Windows.Forms.Label();
-            this.btnFakeVP002 = new System.Windows.Forms.Button();
-            this.lblFakeVP002 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +52,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(129, 105);
+            this.groupBox1.Location = new System.Drawing.Point(132, 16);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(420, 169);
             this.groupBox1.TabIndex = 9;
@@ -138,22 +132,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 89);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 8;
             this.label2.Text = "Supported:";
-            // 
-            // btnOfficialVP
-            // 
-            this.btnOfficialVP.Location = new System.Drawing.Point(3, 5);
-            this.btnOfficialVP.Name = "btnOfficialVP";
-            this.btnOfficialVP.Size = new System.Drawing.Size(120, 23);
-            this.btnOfficialVP.TabIndex = 7;
-            this.btnOfficialVP.Text = "download";
-            this.btnOfficialVP.UseVisualStyleBackColor = true;
-            this.btnOfficialVP.Visible = false;
-            this.btnOfficialVP.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBox1
             // 
@@ -161,75 +144,20 @@
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.Enabled = false;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(6, 105);
+            this.listBox1.Location = new System.Drawing.Point(6, 16);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(120, 173);
             this.listBox1.TabIndex = 6;
-            // 
-            // lblOfficialVP
-            // 
-            this.lblOfficialVP.AutoSize = true;
-            this.lblOfficialVP.Location = new System.Drawing.Point(138, 10);
-            this.lblOfficialVP.Name = "lblOfficialVP";
-            this.lblOfficialVP.Size = new System.Drawing.Size(89, 13);
-            this.lblOfficialVP.TabIndex = 5;
-            this.lblOfficialVP.Text = "Loading parser ...";
-            // 
-            // btnFakeVP001
-            // 
-            this.btnFakeVP001.Location = new System.Drawing.Point(3, 34);
-            this.btnFakeVP001.Name = "btnFakeVP001";
-            this.btnFakeVP001.Size = new System.Drawing.Size(120, 23);
-            this.btnFakeVP001.TabIndex = 11;
-            this.btnFakeVP001.Text = "download";
-            this.btnFakeVP001.UseVisualStyleBackColor = true;
-            this.btnFakeVP001.Visible = false;
-            this.btnFakeVP001.Click += new System.EventHandler(this.btnFakeVP001_Click);
-            // 
-            // lblFakeVP001
-            // 
-            this.lblFakeVP001.AutoSize = true;
-            this.lblFakeVP001.Location = new System.Drawing.Point(138, 39);
-            this.lblFakeVP001.Name = "lblFakeVP001";
-            this.lblFakeVP001.Size = new System.Drawing.Size(89, 13);
-            this.lblFakeVP001.TabIndex = 10;
-            this.lblFakeVP001.Text = "Loading parser ...";
-            // 
-            // btnFakeVP002
-            // 
-            this.btnFakeVP002.Location = new System.Drawing.Point(3, 63);
-            this.btnFakeVP002.Name = "btnFakeVP002";
-            this.btnFakeVP002.Size = new System.Drawing.Size(120, 23);
-            this.btnFakeVP002.TabIndex = 13;
-            this.btnFakeVP002.Text = "download";
-            this.btnFakeVP002.UseVisualStyleBackColor = true;
-            this.btnFakeVP002.Visible = false;
-            this.btnFakeVP002.Click += new System.EventHandler(this.btnFakeVP002_Click);
-            // 
-            // lblFakeVP002
-            // 
-            this.lblFakeVP002.AutoSize = true;
-            this.lblFakeVP002.Location = new System.Drawing.Point(138, 68);
-            this.lblFakeVP002.Name = "lblFakeVP002";
-            this.lblFakeVP002.Size = new System.Drawing.Size(89, 13);
-            this.lblFakeVP002.TabIndex = 12;
-            this.lblFakeVP002.Text = "Loading parser ...";
             // 
             // TestPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnFakeVP002);
-            this.Controls.Add(this.lblFakeVP002);
-            this.Controls.Add(this.btnFakeVP001);
-            this.Controls.Add(this.lblFakeVP001);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnOfficialVP);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.lblOfficialVP);
             this.Name = "TestPanel";
-            this.Size = new System.Drawing.Size(555, 286);
+            this.Size = new System.Drawing.Size(555, 196);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -250,12 +178,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnOfficialVP;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Label lblOfficialVP;
-        private System.Windows.Forms.Button btnFakeVP001;
-        private System.Windows.Forms.Label lblFakeVP001;
-        private System.Windows.Forms.Button btnFakeVP002;
-        private System.Windows.Forms.Label lblFakeVP002;
     }
 }

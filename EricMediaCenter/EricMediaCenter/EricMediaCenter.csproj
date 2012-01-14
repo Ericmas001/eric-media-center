@@ -48,6 +48,7 @@
     <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EMCGlobal.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +72,9 @@
     <Compile Include="UserOptions.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SettingsPanel.resx">
+      <DependentUpon>SettingsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\TestPanel.resx">
       <DependentUpon>TestPanel.cs</DependentUpon>
