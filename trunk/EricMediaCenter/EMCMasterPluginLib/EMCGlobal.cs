@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EMCMasterPluginLib.VideoParser;
+using EMCMasterPluginLib.Application;
 using EricUtility;
 using System.IO;
 using System.Reflection;
 using EricUtility.Networking.Gathering;
 using EMCMasterPluginLib;
 
-namespace EricMediaCenter
+namespace EMCMasterPluginLib
 {
     public class EMCGlobal
     {
 
         public static event EmptyHandler AvailablePluginsUpdated = delegate { };
         public static event EmptyHandler SupportedVideoParserUpdated = delegate { };
+        public static event EmptyHandler SupportedAppUpdated = delegate { };
 
         private static bool m_VideoParserLoaded = false;
+        private static bool m_ApplicationLoaded = false;
         private static bool m_AvailablePluginsLoaded = false;
 
         private static Dictionary<string, IEMCVideoParserPlugin> m_VideoParserPlugins = new Dictionary<string, IEMCVideoParserPlugin>();
+        private static Dictionary<string, IEMCApplicationPlugin> m_ApplicationPlugins = new Dictionary<string, IEMCApplicationPlugin>();
+
         private static Dictionary<string, IVideoWebsiteParser> m_SupportedVideoWebsites = new Dictionary<string, IVideoWebsiteParser>();
 
         private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
@@ -34,6 +39,16 @@ namespace EricMediaCenter
                     ReloadVideoParserPlugins();
                 return EMCGlobal.m_VideoParserPlugins;
             }
+        }
+        public static Dictionary<string, IEMCApplicationPlugin> ApplicationPlugins
+        {
+            get
+            {
+                if (!m_ApplicationLoaded)
+                    ReloadApplicationPlugins(); 
+                return EMCGlobal.m_ApplicationPlugins;
+            }
+            set { EMCGlobal.m_ApplicationPlugins = value; }
         }
 
         public static Dictionary<string, IVideoWebsiteParser> SupportedVideoWebsites
@@ -75,7 +90,7 @@ namespace EricMediaCenter
                 path.Append(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
                 path.Append(Path.DirectorySeparatorChar);
                 path.Append("Eric Media Center");
-                lock (typeof(UserOptions))
+                lock (typeof(EMCGlobal))
                 {
                     string dir = path.ToString();
                     if (!Directory.Exists(dir))
@@ -117,6 +132,37 @@ namespace EricMediaCenter
             AvailablePluginsUpdated();
         }
 
+
+        public static void ReloadApplicationPlugins()
+        {
+
+            if (!m_AvailablePluginsLoaded)
+                RefreshAvailablePlugins();
+
+            m_ApplicationPlugins.Clear();
+
+            // Load All Local ApplicationPlugin
+            IEnumerable<string> dlls = Directory.EnumerateFiles(EMCPath, "*.dll");
+            foreach (string dll in dlls)
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(dll);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCApplicationPlugin") != null)
+                    {
+                        found = true;
+                        IEMCApplicationPlugin plugin = (IEMCApplicationPlugin)Activator.CreateInstance(t);
+                        m_ApplicationPlugins.Add(plugin.UniqueName, plugin);
+                    }
+                }
+            }
+
+            m_ApplicationLoaded = true;
+            SupportedAppUpdated();
+        }
         public static void ReloadVideoParserPlugins()
         {
 

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EricUtilityWinForms2011", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCVideoParserPluginLib", "EMCVideoParserPluginLib\EMCVideoParserPluginLib.csproj", "{9EBE1828-E6A5-4B3D-B64E-A000D50D58FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCAppTestPlugin", "EMCAppTestPlugin\EMCAppTestPlugin.csproj", "{64EF3406-71F7-4FF5-8765-867D8F7F1C84}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -99,6 +101,16 @@ Global
 		{9EBE1828-E6A5-4B3D-B64E-A000D50D58FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9EBE1828-E6A5-4B3D-B64E-A000D50D58FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9EBE1828-E6A5-4B3D-B64E-A000D50D58FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{64EF3406-71F7-4FF5-8765-867D8F7F1C84}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,6 +14,7 @@ using EricUtilityNetworking;
 using System.Net;
 using EricMediaCenter.Panels;
 using VIBlend.WinForms.Controls;
+using EMCMasterPluginLib.Application;
 
 namespace EricMediaCenter
 {
@@ -25,9 +26,47 @@ namespace EricMediaCenter
         public MainForm()
         {
             InitializeComponent();
-            panels.Add(btnTest.Name, new TestPanel());
+            //panels.Add(btnTest.Name, new TestPanel());
             panels.Add(btnSettings.Name, new SettingsPanel());
-            btnTest.Toggle = CheckState.Checked;
+            EMCGlobal.SupportedAppUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedAppUpdated);
+            EMCGlobal.ReloadApplicationPlugins();
+        }
+
+        void EMCGlobal_SupportedAppUpdated()
+        {
+            flowLayoutPanel1.Controls.Clear();
+            UserControl settings = panels[btnSettings.Name];
+            panels.Clear();
+            panels.Add(btnSettings.Name, settings);
+            foreach (string s in EMCGlobal.ApplicationPlugins.Keys)
+            {
+                IEMCApplicationPlugin plugin = EMCGlobal.ApplicationPlugins[s];
+                IApplication app = plugin.GetApplication();
+                vToggleButton btn = new vToggleButton();
+                btn.AllowAnimations = true;
+                btn.BackColor = System.Drawing.Color.Transparent;
+                btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                btn.Name = "btn" + s;
+                btn.RoundedCornersMask = ((byte)(15));
+                btn.Size = new System.Drawing.Size(136, 60);
+                btn.StyleKey = "ToggleButton";
+                btn.Text = app.Title;
+                btn.Image = app.Icon;
+                btn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+                btn.Toggle = System.Windows.Forms.CheckState.Unchecked;
+                btn.UseVisualStyleBackColor = false;
+                btn.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
+                btn.ToggleStateChanged += new System.EventHandler(this.btnMenu_ToggleStateChanged);
+                panels.Add(btn.Name, app.Content);
+                flowLayoutPanel1.Controls.Add(btn);
+            }
+            if (!alreadyToggling)
+            {
+                if (flowLayoutPanel1.Controls.Count > 0)
+                    ((vToggleButton)flowLayoutPanel1.Controls[0]).Toggle = System.Windows.Forms.CheckState.Checked;
+                else
+                    btnSettings.Toggle = CheckState.Checked;
+            }
         }
 
         private void btnMenu_ToggleStateChanged(object sender, EventArgs e)

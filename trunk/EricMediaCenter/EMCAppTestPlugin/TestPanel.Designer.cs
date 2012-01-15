@@ -1,4 +1,4 @@
-﻿namespace EricMediaCenter.Panels
+﻿namespace EMCAppTestPlugin
 {
     partial class TestPanel
     {
