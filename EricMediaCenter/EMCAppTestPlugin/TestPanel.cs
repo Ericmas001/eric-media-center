@@ -8,12 +8,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
-using EricUtilityNetworking;
 using System.Net;
-using EricUtility.Networking.Gathering;
 using EMCMasterPluginLib.VideoParser;
+using EMCMasterPluginLib;
+using EricUtility.Networking.Gathering;
 
-namespace EricMediaCenter.Panels
+namespace EMCAppTestPlugin
 {
     public partial class TestPanel : UserControl
     {

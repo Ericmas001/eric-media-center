@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</ProjectGuid>
+    <ProjectGuid>{64EF3406-71F7-4FF5-8765-867D8F7F1C84}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EMCMasterPluginLib</RootNamespace>
-    <AssemblyName>EMCMasterPluginLib</AssemblyName>
+    <RootNamespace>EMCAppTestPlugin</RootNamespace>
+    <AssemblyName>EMCAppTestPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,16 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\IEMCApplicationPlugin.cs" />
-    <Compile Include="Application\IApplication.cs" />
-    <Compile Include="EMCGlobal.cs" />
-    <Compile Include="VideoParser\ParsedVideoWebsite.cs" />
-    <Compile Include="VideoParser\IEMCVideoParserPlugin.cs" />
-    <Compile Include="IEMCMasterPlugin.cs" />
-    <Compile Include="VideoParser\IVideoWebsiteParser.cs" />
+    <Compile Include="AppTestPlugin.cs" />
+    <Compile Include="MyTestApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TestPanel.Designer.cs">
+      <DependentUpon>TestPanel.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EMCMasterPluginLib\EMCMasterPluginLib.csproj">
+      <Project>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</Project>
+      <Name>EMCMasterPluginLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
       <Project>{980F8DE9-2F6E-4A96-849D-23754B364271}</Project>
       <Name>EricUtilityNetworking2011</Name>
@@ -60,6 +65,11 @@
       <Project>{E88C4AEF-1B0B-45C0-A08D-CBCDA35C1E62}</Project>
       <Name>EricUtility2011</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestPanel.resx">
+      <DependentUpon>TestPanel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
