@@ -27,5 +27,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
                     return new ParsedVideoWebsite(url);
             }
         }
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            return "http://www." + url + "/video/" + args;
+        }
+
+        #endregion
     }
 }

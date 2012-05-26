@@ -15,5 +15,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
         }
 
         #endregion
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

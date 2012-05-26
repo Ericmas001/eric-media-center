@@ -26,6 +26,7 @@ namespace EMCVideoParserPluginLib
             //{"wisevid.com",new WiseVidParser()},  GONE :(
             
             {"gorillavid.com",new GorillaVidParser()},
+            {"gorillavid.in",new GorillaVidParser()},
             {"movshare.net",new MovShareParser()},
             {"putlocker.com",new PutLockerSockShareParser()},
             {"sockshare.com",new PutLockerSockShareParser()},
@@ -47,7 +48,7 @@ namespace EMCVideoParserPluginLib
             return true;
         }
 
-        Dictionary<string, IVideoWebsiteParser> IEMCVideoParserPlugin.GetSupportedWebsites()
+        public Dictionary<string, IVideoWebsiteParser> GetSupportedWebsites()
         {
             return VideoWebsiteParserFactory.Supported;
         }

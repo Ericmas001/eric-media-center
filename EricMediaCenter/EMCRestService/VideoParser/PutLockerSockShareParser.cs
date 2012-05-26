@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using EMCMasterPluginLib.VideoParser;
-using EricUtility;
+using System.Linq;
+using System.Web;
 using EricUtility.Networking.Gathering;
+using EricUtility;
 
-namespace EMCVideoParserPluginLib.VideoWebsiteParser
+namespace EMCRestService.VideoParser
 {
-    public class PutLockerSockShareParser : IVideoWebsiteParser
+    public class PutLockerSockShareParser : IVideoParser
     {
-        public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
+
+        public string BuildURL(string url, string args)
         {
+            return "http://www." + url + "/file/" + args;
+        }
+
+        public string GetDownloadURL(string url, System.Net.CookieContainer cookies)
+        {
+            string res = GatheringUtility.GetPageSource(url,cookies);
             string beginurl = "http://www.sockshare.com";
-            if( url.Contains("www.putlocker.com") )
+            if (url.Contains("www.putlocker.com"))
                 beginurl = "http://www.putlocker.com";
-           
+
             while (res.Contains("Continue as Free User"))
             {
                 string u = GatheringUtility.GetPageUrl(url, cookies, "", "application/x-www-form-urlencoded");
@@ -22,21 +29,10 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
                 res = GatheringUtility.GetPageSource(url, cookies, "hash=" + hash + "&confirm=Continue+as+Free+User");
             }
             if (res.Contains("This file doesn't exist"))
-                return new ParsedVideoWebsite(url);
+                return null;
             string rssU = beginurl + StringUtility.Extract(res, "playlist: '", "',");
             string info = GatheringUtility.GetPageSource(rssU, cookies);
-            string result = StringUtility.Extract(info, "<media:content url=\"", "\"");
-
-            return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, result);
+            return StringUtility.Extract(info, "<media:content url=\"", "\"");
         }
-
-        #region IVideoWebsiteParser Members
-
-        public string BuildURL(string url, string args)
-        {
-            return "http://www." + url + "/file/" + args;
-        }
-
-        #endregion
     }
 }

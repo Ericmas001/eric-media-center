@@ -19,5 +19,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
                 return new ParsedVideoWebsite(url);
             return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Avi, file);
         }
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            return "http://" + url + "/video/" + args;
+        }
+
+        #endregion
     }
 }

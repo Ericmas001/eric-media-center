@@ -90,5 +90,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
             }
             return "http://www" + s + ".megavideo.com/files/" + result + "/video.flv";
         }
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
