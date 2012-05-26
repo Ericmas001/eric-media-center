@@ -66,6 +66,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TvEpisodeEntry.cs" />
+    <Compile Include="TvSeasonEntry.cs" />
+    <Compile Include="TvShowDetailedEntry.cs" />
+    <Compile Include="TvShowEntry.cs" />
+    <Compile Include="WatchSeriesService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
     <Compile Include="VideoParser\GorillaVidParser.cs" />

@@ -15,10 +15,11 @@ namespace EMCRestService
         private void RegisterRoutes()
         {
             // Edit the base address of Service1 by replacing the "Service1" string below
-            RouteTable.Routes.Add(new ServiceRoute("TimeService2", new WebServiceHostFactory(), typeof(TimeService)));
+            RouteTable.Routes.Add(new ServiceRoute("TimeService", new WebServiceHostFactory(), typeof(TimeService)));
             RouteTable.Routes.Add(new ServiceRoute("TvSchedule", new WebServiceHostFactory(), typeof(TvScheduleService)));
             RouteTable.Routes.Add(new ServiceRoute("VideoParsing", new WebServiceHostFactory(), typeof(VideoParsingService)));
             RouteTable.Routes.Add(new ServiceRoute("User", new WebServiceHostFactory(), typeof(UserService)));
+            RouteTable.Routes.Add(new ServiceRoute("WatchSeries", new WebServiceHostFactory(), typeof(WatchSeriesService)));
         }
     }
 }

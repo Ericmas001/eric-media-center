@@ -69,9 +69,16 @@ namespace EMCRestService
                 {
                     nbs = number.Substring(1).Split('-');
                     nbs[1] = "99";
+                
                 }
                 else
                     nbs = number.Split('x');
+                if (nbs.Length != 2)
+                {
+                    nbs = new string[2];
+                    nbs[0] = "0";
+                    nbs[1] = "99";
+                }
                 entry.Season = int.Parse(nbs[0]);
                 entry.Episode = int.Parse(nbs[1]);
                 items.Add(entry.ShowName + number, entry);
