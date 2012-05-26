@@ -57,7 +57,6 @@ namespace EMCRestService
                 return "Read Error: " + e.ToString();
             }
 
-            //return DateTime.Now.ToString();
             return JsonConvert.SerializeObject(new { success = ok });
         }
     }
