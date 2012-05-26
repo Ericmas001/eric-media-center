@@ -7,6 +7,7 @@ namespace EMCMasterPluginLib.VideoParser
 {
     public interface IVideoWebsiteParser
     {
+        string BuildURL(string url, string args);
         ParsedVideoWebsite FindInterestingContent(string content, string url, CookieContainer cookies);
     }
 }

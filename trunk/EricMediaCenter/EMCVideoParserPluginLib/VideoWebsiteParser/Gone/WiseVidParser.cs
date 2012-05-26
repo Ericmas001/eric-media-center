@@ -119,5 +119,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Gone
         {
             return GatheringUtility.GetPageSource("http://www.wisevid.com/play?v=" + id, cookies, "a=1&no1=Yes,%20let%20me%20watch&v=" + id);
         }
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

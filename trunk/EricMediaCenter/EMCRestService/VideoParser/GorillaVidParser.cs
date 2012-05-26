@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using EMCMasterPluginLib.VideoParser;
-using EricUtility;
+using System.Linq;
+using System.Web;
 using EricUtility.Networking.Gathering;
+using EricUtility;
 
-namespace EMCVideoParserPluginLib.VideoWebsiteParser
+namespace EMCRestService.VideoParser
 {
-    public class GorillaVidParser : IVideoWebsiteParser
+    public class GorillaVidParser : IVideoParser
     {
-        public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
+
+        public string BuildURL(string url, string args)
         {
+            return "http://" + url + "/" + args;
+        }
+
+        public string GetDownloadURL(string url, System.Net.CookieContainer cookies)
+        {
+            string res = GatheringUtility.GetPageSource(url,cookies);
             while (res.Contains("Please wait while we verify your request"))
             {
                 string id = StringUtility.Extract(res, "<input type=\"hidden\" name=\"id\" value=\"", "\">");
@@ -19,20 +26,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
                 res = GatheringUtility.GetPageSource("http://gorillavid.in/cna/" + id, cookies, "op=download1&usr_login=&id=" + id + "&fname=" + fname + "&referer=&channel=cna&method_free=tel%3Fchargement+libre+");
             }
 
-            string newurl = StringUtility.Extract(res, "file:\"", "\"");
-            if (newurl != null)
-                return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, newurl);
-            else
-                return new ParsedVideoWebsite(url);
+            return StringUtility.Extract(res, "file:\"", "\"");
         }
-
-        #region IVideoWebsiteParser Members
-
-        public string BuildURL(string url, string args)
-        {
-            return "http://" + url + "/" + args;
-        }
-
-        #endregion
     }
 }

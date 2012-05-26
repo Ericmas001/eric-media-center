@@ -27,5 +27,14 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Gone
             string newurl = res.Substring(ideb, ifin - ideb).Replace(":81", "");
             return new ParsedVideoWebsite(url,ParsedVideoWebsite.Extension.Flv, newurl);
         }
+
+        #region IVideoWebsiteParser Members
+
+        public string BuildURL(string url, string args)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
