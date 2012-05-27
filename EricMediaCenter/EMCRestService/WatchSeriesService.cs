@@ -10,6 +10,7 @@ using EricUtility.Networking.Gathering;
 using EricUtility;
 using EricUtility2011;
 using System.Globalization;
+using System.Net;
 
 namespace EMCRestService
 {
@@ -184,6 +185,50 @@ namespace EMCRestService
 
 
             return JsonConvert.SerializeObject(entry);
+        }
+        [WebGet(UriTemplate = "GetLinks/{id}")]
+        public string GetLinks(string id)
+        {
+            Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
+            string baseurl = "http://watchseries.eu/getlinks.php?q=" + id + "&domain=all";
+            string src = GatheringUtility.GetPageSource(baseurl);
+            string deb = "<div class=\"linewrap\" >";
+            int start = src.IndexOf(deb) + deb.Length;
+            while (start >= deb.Length)
+            {
+                int end = src.IndexOf("<br class=\"clear\">", start);
+                string item = src.Substring(start, end - start).Trim();
+
+                string site = StringUtility.Extract(item, "<div class=\"site\">", "</div>").Trim();
+                if (site.Contains(" "))
+                    site = site.Remove(site.IndexOf(" "));
+                int wid = int.Parse(StringUtility.Extract(item, "../open/cale/", "/idepisod/").Trim());
+
+                if (!all.ContainsKey(site))
+                    all.Add(site, new List<int>());
+                all[site].Add(wid);
+
+                start = src.IndexOf(deb, end) + deb.Length;
+            }
+            return JsonConvert.SerializeObject(all);
+        }
+        [WebGet(UriTemplate = "GetUrl/{id}")]
+        public string GetUrl(string id)
+        {
+            CookieContainer cookies = new CookieContainer();
+            
+            // Build cookies
+            GatheringUtility.GetPageSource("http://watchseries.eu",cookies);
+
+            //Get link
+            string gateway = "http://watchseries.eu/gateway.php?link=";
+            string cale = GatheringUtility.GetPageSource("http://watchseries.eu/open/cale/"+id+"/idepisod/42.html", cookies);
+            string token = StringUtility.Extract(cale, gateway, "\"");
+
+            //Get RealURL
+            string rurl = GatheringUtility.GetPageUrl(gateway + token,cookies,"","application/x-www-form-urlencoded");
+            
+            return JsonConvert.SerializeObject(new { url = rurl });
         }
     }
 }
