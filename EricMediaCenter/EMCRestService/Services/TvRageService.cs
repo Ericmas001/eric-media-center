@@ -118,57 +118,59 @@ namespace EMCRestService.Services
             else
                 entry.AirTime = DateTime.MaxValue;
 
-
-            XElement elementLast = (from item in root.Element("Episodelist").Descendants("episode") where item.Element("airdate").Value.CompareTo(DateTime.Now.ToString("yyyy-MM-dd")) <= 0 orderby item.Element("airdate").Value descending select item).FirstOrDefault();
-            if (elementLast != null)
+            if (root.Element("Episodelist") != null)
             {
-                TvRageEntry.EpisodeInfo info = new TvRageEntry.EpisodeInfo();
-                if (elementLast.Parent.Name.LocalName == "Season")
+
+                XElement elementLast = (from item in root.Element("Episodelist").Descendants("episode") where item.Element("airdate").Value.CompareTo(DateTime.Now.ToString("yyyy-MM-dd")) <= 0 orderby item.Element("airdate").Value descending select item).FirstOrDefault();
+                if (elementLast != null)
                 {
-                    info.AbsoluteNo = int.Parse( value(elementLast,"epnum"));
-                    info.RelativeNo = int.Parse(value(elementLast, "seasonnum"));
-                    info.Season = int.Parse(elementLast.Parent.Attribute("no").Value);
+                    TvRageEntry.EpisodeInfo info = new TvRageEntry.EpisodeInfo();
+                    if (elementLast.Parent.Name.LocalName == "Season")
+                    {
+                        info.AbsoluteNo = int.Parse(value(elementLast, "epnum"));
+                        info.RelativeNo = int.Parse(value(elementLast, "seasonnum"));
+                        info.Season = int.Parse(elementLast.Parent.Attribute("no").Value);
+                    }
+                    else
+                    {
+                        info.AbsoluteNo = 0;
+                        info.RelativeNo = 0;
+                        info.Season = int.Parse(value(elementLast, "season"));
+                    }
+                    info.Title = value(elementLast, "title");
+                    string epId = value(elementLast, "link");
+                    info.EpId = epId == null ? -1 : int.Parse(epId.Substring(epId.LastIndexOf("/") + 1));
+                    DateTime date = DateTime.MinValue;
+                    DateTime.TryParseExact(myDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+                    info.AirDate = date;
+                    entry.LastEpisode = info;
                 }
-                else
+
+                XElement elementNext = (from item in root.Element("Episodelist").Descendants("episode") where item.Element("airdate").Value.CompareTo(DateTime.Now.ToString("yyyy-MM-dd")) > 0 orderby item.Element("airdate").Value ascending select item).FirstOrDefault();
+                if (elementNext != null)
                 {
-                    info.AbsoluteNo = 0;
-                    info.RelativeNo = 0;
-                    info.Season = int.Parse(value(elementLast, "season"));
+                    TvRageEntry.EpisodeInfo info = new TvRageEntry.EpisodeInfo();
+                    if (elementNext.Parent.Name.LocalName == "Season")
+                    {
+                        info.AbsoluteNo = int.Parse(value(elementNext, "epnum"));
+                        info.RelativeNo = int.Parse(value(elementNext, "seasonnum"));
+                        info.Season = int.Parse(elementNext.Parent.Attribute("no").Value);
+                    }
+                    else
+                    {
+                        info.AbsoluteNo = 0;
+                        info.RelativeNo = 0;
+                        info.Season = int.Parse(value(elementNext, "season"));
+                    }
+                    info.Title = value(elementNext, "title");
+                    string epId = value(elementNext, "link");
+                    info.EpId = epId == null ? -1 : int.Parse(epId.Substring(epId.LastIndexOf("/") + 1));
+                    DateTime date = DateTime.MinValue;
+                    DateTime.TryParseExact(myDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+                    info.AirDate = date;
+                    entry.NextEpisode = info;
                 }
-                info.Title = value(elementLast, "title");
-                string epId = value(elementLast, "link");
-                info.EpId = epId == null ? -1 : int.Parse(epId.Substring(epId.LastIndexOf("/")+1));
-                DateTime date = DateTime.MinValue;
-                DateTime.TryParseExact(myDate, "yyyy-MM-dd", CultureInfo.InvariantCulture,DateTimeStyles.None, out date);
-                info.AirDate = date;
-                entry.LastEpisode = info;
             }
-
-            XElement elementNext = (from item in root.Element("Episodelist").Descendants("episode") where item.Element("airdate").Value.CompareTo(DateTime.Now.ToString("yyyy-MM-dd")) > 0 orderby item.Element("airdate").Value ascending select item).FirstOrDefault();
-            if (elementNext != null)
-            {
-                TvRageEntry.EpisodeInfo info = new TvRageEntry.EpisodeInfo();
-                if (elementNext.Parent.Name.LocalName == "Season")
-                {
-                    info.AbsoluteNo = int.Parse(value(elementNext, "epnum"));
-                    info.RelativeNo = int.Parse(value(elementNext, "seasonnum"));
-                    info.Season = int.Parse(elementNext.Parent.Attribute("no").Value);
-                }
-                else
-                {
-                    info.AbsoluteNo = 0;
-                    info.RelativeNo = 0;
-                    info.Season = int.Parse(value(elementNext, "season"));
-                }
-                info.Title = value(elementNext, "title");
-                string epId = value(elementNext, "link");
-                info.EpId = epId == null ? -1 : int.Parse(epId.Substring(epId.LastIndexOf("/")+1));
-                DateTime date = DateTime.MinValue;
-                DateTime.TryParseExact(myDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
-                info.AirDate = date;
-                entry.NextEpisode = info;
-            } 
-            
             return JsonConvert.SerializeObject(entry);
         }
     }

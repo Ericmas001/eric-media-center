@@ -7,6 +7,7 @@ namespace EMCRestService.Entries
 {
     public class TvRageEntry
     {
+
         public class EpisodeInfo
         {
             private int m_AbsoluteNo;
@@ -52,6 +53,7 @@ namespace EMCRestService.Entries
                 set { m_Title = value; }
             }
         }
+
         private string m_Title;
 
         public string Title
