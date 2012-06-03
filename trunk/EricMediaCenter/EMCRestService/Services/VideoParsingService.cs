@@ -13,7 +13,7 @@ using System.Globalization;
 using System.Net;
 using EMCRestService.VideoParser;
 
-namespace EMCRestService
+namespace EMCRestService.Services
 {
     [ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]

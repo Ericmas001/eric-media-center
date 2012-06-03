@@ -12,7 +12,7 @@ using EricUtility2011;
 using System.Globalization;
 using System.Data.SqlClient;
 
-namespace EMCRestService
+namespace EMCRestService.Services
 {
     // user emc.webservice ... pass Emc42FTW
     [ServiceContract]
