@@ -7,7 +7,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace EMCRestService
+namespace EMCRestService.Services
 {
     [ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]

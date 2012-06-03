@@ -11,8 +11,9 @@ using EricUtility;
 using EricUtility2011;
 using System.Globalization;
 using System.Net;
+using EMCRestService.Entries;
 
-namespace EMCRestService
+namespace EMCRestService.Services
 {
     [ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]

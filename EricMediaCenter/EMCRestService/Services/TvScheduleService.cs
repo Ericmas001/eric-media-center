@@ -10,8 +10,9 @@ using EricUtility.Networking.Gathering;
 using EricUtility;
 using EricUtility2011;
 using System.Globalization;
+using EMCRestService.Entries;
 
-namespace EMCRestService
+namespace EMCRestService.Services
 {
     [ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]

@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace EMCRestService
+namespace EMCRestService.Entries
 {
-    public class TvShowEntry : IComparable<TvShowEntry>
+    public class ScheduleEntry : IComparable<ScheduleEntry>
     {
+        private string m_Url;
+
+        public string Url
+        {
+            get { return m_Url; }
+            set { m_Url = value; }
+        }
         private string m_ShowName;
 
         public string ShowName
@@ -21,17 +28,24 @@ namespace EMCRestService
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
-        private int m_ReleaseYear;
+        private int m_Season;
 
-        public int ReleaseYear
+        public int Season
         {
-            get { return m_ReleaseYear; }
-            set { m_ReleaseYear = value; }
+            get { return m_Season; }
+            set { m_Season = value; }
+        }
+        private int m_Episode;
+
+        public int Episode
+        {
+            get { return m_Episode; }
+            set { m_Episode = value; }
         }
 
         #region IComparable<ScheduleEntry> Members
 
-        public int CompareTo(TvShowEntry other)
+        public int CompareTo(ScheduleEntry other)
         {
             return this.ShowTitle.CompareTo(other.ShowTitle);
         }

@@ -66,23 +66,25 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TvEpisodeEntry.cs" />
-    <Compile Include="TvSeasonEntry.cs" />
-    <Compile Include="TvShowDetailedEntry.cs" />
-    <Compile Include="TvShowEntry.cs" />
-    <Compile Include="WatchSeriesService.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="Entries\EpGuideEntry.cs" />
+    <Compile Include="Services\EpGuideService.cs" />
+    <Compile Include="Entries\TvEpisodeEntry.cs" />
+    <Compile Include="Entries\TvSeasonEntry.cs" />
+    <Compile Include="Entries\TvShowDetailedEntry.cs" />
+    <Compile Include="Entries\TvShowEntry.cs" />
+    <Compile Include="Services\WatchSeriesService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
     <Compile Include="VideoParser\GorillaVidParser.cs" />
     <Compile Include="VideoParser\IVideoParser.cs" />
-    <Compile Include="VideoParsingService.cs" />
-    <Compile Include="ScheduleEntry.cs" />
-    <Compile Include="TvScheduleService.cs" />
+    <Compile Include="Services\VideoParsingService.cs" />
+    <Compile Include="Entries\ScheduleEntry.cs" />
+    <Compile Include="Services\TvScheduleService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeService.cs" />
+    <Compile Include="Services\TimeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,6 +2,7 @@
 using System.ServiceModel.Activation;
 using System.Web;
 using System.Web.Routing;
+using EMCRestService.Services;
 
 namespace EMCRestService
 {
@@ -20,6 +21,7 @@ namespace EMCRestService
             RouteTable.Routes.Add(new ServiceRoute("VideoParsing", new WebServiceHostFactory(), typeof(VideoParsingService)));
             RouteTable.Routes.Add(new ServiceRoute("User", new WebServiceHostFactory(), typeof(UserService)));
             RouteTable.Routes.Add(new ServiceRoute("WatchSeries", new WebServiceHostFactory(), typeof(WatchSeriesService)));
+            RouteTable.Routes.Add(new ServiceRoute("EpGuide", new WebServiceHostFactory(), typeof(EpGuideService)));
         }
     }
 }

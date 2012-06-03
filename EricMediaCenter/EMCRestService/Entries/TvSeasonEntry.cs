@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace EMCRestService
+namespace EMCRestService.Entries
 {
     public class TvSeasonEntry : IComparable<TvSeasonEntry>
     {
