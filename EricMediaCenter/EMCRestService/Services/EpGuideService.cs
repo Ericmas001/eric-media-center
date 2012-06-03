@@ -74,7 +74,7 @@ namespace EMCRestService.Services
 
             EpGuideEntry entry = new EpGuideEntry();
 
-            entry.TvRageId = StringUtility.Extract(srcTvRage, "http://www.tvrage.com/shows/", "/");
+            entry.TvRageId = StringUtility.Extract(srcTvRage, "http://www.tvrage.com/shows/id-", "/");
             entry.TvId = StringUtility.Extract(srcTv, "http://www.tv.com/show/", "/");
             entry.FutonCriticId = StringUtility.Extract(srcTv, "http://thefutoncritic.com/showatch.aspx?id=", "&#38");
             entry.ImdbId = StringUtility.Extract(srcTv, "http://us.imdb.com/title/", "\"");
