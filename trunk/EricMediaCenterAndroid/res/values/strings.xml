@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello !</string>
+    <string name="splash">I am a splash screen !</string>
+    <string name="website">http://code.google.com/p/eric-media-center/</string>
+
+    <string name="time">Get Time !!!</string>
+    
+    <string name="app_name">Eric Media Center</string>
+    <string name="about">About</string>
+    <string name="title_TvScheduleSelectDay">Tv Schedule</string>
+    <string name="title_TvScheduleDaily">{Date}</string>
+    
+</resources>
