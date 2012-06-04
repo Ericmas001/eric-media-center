@@ -102,7 +102,9 @@ namespace EMCRestService.Services
                 TvShowEntry entry = new TvShowEntry();
                 entry.ShowName = StringUtility.Extract(item, showurl, "\"");
                 entry.ShowTitle = StringUtility.Extract(item, "><b>", "</b>");
-                entry.ReleaseYear = int.Parse(item.Substring(item.LastIndexOf(" ") + 1));
+                string year = entry.ShowTitle.Substring(entry.ShowTitle.LastIndexOf("("));
+                entry.ReleaseYear = int.Parse(StringUtility.Extract(year, "(", ")"));
+                entry.ShowTitle = entry.ShowTitle.Remove(entry.ShowTitle.LastIndexOf("(")-1);
                 availables.Add(entry);
                 start = allShows.IndexOf(td, end) + td.Length;
             }
