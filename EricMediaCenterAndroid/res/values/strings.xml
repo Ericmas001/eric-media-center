@@ -12,4 +12,11 @@
     <string name="title_TvScheduleSelectDay">Tv Schedule</string>
     <string name="title_TvScheduleDaily">{Date}</string>
     
+    
+    <string name="ws_name">Watch Series</string>
+    <string name="ws_menu_search">Search TvShow</string>
+    <string name="ws_menu_bletter">Browse by Letter</string>
+    <string name="ws_menu_bgenre">Browse by Genre</string>
+    <string name="ws_menu_bfav">Favorites</string>
+    
 </resources>
