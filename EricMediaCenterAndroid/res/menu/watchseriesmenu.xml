@@ -8,5 +8,5 @@
           android:actionViewClass="android.widget.SearchView" />
     <item android:id="@+id/ws_menu_bletter" android:title="@string/ws_menu_bletter"></item>
     <item android:id="@+id/ws_menu_bgenre" android:title="@string/ws_menu_bgenre"></item>
-    <item android:id="@+id/ws_menu_bfav" android:title="@string/ws_menu_bfav"></item>
+    <item android:id="@+id/ws_menu_bpop" android:title="@string/ws_menu_bpop"></item>
 </menu>
