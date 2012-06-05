@@ -36,6 +36,7 @@ public class WatchSerieTvShowActivity extends Activity {
 	WatchSeriesMenu ws_menu;
 	 ImageView imgShow;
 	 TextView lblShow;
+	 TextView lblDesc;
 		ProgressDialog dialog;
 
     @Override
@@ -58,6 +59,7 @@ public class WatchSerieTvShowActivity extends Activity {
         setContentView(R.layout.ws_show);
         imgShow=(ImageView)this.findViewById(R.id.ws_show_logo);
         lblShow=(TextView)this.findViewById(R.id.ws_show_title);
+        lblDesc=(TextView)this.findViewById(R.id.ws_show_desc);
 		Bundle b = getIntent().getExtras();
 		String key = b.getString("key");
 		dialog = new ProgressDialog(this);
@@ -75,7 +77,7 @@ public class WatchSerieTvShowActivity extends Activity {
 			try {
 				json = new JSONObject(result);
 				lblShow.setText(json.getString("ShowTitle"));
-				
+				lblDesc.setText(json.getString("Description"));
 		        ExpandableListAdapter mAdapter;
 		        ExpandableListView epView = (ExpandableListView) findViewById(R.id.ws_show_episodes);
 		        mAdapter = new EpisodeListAdapter(json.getJSONArray("Seasons"));

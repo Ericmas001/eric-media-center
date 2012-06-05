@@ -17,14 +17,40 @@
             <ImageView
                 android:id="@+id/ws_show_logo"
                 android:layout_width="170px"
-                android:layout_height="240px" />
-
+                android:layout_height="240px" />
+    <TableLayout
+        android:id="@+id/tableLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            <ScrollView android:id="@+id/SCROLL_VIEW"  
+android:layout_height="50px"   
+android:layout_width="550px">  
             <TextView
                 android:id="@+id/ws_show_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"  
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+            </ScrollView>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            <ScrollView android:id="@+id/SCROLL_VIEW2"  
+android:layout_height="175px"   
+android:layout_width="550px">  
+            <TextView
+                android:id="@+id/ws_show_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"  
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+            </ScrollView>
+        </TableRow>
+    </TableLayout>
         </TableRow>
     </TableLayout>
 	<ExpandableListView
