@@ -203,7 +203,9 @@ namespace EMCRestService.Services
                     episode.EpisodeTitle = StringUtility.Extract(itemE, "&nbsp;&nbsp;&nbsp;", "</span>");
 
                     string eRDate = StringUtility.Extract(itemE, "<span class=\"epnum\">", "</span>");
-                    episode.ReleaseDate = DateTime.ParseExact(eRDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime d = DateTime.MinValue;
+                    DateTime.TryParseExact(eRDate, "dd/MM/yyyy", CultureInfo.InvariantCulture,DateTimeStyles.None, out d);
+                    episode.ReleaseDate = d;
 
                     season.Episodes.Add(episode);
                     startE = itemS.IndexOf(epDeb,endE) + epDeb.Length;
