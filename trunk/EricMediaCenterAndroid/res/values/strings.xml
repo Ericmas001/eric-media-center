@@ -17,6 +17,7 @@
     <string name="ws_menu_search">Search TvShow</string>
     <string name="ws_menu_bletter">Browse by Letter</string>
     <string name="ws_menu_bgenre">Browse by Genre</string>
+    <string name="ws_menu_bpop">Populars</string>
     <string name="ws_menu_bfav">Favorites</string>
     
 </resources>

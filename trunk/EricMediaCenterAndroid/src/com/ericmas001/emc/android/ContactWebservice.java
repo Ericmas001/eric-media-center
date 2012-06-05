@@ -26,9 +26,13 @@ public class ContactWebservice extends AsyncTask<String, Void, String>{
 
 	public static <T extends Context> void CallWS( T obj, String method, String url )
 	{
+		CallWS(obj,method,url,obj);
+	}
+	public static <T extends Context> void CallWS( T obj, String method, String url, Object caller )
+	{
 		try {
-			new ContactWebservice(obj,
-					obj.getClass().getMethod(method,
+			new ContactWebservice(caller,
+					caller.getClass().getMethod(method,
 							ContactWebservice.PARAMETER_TYPES))
 					.execute(url);
 		} catch (NoSuchMethodException e) {

@@ -30,7 +30,12 @@ public class MainAppActivity extends ListActivity {
 		else if ( item.equals("Login") )
 	        intent.setClass(currentActivity, LoginActivity.class);
 		else if ( item.equals("WatchSeries") )
-	        intent.setClass(currentActivity, MainWatchSeriesActivity.class);
+		{
+			intent.setClass(currentActivity, WatchSeriesSelectSerieActivity.class);
+    		Bundle b = new Bundle();
+    		b.putString("url", "http://emc.ericmas001.com/WatchSeries/GetPopulars" );
+    		intent.putExtras(b);
+		}
 		else
 			intent = null;
 		if( intent != null )
