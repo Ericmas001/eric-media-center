@@ -35,7 +35,8 @@ namespace EMCRestService.Services
 
                 TvShowEntry entry = new TvShowEntry();
                 entry.ShowName = item.Remove(item.IndexOf("\""));
-                entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
+                //entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
+                entry.ShowTitle = new CultureInfo("en-US",false).TextInfo.ToTitleCase(entry.ShowName.Replace("_"," "));
                 entry.ReleaseYear = 0;
                 availables.Add(entry);
                 start = allShows.IndexOf(showurl, end) + showurl.Length;
