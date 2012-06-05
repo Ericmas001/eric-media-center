@@ -10,7 +10,7 @@ import android.widget.ListView;
 public class MainAppActivity extends ListActivity {
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		String[] values = new String[] { "TvSchedule", "Test", "Login" };
+		String[] values = new String[] { "TvSchedule", "Test", "Login", "WatchSeries" };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, values);
 		setListAdapter(adapter);
@@ -29,6 +29,8 @@ public class MainAppActivity extends ListActivity {
 	        intent.setClass(currentActivity, TestAppActivity.class);
 		else if ( item.equals("Login") )
 	        intent.setClass(currentActivity, LoginActivity.class);
+		else if ( item.equals("WatchSeries") )
+	        intent.setClass(currentActivity, MainWatchSeriesActivity.class);
 		else
 			intent = null;
 		if( intent != null )
