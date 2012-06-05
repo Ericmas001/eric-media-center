@@ -9,7 +9,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
             android:name=".TestAppActivity"
             android:label="@string/app_name" >
@@ -60,23 +60,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:icon="@drawable/watchseries"
-            android:name=".SearchWatchSeriesActivity"
-            android:label="@string/ws_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="MainWatchSeriesActivity" android:icon="@drawable/watchseries" android:label="@string/ws_name">
+        <activity android:name="WatchSeriesSelectSerieActivity" android:icon="@drawable/watchseries" android:label="@string/ws_name">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="WatchSeriesSelectSerieActivity" android:icon="@drawable/watchseries" android:label="@string/ws_name">
+        <activity android:name="WatchSerieTvShowActivity" android:icon="@drawable/watchseries" android:label="@string/ws_name">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

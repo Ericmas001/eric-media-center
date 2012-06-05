@@ -66,16 +66,15 @@ public class WatchSeriesSelectSerieActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
 		
-//		final WatchSeriesSelectSerieActivity currentActivity = this;
-//		Intent intent = new Intent();
-//		String item = (String) getListAdapter().getItem(position);
-//		intent.setClass(currentActivity, TvScheduleDailyActivity.class);
-//		Bundle b = new Bundle();
-//		b.putString("key", availables.get(item));
-//		b.putString("title", item);
-//		intent.putExtras(b);
-//		if (intent != null)
-//			startActivity(intent);
+		Intent intent = new Intent();
+		String item = (String) getListAdapter().getItem(position);
+		intent.setClass(this, WatchSerieTvShowActivity.class);
+		Bundle b = new Bundle();
+		b.putString("key", availables.get(item));
+		b.putString("title", item);
+		intent.putExtras(b);
+		if (intent != null)
+			startActivity(intent);
 
 	}
 	public void onPostExecute(String result, Exception exception) {
