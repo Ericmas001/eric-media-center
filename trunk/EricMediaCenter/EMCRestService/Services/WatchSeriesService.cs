@@ -20,6 +20,31 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WatchSeriesService
     {
+        [WebGet(UriTemplate = "GetPopulars")]
+        public string GetPopulars()
+        {
+            List<TvShowEntry> availables = new List<TvShowEntry>();
+            string src = GatheringUtility.GetPageSource("http://watchseries.eu/");
+            string allShows = StringUtility.Extract(src, "<div class=\"div-home-inside-left\">", "</div>");
+            string showurl = "http://watchseries.eu/serie/";
+            int start = allShows.IndexOf(showurl) + showurl.Length;
+            while (start >= showurl.Length)
+            {
+                int end = allShows.IndexOf("<br/>", start);
+                string item = allShows.Substring(start, end - start);
+
+                TvShowEntry entry = new TvShowEntry();
+                entry.ShowName = item.Remove(item.IndexOf("\""));
+                entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
+                entry.ReleaseYear = 0;
+                availables.Add(entry);
+                start = allShows.IndexOf(showurl, end) + showurl.Length;
+            }
+            TvShowEntry[] items = new TvShowEntry[availables.Count];
+            availables.CopyTo(items, 0);
+            //Array.Sort(items);
+            return JsonConvert.SerializeObject(items);
+        }
         [WebGet(UriTemplate = "AvailableLetters")]
         public string AvailableLetters()
         {
