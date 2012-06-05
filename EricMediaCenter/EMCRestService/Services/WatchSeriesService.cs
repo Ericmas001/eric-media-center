@@ -65,7 +65,7 @@ namespace EMCRestService.Services
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource(baseurl);
-            string allShows = StringUtility.Extract(src, "<div id=\"left\" >", "</ul>") + StringUtility.Extract(src, "<div id=\"right\" >", "</ul>");
+            string allShows = StringUtility.Extract(src, "<div id=\"left\" >", "</ul>") + StringUtility.Extract(src, "<div id=\"right\">", "</ul>");
             string showurl = "http://watchseries.eu/serie/";
             int start = allShows.IndexOf(showurl) + showurl.Length;
             while (start >= showurl.Length)
