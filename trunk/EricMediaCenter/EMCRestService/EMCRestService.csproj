@@ -78,6 +78,15 @@
     <Compile Include="Entries\TvShowEntry.cs" />
     <Compile Include="Services\WatchSeriesService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\MegaVideoParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\MovShareParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\NovaMovParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\PlayHDParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\StageVuParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\VideoWeedParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\WiseVidParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\YoutubeParser.cs" />
+    <Compile Include="VideoParser\BrokenOrGone\ZShareParser.cs" />
     <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
     <Compile Include="VideoParser\GorillaVidParser.cs" />
     <Compile Include="VideoParser\IVideoParser.cs" />
@@ -92,8 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="VideoParser\Broken\" />
-    <Folder Include="VideoParser\Gone\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EricUtilityCollections\EricUtilityCollections2011.csproj">

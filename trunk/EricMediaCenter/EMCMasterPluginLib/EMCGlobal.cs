@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EMCMasterPluginLib.VideoParser;
 using EMCMasterPluginLib.Application;
 using EricUtility;
 using System.IO;
@@ -23,23 +22,12 @@ namespace EMCMasterPluginLib
         private static bool m_ApplicationLoaded = false;
         private static bool m_AvailablePluginsLoaded = false;
 
-        private static Dictionary<string, IEMCVideoParserPlugin> m_VideoParserPlugins = new Dictionary<string, IEMCVideoParserPlugin>();
         private static Dictionary<string, IEMCApplicationPlugin> m_ApplicationPlugins = new Dictionary<string, IEMCApplicationPlugin>();
 
-        private static Dictionary<string, IVideoWebsiteParser> m_SupportedVideoWebsites = new Dictionary<string, IVideoWebsiteParser>();
 
         private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
         private static Dictionary<string, Dictionary<string, Version>> m_AvailablesPluginsByCat = new Dictionary<string,Dictionary<string,Version>>();
 
-        public static Dictionary<string, IEMCVideoParserPlugin> VideoParserPlugins
-        {
-            get
-            {
-                if (!m_VideoParserLoaded)
-                    ReloadVideoParserPlugins();
-                return EMCGlobal.m_VideoParserPlugins;
-            }
-        }
         public static Dictionary<string, IEMCApplicationPlugin> ApplicationPlugins
         {
             get
@@ -49,16 +37,6 @@ namespace EMCMasterPluginLib
                 return EMCGlobal.m_ApplicationPlugins;
             }
             set { EMCGlobal.m_ApplicationPlugins = value; }
-        }
-
-        public static Dictionary<string, IVideoWebsiteParser> SupportedVideoWebsites
-        {
-            get
-            {
-                if (!m_VideoParserLoaded)
-                    ReloadVideoParserPlugins(); 
-                return EMCGlobal.m_SupportedVideoWebsites;
-            }
         }
 
         public static Dictionary<string, Version> AvailablesPlugins
@@ -163,39 +141,5 @@ namespace EMCMasterPluginLib
             m_ApplicationLoaded = true;
             SupportedAppUpdated();
         }
-        public static void ReloadVideoParserPlugins()
-        {
-
-            if (!m_AvailablePluginsLoaded)
-                RefreshAvailablePlugins();
-
-            m_VideoParserPlugins.Clear();
-            m_SupportedVideoWebsites.Clear();
-
-            // Load All Local VideoParserPlugin
-            IEnumerable<string> dlls = Directory.EnumerateFiles(EMCPath, "*.dll");
-            foreach (string dll in dlls)
-            {
-                byte[] assemblyBytes = File.ReadAllBytes(dll);
-                Assembly ass = Assembly.Load(assemblyBytes);
-                Type[] types = ass.GetTypes();
-                bool found = false;
-                foreach (Type t in ass.GetTypes())
-                {
-                    if (!found && t.GetInterface("IEMCVideoParserPlugin") != null)
-                    {
-                        found = true;
-                        IEMCVideoParserPlugin parser = (IEMCVideoParserPlugin)Activator.CreateInstance(t);
-                        m_VideoParserPlugins.Add(parser.UniqueName, parser);
-                        foreach (string s in parser.GetSupportedWebsites().Keys)
-                            m_SupportedVideoWebsites.Add(s, parser.GetSupportedWebsites()[s]);
-                    }
-                }
-            }
-
-            m_VideoParserLoaded = true;
-            SupportedVideoParserUpdated();
-        }
-
     }
 }

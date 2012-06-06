@@ -158,7 +158,6 @@
             this.Controls.Add(this.listBox1);
             this.Name = "TestPanel";
             this.Size = new System.Drawing.Size(555, 196);
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
