@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Net;
-using EMCMasterPluginLib.VideoParser;
 using EMCMasterPluginLib;
 using EricUtility.Networking.Gathering;
 
@@ -22,21 +21,9 @@ namespace EMCAppTestPlugin
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            EMCGlobal.SupportedVideoParserUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedWebsiteUpdated);
-            EMCGlobal.ReloadVideoParserPlugins();
-        }
-
-        void EMCGlobal_SupportedWebsiteUpdated()
-        {
-            listBox1.Items.Clear();
-            listBox1.Items.AddRange(EMCGlobal.SupportedVideoWebsites.Keys.ToArray());
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            ParsedVideoWebsite site = null;
+           /* ParsedVideoWebsite site = null;
             foreach (string s in EMCGlobal.SupportedVideoWebsites.Keys)
             {
                 if (site == null && textBox1.Text.Contains(s))
@@ -54,7 +41,7 @@ namespace EMCAppTestPlugin
             {
                 textBox2.Text = site.VideoUrl;
                 textBox3.Text = site.DownloadUrl;
-            }
+            }*/
         }
     }
 }
