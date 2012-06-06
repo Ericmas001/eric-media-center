@@ -28,9 +28,9 @@ namespace EMCRestService.Entries
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
-        private Dictionary<string, List<int>> m_Links;
+        private List<TvWebsiteEntry> m_Links;
 
-        public Dictionary<string, List<int>> Links
+        public List<TvWebsiteEntry> Links
         {
             get { return m_Links; }
             set { m_Links = value; }

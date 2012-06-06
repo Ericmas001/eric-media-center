@@ -217,7 +217,7 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
-        public Dictionary<string, List<int>> Links(int id)
+        public List<TvWebsiteEntry> Links(int id)
         {
             Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
             string baseurl = "http://watchseries.eu/getlinks.php?q=" + id + "&domain=all";
@@ -240,7 +240,10 @@ namespace EMCRestService.Services
 
                 start = src.IndexOf(deb, end) + deb.Length;
             }
-            return all;
+            List<TvWebsiteEntry> websites = new List<TvWebsiteEntry>();
+            foreach( string s in all.Keys )
+                websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
+            return websites;
         }
         [WebGet(UriTemplate = "GetLinks/{epid}")]
         public string GetLinks(string epid)
