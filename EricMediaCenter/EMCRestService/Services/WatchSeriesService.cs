@@ -183,11 +183,15 @@ namespace EMCRestService.Services
                 TvSeasonEntry season = new TvSeasonEntry();
                 int endS = allSeasons.IndexOf("</ul>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
+                startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
 
 
                 season.NbEpisodes = int.Parse(StringUtility.Extract(itemS, "  (", " episodes)"));
                 season.SeasonName = null;
-                season.SeasonNo = int.Parse(StringUtility.Extract(itemS, "watchseries.eu/season-", "/"));
+                int no = 0;
+                if (!int.TryParse(StringUtility.Extract(itemS, "watchseries.eu/season-", "/"), out no))
+                    continue;
+                season.SeasonNo = no;
 
                 string epDeb = "<li>";
                 int startE = itemS.IndexOf(epDeb) + epDeb.Length;
@@ -211,7 +215,6 @@ namespace EMCRestService.Services
                     startE = itemS.IndexOf(epDeb,endE) + epDeb.Length;
                 }
                 entry.Seasons.Add(season);
-                startS = allSeasons.IndexOf(seasDeb,endS) + seasDeb.Length;
             }
 
 
@@ -240,8 +243,11 @@ namespace EMCRestService.Services
 
                 start = src.IndexOf(deb, end) + deb.Length;
             }
+            string[] items = new string[all.Count];
+            all.Keys.CopyTo(items, 0);
+            Array.Sort(items);
             List<TvWebsiteEntry> websites = new List<TvWebsiteEntry>();
-            foreach( string s in all.Keys )
+            foreach (string s in items)
                 websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
             return websites;
         }
