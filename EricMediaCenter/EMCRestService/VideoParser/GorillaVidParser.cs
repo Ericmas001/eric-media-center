@@ -14,6 +14,10 @@ namespace EMCRestService.VideoParser
         {
             return "http://" + url + "/" + args;
         }
+        public string ParseArgs(string url)
+        {
+            return url.Substring(url.LastIndexOf('/')+1);
+        }
 
         public string GetDownloadURL(string url, System.Net.CookieContainer cookies)
         {
