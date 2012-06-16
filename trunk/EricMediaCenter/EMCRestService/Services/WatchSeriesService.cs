@@ -300,8 +300,14 @@ namespace EMCRestService.Services
 
             //Get RealURL
             string rurl = GatheringUtility.GetPageUrl(gateway + token,cookies,"","application/x-www-form-urlencoded");
-            
-            return JsonConvert.SerializeObject(new { url = rurl });
+
+            string trimmed = rurl.Replace("http://", "").Replace("https://", "").Replace("www.", "");
+            string websiteName = trimmed.Remove(trimmed.IndexOf('/'));
+            bool isSupported = VideoParsingService.Parsers.ContainsKey(websiteName);
+            string websiteArgs = null;
+            if (isSupported)
+                websiteArgs = VideoParsingService.Parsers[websiteName].ParseArgs(trimmed);
+            return JsonConvert.SerializeObject(new { url = rurl, supported = isSupported, website = websiteName, args = websiteArgs });
         }
     }
 }
