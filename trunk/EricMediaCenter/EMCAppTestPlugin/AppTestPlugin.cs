@@ -33,7 +33,7 @@ namespace EMCAppTestPlugin
 
         public Version Version
         {
-            get { return new Version(0, 0, 3); }
+            get { return new Version(0, 0, 4); }
         }
 
         public bool Load()
