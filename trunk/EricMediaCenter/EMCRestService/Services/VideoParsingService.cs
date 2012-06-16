@@ -47,7 +47,7 @@ namespace EMCRestService.Services
                 CookieContainer cookies = new CookieContainer();
                 string site = Parsers[website].GetDownloadURL(url, cookies);
                 if (site != null)
-                    return JsonConvert.SerializeObject(site);
+                    return JsonConvert.SerializeObject(new { downloadURL = site });
             }
             return null;
         }
