@@ -11,6 +11,9 @@ using System.Reflection;
 using System.Net;
 using EMCMasterPluginLib;
 using EricUtility.Networking.Gathering;
+using EricUtility;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EMCAppTestPlugin
 {
@@ -23,25 +26,25 @@ namespace EMCAppTestPlugin
 
         private void button2_Click(object sender, EventArgs e)
         {
-           /* ParsedVideoWebsite site = null;
-            foreach (string s in EMCGlobal.SupportedVideoWebsites.Keys)
+            if (listBox1.SelectedIndex >= 0 && !string.IsNullOrEmpty(textBox1.Text))
             {
-                if (site == null && textBox1.Text.Contains(s))
-                {
-                    CookieContainer cookies = new CookieContainer();
-                    site = EMCGlobal.SupportedVideoWebsites[s].FindInterestingContent(GatheringUtility.GetPageSource(textBox1.Text, cookies), textBox1.Text, cookies);
-                }
+                string url = "http://emc.ericmas001.com/VideoParsing/Parse/" + listBox1.SelectedItem.ToString() + "/" + textBox1.Text;
+                string result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
+                JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+                if (r == null)
+                    textBox3.Text = "ERROR !!";
+                else
+                    textBox3.Text = r["downloadURL"].ToString();
             }
+        }
 
-            if (site == null || !site.Success)
-            {
-                textBox2.Text = textBox1.Text = "ERROR !!";
-            }
-            else
-            {
-                textBox2.Text = site.VideoUrl;
-                textBox3.Text = site.DownloadUrl;
-            }*/
+        private void TestPanel_Load(object sender, EventArgs e)
+        {
+            string url = "http://emc.ericmas001.com/VideoParsing/AvailableWebsites";
+            string result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            listBox1.Items.AddRange(results.ToArray());
+            listBox1.SelectedIndex = 0;
         }
     }
 }
