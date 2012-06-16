@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCAppTestPlugin", "EMCAppT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCRestService", "EMCRestService\EMCRestService.csproj", "{4C539942-39A3-4F4F-9634-1ABBD2F291EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchSeriesAppPlugin", "WatchSeriesAppPlugin\WatchSeriesAppPlugin.csproj", "{733D0B54-E4F3-4F67-B151-1607E73FDF04}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -154,6 +156,21 @@ Global
 		{4C539942-39A3-4F4F-9634-1ABBD2F291EA}.TestLive|Mixed Platforms.ActiveCfg = TestLive|Any CPU
 		{4C539942-39A3-4F4F-9634-1ABBD2F291EA}.TestLive|Mixed Platforms.Build.0 = TestLive|Any CPU
 		{4C539942-39A3-4F4F-9634-1ABBD2F291EA}.TestLive|x86.ActiveCfg = TestLive|Any CPU
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Debug|x86.ActiveCfg = Debug|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Debug|x86.Build.0 = Debug|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Release|Any CPU.ActiveCfg = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Release|Mixed Platforms.Build.0 = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Release|x86.ActiveCfg = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.Release|x86.Build.0 = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|Any CPU.ActiveCfg = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|Mixed Platforms.ActiveCfg = TestLive|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|Mixed Platforms.Build.0 = TestLive|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|x86.ActiveCfg = Release|x86
+		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

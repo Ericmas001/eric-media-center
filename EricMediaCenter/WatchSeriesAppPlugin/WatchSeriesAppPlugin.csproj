@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0F3348E9-DC95-41AA-A316-81398188F76A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{733D0B54-E4F3-4F67-B151-1607E73FDF04}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EricMediaCenter</RootNamespace>
-    <AssemblyName>EricMediaCenter</AssemblyName>
+    <RootNamespace>WatchSeriesAppPlugin</RootNamespace>
+    <AssemblyName>WatchSeriesAppPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,16 +35,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TestLive|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\TestLive\</OutputPath>
+    <OutputPath>C:\Users\Eric\AppData\Roaming\Eric Media Center\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>emc.ico</ApplicationIcon>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -60,31 +61,17 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VIBlend.WinForms.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=6feea38fef5ea0cf, processorArchitecture=MSIL" />
-    <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Panels\SettingsPanel.cs">
+    <Compile Include="TestPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Panels\SettingsPanel.Designer.cs">
-      <DependentUpon>SettingsPanel.cs</DependentUpon>
+    <Compile Include="TestPanel.Designer.cs">
+      <DependentUpon>TestPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="WatchSeriesApp.cs" />
+    <Compile Include="WatchSeriesPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserOptions.cs" />
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\SettingsPanel.resx">
-      <DependentUpon>SettingsPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -95,6 +82,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TestPanel.resx">
+      <DependentUpon>TestPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -110,17 +100,9 @@
       <Project>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</Project>
       <Name>EMCMasterPluginLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EricUtilityCollections\EricUtilityCollections2011.csproj">
-      <Project>{E6120916-9399-4BF5-8F95-19D79DF74067}</Project>
-      <Name>EricUtilityCollections2011</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
       <Project>{980F8DE9-2F6E-4A96-849D-23754B364271}</Project>
       <Name>EricUtilityNetworking2011</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EricUtilityWinForms\EricUtilityWinForms2011.csproj">
-      <Project>{ABF7D9DE-3646-4737-8EFC-5C3D5FD1CFA5}</Project>
-      <Name>EricUtilityWinForms2011</Name>
     </ProjectReference>
     <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
       <Project>{E88C4AEF-1B0B-45C0-A08D-CBCDA35C1E62}</Project>
@@ -128,10 +110,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Control Panel.png" />
+    <None Include="Resources\watchseries.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="emc.ico" />
+    <None Include="Resources\watchseries-small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
