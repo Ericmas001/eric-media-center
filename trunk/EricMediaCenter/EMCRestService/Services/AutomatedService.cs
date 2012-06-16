@@ -16,6 +16,7 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class AutomatedService
     {
+        //Using https://www.setcronjob.com to execute !
         private SqlServerConnector Connector = new SqlServerConnector("TURNSOL.arvixe.com", "emc", "emc.webservice", "Emc42FTW");
 
         [WebGet(UriTemplate = "UpdateLastEpisodes")]
