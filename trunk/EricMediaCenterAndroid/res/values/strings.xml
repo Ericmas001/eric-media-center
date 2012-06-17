@@ -14,6 +14,8 @@
     
     
     <string name="ws_name">Watch Series</string>
+    <string name="ws_name_login">Watch Series Login</string>
+    <string name="ws_name_register">Watch Series Register</string>
     <string name="ws_menu_search">Search TvShow</string>
     <string name="ws_menu_bletter">Browse by Letter</string>
     <string name="ws_menu_bgenre">Browse by Genre</string>
