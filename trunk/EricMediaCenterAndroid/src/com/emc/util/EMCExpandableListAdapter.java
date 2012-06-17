@@ -13,97 +13,110 @@ import android.widget.TextView;
 
 /**
  * A simple adapter which maintains an ArrayList of photo resource Ids. Each
- * photo is displayed as an image. This adapter supports clearing the list
- * of photos and adding a new photo.
+ * photo is displayed as an image. This adapter supports clearing the list of
+ * photos and adding a new photo.
  * 
  */
 
-	public class EMCExpandableListAdapter extends BaseExpandableListAdapter {
-		private String[] groups;
-		private String[][] children;
-		private Activity m_Activity;
-		public EMCExpandableListAdapter(Activity activity, String[] g, String[][] c)
-				throws JSONException {
-			m_Activity = activity;
-			groups = g;
-			children = c;
-		}
+public class EMCExpandableListAdapter extends BaseExpandableListAdapter
+{
+    private String[] groups;
+    private String[][] children;
+    private Activity m_Activity;
 
-		// Sample data set. children[i] contains the children (String[]) for
-		// groups[i].
-		// private String[] groups = { "Parent1", "Parent2",
-		// "Parent3" };
-		// private String[][] children = { { "Child1" , "Child2" }, { "Child3" ,
-		// "Child4" }, { "Child5" } };
+    public EMCExpandableListAdapter(Activity activity, String[] g, String[][] c) throws JSONException
+    {
+        m_Activity = activity;
+        groups = g;
+        children = c;
+    }
 
-		public Object getChild(int groupPosition, int childPosition) {
-			return children[groupPosition][childPosition];
-		}
+    // Sample data set. children[i] contains the children (String[]) for
+    // groups[i].
+    // private String[] groups = { "Parent1", "Parent2",
+    // "Parent3" };
+    // private String[][] children = { { "Child1" , "Child2" }, { "Child3" ,
+    // "Child4" }, { "Child5" } };
 
-		public long getChildId(int groupPosition, int childPosition) {
-			return childPosition;
-		}
+    public Object getChild(int groupPosition, int childPosition)
+    {
+        return children[groupPosition][childPosition];
+    }
 
-		public int getChildrenCount(int groupPosition) {
-			int i = 0;
-			try {
-				i = children[groupPosition].length;
+    public long getChildId(int groupPosition, int childPosition)
+    {
+        return childPosition;
+    }
 
-			} catch (Exception e) {
-			}
+    public int getChildrenCount(int groupPosition)
+    {
+        int i = 0;
+        try
+        {
+            i = children[groupPosition].length;
 
-			return i;
-		}
+        }
+        catch (Exception e)
+        {
+        }
 
-		public TextView getGenericView() {
-			// Layout parameters for the ExpandableListView
-			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-					ViewGroup.LayoutParams.FILL_PARENT, 64);
+        return i;
+    }
 
-			TextView textView = new TextView(m_Activity);
-			textView.setLayoutParams(lp);
-			// Center the text vertically
-			textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-			// Set the text starting position
-			textView.setPadding(60, 0, 0, 0);
-			textView.setTypeface(Typeface.DEFAULT_BOLD);
-			return textView;
-		}
+    public TextView getGenericView()
+    {
+        // Layout parameters for the ExpandableListView
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
 
-		public View getChildView(int groupPosition, int childPosition,
-				boolean isLastChild, View convertView, ViewGroup parent) {
-			TextView textView = getGenericView();
-			textView.setTypeface(Typeface.DEFAULT);
-			textView.setPadding(30, 0, 0, 0);
-			textView.setText(getChild(groupPosition, childPosition).toString());
-			return textView;
-		}
+        TextView textView = new TextView(m_Activity);
+        textView.setLayoutParams(lp);
+        // Center the text vertically
+        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        // Set the text starting position
+        textView.setPadding(60, 0, 0, 0);
+        textView.setTypeface(Typeface.DEFAULT_BOLD);
+        return textView;
+    }
 
-		public Object getGroup(int groupPosition) {
-			return groups[groupPosition];
-		}
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
+    {
+        TextView textView = getGenericView();
+        textView.setTypeface(Typeface.DEFAULT);
+        textView.setPadding(30, 0, 0, 0);
+        textView.setText(getChild(groupPosition, childPosition).toString());
+        return textView;
+    }
 
-		public int getGroupCount() {
-			return groups.length;
-		}
+    public Object getGroup(int groupPosition)
+    {
+        return groups[groupPosition];
+    }
 
-		public long getGroupId(int groupPosition) {
-			return groupPosition;
-		}
+    public int getGroupCount()
+    {
+        return groups.length;
+    }
 
-		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
-			TextView textView = getGenericView();
-			textView.setText(getGroup(groupPosition).toString());
-			return textView;
-		}
+    public long getGroupId(int groupPosition)
+    {
+        return groupPosition;
+    }
 
-		public boolean isChildSelectable(int groupPosition, int childPosition) {
-			return true;
-		}
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+    {
+        TextView textView = getGenericView();
+        textView.setText(getGroup(groupPosition).toString());
+        return textView;
+    }
 
-		public boolean hasStableIds() {
-			return true;
-		}
+    public boolean isChildSelectable(int groupPosition, int childPosition)
+    {
+        return true;
+    }
 
-	}
+    public boolean hasStableIds()
+    {
+        return true;
+    }
+
+}
