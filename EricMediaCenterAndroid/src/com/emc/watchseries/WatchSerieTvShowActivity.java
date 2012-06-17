@@ -1,35 +1,28 @@
-package com.ericmas001.emc.android;
-
-import java.net.URLEncoder;
-import java.util.HashMap;
+package com.emc.watchseries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ericmas001.emc.android.TvScheduleDailyActivity.ScheduleEntry;
+import com.emc.R;
+import com.emc.R.id;
+import com.emc.R.layout;
+import com.emc.util.ContactWebservice;
+import com.emc.util.EMCExpandableListAdapter;
+import com.emc.util.ImageFromURL;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 

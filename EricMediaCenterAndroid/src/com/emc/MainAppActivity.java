@@ -1,4 +1,9 @@
-package com.ericmas001.emc.android;
+package com.emc;
+
+import com.emc.test.LoginActivity;
+import com.emc.test.TestAppActivity;
+import com.emc.tvschedule.TvScheduleSelectDayActivity;
+import com.emc.watchseries.WatchSeriesSelectSerieActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;

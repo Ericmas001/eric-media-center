@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.emc.R;
+import com.emc.util.ContactWebservice;
 
 public class TestAppActivity extends Activity {
 

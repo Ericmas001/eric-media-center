@@ -1,16 +1,17 @@
-package com.ericmas001.emc.android;
+package com.emc.watchseries;
 
 import java.net.URLEncoder;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
+
+import com.emc.R;
+import com.emc.R.id;
+import com.emc.R.menu;
+import com.emc.util.ContactWebservice;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,10 +19,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 

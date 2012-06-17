@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc;
 
 import android.app.Activity;
 import android.content.Intent;
