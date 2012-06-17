@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.emc.R;
 import com.emc.util.ContactWebservice;
 
-public class WatchSeriesMenu implements SearchView.OnQueryTextListener
+public class WSMenu implements SearchView.OnQueryTextListener
 {
 
     static String[] letters = null;
@@ -28,8 +28,9 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
     Activity m_activity;
     ProgressDialog dialog;
 
-    public WatchSeriesMenu(Activity activity)
+    public WSMenu(Activity activity)
     {
+        m_activity = activity;
     }
 
     public void inflateMenu(Menu menu)
@@ -76,7 +77,7 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
 
     public String[] getLetters()
     {
-        if (WatchSeriesMenu.letters == null)
+        if (WSMenu.letters == null)
         {
             dialog = new ProgressDialog(m_activity);
             dialog.setCancelable(false);
@@ -85,7 +86,7 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
             dialog.show();
             ContactWebservice.CallWS(m_activity, "onPostExecuteLetters", "http://emc.ericmas001.com/WatchSeries/AvailableLetters", this);
         }
-        return WatchSeriesMenu.letters;
+        return WSMenu.letters;
     }
 
     public void onPostExecuteLetters(String result, Exception exception)
@@ -96,10 +97,10 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
             try
             {
                 json = new JSONArray(result);
-                WatchSeriesMenu.letters = new String[json.length()];
+                WSMenu.letters = new String[json.length()];
                 for (int i = 0; i < json.length(); ++i)
                 {
-                    WatchSeriesMenu.letters[i] = json.getString(i);
+                    WSMenu.letters[i] = json.getString(i);
                 }
             }
             catch (JSONException e)
@@ -134,7 +135,7 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
 
     public String[] getGenres()
     {
-        if (WatchSeriesMenu.genres == null)
+        if (WSMenu.genres == null)
         {
             dialog = new ProgressDialog(m_activity);
             dialog.setCancelable(false);
@@ -143,7 +144,7 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
             dialog.show();
             ContactWebservice.CallWS(m_activity, "onPostExecuteGenres", "http://emc.ericmas001.com/WatchSeries/AvailableGenres", this);
         }
-        return WatchSeriesMenu.genres;
+        return WSMenu.genres;
     }
 
     public void onPostExecuteGenres(String result, Exception exception)
@@ -154,10 +155,10 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
             try
             {
                 json = new JSONArray(result);
-                WatchSeriesMenu.genres = new String[json.length()];
+                WSMenu.genres = new String[json.length()];
                 for (int i = 0; i < json.length(); ++i)
                 {
-                    WatchSeriesMenu.genres[i] = json.getString(i);
+                    WSMenu.genres[i] = json.getString(i);
                 }
             }
             catch (JSONException e)
@@ -186,12 +187,12 @@ public class WatchSeriesMenu implements SearchView.OnQueryTextListener
 
     public void fetchList(String url)
     {
-        if (m_activity.getClass() == WatchSeriesSelectSerieActivity.class)
-            ((WatchSeriesSelectSerieActivity) m_activity).populate(url);
+        if (m_activity.getClass() == WSSelectSerieActivity.class)
+            ((WSSelectSerieActivity) m_activity).populate(url);
         else
         {
             Intent intent = new Intent();
-            intent.setClass(m_activity, WatchSeriesSelectSerieActivity.class);
+            intent.setClass(m_activity, WSSelectSerieActivity.class);
             Bundle b = new Bundle();
             b.putString("url", url);
             intent.putExtras(b);

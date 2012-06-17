@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.emc.util.ContactWebservice;
 
-public class TvScheduleSelectDayActivity extends ListActivity
+public class TVSSelectDayActivity extends ListActivity
 {
     public Map<String, String> availables;
     ProgressDialog dialog;
@@ -29,7 +29,7 @@ public class TvScheduleSelectDayActivity extends ListActivity
         String[] values = new String[0];
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
-        dialog = new ProgressDialog(TvScheduleSelectDayActivity.this);
+        dialog = new ProgressDialog(TVSSelectDayActivity.this);
         dialog.setCancelable(false);
         dialog.setMessage("Getting Weekdays ...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -41,10 +41,10 @@ public class TvScheduleSelectDayActivity extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
 
-        final TvScheduleSelectDayActivity currentActivity = this;
+        final TVSSelectDayActivity currentActivity = this;
         Intent intent = new Intent();
         String item = (String) getListAdapter().getItem(position);
-        intent.setClass(currentActivity, TvScheduleDailyActivity.class);
+        intent.setClass(currentActivity, TVSDailyActivity.class);
         Bundle b = new Bundle();
         b.putString("key", availables.get(item));
         b.putString("title", item);
@@ -73,16 +73,16 @@ public class TvScheduleSelectDayActivity extends ListActivity
                     availables.put(label, id);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TvScheduleSelectDayActivity.this, android.R.layout.simple_list_item_1, values);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TVSSelectDayActivity.this, android.R.layout.simple_list_item_1, values);
                 setListAdapter(adapter);
             }
             catch (JSONException e)
             {
-                Toast.makeText(TvScheduleSelectDayActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(TVSSelectDayActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
         else
-            Toast.makeText(TvScheduleSelectDayActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(TVSSelectDayActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
         dialog.cancel();
     }
 }
