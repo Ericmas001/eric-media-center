@@ -24,9 +24,9 @@ import com.emc.util.ContactWebservice;
 import com.emc.util.EMCExpandableListAdapter;
 import com.emc.util.ImageFromURL;
 
-public class WatchSerieTvShowActivity extends Activity implements OnChildClickListener
+public class WSTvShowActivity extends Activity implements OnChildClickListener
 {
-    WatchSeriesMenu ws_menu;
+    WSMenu ws_menu;
     ImageView imgShow;
     TextView lblShow;
     TextView lblDesc;
@@ -51,7 +51,7 @@ public class WatchSerieTvShowActivity extends Activity implements OnChildClickLi
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ws_menu = new WatchSeriesMenu(this);
+        ws_menu = new WSMenu(this);
         setContentView(R.layout.ws_show);
         imgShow = (ImageView) this.findViewById(R.id.ws_show_logo);
         lblShow = (TextView) this.findViewById(R.id.ws_show_title);
@@ -117,7 +117,7 @@ public class WatchSerieTvShowActivity extends Activity implements OnChildClickLi
     {
         Intent intent = new Intent();
         String item = childrenN[groupPosition][childPosition];
-        intent.setClass(this, WatchSerieEpisodeActivity.class);
+        intent.setClass(this, WSEpisodeActivity.class);
         Bundle b = new Bundle();
         b.putString("key", item);
         intent.putExtras(b);

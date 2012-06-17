@@ -22,9 +22,9 @@ import com.emc.R;
 import com.emc.util.ContactWebservice;
 import com.emc.util.EMCExpandableListAdapter;
 
-public class WatchSerieEpisodeActivity extends Activity implements OnChildClickListener
+public class WSEpisodeActivity extends Activity implements OnChildClickListener
 {
-    WatchSeriesMenu ws_menu;
+    WSMenu ws_menu;
     TextView lblShow;
     TextView lblEpisode;
     TextView lblDesc;
@@ -49,7 +49,7 @@ public class WatchSerieEpisodeActivity extends Activity implements OnChildClickL
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ws_menu = new WatchSeriesMenu(this);
+        ws_menu = new WSMenu(this);
         setContentView(R.layout.ws_episode);
         lblShow = (TextView) this.findViewById(R.id.ws_ep_title);
         lblEpisode = (TextView) this.findViewById(R.id.ws_ep_subtitle);

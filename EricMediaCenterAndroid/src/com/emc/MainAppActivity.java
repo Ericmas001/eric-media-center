@@ -9,8 +9,8 @@ import android.widget.ListView;
 
 import com.emc.test.LoginActivity;
 import com.emc.test.TestAppActivity;
-import com.emc.tvschedule.TvScheduleSelectDayActivity;
-import com.emc.watchseries.WatchSeriesSelectSerieActivity;
+import com.emc.tvschedule.TVSSelectDayActivity;
+import com.emc.watchseries.WSSelectSerieActivity;
 
 public class MainAppActivity extends ListActivity
 {
@@ -30,14 +30,14 @@ public class MainAppActivity extends ListActivity
         Intent intent = new Intent();
         String item = (String) getListAdapter().getItem(position);
         if (item.equals("TvSchedule"))
-            intent.setClass(currentActivity, TvScheduleSelectDayActivity.class);
+            intent.setClass(currentActivity, TVSSelectDayActivity.class);
         else if (item.equals("Test"))
             intent.setClass(currentActivity, TestAppActivity.class);
         else if (item.equals("Login"))
             intent.setClass(currentActivity, LoginActivity.class);
         else if (item.equals("WatchSeries"))
         {
-            intent.setClass(currentActivity, WatchSeriesSelectSerieActivity.class);
+            intent.setClass(currentActivity, WSSelectSerieActivity.class);
             Bundle b = new Bundle();
             b.putString("url", "http://emc.ericmas001.com/WatchSeries/GetPopulars");
             intent.putExtras(b);

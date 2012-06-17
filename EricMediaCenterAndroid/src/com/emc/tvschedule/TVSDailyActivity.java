@@ -17,7 +17,7 @@ import com.emc.R;
 import com.emc.test.MyListAdapter;
 import com.emc.util.ContactWebservice;
 
-public class TvScheduleDailyActivity extends Activity
+public class TVSDailyActivity extends Activity
 {
     class ScheduleEntry
     {
@@ -46,7 +46,7 @@ public class TvScheduleDailyActivity extends Activity
         ListView lv = (ListView) findViewById(R.id.lvResult);
         MyListAdapter listAdapter = new MyListAdapter(this, list1, list2);
         lv.setAdapter(listAdapter);
-        dialog = new ProgressDialog(TvScheduleDailyActivity.this);
+        dialog = new ProgressDialog(TVSDailyActivity.this);
         dialog.setCancelable(false);
         dialog.setMessage("Loading Schedule ...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -62,7 +62,7 @@ public class TvScheduleDailyActivity extends Activity
             try
             {
                 json = new JSONArray(result);
-                shows = new HashMap<String, TvScheduleDailyActivity.ScheduleEntry>();
+                shows = new HashMap<String, TVSDailyActivity.ScheduleEntry>();
                 list1 = new String[json.length()];
                 list2 = new String[json.length()];
                 for (int i = 0; i < json.length(); ++i)
@@ -89,7 +89,7 @@ public class TvScheduleDailyActivity extends Activity
             }
         }
         else
-            Toast.makeText(TvScheduleDailyActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(TVSDailyActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
         dialog.cancel();
     }
 

@@ -20,16 +20,16 @@ import android.widget.Toast;
 
 import com.emc.util.ContactWebservice;
 
-public class WatchSeriesSelectSerieActivity extends ListActivity
+public class WSSelectSerieActivity extends ListActivity
 {
-    WatchSeriesMenu ws_menu;
+    WSMenu ws_menu;
     public Map<String, String> availables;
     ProgressDialog dialog;
 
     public void onCreate(Bundle icicle)
     {
         super.onCreate(icicle);
-        ws_menu = new WatchSeriesMenu(this);
+        ws_menu = new WSMenu(this);
         Bundle b = getIntent().getExtras();
         String url = b.getString("url");
         populate(url);
@@ -54,7 +54,7 @@ public class WatchSeriesSelectSerieActivity extends ListActivity
         String[] values = new String[0];
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
-        dialog = new ProgressDialog(WatchSeriesSelectSerieActivity.this);
+        dialog = new ProgressDialog(WSSelectSerieActivity.this);
         dialog.setCancelable(false);
         dialog.setMessage("Getting Series ...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -68,7 +68,7 @@ public class WatchSeriesSelectSerieActivity extends ListActivity
 
         Intent intent = new Intent();
         String item = (String) getListAdapter().getItem(position);
-        intent.setClass(this, WatchSerieTvShowActivity.class);
+        intent.setClass(this, WSTvShowActivity.class);
         Bundle b = new Bundle();
         b.putString("key", availables.get(item));
         b.putString("title", item);
@@ -97,16 +97,16 @@ public class WatchSeriesSelectSerieActivity extends ListActivity
                     availables.put(label, id);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(WatchSeriesSelectSerieActivity.this, android.R.layout.simple_list_item_1, values);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(WSSelectSerieActivity.this, android.R.layout.simple_list_item_1, values);
                 setListAdapter(adapter);
             }
             catch (JSONException e)
             {
-                Toast.makeText(WatchSeriesSelectSerieActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(WSSelectSerieActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
         else
-            Toast.makeText(WatchSeriesSelectSerieActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(WSSelectSerieActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
         dialog.cancel();
     }
 }
