@@ -60,6 +60,14 @@
             android:name=".watchseries.WSEpisodeActivity"
             android:icon="@drawable/watchseries"
             android:label="@string/ws_name" />
+        <activity 
+            android:name=".watchseries.WSRegisterActivity"
+            android:icon="@drawable/watchseries"
+            android:label="@string/ws_name_register" />
+        <activity 
+            android:name=".watchseries.WSLoginActivity"
+            android:icon="@drawable/watchseries"
+            android:label="@string/ws_name_login" />
     </application>
 
 </manifest>

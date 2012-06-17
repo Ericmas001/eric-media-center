@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:fillViewport="true">
+<LinearLayout
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dip">
+          <!-- Link to Login Screen -->
+          <TextView android:id="@+id/link_to_login" 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:text="Already has account? Login here!"
+                android:gravity="center"
+                android:textSize="20dip"
+                android:textColor="#0b84aa"/>
+		  <!--  Email Label -->
+		  <TextView android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:text="Email"/>
+		  <EditText android:id="@+id/reg_email" 
+		  		android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:layout_marginTop="5dip"
+		  		android:singleLine="true"
+		  		android:layout_marginBottom="20dip"
+                android:inputType="textEmailAddress">
+              <requestFocus /></EditText>
+		  <!-- Password Label -->
+		  <TextView android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:text="Password"/>
+		  <EditText android:id="@+id/reg_password1" 
+		        android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:password="true"
+		  		android:singleLine="true"
+		  		android:layout_marginTop="5dip"/>
+          <!-- Confirm Password Label -->
+          <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirm Password"/>
+          <EditText android:id="@+id/reg_password2" 
+		        android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:password="true"
+		  		android:singleLine="true"
+		  		android:layout_marginTop="5dip"/>
+		  <!-- Register Button -->		
+		  <Button android:id="@+id/btnRegister" 
+		  		android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:layout_marginTop="10dip"
+		  		android:text="Register New Account"/>
+          <!-- Link to Enter as a guest -->      
+          <TextView android:id="@+id/link_to_enter_as_guest" 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dip"
+                android:layout_marginBottom="40dip"
+                android:text="Enter as a guest"
+                android:gravity="center"
+                android:textSize="20dip"
+                android:textColor="#0b84aa"/>
+            
+        </LinearLayout>
+</ScrollView>
