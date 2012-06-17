@@ -16,7 +16,8 @@ import android.widget.Toast;
 import com.emc.R;
 import com.emc.util.ContactWebservice;
 
-public class TestAppActivity extends Activity {
+public class TestAppActivity extends Activity
+{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -25,44 +26,56 @@ public class TestAppActivity extends Activity {
         inflater.inflate(R.menu.appmenu, menu);
         return true;
     }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
     }
-    public void openWebsite(View view) {
-    	String url = getString(R.string.website);  
-    	Intent i = new Intent(Intent.ACTION_VIEW);  
-    	i.setData(Uri.parse(url));  
-    	startActivity(i);  
+
+    public void openWebsite(View view)
+    {
+        String url = getString(R.string.website);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
-    public void onPostExecute(String result, Exception exception) {
-    	if( result != null )
-    	{
-    		JSONObject json;
-			try {
-				json = new JSONObject(result);
-    		Toast.makeText(TestAppActivity.this, json.getString("value"), Toast.LENGTH_SHORT).show();
-			} catch (JSONException e) {
-        		Toast.makeText(TestAppActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-			}
-    	}
-    	else
-    		Toast.makeText(TestAppActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
+    public void onPostExecute(String result, Exception exception)
+    {
+        if (result != null)
+        {
+            JSONObject json;
+            try
+            {
+                json = new JSONObject(result);
+                Toast.makeText(TestAppActivity.this, json.getString("value"), Toast.LENGTH_SHORT).show();
+            }
+            catch (JSONException e)
+            {
+                Toast.makeText(TestAppActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        else
+            Toast.makeText(TestAppActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
     }
-    public void getTime(View view) {
-		ContactWebservice.CallWS(this, "onPostExecute", "http://emc.ericmas001.com/TimeService2/CurrentTime");
+
+    public void getTime(View view)
+    {
+        ContactWebservice.CallWS(this, "onPostExecute", "http://emc.ericmas001.com/TimeService2/CurrentTime");
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	if(item.getItemId() == R.id.itAbout)
-    	{
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == R.id.itAbout)
+        {
             Intent intent = new Intent();
             intent.setClass(this, AboutActivity.class);
             startActivity(intent);
-    	}
+        }
 
-    	return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }
