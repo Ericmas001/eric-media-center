@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.test;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.emc.R;
 
 public class MyListAdapter extends BaseAdapter {
 	private Activity activity;

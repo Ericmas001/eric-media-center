@@ -1,8 +1,10 @@
-package com.ericmas001.emc.android;
+package com.emc.test;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+
+import com.emc.R;
 
 public class AboutActivity extends Activity {
 	private String[] list1 = { "Application", "Version", "Author", "Author Mail", "Website"};

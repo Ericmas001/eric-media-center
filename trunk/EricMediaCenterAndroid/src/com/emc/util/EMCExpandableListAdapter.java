@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.util;
 
 import org.json.JSONException;
 

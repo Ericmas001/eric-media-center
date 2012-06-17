@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.tvschedule;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,12 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.emc.R;
+import com.emc.R.id;
+import com.emc.R.layout;
+import com.emc.test.MyListAdapter;
+import com.emc.util.ContactWebservice;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

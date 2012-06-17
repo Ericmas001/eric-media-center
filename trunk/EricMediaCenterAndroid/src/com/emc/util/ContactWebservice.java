@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

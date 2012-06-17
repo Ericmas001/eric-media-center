@@ -1,4 +1,4 @@
-package com.ericmas001.emc.android;
+package com.emc.test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.emc.R;
+import com.emc.util.ContactWebservice;
 
 public class LoginActivity extends Activity {
 	EditText txtUser;
