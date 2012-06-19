@@ -10,7 +10,9 @@ import android.widget.ListView;
 import com.emc.test.LoginActivity;
 import com.emc.test.TestAppActivity;
 import com.emc.tvschedule.TVSSelectDayActivity;
+import com.emc.util.PrefUtil;
 import com.emc.watchseries.WSLoginActivity;
+import com.emc.watchseries.WSSelectSerieActivity;
 
 public class MainAppActivity extends ListActivity
 {
@@ -36,7 +38,17 @@ public class MainAppActivity extends ListActivity
         else if (item.equals("Login"))
             intent.setClass(currentActivity, LoginActivity.class);
         else if (item.equals("WatchSeries"))
-            intent.setClass(currentActivity, WSLoginActivity.class);
+        {
+            if (PrefUtil.getBool("isAGuest", false))
+            {
+                intent.setClass(currentActivity, WSSelectSerieActivity.class);
+                Bundle b = new Bundle();
+                b.putString("url", "http://emc.ericmas001.com/WatchSeries/GetPopulars");
+                intent.putExtras(b);
+            }
+            else
+                intent.setClass(currentActivity, WSLoginActivity.class);
+        }
         else
             intent = null;
         if (intent != null)
