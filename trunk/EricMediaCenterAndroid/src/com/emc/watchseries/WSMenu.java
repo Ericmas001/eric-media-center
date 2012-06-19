@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.emc.R;
 import com.emc.util.ContactWebservice;
+import com.emc.util.PrefUtil;
 
 public class WSMenu implements SearchView.OnQueryTextListener
 {
@@ -38,6 +39,11 @@ public class WSMenu implements SearchView.OnQueryTextListener
         MenuInflater inflater = m_activity.getMenuInflater();
         inflater.inflate(R.menu.watchseriesmenu, menu);
         ((SearchView) menu.findItem(R.id.ws_menu_search).getActionView()).setOnQueryTextListener(this);
+
+        if (PrefUtil.getBool("isAGuest", false))
+            menu.removeItem(R.id.ws_menu_disconnect);
+        else
+            menu.removeItem(R.id.ws_menu_connect);
     }
 
     public void performMenuItem(MenuItem item)
@@ -52,6 +58,13 @@ public class WSMenu implements SearchView.OnQueryTextListener
                 break;
             case R.id.ws_menu_bgenre:
                 pickAGenre();
+                break;
+            case R.id.ws_menu_connect:
+            case R.id.ws_menu_disconnect:
+                PrefUtil.set("isAGuest", false);
+                Intent intent = new Intent();
+                intent.setClass(m_activity, WSLoginActivity.class);
+                m_activity.startActivity(intent);
                 break;
         }
     }

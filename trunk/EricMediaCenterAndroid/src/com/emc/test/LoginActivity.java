@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.emc.R;
 import com.emc.util.ContactWebservice;
+import com.emc.util.PrefUtil;
 
 public class LoginActivity extends Activity
 {
@@ -24,10 +25,16 @@ public class LoginActivity extends Activity
         setContentView(R.layout.login);
         txtUser = (EditText) this.findViewById(R.id.txtUser);
         txtPass = (EditText) this.findViewById(R.id.txtPass);
+
+        txtUser.setText(PrefUtil.getString("testLoginUser", ""));
+        txtPass.setText(PrefUtil.getString("testLoginPass", ""));
     }
 
     public void loginClick(View view)
     {
+        PrefUtil.set("testLoginUser", txtUser.getText().toString());
+        PrefUtil.set("testLoginPass", txtPass.getText().toString());
+
         ContactWebservice.CallWS(this, "onPostExecute", "http://emc.ericmas001.com/User/Connect/" + txtUser.getText() + "/" + txtPass.getText());
     }
 

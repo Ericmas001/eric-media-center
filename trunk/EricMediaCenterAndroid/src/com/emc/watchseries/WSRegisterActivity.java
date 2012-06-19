@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.emc.R;
+import com.emc.util.PrefUtil;
 
 public class WSRegisterActivity extends Activity
 {
@@ -26,7 +27,9 @@ public class WSRegisterActivity extends Activity
 
             public void onClick(View arg0)
             {
-                // Switching to Login Screen/closing register screen
+                // Switching to Login screen
+                Intent i = new Intent(getApplicationContext(), WSLoginActivity.class);
+                startActivity(i);
                 finish();
             }
         });
@@ -36,6 +39,7 @@ public class WSRegisterActivity extends Activity
 
             public void onClick(View v)
             {
+                PrefUtil.set("isAGuest", true);
                 Intent intent = new Intent();
                 intent.setClass(WSRegisterActivity.this, WSSelectSerieActivity.class);
                 Bundle b = new Bundle();

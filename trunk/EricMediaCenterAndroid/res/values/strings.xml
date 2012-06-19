@@ -21,5 +21,7 @@
     <string name="ws_menu_bgenre">Browse by Genre</string>
     <string name="ws_menu_bpop">Populars</string>
     <string name="ws_menu_bfav">Favorites</string>
+    <string name="ws_menu_connect">Connect</string>
+    <string name="ws_menu_disconnect">Disconnect</string>
     
 </resources>
