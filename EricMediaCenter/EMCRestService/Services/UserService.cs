@@ -8,6 +8,7 @@ using EricUtility;
 using EricUtility2011.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
 
 namespace EMCRestService.Services
 {
@@ -40,12 +41,13 @@ namespace EMCRestService.Services
             if (ok)
             {
                 string t = StringUtility.GetMd5Hash(user + ";" + DateTime.Now.ToString());
-                DateTime validUntil = DateTime.Now + TimeSpan.FromMinutes(5);
+                DateTime d = DateTime.Now + TimeSpan.FromMinutes(5);
+                DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
                 Connector.Execute(myConnection, "update ericmas001.TUser set lastToken = @Token, tokenValidUntil = @Valid where username = @User", new Dictionary<string, object>() { { "Token", t }, { "Valid", validUntil }, { "User", user } });
 
                 if (myConnection != null)
                     myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, token = t, until = validUntil });
+                return JsonConvert.SerializeObject(new { success = ok, token = t, until = validUntil }, new IsoDateTimeConverter());
             }
             else
             {
@@ -88,7 +90,7 @@ namespace EMCRestService.Services
             }
         }
 
-        private string GetUsernameFromToken(SqlConnection myConnection, string token)
+        private KeyValuePair<string,DateTime> GetUsernameFromToken(SqlConnection myConnection, string token)
         {
             if (myConnection != null)
             {
@@ -96,19 +98,21 @@ namespace EMCRestService.Services
                 if (result.ContainsKey("username"))
                 {
                     string user = result["username"].ToString();
-                    DateTime validUntil = DateTime.Now + TimeSpan.FromMinutes(5);
+                    DateTime d = DateTime.Now + TimeSpan.FromMinutes(5);
+                    DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
                     Connector.Execute(myConnection, "update ericmas001.TUser set tokenValidUntil = @Valid where username = @User", new Dictionary<string, object>() { { "Valid", validUntil }, { "User", user } });
-                    return user;
+                    return new KeyValuePair<string, DateTime>(user, validUntil);
                 }
             }
-            return null;
+            return new KeyValuePair<string, DateTime>(null, DateTime.MinValue);
         }
 
         [WebGet(UriTemplate = "GetFavs/{token}")]
         public string GetFavs(string token)
         {
             SqlConnection myConnection = Connector.GetConnection();
-            string user = GetUsernameFromToken(myConnection,token);
+            KeyValuePair<string,DateTime> tokenInfo = GetUsernameFromToken(myConnection,token);
+            string user = tokenInfo.Key;
             if (user == null)
             {
                 if (myConnection != null)
@@ -120,14 +124,15 @@ namespace EMCRestService.Services
                 List<Dictionary<string, object>> results = Connector.SelectRows(myConnection, "select f.username, f.showname, f.lastViewedSeason, f.lastViewedEpisode, s.showtitle, e.lastSeason, e.lastEpisode from ericmas001.TFavoriteShows f LEFT OUTER JOIN ericmas001.TShows s ON f.showname = s.showname LEFT OUTER JOIN ericmas001.TLastEpisodes e ON f.showname = e.showname where f.username = @User order by f.showname", new Dictionary<string, object>() { { "User", user } });
                 if (myConnection != null)
                     myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = true, favorites = results });
+                return JsonConvert.SerializeObject(new { success = true, favorites = results, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
             }
         }
         [WebGet(UriTemplate = "AddFav/{token}/{showname}")]
         public string AddFav(string token, string showname)
         {
             SqlConnection myConnection = Connector.GetConnection();
-            string user = GetUsernameFromToken(myConnection, token);
+            KeyValuePair<string, DateTime> tokenInfo = GetUsernameFromToken(myConnection, token);
+            string user = tokenInfo.Key;
             if (user == null)
             {
                 if (myConnection != null)
@@ -152,12 +157,12 @@ namespace EMCRestService.Services
                     }
             
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = true });
+                    return JsonConvert.SerializeObject(new { success = true, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
                 else
                 {
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = false, problem = "Favorite already existing" });
+                    return JsonConvert.SerializeObject(new { success = false, problem = "Favorite already existing", token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
             }
         }
@@ -165,7 +170,8 @@ namespace EMCRestService.Services
         public string DelFav(string token, string showname)
         {
             SqlConnection myConnection = Connector.GetConnection();
-            string user = GetUsernameFromToken(myConnection, token);
+            KeyValuePair<string, DateTime> tokenInfo = GetUsernameFromToken(myConnection, token);
+            string user = tokenInfo.Key;
             if (user == null)
             {
                 if (myConnection != null)
@@ -179,12 +185,12 @@ namespace EMCRestService.Services
                 {
                     Connector.Execute(myConnection, "delete from ericmas001.TFavoriteShows where username = @User and showname = @Show", new Dictionary<string, object>() { { "User", user }, { "Show", showname } });
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = true });
+                    return JsonConvert.SerializeObject(new { success = true, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
                 else
                 {
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = false, problem = "Non-existant favorite" });
+                    return JsonConvert.SerializeObject(new { success = false, problem = "Non-existant favorite", token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
             }
         }
@@ -192,7 +198,8 @@ namespace EMCRestService.Services
         public string SetLastViewed(string token, string showname, string lastViewedSeason, string lastViewedEpisode)
         {
             SqlConnection myConnection = Connector.GetConnection();
-            string user = GetUsernameFromToken(myConnection, token);
+            KeyValuePair<string, DateTime> tokenInfo = GetUsernameFromToken(myConnection, token);
+            string user = tokenInfo.Key;
             if (user == null)
             {
                 if (myConnection != null)
@@ -206,12 +213,12 @@ namespace EMCRestService.Services
                 {
                     Connector.Execute(myConnection, "update ericmas001.TFavoriteShows set lastViewedSeason = @Season, lastViewedEpisode = @Episode where username = @User and showname = @Show", new Dictionary<string, object>() { { "User", user }, { "Show", showname }, { "Season", lastViewedSeason }, { "Episode", lastViewedEpisode } });
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = true });
+                    return JsonConvert.SerializeObject(new { success = true, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
                 else
                 {
                     myConnection.Close();
-                    return JsonConvert.SerializeObject(new { success = false, problem = "Non-existant favorite" });
+                    return JsonConvert.SerializeObject(new { success = false, problem = "Non-existant favorite", token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
             }
         }
