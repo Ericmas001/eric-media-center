@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</ProjectGuid>
+    <ProjectGuid>{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EMCMasterPluginLib</RootNamespace>
-    <AssemblyName>EMCMasterPluginLib</AssemblyName>
+    <RootNamespace>EMCTestWSPlugin</RootNamespace>
+    <AssemblyName>EMCTestWSPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,7 +32,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TestLive|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\TestLive\</OutputPath>
+    <OutputPath>C:\Users\Eric\AppData\Roaming\Eric Media Center\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,10 +42,12 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\WcfRestService1\Bin\Net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,22 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\IEMCApplicationPlugin.cs" />
-    <Compile Include="Application\IApplication.cs" />
-    <Compile Include="WebService\IWebService.cs" />
-    <Compile Include="WebService\IEMCWebServicePlugin.cs" />
-    <Compile Include="EMCGlobal.cs" />
-    <Compile Include="IEMCMasterPlugin.cs" />
+    <Compile Include="TestWSPlugin.cs" />
+    <Compile Include="MyTestWebService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
-      <Project>{980F8DE9-2F6E-4A96-849D-23754B364271}</Project>
-      <Name>EricUtilityNetworking2011</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
-      <Project>{E88C4AEF-1B0B-45C0-A08D-CBCDA35C1E62}</Project>
-      <Name>EricUtility2011</Name>
+    <ProjectReference Include="..\EMCMasterPluginLib\EMCMasterPluginLib.csproj">
+      <Project>{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}</Project>
+      <Name>EMCMasterPluginLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
