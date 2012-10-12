@@ -8,6 +8,7 @@ using System.IO;
 using System.Reflection;
 using EricUtility.Networking.Gathering;
 using EMCMasterPluginLib;
+using EMCMasterPluginLib.WebService;
 
 namespace EMCMasterPluginLib
 {
@@ -15,14 +16,15 @@ namespace EMCMasterPluginLib
     {
 
         public static event EmptyHandler AvailablePluginsUpdated = delegate { };
-        public static event EmptyHandler SupportedVideoParserUpdated = delegate { };
+        public static event EmptyHandler SupportedWebServiceUpdated = delegate { };
         public static event EmptyHandler SupportedAppUpdated = delegate { };
 
-        private static bool m_VideoParserLoaded = false;
+        private static bool m_WebServiceLoaded = false;
         private static bool m_ApplicationLoaded = false;
         private static bool m_AvailablePluginsLoaded = false;
 
         private static Dictionary<string, IEMCApplicationPlugin> m_ApplicationPlugins = new Dictionary<string, IEMCApplicationPlugin>();
+        private static Dictionary<string, IEMCWebServicePlugin> m_WebServicePlugins = new Dictionary<string, IEMCWebServicePlugin>();
 
 
         private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
@@ -33,10 +35,20 @@ namespace EMCMasterPluginLib
             get
             {
                 if (!m_ApplicationLoaded)
-                    ReloadApplicationPlugins(); 
+                    ReloadApplicationPlugins();
                 return EMCGlobal.m_ApplicationPlugins;
             }
             set { EMCGlobal.m_ApplicationPlugins = value; }
+        }
+        public static Dictionary<string, IEMCWebServicePlugin> WebServicePlugins
+        {
+            get
+            {
+                if (!m_WebServiceLoaded)
+                    ReloadWebServicePlugins();
+                return EMCGlobal.m_WebServicePlugins;
+            }
+            set { EMCGlobal.m_WebServicePlugins = value; }
         }
 
         public static Dictionary<string, Version> AvailablesPlugins
@@ -134,6 +146,38 @@ namespace EMCMasterPluginLib
                         found = true;
                         IEMCApplicationPlugin plugin = (IEMCApplicationPlugin)Activator.CreateInstance(t);
                         m_ApplicationPlugins.Add(plugin.UniqueName, plugin);
+                    }
+                }
+            }
+
+            m_ApplicationLoaded = true;
+            SupportedAppUpdated();
+        }
+
+
+        public static void ReloadWebServicePlugins()
+        {
+
+            if (!m_AvailablePluginsLoaded)
+                RefreshAvailablePlugins();
+
+            m_WebServicePlugins.Clear();
+
+            // Load All Local WebServicePlugin
+            IEnumerable<string> dlls = Directory.EnumerateFiles(EMCPath, "*.dll");
+            foreach (string dll in dlls)
+            {
+                byte[] assemblyBytes = File.ReadAllBytes(dll);
+                Assembly ass = Assembly.Load(assemblyBytes);
+                Type[] types = ass.GetTypes();
+                bool found = false;
+                foreach (Type t in ass.GetTypes())
+                {
+                    if (!found && t.GetInterface("IEMCWebServicePlugin") != null)
+                    {
+                        found = true;
+                        IEMCWebServicePlugin plugin = (IEMCWebServicePlugin)Activator.CreateInstance(t);
+                        m_WebServicePlugins.Add(plugin.UniqueName, plugin);
                     }
                 }
             }

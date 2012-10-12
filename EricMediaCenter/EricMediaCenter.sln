@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCRestService", "EMCRestSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchSeriesAppPlugin", "WatchSeriesAppPlugin\WatchSeriesAppPlugin.csproj", "{733D0B54-E4F3-4F67-B151-1607E73FDF04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCTestWSPlugin", "EMCTestWSPlugin\EMCTestWSPlugin.csproj", "{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -171,6 +173,21 @@ Global
 		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|Mixed Platforms.Build.0 = TestLive|x86
 		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|x86.ActiveCfg = Release|x86
 		{733D0B54-E4F3-4F67-B151-1607E73FDF04}.TestLive|x86.Build.0 = Release|x86
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.Release|x86.ActiveCfg = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Any CPU.ActiveCfg = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Any CPU.Build.0 = Release|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Mixed Platforms.ActiveCfg = TestLive|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Mixed Platforms.Build.0 = TestLive|Any CPU
+		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
