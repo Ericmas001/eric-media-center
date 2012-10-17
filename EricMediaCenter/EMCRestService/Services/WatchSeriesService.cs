@@ -148,6 +148,9 @@ namespace EMCRestService.Services
             string baseurl = "http://watchseries.eu/serie/" + showname;
             string src = GatheringUtility.GetPageSource(baseurl);
 
+            if (src.Contains("Um, Where did the page go?"))
+                return null;
+
             entry.RssFeed = StringUtility.Extract(src," <a class=\"rss-title\" href=\"../rss/",".xml");
 
             string summary = StringUtility.Extract(src,"<div class=\"show-summary\">","</div>");
