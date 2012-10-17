@@ -11,7 +11,7 @@ namespace EMCMasterPluginLib.WebService
     {
         string Title { get; }
         string BaseUrl { get; }
-        string[] Commands { get; }
-        object GetResult(string command, string args);
+        Dictionary<string, string> Commands { get; }
+        object GetResult(string command, string result);
     }
 }
