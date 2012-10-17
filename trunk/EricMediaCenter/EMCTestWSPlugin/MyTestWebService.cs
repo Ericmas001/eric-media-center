@@ -31,37 +31,37 @@ namespace EMCTestWSPlugin
             get { return "http://emc.ericmas001.com/"; }
         }
 
-        public string[] Commands
+        public Dictionary<string,string> Commands
         {
             get
             {
-                return new string[]{
-                    "TimeService|CurrentTime",
-                    "TvSchedule|AvailableSchedule",
-                    "TvSchedule|GetSchedule/{id}",
-                    "VideoParsing|AvailableWebsites",
-                    "VideoParsing|Parse/{website}/{args}",
-                    "User|Connect/{user}/{pass}",
-                    "User|Register/{user}/{pass}",
-                    "User|GetFavs/{token}}",
-                    "User|AddFav/{token}/{showname}",
-                    "User|DelFav/{token}/{showname}",
-                    "User|SetLastViewed/{token}/{showname}/{lastViewedSeason}/{lastViewedEpisode}",
-                    "WatchSeries|GetPopulars",
-                    "WatchSeries|AvailableLetters",
-                    "WatchSeries|AvailableGenres",
-                    "WatchSeries|GetLetter/{letter}",
-                    "WatchSeries|GetGenre/{genre}",
-                    "WatchSeries|Search/{keywords}",
-                    "WatchSeries|GetShow/{showname}",
-                    "WatchSeries|GetLinks/{epid}",
-                    "WatchSeries|GetEpisode/{epname}",
-                    "WatchSeries|GetUrl/{linkid}",
-                    "Automated|UpdateLastEpisodes",
-                    "EpGuide|Search/{id}",
-                    "EpGuide|GetShow/{id}",
-                    "TvRage|Search/{id}",
-                    "TvRage|GetShow/{id}"
+                return new Dictionary<string, string>{
+                    {"TimeService|CurrentTime","" },
+                    {"TvSchedule|AvailableSchedule",""},
+                    {"TvSchedule|GetSchedule","{id}"},
+                    {"VideoParsing|AvailableWebsites",""},
+                    {"VideoParsing|Parse","{website}/{args}"},
+                    {"User|Connect","{user}/{pass}"},
+                    {"User|Register","{user}/{pass}"},
+                    {"User|GetFavs","{token}}"},
+                    {"User|AddFav","{token}/{showname}"},
+                    {"User|DelFav","{token}/{showname}"},
+                    {"User|SetLastViewed","{token}/{showname}/{lastViewedSeason}/{lastViewedEpisode}"},
+                    {"WatchSeries|GetPopulars",""},
+                    {"WatchSeries|AvailableLetters",""},
+                    {"WatchSeries|AvailableGenres",""},
+                    {"WatchSeries|GetLetter","{letter}"},
+                    {"WatchSeries|GetGenre","{genre}"},
+                    {"WatchSeries|Search","{keywords}"},
+                    {"WatchSeries|GetShow","{showname}"},
+                    {"WatchSeries|GetLinks","{epid}"},
+                    {"WatchSeries|GetEpisode","{epname}"},
+                    {"WatchSeries|GetUrl","{linkid}"},
+                    {"Automated|UpdateLastEpisodes",""},
+                    {"EpGuide|Search","{id}"},
+                    {"EpGuide|GetShow","{id}"},
+                    {"TvRage|Search","{id}"},
+                    {"TvRage|GetShow","{id}"}
                 };
             }
         }

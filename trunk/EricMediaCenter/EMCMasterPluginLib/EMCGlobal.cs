@@ -26,6 +26,7 @@ namespace EMCMasterPluginLib
         private static Dictionary<string, IEMCApplicationPlugin> m_ApplicationPlugins = new Dictionary<string, IEMCApplicationPlugin>();
         private static Dictionary<string, IEMCWebServicePlugin> m_WebServicePlugins = new Dictionary<string, IEMCWebServicePlugin>();
 
+        private static Dictionary<string, IWebService> m_WebServiceClients = new Dictionary<string, IWebService>();
 
         private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
         private static Dictionary<string, Dictionary<string, Version>> m_AvailablesPluginsByCat = new Dictionary<string,Dictionary<string,Version>>();
@@ -39,6 +40,16 @@ namespace EMCMasterPluginLib
                 return EMCGlobal.m_ApplicationPlugins;
             }
             set { EMCGlobal.m_ApplicationPlugins = value; }
+        }
+        public static Dictionary<string, IWebService> WebServiceClients
+        {
+            get
+            {
+                if (!m_WebServiceLoaded)
+                    ReloadWebServicePlugins();
+                return EMCGlobal.m_WebServiceClients;
+            }
+            set { EMCGlobal.m_WebServiceClients = value; }
         }
         public static Dictionary<string, IEMCWebServicePlugin> WebServicePlugins
         {
@@ -178,12 +189,36 @@ namespace EMCMasterPluginLib
                         found = true;
                         IEMCWebServicePlugin plugin = (IEMCWebServicePlugin)Activator.CreateInstance(t);
                         m_WebServicePlugins.Add(plugin.UniqueName, plugin);
+                        foreach (string c in plugin.GetWebService().Commands.Keys)
+                        {
+                            string key = plugin.GetWebService().Title + "|" + c;
+                            m_WebServiceClients.Add(key, plugin.GetWebService());
+                        }
                     }
                 }
             }
 
-            m_ApplicationLoaded = true;
+            m_WebServiceLoaded = true;
             SupportedAppUpdated();
+        }
+        public static object GetWebServiceResult(string c, string a)
+        {
+            IWebService client = m_WebServiceClients[c];
+            string command = c.Substring(c.IndexOf('|')+1);
+            string url = (client.BaseUrl + command + a).Replace('|', '/');
+
+            string result;
+            object res = null;
+            try
+            {
+                result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
+                res = client.GetResult(command, result);
+            }
+            catch (Exception ex)
+            {
+                res = ex;
+            }
+            return res;
         }
     }
 }
