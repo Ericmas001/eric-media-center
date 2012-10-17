@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -139,7 +139,13 @@ namespace EMCTestWSPlugin
 
         private string VideoParsingAvailableWebsites(string result)
         {
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JObject r in results)
+            {
+                newRes += r.ToString();
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
