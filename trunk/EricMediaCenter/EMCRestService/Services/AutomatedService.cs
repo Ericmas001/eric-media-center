@@ -31,8 +31,10 @@ namespace EMCRestService.Services
                 string show = result["showname"].ToString();
                 int saved_lastSeason = String.IsNullOrEmpty(result["lastSeason"].ToString()) ? 0 : (int)result["lastSeason"];
                 int saved_lastEpisode = String.IsNullOrEmpty(result["lastEpisode"].ToString()) ? 0 : (int)result["lastEpisode"];
-
-                JObject r = JsonConvert.DeserializeObject<dynamic>(service.GetShow(show));
+                string res = service.GetShow(show);
+                if (res == null)
+                    continue;
+                JObject r = JsonConvert.DeserializeObject<dynamic>(res);
                 JArray seasons = (JArray)r["Seasons"];
                 JObject lastSeason = (JObject)seasons[seasons.Count - 1];
                 JArray episodes = (JArray)lastSeason["Episodes"];
