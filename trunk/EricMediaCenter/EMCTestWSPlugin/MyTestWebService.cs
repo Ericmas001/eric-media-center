@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -141,9 +141,9 @@ namespace EMCTestWSPlugin
         {
             string newRes = "";
             JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JObject r in results)
+            foreach (JToken r in results)
             {
-                newRes += r.ToString();
+                newRes += (string)r;
                 newRes += Environment.NewLine;
             }
             return newRes;
@@ -163,7 +163,7 @@ namespace EMCTestWSPlugin
                 newRes = "ERROR PArsing !!";
             else
             {
-                if( r["success"] )
+                if ((bool)r["success"])
                 {
                   newRes = "Connecté avec succes !!!" + Environment.NewLine;
                   newRes += "Token: " + r["token"] + Environment.NewLine;
@@ -183,10 +183,9 @@ namespace EMCTestWSPlugin
                 newRes = "ERROR PArsing !!";
             else
             {
-                if( r["success"] )
+                if ((bool)r["success"])
                 {
                   newRes = "Enregistré avec succes !!!";
-                  // Semble buggé, n'arrive jamais !!!
                 }
                 else
                   newRes = "Error When Register: " + r["problem"].ToString();
@@ -202,15 +201,15 @@ namespace EMCTestWSPlugin
                 newRes = "ERROR PArsing !!";
             else
             {
-                if( r["success"] )
+                if( (bool)r["success"] )
                 {
                   newRes = "GetFavs avec succes !!!" + Environment.NewLine;
                   newRes += "Token: " + r["token"] + Environment.NewLine;
                   newRes += "Valid Until: " + r["until"] + Environment.NewLine;
                   foreach (JObject r2 in r["favorites"])
                   {
-                      newRes += r2["showtitle"] + "(" + r2["showname"] + ") "
-                      newRes += "Last: " + r2["lastSeason"] + "x" + r2["lastEpisode"] + ", "
+                      newRes += r2["showtitle"] + "(" + r2["showname"] + ") ";
+                      newRes += "Last: " + r2["lastSeason"] + "x" + r2["lastEpisode"] + ", ";
                       newRes += "LastViewed (" + r2["user"] + "): " + r2["lastViewedSeason"] + "x" + r2["lastViewedEpisode"];
                       newRes += Environment.NewLine;
                   }
