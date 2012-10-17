@@ -178,7 +178,20 @@ namespace EMCTestWSPlugin
 
         private string UserRegister(string result)
         {
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if( r["success"] )
+                {
+                  newRes = "Enregistré avec succes !!!";
+                  // Semble buggé, n'arrive jamais !!!
+                }
+                else
+                  newRes = "Error When Register: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
