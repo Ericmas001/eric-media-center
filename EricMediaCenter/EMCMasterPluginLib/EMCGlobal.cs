@@ -181,18 +181,19 @@ namespace EMCMasterPluginLib
                 byte[] assemblyBytes = File.ReadAllBytes(dll);
                 Assembly ass = Assembly.Load(assemblyBytes);
                 Type[] types = ass.GetTypes();
-                bool found = false;
                 foreach (Type t in ass.GetTypes())
                 {
-                    if (!found && t.GetInterface("IEMCWebServicePlugin") != null)
+                    if (t.GetInterface("IEMCWebServicePlugin") != null)
                     {
-                        found = true;
                         IEMCWebServicePlugin plugin = (IEMCWebServicePlugin)Activator.CreateInstance(t);
-                        m_WebServicePlugins.Add(plugin.UniqueName, plugin);
-                        foreach (string c in plugin.GetWebService().Commands.Keys)
+                        if (!m_WebServicePlugins.ContainsKey(plugin.UniqueName))
                         {
-                            string key = plugin.GetWebService().Title + "|" + c;
-                            m_WebServiceClients.Add(key, plugin.GetWebService());
+                            m_WebServicePlugins.Add(plugin.UniqueName, plugin);
+                            foreach (string c in plugin.GetWebService().Commands.Keys)
+                            {
+                                string key = plugin.GetWebService().Title + "|" + c;
+                                m_WebServiceClients.Add(key, plugin.GetWebService());
+                            }
                         }
                     }
                 }
@@ -205,8 +206,9 @@ namespace EMCMasterPluginLib
         {
             IWebService client = m_WebServiceClients[c];
             string command = c.Substring(c.IndexOf('|')+1);
+            if (!String.IsNullOrEmpty(a))
+                a = "/" + a;
             string url = (client.BaseUrl + command + a).Replace('|', '/');
-
             string result;
             object res = null;
             try
