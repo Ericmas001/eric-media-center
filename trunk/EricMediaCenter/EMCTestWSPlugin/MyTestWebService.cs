@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -157,7 +157,22 @@ namespace EMCTestWSPlugin
 
         private string UserConnect(string result)
         {
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if( r["success"] )
+                {
+                  newRes = "Connecté avec succes !!!" + Environment.NewLine;
+                  newRes += "Token: " + r["token"] + Environment.NewLine;
+                  newRes += "Valid Until: " + r["until"];
+
+                }
+                else
+                  newRes = "Error Connecting: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
