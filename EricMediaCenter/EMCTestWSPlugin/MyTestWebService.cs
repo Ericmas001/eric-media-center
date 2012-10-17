@@ -168,7 +168,6 @@ namespace EMCTestWSPlugin
                   newRes = "Connecté avec succes !!!" + Environment.NewLine;
                   newRes += "Token: " + r["token"] + Environment.NewLine;
                   newRes += "Valid Until: " + r["until"];
-
                 }
                 else
                   newRes = "Error Connecting: " + r["problem"].ToString();
@@ -197,7 +196,28 @@ namespace EMCTestWSPlugin
 
         private string UserGetFavs(string result)
         {
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if( r["success"] )
+                {
+                  newRes = "GetFavs avec succes !!!" + Environment.NewLine;
+                  newRes += "Token: " + r["token"] + Environment.NewLine;
+                  newRes += "Valid Until: " + r["until"] + Environment.NewLine;
+                  foreach (JObject r2 in r["favorites"])
+                  {
+                      newRes += r2["showtitle"] + "(" + r2["showname"] + ") "
+                      newRes += "Last: " + r2["lastSeason"] + "x" + r2["lastEpisode"] + ", "
+                      newRes += "LastViewed (" + r2["user"] + "): " + r2["lastViewedSeason"] + "x" + r2["lastViewedEpisode"];
+                      newRes += Environment.NewLine;
+                  }
+                }
+                else
+                  newRes = "Error When GetFavs: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
