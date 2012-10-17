@@ -251,7 +251,21 @@ namespace EMCTestWSPlugin
         {
             //c6c91b11cdfed4b4b264b1e8e23f05b3/shameless_(us)
             //{"success":true,"token":"c6c91b11cdfed4b4b264b1e8e23f05b3","until":"2012-10-17T14:02:24"}
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if ((bool)r["success"])
+                {
+                    newRes = "Ajouté avec succes !!!" + Environment.NewLine;
+                    newRes += "Token: " + r["token"] + Environment.NewLine;
+                    newRes += "Valid Until: " + r["until"];
+                }
+                else
+                    newRes = "Error Adding Fav: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
@@ -259,7 +273,21 @@ namespace EMCTestWSPlugin
         {
             //c6c91b11cdfed4b4b264b1e8e23f05b3/dexter/7/3
             //{"success":true,"token":"c6c91b11cdfed4b4b264b1e8e23f05b3","until":"2012-10-17T14:03:30"}
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if ((bool)r["success"])
+                {
+                    newRes = "Episode Viewed avec succes !!!" + Environment.NewLine;
+                    newRes += "Token: " + r["token"] + Environment.NewLine;
+                    newRes += "Valid Until: " + r["until"];
+                }
+                else
+                    newRes = "Error Setting Last Viewed: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
@@ -267,7 +295,21 @@ namespace EMCTestWSPlugin
         {
             //c6c91b11cdfed4b4b264b1e8e23f05b3/shameless_(us)
             //{"success":true,"token":"c6c91b11cdfed4b4b264b1e8e23f05b3","until":"2012-10-17T14:06:49"}
-            string newRes = result;
+            string newRes = "";
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            if (r == null)
+                newRes = "ERROR PArsing !!";
+            else
+            {
+                if ((bool)r["success"])
+                {
+                    newRes = "Supprimé avec succes !!!" + Environment.NewLine;
+                    newRes += "Token: " + r["token"] + Environment.NewLine;
+                    newRes += "Valid Until: " + r["until"];
+                }
+                else
+                    newRes = "Error Deleting Fav: " + r["problem"].ToString();
+            }
             return newRes;
         }
 
@@ -275,7 +317,13 @@ namespace EMCTestWSPlugin
         {
             //
             //[{"ShowName":"how_i_met_your_mother","ShowTitle":"How I Met Your Mother","ReleaseYear":0},{"ShowName":"new_girl","ShowTitle":"New Girl","ReleaseYear":0},{"ShowName":"big_bang_theory","ShowTitle":"Big Bang Theory","ReleaseYear":0},{"ShowName":"gossip_girl","ShowTitle":"Gossip Girl","ReleaseYear":0},{"ShowName":"modern_family","ShowTitle":"Modern Family","ReleaseYear":0},{"ShowName":"family_guy","ShowTitle":"Family Guy","ReleaseYear":0},{"ShowName":"friends","ShowTitle":"Friends","ReleaseYear":0},{"ShowName":"the_walking_dead","ShowTitle":"The Walking Dead","ReleaseYear":0},{"ShowName":"sons_of_anarchy","ShowTitle":"Sons Of Anarchy","ReleaseYear":0},{"ShowName":"hart_of_dixie","ShowTitle":"Hart Of Dixie","ReleaseYear":0},{"ShowName":"the_vampire_diaries","ShowTitle":"The Vampire Diaries","ReleaseYear":0},{"ShowName":"dexter","ShowTitle":"Dexter","ReleaseYear":0}]
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JObject r in results)
+            {
+                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ")" ;
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
@@ -283,7 +331,13 @@ namespace EMCTestWSPlugin
         {
             //
             //["09","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JToken r in results)
+            {
+                newRes += (string)r;
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
@@ -291,7 +345,13 @@ namespace EMCTestWSPlugin
         {
             //
             //["action","adventure","animation","cartoons","celebrities","children","comedy","cooking","crime","documentary","drama","family","fantasy","fashion","history","horror","lifestyle","medical","music","mystery","reality","sci fi","science","sports","talent","talk show","tech","teens","thriller","travel","war"]
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JToken r in results)
+            {
+                newRes += (string)r;
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
