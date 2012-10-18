@@ -359,15 +359,27 @@ namespace EMCTestWSPlugin
         {
             //X
             //[{"ShowName":"x_files","ShowTitle":"X Files","ReleaseYear":1993},{"ShowName":"xavier:_renegade_angel","ShowTitle":"Xavier: Renegade Angel","ReleaseYear":2007},{"ShowName":"xena:_warrior_princess","ShowTitle":"Xena: Warrior Princess","ReleaseYear":1995},{"ShowName":"xiaolin_showdown","ShowTitle":"Xiaolin Showdown","ReleaseYear":2003},{"ShowName":"xiii_(2011)","ShowTitle":"XIII (2011)","ReleaseYear":2011},{"ShowName":"x-men","ShowTitle":"X-men","ReleaseYear":1992},{"ShowName":"x-men_2011","ShowTitle":"X-Men 2011","ReleaseYear":2011},{"ShowName":"x-men_eng_2011","ShowTitle":"X-Men eng 2011","ReleaseYear":2011},{"ShowName":"x-men:_evolution","ShowTitle":"X-Men: Evolution","ReleaseYear":2000},{"ShowName":"x-play","ShowTitle":"X-Play","ReleaseYear":1998},{"ShowName":"xtreme_waterparks","ShowTitle":"Xtreme Waterparks","ReleaseYear":0}]
-            string newRes = result;
-            return newRes;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JObject r in results)
+            {
+                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += Environment.NewLine;
+            }
+            return newRes; 
         }
 
         private string WatchSeriesGetGenre(string result)
         {
             //celebrities
             //[{"ShowName":"austin_city_limits\n","ShowTitle":"Austin City Limits","ReleaseYear":1975},{"ShowName":"comedy_world_cup\n","ShowTitle":"Comedy World Cup","ReleaseYear":2012},{"ShowName":"life_after\n","ShowTitle":"Life After","ReleaseYear":2009}]
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JObject r in results)
+            {
+                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
@@ -375,7 +387,13 @@ namespace EMCTestWSPlugin
         {
             //shame
             //[{"ShowName":"shameless","ShowTitle":"Shameless","ReleaseYear":2004},{"ShowName":"shameless_(us)","ShowTitle":"Shameless (US)","ReleaseYear":2011}]
-            string newRes = result;
+            string newRes = "";
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            foreach (JObject r in results)
+            {
+                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += Environment.NewLine;
+            }
             return newRes;
         }
 
