@@ -53,7 +53,7 @@ namespace EMCWatchSeriesWSPlugin
 
         public object GetResult(string listChoice, string result)
         {
-            string newRes = result;
+            object newRes = result;
             switch (listChoice)
             {
                 case "GetPopulars": newRes = WatchSeriesGetPopulars(result); break;
@@ -69,88 +69,64 @@ namespace EMCWatchSeriesWSPlugin
             }
             return newRes;
         }
-        private string WatchSeriesGetPopulars(string result)
+        private List<ShowSummaryInfo> WatchSeriesGetPopulars(string result)
         {
             //
             //[{"ShowName":"how_i_met_your_mother","ShowTitle":"How I Met Your Mother","ReleaseYear":0},{"ShowName":"new_girl","ShowTitle":"New Girl","ReleaseYear":0},{"ShowName":"big_bang_theory","ShowTitle":"Big Bang Theory","ReleaseYear":0},{"ShowName":"gossip_girl","ShowTitle":"Gossip Girl","ReleaseYear":0},{"ShowName":"modern_family","ShowTitle":"Modern Family","ReleaseYear":0},{"ShowName":"family_guy","ShowTitle":"Family Guy","ReleaseYear":0},{"ShowName":"friends","ShowTitle":"Friends","ReleaseYear":0},{"ShowName":"the_walking_dead","ShowTitle":"The Walking Dead","ReleaseYear":0},{"ShowName":"sons_of_anarchy","ShowTitle":"Sons Of Anarchy","ReleaseYear":0},{"ShowName":"hart_of_dixie","ShowTitle":"Hart Of Dixie","ReleaseYear":0},{"ShowName":"the_vampire_diaries","ShowTitle":"The Vampire Diaries","ReleaseYear":0},{"ShowName":"dexter","ShowTitle":"Dexter","ReleaseYear":0}]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JObject r in results)
-            {
-                newRes += new ShowSummaryInfo(r).ToString();
-                newRes += Environment.NewLine;
-            }
-            return newRes;
+            List<ShowSummaryInfo> list = new List<ShowSummaryInfo>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(new ShowSummaryInfo(r));
+            return list;
         }
 
-        private string WatchSeriesAvailableLetters(string result)
+        private List<string> WatchSeriesAvailableLetters(string result)
         {
             //
             //["09","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JToken r in results)
-            {
-                newRes += (string)r;
-                newRes += Environment.NewLine;
-            }
-            return newRes;
+            List<string> list = new List<string>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add((string)r);
+            return list;
         }
 
-        private string WatchSeriesAvailableGenres(string result)
+        private List<string> WatchSeriesAvailableGenres(string result)
         {
             //
             //["action","adventure","animation","cartoons","celebrities","children","comedy","cooking","crime","documentary","drama","family","fantasy","fashion","history","horror","lifestyle","medical","music","mystery","reality","sci fi","science","sports","talent","talk show","tech","teens","thriller","travel","war"]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JToken r in results)
-            {
-                newRes += (string)r;
-                newRes += Environment.NewLine;
-            }
-            return newRes;
+            List<string> list = new List<string>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add((string)r);
+            return list;
         }
 
-        private string WatchSeriesGetLetter(string result)
+        private List<ShowSummaryInfo> WatchSeriesGetLetter(string result)
         {
             //X
             //[{"ShowName":"x_files","ShowTitle":"X Files","ReleaseYear":1993},{"ShowName":"xavier:_renegade_angel","ShowTitle":"Xavier: Renegade Angel","ReleaseYear":2007},{"ShowName":"xena:_warrior_princess","ShowTitle":"Xena: Warrior Princess","ReleaseYear":1995},{"ShowName":"xiaolin_showdown","ShowTitle":"Xiaolin Showdown","ReleaseYear":2003},{"ShowName":"xiii_(2011)","ShowTitle":"XIII (2011)","ReleaseYear":2011},{"ShowName":"x-men","ShowTitle":"X-men","ReleaseYear":1992},{"ShowName":"x-men_2011","ShowTitle":"X-Men 2011","ReleaseYear":2011},{"ShowName":"x-men_eng_2011","ShowTitle":"X-Men eng 2011","ReleaseYear":2011},{"ShowName":"x-men:_evolution","ShowTitle":"X-Men: Evolution","ReleaseYear":2000},{"ShowName":"x-play","ShowTitle":"X-Play","ReleaseYear":1998},{"ShowName":"xtreme_waterparks","ShowTitle":"Xtreme Waterparks","ReleaseYear":0}]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JObject r in results)
-            {
-                newRes += new ShowSummaryInfo(r).ToString();
-                newRes += Environment.NewLine;
-            }
-            return newRes; 
+            List<ShowSummaryInfo> list = new List<ShowSummaryInfo>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(new ShowSummaryInfo(r));
+            return list;
         }
 
-        private string WatchSeriesGetGenre(string result)
+        private List<ShowSummaryInfo> WatchSeriesGetGenre(string result)
         {
             //celebrities
             //[{"ShowName":"austin_city_limits\n","ShowTitle":"Austin City Limits","ReleaseYear":1975},{"ShowName":"comedy_world_cup\n","ShowTitle":"Comedy World Cup","ReleaseYear":2012},{"ShowName":"life_after\n","ShowTitle":"Life After","ReleaseYear":2009}]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JObject r in results)
-            {
-                newRes += new ShowSummaryInfo(r).ToString();
-                newRes += Environment.NewLine;
-            }
-            return newRes;
+            List<ShowSummaryInfo> list = new List<ShowSummaryInfo>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(new ShowSummaryInfo(r));
+            return list;
         }
 
-        private string WatchSeriesSearch(string result)
+        private List<ShowSummaryInfo> WatchSeriesSearch(string result)
         {
             //shame
             //[{"ShowName":"shameless","ShowTitle":"Shameless","ReleaseYear":2004},{"ShowName":"shameless_(us)","ShowTitle":"Shameless (US)","ReleaseYear":2011}]
-            string newRes = "";
-            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
-            foreach (JObject r in results)
-            {
-                newRes += new ShowSummaryInfo(r).ToString();
-                newRes += Environment.NewLine;
-            }
-            return newRes;
+            List<ShowSummaryInfo> list = new List<ShowSummaryInfo>();
+            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(new ShowSummaryInfo(r));
+            return list;
         }
 
         private string WatchSeriesGetShow(string result)

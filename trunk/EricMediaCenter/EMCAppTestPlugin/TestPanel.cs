@@ -14,6 +14,7 @@ using EricUtility.Networking.Gathering;
 using EricUtility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace EMCAppTestPlugin
 {
@@ -30,7 +31,17 @@ namespace EMCAppTestPlugin
             {
                 string listChoice = (string)listBox1.SelectedItem;
                 string args = textBox1.Text;
-                textBox3.Text = EMCGlobal.GetWebServiceResult(listChoice, args).ToString();
+                object res = EMCGlobal.GetWebServiceResult(listChoice, args);
+                if (res is string)
+                    textBox3.Text = res.ToString();
+                else if (res is IList)
+                {
+                    textBox3.Text = res.ToString() + Environment.NewLine;
+                    foreach (object o in (IList)res)
+                        textBox3.Text += o.ToString() + Environment.NewLine;
+                }
+                else
+                    textBox3.Text = res.ToString();
             }
         }
 
