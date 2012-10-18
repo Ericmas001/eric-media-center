@@ -38,12 +38,15 @@ namespace EMCWatchSeriesWSPlugin.Entries
         }
         public ShowSummaryInfo(JObject r)
         {
+            // {"ShowName":"x_files","ShowTitle":"X Files","ReleaseYear":1993}
             m_Name = (string)r["ShowName"];
             m_Title = (string)r["ShowTitle"];
             m_ReleaseYear = (int)r["ReleaseYear"];
         }
         public override string ToString()
         {
+            //X Files: x_files
+            //X Files (1993): x_files
             return String.Format("{0}{1}: {2}", m_Title, m_ReleaseYear > 0 ? String.Format(" ({0})", m_ReleaseYear) : "", m_Name);
         }
     }
