@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchSeriesAppPlugin", "Wat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCTestWSPlugin", "EMCTestWSPlugin\EMCTestWSPlugin.csproj", "{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCWatchSeriesWSPlugin", "EMCWatchSeriesWSPlugin\EMCWatchSeriesWSPlugin.csproj", "{269B6241-78C7-40AE-8D93-10EB630A873F}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -188,6 +190,21 @@ Global
 		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Mixed Platforms.ActiveCfg = TestLive|Any CPU
 		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|Mixed Platforms.Build.0 = TestLive|Any CPU
 		{897B0044-BC62-42AE-B9B2-7E2DA6E8528C}.TestLive|x86.ActiveCfg = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.Release|x86.ActiveCfg = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.TestLive|Any CPU.ActiveCfg = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.TestLive|Any CPU.Build.0 = Release|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.TestLive|Mixed Platforms.ActiveCfg = TestLive|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.TestLive|Mixed Platforms.Build.0 = TestLive|Any CPU
+		{269B6241-78C7-40AE-8D93-10EB630A873F}.TestLive|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
