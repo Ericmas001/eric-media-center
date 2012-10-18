@@ -40,6 +40,25 @@ namespace EMCAppTestPlugin
                     foreach (object o in (IList)res)
                         textBox3.Text += o.ToString() + Environment.NewLine;
                 }
+                else if (res is IDictionary)
+                {
+                    textBox3.Text = res.ToString() + Environment.NewLine;
+                    foreach (object k in ((IDictionary)res).Keys)
+                    {
+                        object value = ((IDictionary)res)[k];
+                        if (value is IList)
+                        {
+                            textBox3.Text += "> " + k.ToString() + Environment.NewLine;
+                            foreach (object v in ((IList)value))
+                            {
+                                textBox3.Text += ">>> " + v.ToString() + Environment.NewLine;
+                            }
+                        }
+                        else
+                            textBox3.Text += "> " + k.ToString() + ": " + value.ToString() + Environment.NewLine;
+
+                    }
+                }
                 else
                     textBox3.Text = res.ToString();
             }
