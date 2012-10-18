@@ -1,4 +1,4 @@
- using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -133,23 +133,24 @@ namespace EMCWatchSeriesWSPlugin
         {
             //revolution_(2012)
             //{"ReleaseDate":"\/Date(1347865200000-0700)\/","Genre":"mystery","Status":"New Series","Network":"NBC (US)","Imdb":"tt2070791","Description":"What would you do without it all? In this epic adventure from J.J. Abrams' Bad Robot Productions and \"Supernatural's\" Eric Kripke, a family struggles to reunite in an American landscape where every single piece of technology - computers, planes, cars,   phones, even lights - has mysteriously blacked out forever. A drama with sweeping scope and intimate focus, \"Revolution\" is also about family - both the family you're born into and the family you choose. This is a swashbuckling journey of hope and rebirth seen through the eyes of one strong-willed young woman, Charlie Matheson (Tracy Spiridakos, \"Being Human\"), and her brother Danny (Graham Rogers, \"Memphis Beat\"). When Danny is kidnapped by militia leaders for a darker purpose, Charlie must reconnect with her estranged uncle Miles (Billy Burke, \"The Twilight Saga\"), a former U.S. Marine living a reclusive life. Together, with a rogue band of survivors, they set out to rescue Danny, overthrow the militia and ultimately re-establish the United States of America. All the while, they explore the enduring mystery of why the power failed, and if - or how - it will ever return. (Source: NBC)","NbEpisodes":5,"RssFeed":"5921","Logo":"http://watchseries.eu/imagini/Revolution2012.JPG","Seasons":[{"SeasonNo":1,"NbEpisodes":5,"SeasonName":null,"Episodes":[{"EpisodeNo":1,"EpisodeId":194518,"EpisodeName":"revolution_(2012)_s1_e1-194518","EpisodeTitle":"Pilot","ReleaseDate":"\/Date(1347865200000-0700)\/"},{"EpisodeNo":2,"EpisodeId":198699,"EpisodeName":"revolution_(2012)_s1_e2-198699","EpisodeTitle":"Chained Heat","ReleaseDate":"\/Date(1348470000000-0700)\/"},{"EpisodeNo":3,"EpisodeId":199579,"EpisodeName":"revolution_(2012)_s1_e3-199579","EpisodeTitle":"No Quarter","ReleaseDate":"\/Date(1349074800000-0700)\/"},{"EpisodeNo":4,"EpisodeId":200524,"EpisodeName":"revolution_(2012)_s1_e4-200524","EpisodeTitle":"The Plague Dogs","ReleaseDate":"\/Date(1349679600000-0700)\/"},{"EpisodeNo":5,"EpisodeId":201819,"EpisodeName":"revolution_(2012)_s1_e5-201819","EpisodeTitle":"Soul Train","ReleaseDate":"\/Date(1350284400000-0700)\/"}]}],"ShowName":"revolution_(2012)","ShowTitle":"Revolution (2012)","ReleaseYear":2012}
-            return new ShowInfo(result);
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            return new ShowInfo(r);
         }
 
-        private string WatchSeriesGetLinks(string result)
+        private Dictionary<string, LinkInfo> WatchSeriesGetLinks(string result)
         {
             //1790
             //[{"Name":"allmyvideos.net","LinkIDs":[6234811,5778797]},{"Name":"clicktoview.org","LinkIDs":[6649217,5931034]},{"Name":"cyberlocker.ch","LinkIDs":[7102246,6701415,6652658]},{"Name":"daclips.in","LinkIDs":[3311652,3311649]},{"Name":"faststream.in","LinkIDs":[7102245]},{"Name":"filebox.com","LinkIDs":[5022918]},{"Name":"filenuke.com","LinkIDs":[7102247,6770189,6514659,6496170]},{"Name":"gorillavid.in","LinkIDs":[3311648]},{"Name":"movpod.in","LinkIDs":[3311653,3311650]},{"Name":"movreel.com","LinkIDs":[6234809]},{"Name":"movshare.net","LinkIDs":[5360200]},{"Name":"muchshare.net","LinkIDs":[6234812]},{"Name":"played.to","LinkIDs":[6681446]},{"Name":"putlocker.com","LinkIDs":[5122292,5122289,4846694,4829312,4814810,4814370,4814311,4800876,4782990,4755457,4489386,4449223,4239656,4189434,4135109,3885401,3871335,3418492,2583578,2388111,2379739,2377149,2375504]},{"Name":"sockshare.com","LinkIDs":[5122288,4755458,4511905,4509322,4189437,3923964,3896005,3885409]},{"Name":"uploadc.com","LinkIDs":[6234808,5939438,5077747]},{"Name":"vidbull.com","LinkIDs":[7047230,6714186,6711593,6709838,6401470,6374487,6291070]},{"Name":"vidbux.com","LinkIDs":[7051065,6234810]},{"Name":"vidxden.com","LinkIDs":[7051034,6555971,6234807]},{"Name":"vureel.com","LinkIDs":[6452937]}]
-            string newRes = result;
-            return newRes;
+            JArray results = JsonConvert.DeserializeObject<dynamic>(result);
+            return LinkInfo.DeserializeLinks(null, results);
         }
 
-        private string WatchSeriesGetEpisode(string result)
+        private EpisodeInfo WatchSeriesGetEpisode(string result)
         {
             //revolution_(2012)_s1_e1-194518
             //{"SeasonNo":1,"Description":"After 15 years of darkness, an unlikely trio sets out on a journey to save the world. Source: NBCDirector: Jon FavreauWriter: Eric Kripke","ShowTitle":"Revolution (2012)","Links":[{"Name":"180upload.com","LinkIDs":[6800989]},{"Name":"allmyvideos.net","LinkIDs":[6804502,6802462,6802391]},{"Name":"clicktoview.org","LinkIDs":[6962003,6946503,6807019,6802463,6802390,6798570]},{"Name":"cyberlocker.ch","LinkIDs":[6804687,6800378]},{"Name":"filenuke.com","LinkIDs":[6807031,6804710,6802568,6802523,6802389,6801352,6800264,6799207,6798644,6798643]},{"Name":"flashx.tv","LinkIDs":[6807023,6802467,6802395]},{"Name":"hostingbulk.com","LinkIDs":[6807035]},{"Name":"movreel.com","LinkIDs":[6802461,6802388,6801962,6799969,6799373]},{"Name":"muchshare.net","LinkIDs":[6801372]},{"Name":"nosvideo.com","LinkIDs":[6955331,6798671]},{"Name":"novamov.com","LinkIDs":[6904836]},{"Name":"nowvideo.eu","LinkIDs":[6860806,6860805,6860804]},{"Name":"putlocker.com","LinkIDs":[6904835]},{"Name":"uploadc.com","LinkIDs":[6953608,6802584,6802231,6801469]},{"Name":"vidbull.com","LinkIDs":[6802465,6802393,6801639,6801638,6799970,6799294,6799264]},{"Name":"vidbux.com","LinkIDs":[6904837,6802460,6802387,6799203]},{"Name":"vidxden.com","LinkIDs":[6904834,6802459,6802386,6802232,6799202,6798652,6798651]},{"Name":"vreer.com","LinkIDs":[6802466,6802394,6801920,6801884,6801666,6801330,6801207]},{"Name":"vureel.com","LinkIDs":[7144060]}],"EpisodeNo":1,"EpisodeId":194518,"EpisodeName":"revolution_(2012)_s1_e1-194518","EpisodeTitle":"Pilot","ReleaseDate":"\/Date(1347865200000-0700)\/"}
-            string newRes = result;
-            return newRes;
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            return new EpisodeInfo(null,r);
         }
 
         private string WatchSeriesGetUrl(string result)
