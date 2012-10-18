@@ -5,8 +5,9 @@ using System.Text;
 using EMCMasterPluginLib.WebService;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using EMCWatchSeriesWSPlugin.Entries;
 
-namespace EMCTestWSPlugin
+namespace EMCWatchSeriesWSPlugin
 {
     public class WatchSeriesWebService : IWebService
     {
@@ -28,7 +29,7 @@ namespace EMCTestWSPlugin
 
         public string BaseUrl
         {
-            get { return "http://emc.ericmas001.com/WatchSeries"; }
+            get { return "http://emc.ericmas001.com/WatchSeries/"; }
         }
 
         public Dictionary<string,string> Commands
@@ -76,7 +77,7 @@ namespace EMCTestWSPlugin
             JArray results = JsonConvert.DeserializeObject<dynamic>(result);
             foreach (JObject r in results)
             {
-                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ")" ;
+                newRes += new ShowSummaryInfo(r).ToString();
                 newRes += Environment.NewLine;
             }
             return newRes;
@@ -118,7 +119,7 @@ namespace EMCTestWSPlugin
             JArray results = JsonConvert.DeserializeObject<dynamic>(result);
             foreach (JObject r in results)
             {
-                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += new ShowSummaryInfo(r).ToString();
                 newRes += Environment.NewLine;
             }
             return newRes; 
@@ -132,7 +133,7 @@ namespace EMCTestWSPlugin
             JArray results = JsonConvert.DeserializeObject<dynamic>(result);
             foreach (JObject r in results)
             {
-                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += new ShowSummaryInfo(r).ToString();
                 newRes += Environment.NewLine;
             }
             return newRes;
@@ -146,7 +147,7 @@ namespace EMCTestWSPlugin
             JArray results = JsonConvert.DeserializeObject<dynamic>(result);
             foreach (JObject r in results)
             {
-                newRes += r["ShowTitle"] + " (" + r["ShowName"] + ") released in " + r["ReleaseYear"];
+                newRes += new ShowSummaryInfo(r).ToString();
                 newRes += Environment.NewLine;
             }
             return newRes;

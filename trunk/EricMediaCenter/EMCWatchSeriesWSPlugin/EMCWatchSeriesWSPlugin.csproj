@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entries\ShowSummaryInfo.cs" />
     <Compile Include="TvScheduleWebService.cs" />
     <Compile Include="WatchSeriesWebService.cs" />
     <Compile Include="TvScheduleWSPlugin.cs" />

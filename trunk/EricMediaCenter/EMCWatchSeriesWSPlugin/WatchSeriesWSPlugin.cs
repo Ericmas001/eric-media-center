@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EMCMasterPluginLib.WebService;
 
-namespace EMCTestWSPlugin
+namespace EMCWatchSeriesWSPlugin
 {
     public class WatchSeriesWSPlugin : IEMCWebServicePlugin
     {

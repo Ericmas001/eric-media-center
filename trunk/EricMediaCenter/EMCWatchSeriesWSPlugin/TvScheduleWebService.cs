@@ -6,7 +6,7 @@ using EMCMasterPluginLib.WebService;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
-namespace EMCTestWSPlugin
+namespace EMCWatchSeriesWSPlugin
 {
     public class TvScheduleWebService : IWebService
     {
