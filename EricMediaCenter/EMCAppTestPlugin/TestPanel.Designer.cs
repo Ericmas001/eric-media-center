@@ -63,6 +63,9 @@
             // 
             // textBox3
             // 
+            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Location = new System.Drawing.Point(11, 58);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
@@ -70,6 +73,7 @@
             this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox3.Size = new System.Drawing.Size(538, 365);
             this.textBox3.TabIndex = 14;
+            this.textBox3.WordWrap = false;
             // 
             // lblCommand
             // 
