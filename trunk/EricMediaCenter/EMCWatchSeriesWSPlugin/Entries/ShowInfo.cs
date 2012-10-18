@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +8,88 @@ namespace EMCWatchSeriesWSPlugin.Entries
 {
     public class ShowInfo : ShowSummaryInfo
     {
-        public ShowInfo(ShowSummaryInfo i)
-            : base(i.Name, i.Title, i.ReleaseYear)
+        private DateTime m_ReleaseDate;
+        private string m_Genre;
+        private string m_Status;
+        private string m_Network;
+        private string m_Imdb;
+        private string m_Description;
+        private int m_NbEpisodes;
+        private string m_RssFeed;
+        private string m_LogoURL;
+        private Dictionary<int,SeasonInfo> m_Seasons;
+        
+        public DateTime ReleaseDate          
+        {
+            get { return m_ReleaseDate; } 
+            set { m_ReleaseDate = value; }       
+        }  
+        public string Genre
+        {
+            get { return m_Genre; } 
+            set { m_Genre = value; }       
+        }   
+        public string Status          
+        {
+            get { return m_Status; } 
+            set { m_Status = value; }       
+        }   
+        public string Network          
+        {
+            get { return m_Network; } 
+            set { m_Network = value; }       
+        }   
+        public string Imdb          
+        {
+            get { return m_Imdb; } 
+            set { m_Imdb = value; }       
+        }   
+        public string Description          
+        {
+            get { return m_Description; } 
+            set { m_Description = value; }       
+        }   
+        public int NbEpisodes          
+        {
+            get { return m_NbEpisodes; } 
+            set { m_NbEpisodes = value; }       
+        }   
+        public string RssFeed          
+        {
+            get { return m_RssFeed; } 
+            set { m_RssFeed = value; }       
+        }   
+        public string LogoURL          
+        {
+            get { return m_LogoURL; } 
+            set { m_LogoURL = value; }       
+        }   
+        public Dictionary<int,SeasonInfo> m_Seasons          
+        {
+            get { return m_Seasons; } 
+            set { m_Seasons = value; }       
+        }         
+        public ShowInfo(ShowSummaryInfo i, DateTime releaseDate, string genre, string status, string network, string imdb, string description, int nbEpisodes, string rssFeed, string logoUrl, Dictionary<int,SeasonInfo> seasons)
+            : this(i.Name, i.Title, i.ReleaseYear, releaseDate, genre, status, network, imdb, description, nbEpisodes, rssFeed, logoUrl, seasons)
         {
         }
-        public ShowInfo(string name, string title, int releaseYear)
+        public ShowInfo(string name, string title, int releaseYear, DateTime releaseDate, string genre, string status, string network, string imdb, string description, int nbEpisodes, string rssFeed, string logoUrl, Dictionary<int,SeasonInfo> seasons)
             : base(name, title, releaseYear)
         {
+            m_ReleaseDate = releaseDate;
+            m_Genre = genre;
+            m_Status = status;
+            m_Network = network;
+            m_Imdb = imdb;
+            m_Description = description;
+            m_NbEpisodes = nbEpisodes;
+            m_RssFeed = rssFeed;
+            m_LogoURL = logoURL;
+            m_Seasons = seasons;
         }
         public ShowInfo(JObject r)
             : base(r)
-        {
+        {			
             // {
             // "ReleaseDate":"\/Date(1347865200000-0700)\/",
             // "Genre":"mystery",
@@ -29,11 +100,146 @@ namespace EMCWatchSeriesWSPlugin.Entries
             // "NbEpisodes":5,
             // "RssFeed":"5921",
             // "Logo":"http://watchseries.eu/imagini/Revolution2012.JPG",
-            // "Seasons":
-            //  [
+            // "Seasons": [...],
+            // "ShowName":"revolution_(2012)",
+            // "ShowTitle":"Revolution (2012)",
+            // "ReleaseYear":2012}
+            // }
+            m_ReleaseDate = (DateTime)r["ReleaseDate"];
+            m_Genre = (string)r["Genre"];
+            m_Status = (string)r["Status"];
+            m_Network = (string)r["Network"];
+            m_Imdb = (string)["Imdb"];
+            m_Description = (string)r["Description"];
+            m_NbEpisodes = (int)r["NbEpisodes"];
+            m_RssFeed = (string)r["RssFeed"];
+            m_LogoURL = (string)r["Logo"];
+            m_Seasons = SeasonInfo.DeserializeSeasons((JArray)r["Seasons"]);
+        }
+        public override string ToString()
+        {
+            //TODO
+            return base.ToString();
+        }
+    }
+	
+    public class SeasonInfo
+    {
+        private int m_No;
+        private int m_NbEpisodes;
+        private string m_Name;
+        private Dictionary<int,EpisodeSummaryInfo> m_Episodes;
+        public int No          
+        {
+            get { return m_No; } 
+            set { m_No = value; }       
+        }   
+        public int NbEpisodes          
+        {
+            get { return m_NbEpisodes; } 
+            set { m_NbEpisodes = value; }       
+        }   
+        public string Name          
+        {
+            get { return m_Name; } 
+            set { m_Name = value; }       
+        }   
+        public Dictionary<int,EpisodeSummaryInfo> Episodes          
+        {
+            get { return m_Episodes; } 
+            set { m_Episodes = value; }       
+        }  
+        public SeasonInfo(int no, int nbEpisodes, string name, Dictionary<int,EpisodeSummaryInfo> episodes)
+        {
+            m_No = no;
+            m_NbEpisodes = nbEpisodes;
+            m_Name = name;
+            m_Episodes = episodes;
+        }
+        public static Dictionary<int,SeasonInfo> DeserializeSeasons( JArray results )
+        {
+            Dictionary<int,SeasonInfo> all = new Dictionary<int,SeasonInfo>();
+            foreach( JObject r in results )
+            {
+               SeasonInfo info = new SeasonInfo(r);
+               all.Add(info.No, info);
+           }
+           return all;
+        }
+        public SeasonInfo(JObject r)
+        {
             //      {
-            //      "SeasonNo":1,"NbEpisodes":5,"SeasonName":null,"Episodes":
-            //       [
+            //      "SeasonNo":1,
+            //      "NbEpisodes":5,
+            //      "SeasonName":null,
+            //      "Episodes":[...]
+            //       }
+			m_No = (int)r["SeasonNo"];
+			m_NbEpisodes = (int)r["NbEpisodes"];
+			m_Name = (string)r["SeasonName"];
+			m_Episodes = EpisodeSummaryInfo.DeserializeEpisodes((JArray)r["Episodes"]);
+        }
+        public override string ToString()
+        {
+			//TODO
+            return base.ToString();
+        }
+    }
+	
+    public class EpisodeSummaryInfo
+    {
+		private int m_No;
+		private int m_Id;
+		private string m_Name;
+		private string m_Title;
+		private DateTime m_ReleaseDate;
+		
+		public int No          
+        {
+            get { return m_No; } 
+            set { m_No = value; }       
+        }   
+		public int Id          
+        {
+            get { return m_Id; } 
+            set { m_Id = value; }       
+        }   
+        public string Name          
+        {
+            get { return m_Name; } 
+            set { m_Name = value; }       
+        }   
+        public string Title          
+        {
+            get { return m_Title; } 
+            set { m_Title = value; }       
+        }   
+        public DateTime ReleaseDate          
+        {
+            get { return m_ReleaseDate; } 
+            set { m_ReleaseDate = value; }       
+        }  
+		
+        public EpisodeSummaryInfo(int no, int id, string name, string title, DateTime releaseDate)
+        {
+			m_No = no;
+			m_Id = id;
+			m_Name = name;
+			m_Title = title;
+			m_ReleaseDate = releaseDate;
+        }
+		public static Dictionary<int,EpisodeSummaryInfo> DeserializeEpisodes( JArray results )
+		{
+			Dictionary<int,EpisodeSummaryInfo> all = new Dictionary<int,EpisodeSummaryInfo>();
+			foreach( JObject r in results )
+			{
+				EpisodeSummaryInfo info = new EpisodeSummaryInfo(r);
+				all.Add(info.No, info);
+			}
+			return all;
+		}
+        public EpisodeSummaryInfo(JObject r)
+        {
             //          {
             //          "EpisodeNo":1,
             //          "EpisodeId":194518,
@@ -41,15 +247,15 @@ namespace EMCWatchSeriesWSPlugin.Entries
             //          "EpisodeTitle":"Pilot",
             //          "ReleaseDate":"\/Date(1347865200000-0700)\/"
             //          }
-            //        ]
-            //       }
-            //  ],
-            // "ShowName":"revolution_(2012)",
-            // "ShowTitle":"Revolution (2012)",
-            // "ReleaseYear":2012}
+			m_No = (int)r["EpisodeNo"];
+			m_Id = (int)r["EpisodeId"];
+			m_Name = (string)r["EpisodeName"];
+			m_Title = (string)r["EpisodeTitle"];
+			m_ReleaseDate = (DateTime)r["ReleaseDate"];
         }
         public override string ToString()
         {
+			//TODO
             return base.ToString();
         }
     }
