@@ -76,16 +76,16 @@ namespace EMCWatchSeriesWSPlugin.Entries
         public ShowInfo(string name, string title, int releaseYear, DateTime releaseDate, string genre, string status, string network, string imdb, string description, int nbEpisodes, string rssFeed, string logoUrl, Dictionary<int,SeasonInfo> seasons)
             : base(name, title, releaseYear)
         {
-            m_ReleaseDate = releaseDate;
-            m_Genre = genre;
-            m_Status = status;
-            m_Network = network;
-            m_Imdb = imdb;
-            m_Description = description;
-            m_NbEpisodes = nbEpisodes;
-            m_RssFeed = rssFeed;
-            m_LogoURL = logoURL;
-            m_Seasons = seasons;
+			m_ReleaseDate = releaseDate;
+			m_Genre = genre;
+			m_Status = status;
+			m_Network = network;
+			m_Imdb = imdb;
+			m_Description = description;
+			m_NbEpisodes = nbEpisodes;
+			m_RssFeed = rssFeed;
+			m_LogoURL = logoURL;
+			m_Seasons = seasons;
         }
         public ShowInfo(JObject r)
             : base(r)
@@ -104,31 +104,32 @@ namespace EMCWatchSeriesWSPlugin.Entries
             // "ShowName":"revolution_(2012)",
             // "ShowTitle":"Revolution (2012)",
             // "ReleaseYear":2012}
-            // }
-            m_ReleaseDate = (DateTime)r["ReleaseDate"];
-            m_Genre = (string)r["Genre"];
-            m_Status = (string)r["Status"];
-            m_Network = (string)r["Network"];
-            m_Imdb = (string)["Imdb"];
-            m_Description = (string)r["Description"];
-            m_NbEpisodes = (int)r["NbEpisodes"];
-            m_RssFeed = (string)r["RssFeed"];
-            m_LogoURL = (string)r["Logo"];
-            m_Seasons = SeasonInfo.DeserializeSeasons((JArray)r["Seasons"]);
+			// }
+			m_ReleaseDate = (DateTime)r["ReleaseDate"];
+			m_Genre = (string)r["Genre"];
+			m_Status = (string)r["Status"];
+			m_Network = (string)r["Network"];
+			m_Imdb = (string)["Imdb"];
+			m_Description = (string)r["Description"];
+			m_NbEpisodes = (int)r["NbEpisodes"];
+			m_RssFeed = (string)r["RssFeed"];
+			m_LogoURL = (string)r["Logo"];
+			m_Seasons = SeasonInfo.DeserializeSeasons((JArray)r["Seasons"]);
         }
         public override string ToString()
         {
-            //TODO
+			//TODO
             return base.ToString();
         }
     }
 	
     public class SeasonInfo
     {
-        private int m_No;
-        private int m_NbEpisodes;
-        private string m_Name;
-        private Dictionary<int,EpisodeSummaryInfo> m_Episodes;
+		private int m_No;
+		private int m_NbEpisodes;
+		private string m_Name;
+		private Dictionary<int,EpisodeSummaryInfo> m_Episodes;
+		private ShowInfo m_Show;
         public int No          
         {
             get { return m_No; } 
@@ -149,24 +150,30 @@ namespace EMCWatchSeriesWSPlugin.Entries
             get { return m_Episodes; } 
             set { m_Episodes = value; }       
         }  
-        public SeasonInfo(int no, int nbEpisodes, string name, Dictionary<int,EpisodeSummaryInfo> episodes)
+        public ShowInfo Show          
         {
-            m_No = no;
-            m_NbEpisodes = nbEpisodes;
-            m_Name = name;
-            m_Episodes = episodes;
-        }
-        public static Dictionary<int,SeasonInfo> DeserializeSeasons( JArray results )
+            get { return m_Show; } 
+            set { m_Show = value; }       
+        }   
+        public SeasonInfo(ShowInfo show, int no, int nbEpisodes, string name, Dictionary<int,EpisodeSummaryInfo> episodes)
         {
-            Dictionary<int,SeasonInfo> all = new Dictionary<int,SeasonInfo>();
-            foreach( JObject r in results )
-            {
-               SeasonInfo info = new SeasonInfo(r);
-               all.Add(info.No, info);
-           }
-           return all;
+			m_No = no;
+			m_NbEpisodes = nbEpisodes;
+			m_Name = name;
+			m_Episodes = episodes;
+			m_Show = show;
         }
-        public SeasonInfo(JObject r)
+		public static Dictionary<int,SeasonInfo> DeserializeSeasons(ShowInfo show, JArray results )
+		{
+			Dictionary<int,SeasonInfo> all = new Dictionary<int,SeasonInfo>();
+			foreach( JObject r in results )
+			{
+				SeasonInfo info = new SeasonInfo(show, r);
+				all.Add(info.No, info);
+			}
+			return all;
+		}
+        public SeasonInfo(ShowInfo show, JObject r)
         {
             //      {
             //      "SeasonNo":1,
@@ -178,6 +185,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
 			m_NbEpisodes = (int)r["NbEpisodes"];
 			m_Name = (string)r["SeasonName"];
 			m_Episodes = EpisodeSummaryInfo.DeserializeEpisodes((JArray)r["Episodes"]);
+			m_Show = show;
         }
         public override string ToString()
         {
@@ -193,6 +201,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
 		private string m_Name;
 		private string m_Title;
 		private DateTime m_ReleaseDate;
+		private SeasonInfo m_Season;
 		
 		public int No          
         {
@@ -219,26 +228,32 @@ namespace EMCWatchSeriesWSPlugin.Entries
             get { return m_ReleaseDate; } 
             set { m_ReleaseDate = value; }       
         }  
+        public SeasonInfo Season          
+        {
+            get { return m_Season; } 
+            set { m_Season = value; }       
+        }  
 		
-        public EpisodeSummaryInfo(int no, int id, string name, string title, DateTime releaseDate)
+        public EpisodeSummaryInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate)
         {
 			m_No = no;
 			m_Id = id;
 			m_Name = name;
 			m_Title = title;
 			m_ReleaseDate = releaseDate;
+			m_Season = season;
         }
-		public static Dictionary<int,EpisodeSummaryInfo> DeserializeEpisodes( JArray results )
+		public static Dictionary<int,EpisodeSummaryInfo> DeserializeEpisodes( SeasonInfo season, JArray results )
 		{
 			Dictionary<int,EpisodeSummaryInfo> all = new Dictionary<int,EpisodeSummaryInfo>();
 			foreach( JObject r in results )
 			{
-				EpisodeSummaryInfo info = new EpisodeSummaryInfo(r);
+				EpisodeSummaryInfo info = new EpisodeSummaryInfo(season, r);
 				all.Add(info.No, info);
 			}
 			return all;
 		}
-        public EpisodeSummaryInfo(JObject r)
+        public EpisodeSummaryInfo(SeasonInfo season, JObject r)
         {
             //          {
             //          "EpisodeNo":1,
@@ -252,6 +267,69 @@ namespace EMCWatchSeriesWSPlugin.Entries
 			m_Name = (string)r["EpisodeName"];
 			m_Title = (string)r["EpisodeTitle"];
 			m_ReleaseDate = (DateTime)r["ReleaseDate"];
+			m_Season = season;
+        }
+        public override string ToString()
+        {
+			//TODO
+            return base.ToString();
+        }
+    }
+	
+	
+    public class EpisodeInfo : EpisodeSummaryInfo
+    {
+		private string m_Description;
+		private Dictionary<string,LinksInfo> m_Links;
+		
+        public string Description          
+        {
+            get { return m_Description; } 
+            set { m_Description = value; }       
+        }   
+        public Dictionary<string,LinksInfo> Links          
+        {
+            get { return m_Links; } 
+            set { m_Links = value; }       
+        }   
+		
+        public EpisodeInfo(EpisodeSummaryInfo i, string description, Dictionary<string,LinksInfo> links)
+		: this (i.Season, i.No, i.Id, i.Name, i.Title, i.ReleaseDate, description, links)
+        {
+        }
+        public EpisodeInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate, string description, Dictionary<string,LinksInfo> links)
+		: base (season, no, id, name, title, releaseDate)
+        {
+			m_Description = description;
+			m_Links = links;
+        }
+        public EpisodeInfo(SeasonInfo season, JObject r)
+		: base (season, r)
+        {
+			//{
+			//"SeasonNo":1,
+			//"Description":"After 15 years of darkness, an unlikely trio sets out on a journey to save the world. Source: NBCDirector: Jon FavreauWriter: Eric Kripke",
+			//"ShowTitle":"Revolution (2012)",
+			//"Links":
+			// [
+			//	{
+			//	"Name":"allmyvideos.net",
+			//	"LinkIDs":
+			//	 [
+			//		6804502,
+			//		6802462,
+			//		6802391
+			//	 ]
+			//	}
+			// ],
+			//"EpisodeNo":1,
+			//"EpisodeId":194518,
+			//"EpisodeName":"revolution_(2012)_s1_e1-194518",
+			//"EpisodeTitle":"Pilot",
+			//"ReleaseDate":"\/Date(1347865200000-0700)\/"
+			//}  
+		    m_Description = (string)r["Description"];
+			m_Links = LinkSummaryInfo.DeserializeLinks((JArray)r["Episodes"]);
         }
         public override string ToString()
         {
