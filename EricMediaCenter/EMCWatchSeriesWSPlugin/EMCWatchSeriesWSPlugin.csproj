@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entries\EpisodeScheduleInfo.cs" />
+    <Compile Include="Entries\DownloadUrl.cs" />
     <Compile Include="Entries\EpisodeSummaryInfo.cs" />
     <Compile Include="Entries\LinkInfo.cs" />
     <Compile Include="Entries\SeasonInfo.cs" />
