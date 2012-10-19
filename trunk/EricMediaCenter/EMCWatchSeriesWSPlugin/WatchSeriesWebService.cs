@@ -153,14 +153,14 @@ namespace EMCWatchSeriesWSPlugin
             return new EpisodeInfo(null,r);
         }
 
-        private string WatchSeriesGetUrl(string result)
+        private DownloadUrl WatchSeriesGetUrl(string result)
         {
             //6234811
             //{"url":"http://www.allmyvideos.net/ga0lxylkcuy7","supported":false,"website":"allmyvideos.net","args":null}
             //3311648
             //{"url":"http://gorillavid.in/r7k9my4xu42c","supported":true,"website":"gorillavid.in","args":"r7k9my4xu42c"}
-            string newRes = result;
-            return newRes;
+            JObject r = JsonConvert.DeserializeObject<dynamic>(result);
+            return new DownloadUrl(r);
         }
 
         #endregion
