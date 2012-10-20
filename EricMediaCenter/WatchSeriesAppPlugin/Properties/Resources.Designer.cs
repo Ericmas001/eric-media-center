@@ -73,5 +73,12 @@ namespace WatchSeriesAppPlugin.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap WSTitle {
+            get {
+                object obj = ResourceManager.GetObject("WSTitle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

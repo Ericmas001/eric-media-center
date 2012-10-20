@@ -29,7 +29,7 @@ namespace WatchSeriesAppPlugin
 
         public UserControl Content
         {
-            get { return new MainPanel(); }
+            get { return new LoginPanel(); }
         }
 
         #endregion
