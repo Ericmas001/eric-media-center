@@ -42,7 +42,7 @@ namespace EMCRestService.Services
             {
                 string t = StringUtility.GetMd5Hash(user + ";" + DateTime.Now.ToString());
                 DateTime d = DateTime.Now + TimeSpan.FromMinutes(5);
-                DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+                DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second,DateTimeKind.Local);
                 Connector.Execute(myConnection, "update ericmas001.TUser set lastToken = @Token, tokenValidUntil = @Valid where username = @User", new Dictionary<string, object>() { { "Token", t }, { "Valid", validUntil }, { "User", user } });
 
                 if (myConnection != null)

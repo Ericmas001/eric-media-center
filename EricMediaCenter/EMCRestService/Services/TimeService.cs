@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace EMCRestService.Services
 {
@@ -18,7 +19,7 @@ namespace EMCRestService.Services
         public string CurrentTime()
         {
             //return DateTime.Now.ToString();
-            return JsonConvert.SerializeObject(new { value = DateTime.Now.ToString() });
+            return JsonConvert.SerializeObject(new { value = DateTime.Now }, new IsoDateTimeConverter());
         }
     }
 }
