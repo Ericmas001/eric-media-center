@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
 
 namespace EMCUserWSPlugin.Entries
 {
@@ -43,7 +44,7 @@ namespace EMCUserWSPlugin.Entries
             if (Success)
             {
                 m_Token = (string)r["token"];
-                m_ValidUntil = (DateTime)r["until"];
+                m_ValidUntil = DateTime.Parse((string)r["until"]);
             }
         }
 

@@ -90,19 +90,18 @@ namespace EMCUserWSPlugin.Entries
             //"lastSeason":5,
             //"lastEpisode":13
             //}
-            m_UserName = (string)r["username"];
-            m_ShowName = (string)r["showname"];
-            m_ShowTitle = (string)r["showtitle"];
-            m_LastSeason = (int)r["lastSeason"];
-            m_LastEpisode = (int)r["lastEpisode"];
-            m_LastViewedSeason = (int)r["lastViewedSeason"];
-            m_LastViewedEpisode = (int)r["lastViewedEpisode"];
+            m_UserName = r.Value<string>("username");
+            m_ShowName = r.Value<string>("showname");
+            m_ShowTitle = r.Value<string>("showtitle");
+            m_LastSeason = r.Value<int?>("lastSeason") ?? -1;
+            m_LastEpisode = r.Value<int?>("lastEpisode") ?? -1;
+            m_LastViewedSeason = r.Value<int?>("lastViewedSeason") ?? -1;
+            m_LastViewedEpisode = r.Value<int?>("lastViewedEpisode") ?? -1;
             m_Response = response;
         }
         public override string ToString()
         {
-            //TODO
-            return base.ToString();
+            return m_ShowTitle + " (" + m_ShowName + "): LastEpisode: " + m_LastSeason + "x" + m_LastEpisode + ", " + m_UserName + " watched: " + m_LastViewedSeason + "x" + m_LastViewedEpisode;
         }
     }
 }

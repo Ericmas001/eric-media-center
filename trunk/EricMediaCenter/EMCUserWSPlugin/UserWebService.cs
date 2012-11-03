@@ -6,6 +6,7 @@ using EMCMasterPluginLib.WebService;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using EMCUserWSPlugin.Entries;
+using Newtonsoft.Json.Converters;
 
 namespace EMCUserWSPlugin
 {

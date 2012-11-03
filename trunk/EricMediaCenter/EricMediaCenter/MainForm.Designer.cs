@@ -54,6 +54,7 @@
             this.btnSettings.Location = new System.Drawing.Point(15, 370);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.RoundedCornersMask = ((byte)(15));
+            this.btnSettings.ShowFocusRectangle = true;
             this.btnSettings.Size = new System.Drawing.Size(136, 60);
             this.btnSettings.StyleKey = "ToggleButton";
             this.btnSettings.TabIndex = 12;
@@ -63,6 +64,7 @@
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLACK;
             this.btnSettings.ToggleStateChanged += new System.EventHandler(this.btnMenu_ToggleStateChanged);
+            this.btnSettings.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_KeyDown);
             // 
             // panel1
             // 

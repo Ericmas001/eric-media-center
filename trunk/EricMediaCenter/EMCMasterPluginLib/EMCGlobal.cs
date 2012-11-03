@@ -211,15 +211,15 @@ namespace EMCMasterPluginLib
             string url = (client.BaseUrl + command + a).Replace('|', '/');
             string result;
             object res = null;
-            try
-            {
+            //try
+            //{
                 result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
                 res = client.GetResult(command, result);
-            }
-            catch (Exception ex)
-            {
-                res = ex;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    res = ex;
+            //}
             return res;
         }
     }

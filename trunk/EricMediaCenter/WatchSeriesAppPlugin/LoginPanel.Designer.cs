@@ -35,6 +35,7 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnGuest = new VIBlend.WinForms.Controls.vButton();
+            this.vButton1 = new VIBlend.WinForms.Controls.vButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,25 +118,42 @@
             // btnGuest
             // 
             this.btnGuest.AllowAnimations = true;
-            this.btnGuest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGuest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGuest.BackColor = System.Drawing.Color.Transparent;
             this.btnGuest.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuest.Location = new System.Drawing.Point(62, 390);
+            this.btnGuest.Location = new System.Drawing.Point(352, 390);
             this.btnGuest.Name = "btnGuest";
             this.btnGuest.RoundedCornersMask = ((byte)(15));
             this.btnGuest.ShowFocusRectangle = true;
-            this.btnGuest.Size = new System.Drawing.Size(419, 23);
+            this.btnGuest.Size = new System.Drawing.Size(129, 23);
             this.btnGuest.TabIndex = 7;
             this.btnGuest.Text = "Enter as a guest";
             this.btnGuest.UseVisualStyleBackColor = false;
             this.btnGuest.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLACK;
             this.btnGuest.Click += new System.EventHandler(this.btnGuest_Click);
             // 
+            // vButton1
+            // 
+            this.vButton1.AllowAnimations = true;
+            this.vButton1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.vButton1.BackColor = System.Drawing.Color.Transparent;
+            this.vButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vButton1.Location = new System.Drawing.Point(62, 390);
+            this.vButton1.Name = "vButton1";
+            this.vButton1.RoundedCornersMask = ((byte)(15));
+            this.vButton1.ShowFocusRectangle = true;
+            this.vButton1.Size = new System.Drawing.Size(284, 23);
+            this.vButton1.TabIndex = 8;
+            this.vButton1.Text = "Register";
+            this.vButton1.UseVisualStyleBackColor = false;
+            this.vButton1.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
+            // 
             // LoginPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.vButton1);
             this.Controls.Add(this.btnGuest);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtPassword);
@@ -161,5 +179,6 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label2;
         private VIBlend.WinForms.Controls.vButton btnGuest;
+        private VIBlend.WinForms.Controls.vButton vButton1;
     }
 }

@@ -50,6 +50,7 @@ namespace EricMediaCenter
                 btn.RoundedCornersMask = ((byte)(15));
                 btn.Size = new System.Drawing.Size(136, 60);
                 btn.StyleKey = "ToggleButton";
+                btn.ShowFocusRectangle = true;
                 btn.Text = app.Title;
                 btn.Image = app.Icon;
                 btn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -57,6 +58,7 @@ namespace EricMediaCenter
                 btn.UseVisualStyleBackColor = false;
                 btn.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
                 btn.ToggleStateChanged += new System.EventHandler(this.btnMenu_ToggleStateChanged);
+                btn.KeyDown += new KeyEventHandler(btn_KeyDown);
                 panels.Add(btn.Name, app.Content);
                 flowLayoutPanel1.Controls.Add(btn);
             }
@@ -97,10 +99,17 @@ namespace EricMediaCenter
                     newUc.Name = "contentUC";
                     panel1.Controls.Add(newUc);
                     newUc.Dock = DockStyle.Fill;
+                    newUc.Focus();
                 }
                 button.Toggle = CheckState.Checked;
                 alreadyToggling = false;
             }
+        }
+
+        private void btn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+                btnMenu_ToggleStateChanged(sender, e);
         }
     }
 }
