@@ -15,6 +15,8 @@ using System.Net;
 using EricMediaCenter.Panels;
 using VIBlend.WinForms.Controls;
 using EMCMasterPluginLib.Application;
+using System.Threading;
+using EricUtility;
 
 namespace EricMediaCenter
 {
@@ -26,14 +28,16 @@ namespace EricMediaCenter
         public MainForm()
         {
             InitializeComponent();
-            //panels.Add(btnTest.Name, new TestPanel());
             panels.Add(btnSettings.Name, new SettingsPanel());
             EMCGlobal.SupportedAppUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedAppUpdated);
-            EMCGlobal.ReloadApplicationPlugins();
         }
-
         void EMCGlobal_SupportedAppUpdated()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new EmptyHandler(EMCGlobal_SupportedAppUpdated));
+                return;
+            }
             flowLayoutPanel1.Controls.Clear();
             UserControl settings = panels[btnSettings.Name];
             panels.Clear();
@@ -110,6 +114,26 @@ namespace EricMediaCenter
         {
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
                 btnMenu_ToggleStateChanged(sender, e);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            Hide();
+            bool done = false;
+            ThreadPool.QueueUserWorkItem((x) =>
+            {
+                using (var splashForm = new SplashForm())
+                {
+                    splashForm.Show();
+                    while (!done)
+                        Application.DoEvents();
+                    splashForm.Close();
+                }
+            });
+
+            EMCGlobal.ReloadApplicationPlugins();
+            done = true;
+            Show();
         }
     }
 }
