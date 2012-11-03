@@ -61,8 +61,16 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VIBlend.WinForms.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=6feea38fef5ea0cf, processorArchitecture=MSIL" />
+    <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NavPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NavPanel.Designer.cs">
+      <DependentUpon>NavPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,9 +83,29 @@
     <Compile Include="MainPanel.Designer.cs">
       <DependentUpon>MainPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NavBar.Designer.cs">
+      <DependentUpon>NavBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TestNavPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TestNavPanel.Designer.cs">
+      <DependentUpon>TestNavPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserFavoriteInfo.cs" />
+    <Compile Include="UserInfo.cs" />
     <Compile Include="WatchSeriesApp.cs" />
     <Compile Include="WatchSeriesPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="NavBar.resx">
+      <DependentUpon>NavBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NavPanel.resx">
+      <DependentUpon>NavPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginPanel.resx">
       <DependentUpon>LoginPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +122,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TestNavPanel.resx">
+      <DependentUpon>TestNavPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

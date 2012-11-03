@@ -11,9 +11,50 @@ namespace WatchSeriesAppPlugin
 {
     public partial class MainPanel : UserControl
     {
+        private LoginPanel m_LoginPanel = new LoginPanel();
         public MainPanel()
         {
             InitializeComponent();
+            Navigate(m_LoginPanel);
+        }
+
+        void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
+        {
+            if (e.Key == null)
+            {
+                //Enter as a guest
+                Navigate(new TestNavPanel());
+            }
+            else
+            {
+                //Enter as a user
+                Navigate(new TestNavPanel());
+            }
+        }
+
+        void nav_Navigating(object sender, EricUtility.KeyEventArgs<NavPanel> e)
+        {
+            if (e.Key == null)
+                Navigate(m_LoginPanel);
+            else
+                Navigate(e.Key);
+        }
+
+        public void Navigate(UserControl pnl)
+        {
+            pnlContent.Controls.Clear();
+            pnl.Dock = DockStyle.Fill;
+            pnlContent.Controls.Add(pnl);
+            if (pnl is NavPanel)
+            {
+                NavPanel nav = pnl as NavPanel;
+                nav.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavPanel>>(nav_Navigating);
+            }
+            if (pnl is LoginPanel)
+            {
+                LoginPanel loginPanel = pnl as LoginPanel;
+                loginPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
+            }
         }
     }
 }
