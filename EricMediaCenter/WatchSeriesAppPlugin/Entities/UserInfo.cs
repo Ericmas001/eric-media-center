@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EMCMasterPluginLib;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Entities
 {
     public class UserInfo
     {
@@ -92,6 +92,30 @@ namespace WatchSeriesAppPlugin
                 }
                 m_Token = res.Token;
                 m_ValidUntil = res.ValidUntil;
+            }
+            else
+                m_LastMessage = res.Message;
+            return res.Success;
+        }
+
+        internal bool Register()
+        {
+            if (!String.IsNullOrWhiteSpace(m_Token))
+            {
+                m_LastMessage = "Already Connected";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(m_Username) || string.IsNullOrWhiteSpace(m_Password))
+            {
+                m_LastMessage = "Not all the required fields have been filled!";
+                return false;
+            }
+
+            dynamic res = EMCGlobal.GetWebServiceResult("User|Register", m_Username + "/" + m_Password);
+            if (res.Success)
+            {
+                return Connect();
             }
             else
                 m_LastMessage = res.Message;

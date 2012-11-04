@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Entities
 {
     public class UserFavoriteInfo
     {

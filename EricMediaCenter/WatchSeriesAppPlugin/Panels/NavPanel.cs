@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using EricUtility;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Panels
 {
     public partial class NavPanel : UserControl
     {

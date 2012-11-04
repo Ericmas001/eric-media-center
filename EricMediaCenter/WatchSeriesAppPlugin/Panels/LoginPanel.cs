@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using EricUtility;
+using WatchSeriesAppPlugin.Entities;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Panels
 {
     public partial class LoginPanel : UserControl
     {
         public event EventHandler<KeyEventArgs<UserInfo>> UserLoggedIn = delegate { };
+        public event EmptyHandler WrongScreen = delegate { };
+
         public LoginPanel()
         {
             InitializeComponent();
@@ -67,6 +70,11 @@ namespace WatchSeriesAppPlugin
         private void btnGuest_Click(object sender, EventArgs e)
         {
             UserLoggedIn(this, new KeyEventArgs<UserInfo>(null));
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            WrongScreen();
         }
     }
 }

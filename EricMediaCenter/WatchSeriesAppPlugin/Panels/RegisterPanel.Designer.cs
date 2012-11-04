@@ -1,6 +1,6 @@
-﻿namespace WatchSeriesAppPlugin
+﻿namespace WatchSeriesAppPlugin.Panels
 {
-    partial class LoginPanel
+    partial class RegisterPanel
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             this.txtUser = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnConnect = new VIBlend.WinForms.Controls.vButton();
+            this.btnRegister = new VIBlend.WinForms.Controls.vButton();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnGuest = new VIBlend.WinForms.Controls.vButton();
-            this.btnRegister = new VIBlend.WinForms.Controls.vButton();
+            this.btnLogIn = new VIBlend.WinForms.Controls.vButton();
             this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -63,23 +63,23 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // btnConnect
+            // btnRegister
             // 
-            this.btnConnect.AllowAnimations = true;
-            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnRegister.AllowAnimations = true;
+            this.btnRegister.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.BackColor = System.Drawing.Color.Transparent;
-            this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(62, 349);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.RoundedCornersMask = ((byte)(15));
-            this.btnConnect.ShowFocusRectangle = true;
-            this.btnConnect.Size = new System.Drawing.Size(419, 35);
-            this.btnConnect.TabIndex = 2;
-            this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = false;
-            this.btnConnect.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btnRegister.BackColor = System.Drawing.Color.Transparent;
+            this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegister.Location = new System.Drawing.Point(62, 349);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.RoundedCornersMask = ((byte)(15));
+            this.btnRegister.ShowFocusRectangle = true;
+            this.btnRegister.Size = new System.Drawing.Size(419, 35);
+            this.btnRegister.TabIndex = 2;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.UseVisualStyleBackColor = false;
+            this.btnRegister.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
             // label1
             // 
@@ -133,22 +133,23 @@
             this.btnGuest.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLACK;
             this.btnGuest.Click += new System.EventHandler(this.btnGuest_Click);
             // 
-            // btnRegister
+            // btnLogIn
             // 
-            this.btnRegister.AllowAnimations = true;
-            this.btnRegister.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnLogIn.AllowAnimations = true;
+            this.btnLogIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegister.BackColor = System.Drawing.Color.Transparent;
-            this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegister.Location = new System.Drawing.Point(62, 390);
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.RoundedCornersMask = ((byte)(15));
-            this.btnRegister.ShowFocusRectangle = true;
-            this.btnRegister.Size = new System.Drawing.Size(284, 23);
-            this.btnRegister.TabIndex = 8;
-            this.btnRegister.Text = "I want an Account !!";
-            this.btnRegister.UseVisualStyleBackColor = false;
-            this.btnRegister.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
+            this.btnLogIn.BackColor = System.Drawing.Color.Transparent;
+            this.btnLogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogIn.Location = new System.Drawing.Point(62, 390);
+            this.btnLogIn.Name = "btnLogIn";
+            this.btnLogIn.RoundedCornersMask = ((byte)(15));
+            this.btnLogIn.ShowFocusRectangle = true;
+            this.btnLogIn.Size = new System.Drawing.Size(284, 23);
+            this.btnLogIn.TabIndex = 8;
+            this.btnLogIn.Text = "I already have an Account !!";
+            this.btnLogIn.UseVisualStyleBackColor = false;
+            this.btnLogIn.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLUE;
+            this.btnLogIn.Click += new System.EventHandler(this.btnLogIn_Click);
             // 
             // label3
             // 
@@ -159,25 +160,25 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(546, 20);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Log In";
+            this.label3.Text = "Register";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LoginPanel
+            // RegisterPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btnRegister);
+            this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.btnGuest);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnConnect);
+            this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtUser);
-            this.Name = "LoginPanel";
+            this.Name = "RegisterPanel";
             this.Size = new System.Drawing.Size(549, 417);
-            this.Load += new System.EventHandler(this.LoginPanel_Load);
+            this.Load += new System.EventHandler(this.RegisterPanel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,12 +189,12 @@
 
         private System.Windows.Forms.TextBox txtUser;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private VIBlend.WinForms.Controls.vButton btnConnect;
+        private VIBlend.WinForms.Controls.vButton btnRegister;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label2;
         private VIBlend.WinForms.Controls.vButton btnGuest;
-        private VIBlend.WinForms.Controls.vButton btnRegister;
+        private VIBlend.WinForms.Controls.vButton btnLogIn;
         private System.Windows.Forms.Label label3;
     }
 }

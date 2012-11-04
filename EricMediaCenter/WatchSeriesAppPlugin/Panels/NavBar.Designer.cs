@@ -1,4 +1,4 @@
-﻿namespace WatchSeriesAppPlugin
+﻿namespace WatchSeriesAppPlugin.Panels
 {
     partial class NavBar
     {

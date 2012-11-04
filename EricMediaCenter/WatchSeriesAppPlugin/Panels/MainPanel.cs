@@ -6,12 +6,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WatchSeriesAppPlugin.Panels.Navigation;
+using WatchSeriesAppPlugin.Entities;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Panels
 {
     public partial class MainPanel : UserControl
     {
         private LoginPanel m_LoginPanel = new LoginPanel();
+        private RegisterPanel m_RegisterPanel = new RegisterPanel();
         public MainPanel()
         {
             InitializeComponent();
@@ -54,7 +57,24 @@ namespace WatchSeriesAppPlugin
             {
                 LoginPanel loginPanel = pnl as LoginPanel;
                 loginPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
+                loginPanel.WrongScreen += new EricUtility.EmptyHandler(loginPanel_WrongScreen);
             }
+            if (pnl is RegisterPanel)
+            {
+                RegisterPanel regPanel = pnl as RegisterPanel;
+                regPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
+                regPanel.WrongScreen += new EricUtility.EmptyHandler(regPanel_WrongScreen);
+            }
+        }
+
+        void loginPanel_WrongScreen()
+        {
+            Navigate(m_RegisterPanel);
+        }
+
+        void regPanel_WrongScreen()
+        {
+            Navigate(m_LoginPanel);
         }
     }
 }
