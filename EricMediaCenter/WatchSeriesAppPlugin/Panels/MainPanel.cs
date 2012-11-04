@@ -13,6 +13,7 @@ namespace WatchSeriesAppPlugin.Panels
 {
     public partial class MainPanel : UserControl
     {
+        private UserInfo m_User;
         private LoginPanel m_LoginPanel = new LoginPanel();
         private RegisterPanel m_RegisterPanel = new RegisterPanel();
         public MainPanel()
@@ -23,6 +24,7 @@ namespace WatchSeriesAppPlugin.Panels
 
         void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
         {
+            m_User = e.Key;
             if (e.Key == null)
             {
                 //Enter as a guest
@@ -51,6 +53,7 @@ namespace WatchSeriesAppPlugin.Panels
             if (pnl is NavPanel)
             {
                 NavPanel nav = pnl as NavPanel;
+                nav.User = m_User;
                 nav.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavPanel>>(nav_Navigating);
             }
             if (pnl is LoginPanel)

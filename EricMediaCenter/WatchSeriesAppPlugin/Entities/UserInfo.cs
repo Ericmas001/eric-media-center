@@ -98,7 +98,7 @@ namespace WatchSeriesAppPlugin.Entities
             return res.Success;
         }
 
-        internal bool Register()
+        public bool Register()
         {
             if (!String.IsNullOrWhiteSpace(m_Token))
             {
@@ -121,6 +121,68 @@ namespace WatchSeriesAppPlugin.Entities
                 m_LastMessage = res.Message;
             return res.Success;
         }
-    }
 
+        public bool AddFav(string fav)
+        {
+            if (!Connect())
+                return false;
+
+            if (string.IsNullOrWhiteSpace(fav))
+            {
+                m_LastMessage = "Not all the required fields have been filled!";
+                return false;
+            }
+
+            dynamic res = EMCGlobal.GetWebServiceResult("User|AddFav", m_Token + "/" + fav);
+            if (res.Success)
+            {
+                return GetFavs();
+            }
+            else
+                m_LastMessage = res.Message;
+            return res.Success;
+        }
+
+        public bool DelFav(string fav)
+        {
+            if (!Connect())
+                return false;
+
+            if (string.IsNullOrWhiteSpace(fav))
+            {
+                m_LastMessage = "Not all the required fields have been filled!";
+                return false;
+            }
+
+            dynamic res = EMCGlobal.GetWebServiceResult("User|DelFav", m_Token + "/" + fav);
+            if (res.Success)
+            {
+                return GetFavs();
+            }
+            else
+                m_LastMessage = res.Message;
+            return res.Success;
+        }
+
+        public bool SetLastViewd(string show, int s, int e)
+        {
+            if (!Connect())
+                return false;
+
+            if (string.IsNullOrWhiteSpace(show) || s < 0 || e < 0)
+            {
+                m_LastMessage = "Not all the required fields have been filled!";
+                return false;
+            }
+
+            dynamic res = EMCGlobal.GetWebServiceResult("User|SetLastViewed", m_Token + "/" + show + "/" + s + "/" + e);
+            if (res.Success)
+            {
+                return GetFavs();
+            }
+            else
+                m_LastMessage = res.Message;
+            return res.Success;
+        }
+    }
 }
