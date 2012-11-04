@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using EricUtility;
+using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels
 {
@@ -14,6 +15,18 @@ namespace WatchSeriesAppPlugin.Panels
     {
         public event EventHandler<KeyEventArgs<NavPanel>> Navigating = delegate { };
         private NavPanel[] m_Parents = new NavPanel[0];
+        private UserInfo m_User;
+
+        public UserInfo User
+        {
+            get { return m_User; }
+            set { m_User = SetUserInfo(value); }
+        }
+
+        protected virtual UserInfo SetUserInfo(UserInfo value)
+        {
+            return value;
+        }
 
         public virtual string NavName
         {
