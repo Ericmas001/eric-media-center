@@ -5,6 +5,7 @@ using System.Text;
 using EMCMasterPluginLib.Application;
 using System.Drawing;
 using System.Windows.Forms;
+using WatchSeriesAppPlugin.Panels;
 
 namespace WatchSeriesAppPlugin
 {

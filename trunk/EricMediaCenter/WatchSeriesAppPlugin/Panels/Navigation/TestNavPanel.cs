@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Panels.Navigation
 {
     public partial class TestNavPanel : NavPanel
     {

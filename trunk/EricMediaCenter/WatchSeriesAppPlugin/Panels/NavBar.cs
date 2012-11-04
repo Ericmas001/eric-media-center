@@ -10,7 +10,7 @@ using VIBlend.WinForms.Controls;
 using System.Reflection;
 using EricUtility;
 
-namespace WatchSeriesAppPlugin
+namespace WatchSeriesAppPlugin.Panels
 {
     public partial class NavBar : UserControl
     {
