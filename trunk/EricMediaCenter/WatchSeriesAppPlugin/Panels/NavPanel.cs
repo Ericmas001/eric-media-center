@@ -16,6 +16,13 @@ namespace WatchSeriesAppPlugin.Panels
         public event EventHandler<KeyEventArgs<NavPanel>> Navigating = delegate { };
         private NavPanel[] m_Parents = new NavPanel[0];
         private UserInfo m_User;
+        private MainPanel m_Global;
+
+        public MainPanel Global
+        {
+            get { return m_Global; }
+            set { m_Global = value; }
+        }
 
         public UserInfo User
         {

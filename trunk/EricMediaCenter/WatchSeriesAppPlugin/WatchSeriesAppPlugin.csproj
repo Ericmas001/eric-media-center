@@ -65,6 +65,12 @@
     <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Panels\Navigation\SearchNavPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Navigation\SearchNavPanel.Designer.cs">
+      <DependentUpon>SearchNavPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\RegisterPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     <Compile Include="WatchSeriesApp.cs" />
     <Compile Include="WatchSeriesPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Panels\Navigation\SearchNavPanel.resx">
+      <DependentUpon>SearchNavPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\RegisterPanel.resx">
       <DependentUpon>RegisterPanel.cs</DependentUpon>
     </EmbeddedResource>

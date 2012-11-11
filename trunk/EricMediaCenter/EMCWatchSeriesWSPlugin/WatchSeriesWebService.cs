@@ -84,8 +84,8 @@ namespace EMCWatchSeriesWSPlugin
             //
             //["09","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
             List<string> list = new List<string>();
-            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
-                list.Add((string)r);
+            foreach (string s in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(s);
             return list;
         }
 
@@ -94,8 +94,8 @@ namespace EMCWatchSeriesWSPlugin
             //
             //["action","adventure","animation","cartoons","celebrities","children","comedy","cooking","crime","documentary","drama","family","fantasy","fashion","history","horror","lifestyle","medical","music","mystery","reality","sci fi","science","sports","talent","talk show","tech","teens","thriller","travel","war"]
             List<string> list = new List<string>();
-            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
-                list.Add((string)r);
+            foreach (string s in JsonConvert.DeserializeObject<dynamic>(result))
+                list.Add(s);
             return list;
         }
 

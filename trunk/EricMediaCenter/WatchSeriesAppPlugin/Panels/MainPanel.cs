@@ -13,6 +13,20 @@ namespace WatchSeriesAppPlugin.Panels
 {
     public partial class MainPanel : UserControl
     {
+        private List<string> m_Letters;
+
+        public List<string> Letters
+        {
+            get { return m_Letters; }
+            set { m_Letters = value; }
+        }
+        private List<string> m_Genres;
+
+        public List<string> Genres
+        {
+            get { return m_Genres; }
+            set { m_Genres = value; }
+        }
         private UserInfo m_User;
         private LoginPanel m_LoginPanel = new LoginPanel();
         private RegisterPanel m_RegisterPanel = new RegisterPanel();
@@ -28,7 +42,7 @@ namespace WatchSeriesAppPlugin.Panels
             if (e.Key == null)
             {
                 //Enter as a guest
-                Navigate(new TestNavPanel());
+                Navigate(new SearchNavPanel());
             }
             else
             {
@@ -55,6 +69,7 @@ namespace WatchSeriesAppPlugin.Panels
                 NavPanel nav = pnl as NavPanel;
                 nav.User = m_User;
                 nav.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavPanel>>(nav_Navigating);
+                nav.Global = this;
             }
             if (pnl is LoginPanel)
             {

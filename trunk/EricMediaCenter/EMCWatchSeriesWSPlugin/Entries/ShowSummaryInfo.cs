@@ -47,7 +47,8 @@ namespace EMCWatchSeriesWSPlugin.Entries
         {
             //X Files: x_files
             //X Files (1993): x_files
-            return String.Format("{0}{1}: {2}", m_Title, m_ReleaseYear > 0 ? String.Format(" ({0})", m_ReleaseYear) : "", m_Name);
+            //return String.Format("{0}{1}: {2}", m_Title, m_ReleaseYear > 0 ? String.Format(" ({0})", m_ReleaseYear) : "", m_Name);
+            return String.Format("{0}{1}", m_Title, m_ReleaseYear > 0 ? String.Format(" ({0})", m_ReleaseYear) : "", m_Name);
         }
     }
 }
