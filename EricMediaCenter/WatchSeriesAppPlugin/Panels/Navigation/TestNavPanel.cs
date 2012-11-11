@@ -25,7 +25,12 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             label1.Text = u == null ? "Guest" : u.Username;
             vButton2.Enabled = (u != null);
             vButton3.Enabled = (u != null);
+            vButton4.Enabled = (u != null);
+            textBox1.Enabled = (u != null);
             listBox1.Enabled = (u != null);
+            if (u != User)
+                RefreshList(u);
+            return base.SetUserInfo(u);
             if (u != User)
                 RefreshList(u);
             return base.SetUserInfo(u);

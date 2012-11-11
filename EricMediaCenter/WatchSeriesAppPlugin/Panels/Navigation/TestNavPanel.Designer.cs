@@ -59,7 +59,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(3, 65);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(363, 173);
+            this.listBox1.Size = new System.Drawing.Size(441, 277);
             this.listBox1.TabIndex = 10;
             // 
             // textBox1
@@ -68,7 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(110, 40);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(84, 20);
+            this.textBox1.Size = new System.Drawing.Size(162, 20);
             this.textBox1.TabIndex = 11;
             // 
             // vButton2
@@ -76,7 +76,7 @@
             this.vButton2.AllowAnimations = true;
             this.vButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.vButton2.BackColor = System.Drawing.Color.Transparent;
-            this.vButton2.Location = new System.Drawing.Point(200, 40);
+            this.vButton2.Location = new System.Drawing.Point(278, 40);
             this.vButton2.Name = "vButton2";
             this.vButton2.RoundedCornersMask = ((byte)(15));
             this.vButton2.Size = new System.Drawing.Size(47, 19);
@@ -91,7 +91,7 @@
             this.vButton3.AllowAnimations = true;
             this.vButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.vButton3.BackColor = System.Drawing.Color.Transparent;
-            this.vButton3.Location = new System.Drawing.Point(310, 40);
+            this.vButton3.Location = new System.Drawing.Point(388, 40);
             this.vButton3.Name = "vButton3";
             this.vButton3.RoundedCornersMask = ((byte)(15));
             this.vButton3.Size = new System.Drawing.Size(56, 19);
@@ -105,9 +105,9 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(3, 241);
+            this.label1.Location = new System.Drawing.Point(3, 349);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(363, 17);
+            this.label1.Size = new System.Drawing.Size(441, 17);
             this.label1.TabIndex = 14;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -117,7 +117,7 @@
             this.vButton4.AllowAnimations = true;
             this.vButton4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.vButton4.BackColor = System.Drawing.Color.Transparent;
-            this.vButton4.Location = new System.Drawing.Point(253, 40);
+            this.vButton4.Location = new System.Drawing.Point(331, 40);
             this.vButton4.Name = "vButton4";
             this.vButton4.RoundedCornersMask = ((byte)(15));
             this.vButton4.Size = new System.Drawing.Size(51, 19);
@@ -139,7 +139,7 @@
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.vButton1);
             this.Name = "TestNavPanel";
-            this.Size = new System.Drawing.Size(369, 258);
+            this.Size = new System.Drawing.Size(447, 366);
             this.Controls.SetChildIndex(this.vButton1, 0);
             this.Controls.SetChildIndex(this.listBox1, 0);
             this.Controls.SetChildIndex(this.textBox1, 0);
