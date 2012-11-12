@@ -56,6 +56,9 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             if (lstResults.SelectedIndex >= 0)
             {
+                TVShowNavPanel showPnl = new TVShowNavPanel();
+                showPnl.SetShow((ShowSummaryInfo)lstResults.SelectedItem);
+                Navigate(showPnl);
             }
         }
 
@@ -69,8 +72,12 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             IEnumerable results = (IEnumerable)EMCGlobal.GetWebServiceResult("WatchSeries|" + command, arg);
             lstResults.Items.Clear();
-            foreach( object o in results)
-                lstResults.Items.Add(o);
+            foreach (object o in results)
+            {
+                dynamic show = (dynamic)o;
+                ShowSummaryInfo ssi = new ShowSummaryInfo(show.Name, show.Title, show.ReleaseYear);
+                lstResults.Items.Add(ssi);
+            }
         }
     }
 }

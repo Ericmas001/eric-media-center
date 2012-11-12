@@ -20,7 +20,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                 return m_NavName;
             }
         }
-        protected override UserInfo SetUserInfo(UserInfo u)
+        protected override void UserSetted(UserInfo u, UserInfo old)
         {
             label1.Text = u == null ? "Guest" : u.Username;
             vButton2.Enabled = (u != null);
@@ -28,12 +28,9 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             vButton4.Enabled = (u != null);
             textBox1.Enabled = (u != null);
             listBox1.Enabled = (u != null);
-            if (u != User)
+            if (u != old)
                 RefreshList(u);
-            return base.SetUserInfo(u);
-            if (u != User)
-                RefreshList(u);
-            return base.SetUserInfo(u);
+            base.UserSetted(u, old);
         }
         public TestNavPanel()
         {
@@ -93,6 +90,23 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             //Refresh
             RefreshList();
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex >= 0)
+            {
+                UserFavoriteInfo fav = (UserFavoriteInfo)listBox1.SelectedItem;
+                ShowSummaryInfo ssi = new ShowSummaryInfo(fav.ShowName, fav.ShowTitle, -1);
+                TVShowNavPanel showPnl = new TVShowNavPanel();
+                showPnl.SetShow(ssi);
+                Navigate(showPnl);
+            }
+        }
+
+        private void vButton5_Click(object sender, EventArgs e)
+        {
+            Navigate(new SearchNavPanel());
         }
     }
 }
