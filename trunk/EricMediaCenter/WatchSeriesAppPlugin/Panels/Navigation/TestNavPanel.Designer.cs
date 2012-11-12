@@ -35,6 +35,7 @@
             this.vButton3 = new VIBlend.WinForms.Controls.vButton();
             this.label1 = new System.Windows.Forms.Label();
             this.vButton4 = new VIBlend.WinForms.Controls.vButton();
+            this.vButton5 = new VIBlend.WinForms.Controls.vButton();
             this.SuspendLayout();
             // 
             // vButton1
@@ -44,9 +45,9 @@
             this.vButton1.Location = new System.Drawing.Point(3, 40);
             this.vButton1.Name = "vButton1";
             this.vButton1.RoundedCornersMask = ((byte)(15));
-            this.vButton1.Size = new System.Drawing.Size(100, 19);
+            this.vButton1.Size = new System.Drawing.Size(37, 19);
             this.vButton1.TabIndex = 9;
-            this.vButton1.Text = "New Window";
+            this.vButton1.Text = "Test";
             this.vButton1.UseVisualStyleBackColor = false;
             this.vButton1.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.ORANGEFRESH;
             this.vButton1.Click += new System.EventHandler(this.vButton1_Click);
@@ -61,6 +62,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(441, 277);
             this.listBox1.TabIndex = 10;
+            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
             // textBox1
             // 
@@ -127,10 +129,25 @@
             this.vButton4.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROGREEN;
             this.vButton4.Click += new System.EventHandler(this.vButton4_Click);
             // 
+            // vButton5
+            // 
+            this.vButton5.AllowAnimations = true;
+            this.vButton5.BackColor = System.Drawing.Color.Transparent;
+            this.vButton5.Location = new System.Drawing.Point(46, 40);
+            this.vButton5.Name = "vButton5";
+            this.vButton5.RoundedCornersMask = ((byte)(15));
+            this.vButton5.Size = new System.Drawing.Size(58, 19);
+            this.vButton5.TabIndex = 16;
+            this.vButton5.Text = "Search";
+            this.vButton5.UseVisualStyleBackColor = false;
+            this.vButton5.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.ULTRABLUE;
+            this.vButton5.Click += new System.EventHandler(this.vButton5_Click);
+            // 
             // TestNavPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.vButton5);
             this.Controls.Add(this.vButton4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.vButton3);
@@ -147,6 +164,7 @@
             this.Controls.SetChildIndex(this.vButton3, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.vButton4, 0);
+            this.Controls.SetChildIndex(this.vButton5, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,5 +179,6 @@
         private VIBlend.WinForms.Controls.vButton vButton3;
         private System.Windows.Forms.Label label1;
         private VIBlend.WinForms.Controls.vButton vButton4;
+        private VIBlend.WinForms.Controls.vButton vButton5;
     }
 }

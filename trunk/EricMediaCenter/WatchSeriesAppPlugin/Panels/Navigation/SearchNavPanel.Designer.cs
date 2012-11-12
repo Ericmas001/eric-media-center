@@ -43,6 +43,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstResults.FormattingEnabled = true;
+            this.lstResults.IntegralHeight = false;
             this.lstResults.Location = new System.Drawing.Point(100, 65);
             this.lstResults.Name = "lstResults";
             this.lstResults.Size = new System.Drawing.Size(325, 251);
@@ -106,9 +107,10 @@
             this.lstChoices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lstChoices.FormattingEnabled = true;
+            this.lstChoices.IntegralHeight = false;
             this.lstChoices.Location = new System.Drawing.Point(6, 115);
             this.lstChoices.Name = "lstChoices";
-            this.lstChoices.Size = new System.Drawing.Size(88, 199);
+            this.lstChoices.Size = new System.Drawing.Size(88, 201);
             this.lstChoices.TabIndex = 16;
             this.lstChoices.SelectedIndexChanged += new System.EventHandler(this.lstChoices_SelectedIndexChanged);
             // 

@@ -27,12 +27,17 @@ namespace WatchSeriesAppPlugin.Panels
         public UserInfo User
         {
             get { return m_User; }
-            set { m_User = SetUserInfo(value); }
+            set
+            {
+                UserInfo oldUser = m_User;
+                m_User = value;
+                UserSetted(value, oldUser); 
+            }
         }
 
-        protected virtual UserInfo SetUserInfo(UserInfo value)
+        protected virtual void UserSetted(UserInfo newUsr, UserInfo oldUsr)
         {
-            return value;
+            return;
         }
 
         public virtual string NavName
