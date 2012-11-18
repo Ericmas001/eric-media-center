@@ -20,6 +20,7 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WatchSeriesService
     {
+        private const string RANDOM_EPISODE_URL = "http://watchseries.eu/episode/big_bang_theory_s1_e9-8171.html";
         [WebGet(UriTemplate = "GetPopulars")]
         public string GetPopulars()
         {
@@ -223,13 +224,12 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
-        public List<TvWebsiteEntry> Links(string epname)
+        public List<TvWebsiteEntry> Links(int id)
         {
             CookieContainer cookies = new CookieContainer();
             // Build cookies
-            GatheringUtility.GetPageSource("http://watchseries.eu/episode/" + epname + ".html", cookies);
+            GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
             Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
-            int id = int.Parse(epname.Substring(epname.LastIndexOf('-') + 1));
             string baseurl = "http://watchseries.eu/getlinks.php?q=" + id + "&domain=all";
             string src = GatheringUtility.GetPageSource(baseurl, cookies);
             string deb = "<div class=\"linewrap\" >";
@@ -258,10 +258,10 @@ namespace EMCRestService.Services
                 websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
             return websites;
         }
-        [WebGet(UriTemplate = "GetLinks/{epname}")]
-        public string GetLinks(string epname)
+        [WebGet(UriTemplate = "GetLinks/{epid}")]
+        public string GetLinks(string epid)
         {
-            return JsonConvert.SerializeObject(Links(epname));
+            return JsonConvert.SerializeObject(Links(int.Parse(epid)));
         }
         [WebGet(UriTemplate = "GetEpisode/{epname}")]
         public string GetEpisode(string epname)
@@ -272,7 +272,7 @@ namespace EMCRestService.Services
             entry.EpisodeNo = int.Parse(StringUtility.Extract(epname.Substring(epname.LastIndexOf('_')), "_e", "-"));
             string season = epname.Remove(epname.LastIndexOf('_'));
             entry.SeasonNo = int.Parse(season.Substring(season.LastIndexOf('_') + 2));
-            entry.Links = Links(epname);
+            entry.Links = Links(entry.EpisodeId);
 
             string baseurl = "http://watchseries.eu/episode/" + epname + ".html";
             string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl),"<div class=\"fullwrap\">","</div>");
@@ -296,9 +296,8 @@ namespace EMCRestService.Services
         public string GetUrl(string linkid)
         {
             CookieContainer cookies = new CookieContainer();
-            
             // Build cookies
-            GatheringUtility.GetPageSource("http://watchseries.eu",cookies);
+            GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
 
             //Get link
             string gateway = "http://watchseries.eu/gateway.php?link=";
