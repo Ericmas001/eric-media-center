@@ -9,45 +9,40 @@ using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
 using EMCMasterPluginLib;
 using System.Collections;
+using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
     public partial class SearchNavPanel : NavPanel
     {
-        private string m_NavName = "Search";
-        private bool isLetter = false;
-        public override string NavName
-        {
-            get
-            {
-                return m_NavName;
-            }
-        }
+        public SearchNavInfo SearchInfo { get { return Info as SearchNavInfo; } }
         public SearchNavPanel()
         {
             InitializeComponent();
         }
-
         private void btnGenres_Click(object sender, EventArgs e)
         {
-            if (Global.Genres == null)
-                Global.Genres = (List<string>)EMCGlobal.GetWebServiceResult("WatchSeries|AvailableGenres", null);
+            if (WSGlobal.Genres == null)
+                WSGlobal.Genres = (List<string>)EMCGlobal.GetWebServiceResult("WatchSeries|AvailableGenres", null);
+            SearchInfo.Choices = WSGlobal.Genres;
             lstChoices.Items.Clear();
-            lstChoices.Items.AddRange(Global.Genres.ToArray());
-            isLetter = false;
+            lstChoices.Items.AddRange(WSGlobal.Genres.ToArray());
+            SearchInfo.IsLetter = false;
         }
 
         private void btnLetters_Click(object sender, EventArgs e)
         {
-            if (Global.Letters == null)
-                Global.Letters = (List<string>)EMCGlobal.GetWebServiceResult("WatchSeries|AvailableLetters", null);
+            if (WSGlobal.Letters == null)
+                WSGlobal.Letters = (List<string>)EMCGlobal.GetWebServiceResult("WatchSeries|AvailableLetters", null);
+            SearchInfo.Choices = WSGlobal.Letters;
             lstChoices.Items.Clear();
-            lstChoices.Items.AddRange(Global.Letters.ToArray());
-            isLetter = true;
+            lstChoices.Items.AddRange(WSGlobal.Letters.ToArray());
+            SearchInfo.IsLetter = true;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            SearchInfo.Keywords = txtSearch.Text;
             if (!String.IsNullOrWhiteSpace(txtSearch.Text))
                 GetResult("Search", txtSearch.Text);
         }
@@ -56,28 +51,48 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             if (lstResults.SelectedIndex >= 0)
             {
-                TVShowNavPanel showPnl = new TVShowNavPanel();
-                showPnl.SetShow((ShowSummaryInfo)lstResults.SelectedItem);
-                Navigate(showPnl);
+                TvShowNavInfo showNfo = new TvShowNavInfo((ShowSummaryInfo)lstResults.SelectedItem, Info.FutureParents, Info.User);
+                Navigate(showNfo);
             }
         }
 
         private void lstChoices_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstChoices.SelectedIndex >= 0)
-                GetResult(isLetter?"GetLetter":"GetGenre", (string)lstChoices.SelectedItem);
+                GetResult(SearchInfo.IsLetter ? "GetLetter" : "GetGenre", (string)lstChoices.SelectedItem);
         }
 
         private void GetResult(string command, string arg)
         {
             IEnumerable results = (IEnumerable)EMCGlobal.GetWebServiceResult("WatchSeries|" + command, arg);
             lstResults.Items.Clear();
+            SearchInfo.Results.Clear();
             foreach (object o in results)
             {
                 dynamic show = (dynamic)o;
                 ShowSummaryInfo ssi = new ShowSummaryInfo(show.Name, show.Title, show.ReleaseYear);
-                lstResults.Items.Add(ssi);
+                SearchInfo.Results.Add(ssi);
             }
+            lstResults.Items.AddRange(SearchInfo.Results.ToArray());
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            SearchInfo.Keywords = txtSearch.Text;
+        }
+
+        protected override void InfoSetted(NavInfo oldI, NavInfo newI)
+        {
+            SearchNavInfo nfo = newI as SearchNavInfo;
+
+            lstResults.Items.Clear();
+            lstChoices.Items.Clear();
+
+            txtSearch.Text = nfo.Keywords;
+            lstResults.Items.AddRange(nfo.Results.ToArray());
+            lstChoices.Items.AddRange(nfo.Choices.ToArray());
+
+            base.InfoSetted(oldI, newI);
         }
     }
 }

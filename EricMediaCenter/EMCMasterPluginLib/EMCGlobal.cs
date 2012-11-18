@@ -9,12 +9,14 @@ using System.Reflection;
 using EricUtility.Networking.Gathering;
 using EMCMasterPluginLib;
 using EMCMasterPluginLib.WebService;
+using System.Windows.Forms;
 
 namespace EMCMasterPluginLib
 {
     public class EMCGlobal
     {
 
+        public static event EventHandler<KeyValueEventArgs<string,UserControl>> MainPanelChanged = delegate { };
         public static event EmptyHandler AvailablePluginsUpdated = delegate { };
         public static event EmptyHandler SupportedWebServiceUpdated = delegate { };
         public static event EmptyHandler SupportedAppUpdated = delegate { };
@@ -100,6 +102,11 @@ namespace EMCMasterPluginLib
                 return path.ToString();
             }
 
+        }
+
+        public static void ChangeMainPanel(string name, UserControl control )
+        {
+            MainPanelChanged(null, new KeyValueEventArgs<string,UserControl>(name,control));
         }
 
 

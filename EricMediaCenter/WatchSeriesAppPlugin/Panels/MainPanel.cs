@@ -8,91 +8,70 @@ using System.Text;
 using System.Windows.Forms;
 using WatchSeriesAppPlugin.Panels.Navigation;
 using WatchSeriesAppPlugin.Entities;
+using WatchSeriesAppPlugin.Panels.Navigation.Core;
+using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Panels
 {
     public partial class MainPanel : UserControl
     {
-        private List<string> m_Letters;
-
-        public List<string> Letters
-        {
-            get { return m_Letters; }
-            set { m_Letters = value; }
-        }
-        private List<string> m_Genres;
-
-        public List<string> Genres
-        {
-            get { return m_Genres; }
-            set { m_Genres = value; }
-        }
-        private UserInfo m_User;
-        private LoginPanel m_LoginPanel = new LoginPanel();
-        private RegisterPanel m_RegisterPanel = new RegisterPanel();
         public MainPanel()
         {
             InitializeComponent();
-            Navigate(m_LoginPanel);
+            WSGlobal.PanelMain = this;
+
+            WSGlobal.LoginPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
+            WSGlobal.LoginPanel.WrongScreen += new EricUtility.EmptyHandler(loginPanel_WrongScreen);
+            
+            WSGlobal.RegisterPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
+            WSGlobal.RegisterPanel.WrongScreen += new EricUtility.EmptyHandler(regPanel_WrongScreen);
+            
+            WSGlobal.PanelTest.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+            WSGlobal.PanelSearch.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+            WSGlobal.PanelTVShow.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
         }
 
         void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
         {
-            m_User = e.Key;
+            WSGlobal.User = e.Key;
             if (e.Key == null)
             {
                 //Enter as a guest
-                Navigate(new SearchNavPanel());
+                SetContent(WSGlobal.Navigate(new SearchNavInfo(new NavInfo[0], WSGlobal.User)));
             }
             else
             {
                 //Enter as a user
-                Navigate(new TestNavPanel());
+                SetContent(WSGlobal.Navigate(new TestNavInfo(new NavInfo[0], WSGlobal.User)));
             }
         }
 
-        void nav_Navigating(object sender, EricUtility.KeyEventArgs<NavPanel> e)
+        void nav_Navigating(object sender, EricUtility.KeyEventArgs<NavInfo> e)
         {
             if (e.Key == null)
-                Navigate(m_LoginPanel);
+                SetContent(WSGlobal.LoginPanel);
             else
-                Navigate(e.Key);
+                SetContent(WSGlobal.Navigate(e.Key));
         }
-
-        public void Navigate(UserControl pnl)
-        {
-            pnlContent.Controls.Clear();
-            pnl.Dock = DockStyle.Fill;
-            pnlContent.Controls.Add(pnl);
-            if (pnl is NavPanel)
-            {
-                NavPanel nav = pnl as NavPanel;
-                nav.User = m_User;
-                nav.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavPanel>>(nav_Navigating);
-                nav.Global = this;
-            }
-            if (pnl is LoginPanel)
-            {
-                LoginPanel loginPanel = pnl as LoginPanel;
-                loginPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
-                loginPanel.WrongScreen += new EricUtility.EmptyHandler(loginPanel_WrongScreen);
-            }
-            if (pnl is RegisterPanel)
-            {
-                RegisterPanel regPanel = pnl as RegisterPanel;
-                regPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
-                regPanel.WrongScreen += new EricUtility.EmptyHandler(regPanel_WrongScreen);
-            }
-        }
-
+        
         void loginPanel_WrongScreen()
         {
-            Navigate(m_RegisterPanel);
+            SetContent(WSGlobal.RegisterPanel);
         }
 
         void regPanel_WrongScreen()
         {
-            Navigate(m_LoginPanel);
+            SetContent(WSGlobal.LoginPanel);
+        }
+
+        private void MainPanel_Load(object sender, EventArgs e)
+        {
+            SetContent(WSGlobal.LoginPanel);
+        }
+
+        private void SetContent(UserControl newUc)
+        {
+            EMCGlobal.ChangeMainPanel("WatchSeriesApp", newUc);
         }
     }
 }

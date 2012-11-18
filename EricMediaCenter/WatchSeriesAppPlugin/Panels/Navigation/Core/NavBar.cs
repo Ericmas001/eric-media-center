@@ -9,49 +9,50 @@ using System.Windows.Forms;
 using VIBlend.WinForms.Controls;
 using System.Reflection;
 using EricUtility;
+using WatchSeriesAppPlugin.Panels.Navigation;
 
-namespace WatchSeriesAppPlugin.Panels
+namespace WatchSeriesAppPlugin.Panels.Navigation.Core
 {
     public partial class NavBar : UserControl
     {
-        public event EventHandler<KeyEventArgs<NavPanel>> Navigating = delegate { };
-        private Dictionary<Button, NavPanel> m_Panels = new Dictionary<Button, NavPanel>();
+        public event EventHandler<KeyEventArgs<NavInfo>> Navigating = delegate { };
+        private Dictionary<Button, NavInfo> m_Infos = new Dictionary<Button, NavInfo>();
         public NavBar()
         {
             InitializeComponent();
         }
-        public void SetNav( NavPanel panel )
+        public void SetNav(NavInfo info)
         {
             flowLayoutPanel1.Controls.Clear();
-            m_Panels.Clear();
+            m_Infos.Clear();
             vButton btnLogin = new vButton();
             btnLogin.Size = new System.Drawing.Size(23, 23);
             btnLogin.Text = "Login";
             flowLayoutPanel1.Controls.Add(btnLogin);
             btnLogin.AutoSize = true;
             btnLogin.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010BLACK;
-            m_Panels.Add(btnLogin, null);
+            m_Infos.Add(btnLogin, null);
             btnLogin.Click += new EventHandler(btn_Click);
-            foreach (NavPanel pnl in panel.Parents)
+            foreach (NavInfo nfo in info.Parents)
             {
                 vButton btn = new vButton();
                 btn.Size = new System.Drawing.Size(23, 23);
-                btn.Text = pnl.NavName;
+                btn.Text = nfo.Name;
                 flowLayoutPanel1.Controls.Add(btn);
                 btn.AutoSize = true;
                 btn.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.OFFICE2010SILVER;
-                m_Panels.Add(btn, pnl);
+                m_Infos.Add(btn, nfo);
                 btn.Click += new EventHandler(btn_Click);
             }
-            btnCurrent.Text = panel.NavName;
+            btnCurrent.Text = info.Name;
             flowLayoutPanel1.Controls.Add(btnCurrent);
             btnCurrent.AutoSize = true;
-            m_Panels.Add(btnCurrent, panel);
+            m_Infos.Add(btnCurrent, info);
         }
 
         void btn_Click(object sender, EventArgs e)
         {
-            Navigating(this, new KeyEventArgs<NavPanel>(m_Panels[(Button)sender]));
+            Navigating(this, new KeyEventArgs<NavInfo>(m_Infos[(Button)sender]));
         }
     }
 }

@@ -30,6 +30,28 @@ namespace EricMediaCenter
             InitializeComponent();
             panels.Add(btnSettings.Name, new SettingsPanel());
             EMCGlobal.SupportedAppUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedAppUpdated);
+            EMCGlobal.MainPanelChanged += new EventHandler<KeyValueEventArgs<string, UserControl>>(EMCGlobal_MainPanelChanged);
+        }
+
+        void EMCGlobal_MainPanelChanged(object sender, KeyValueEventArgs<string, UserControl> e)
+        {
+            if (panels.ContainsKey("btn"+e.Key))
+            {
+                UserControl oldC = panels["btn"+e.Key];
+                UserControl newC = e.Value;
+                panels[oldMenu.Name] = newC;
+                if (panel1.Controls.Contains(oldC))
+                {
+                    panel1.Controls.Remove(oldC);
+                    if (newC != null)
+                    {
+                        newC.Name = "contentUC";
+                        panel1.Controls.Add(newC);
+                        newC.Dock = DockStyle.Fill;
+                        newC.Focus();
+                    }
+                }
+            }
         }
         void EMCGlobal_SupportedAppUpdated()
         {

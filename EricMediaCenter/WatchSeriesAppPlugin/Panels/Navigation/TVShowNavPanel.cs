@@ -9,63 +9,48 @@ using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
 using EMCMasterPluginLib;
 using System.Collections;
+using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
     public partial class TVShowNavPanel : NavPanel
     {
-        private enum FavoriteState
-        {
-            NoUser,
-            NoFav,
-            Fav
-        }
-        private ShowSummaryInfo m_Show;
-        public override string NavName
-        {
-            get { return m_Show != null ? m_Show.Title : ""; }
-        }
-        private FavoriteState State
-        {
-            get
-            {
-                if (User == null)
-                    return FavoriteState.NoUser;
-                else if (User.Favorites.ContainsKey(m_Show.Name))
-                    return FavoriteState.Fav;
-                else
-                    return FavoriteState.NoFav;
-            }
-        }
+        public TvShowNavInfo TVShowInfo { get { return Info as TvShowNavInfo; } }
         public TVShowNavPanel()
         {
             InitializeComponent();
         }
-        public void SetShow(ShowSummaryInfo show)
+        protected override void InfoSetted(NavInfo oldI, NavInfo newI)
         {
-            m_Show = show;
-            lblShowTitle.Text = show.Title;
-            ShowInfo full = show.LoadShow();
+            lblShowTitle.Text = Info.Name;
             lstSeasons.Items.Clear();
             lstEpisodes.Items.Clear();
-            lstSeasons.Items.AddRange(full.Seasons.Values.ToArray());
-        }
-        protected override void UserSetted(UserInfo u, UserInfo old)
-        {
-            base.UserSetted(u, old);
-            switch (State)
+            if (TVShowInfo.ShowFull != null)
+                lstSeasons.Items.AddRange(TVShowInfo.ShowFull.Seasons.Values.ToArray());
+            switch (TVShowInfo.State)
             {
-                case FavoriteState.NoUser: btnFav.BackgroundImage = Properties.Resources.favorite_add_disab; break;
-                case FavoriteState.NoFav: btnFav.BackgroundImage = Properties.Resources.favorite_add; break;
-                case FavoriteState.Fav: btnFav.BackgroundImage = Properties.Resources.favorite_remove; break;
+                case TvShowFavBtnState.NoUser: btnFav.BackgroundImage = Properties.Resources.favorite_add_disab; break;
+                case TvShowFavBtnState.NoFav: btnFav.BackgroundImage = Properties.Resources.favorite_add; break;
+                case TvShowFavBtnState.Fav: btnFav.BackgroundImage = Properties.Resources.favorite_remove; break;
+            }
+            base.InfoSetted(oldI, newI);
+        }
+        protected override void info_UserSetted(object sender, UserEventArgs args)
+        {
+            base.info_UserSetted(sender, args);
+            switch (TVShowInfo.State)
+            {
+                case TvShowFavBtnState.NoUser: btnFav.BackgroundImage = Properties.Resources.favorite_add_disab; break;
+                case TvShowFavBtnState.NoFav: btnFav.BackgroundImage = Properties.Resources.favorite_add; break;
+                case TvShowFavBtnState.Fav: btnFav.BackgroundImage = Properties.Resources.favorite_remove; break;
             }
         }
         private void btnFav_Click(object sender, EventArgs e)
         {
-            UserInfo old = User;
-            switch (State)
+            UserInfo old = Info.User;
+            switch (TVShowInfo.State)
             {
-                case FavoriteState.NoUser: 
+                case TvShowFavBtnState.NoUser: 
                     {
                         if (MessageBox.Show("This feature is only available to registered users. Do you want to register ?", "Not Available", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
@@ -73,10 +58,10 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                         };
                         break;
                     }
-                case FavoriteState.NoFav: User.AddFav(m_Show.Name); break;
-                case FavoriteState.Fav: User.DelFav(m_Show.Name); break;
+                case TvShowFavBtnState.NoFav: Info.User.AddFav(TVShowInfo.ShowSummary.Name); break;
+                case TvShowFavBtnState.Fav: Info.User.DelFav(TVShowInfo.ShowSummary.Name); break;
             }
-            UserSetted(User,old);
+            Info.FireUserSetted(old,Info.User);
         }
 
         private void lstSeasons_SelectedIndexChanged(object sender, EventArgs e)

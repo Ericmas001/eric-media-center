@@ -7,30 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
+using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
     public partial class TestNavPanel : NavPanel
     {
-        private string m_NavName = DateTime.Now.ToLongTimeString();
-        public override string NavName
+        public TestNavInfo TestInfo { get { return Info as TestNavInfo; } }
+
+        protected override void InfoSetted(NavInfo oldI, NavInfo newI)
         {
-            get
-            {
-                return m_NavName;
-            }
-        }
-        protected override void UserSetted(UserInfo u, UserInfo old)
-        {
-            label1.Text = u == null ? "Guest" : u.Username;
-            vButton2.Enabled = (u != null);
-            vButton3.Enabled = (u != null);
-            vButton4.Enabled = (u != null);
-            textBox1.Enabled = (u != null);
-            listBox1.Enabled = (u != null);
-            if (u != old)
-                RefreshList(u);
-            base.UserSetted(u, old);
+            TestNavInfo nfo = newI as TestNavInfo;
+            label1.Text = nfo.User == null ? "Guest" : nfo.User.Username;
+            vButton2.Enabled = (nfo.User != null);
+            vButton3.Enabled = (nfo.User != null);
+            vButton4.Enabled = (nfo.User != null);
+            textBox1.Enabled = (nfo.User != null);
+            listBox1.Enabled = (nfo.User != null);
+            RefreshList(nfo.User);
+            base.InfoSetted(oldI, newI);
         }
         public TestNavPanel()
         {
@@ -39,16 +34,16 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
 
         private void vButton1_Click(object sender, EventArgs e)
         {
-            TestNavPanel next = new TestNavPanel();
+            TestNavInfo next = new TestNavInfo(Info.FutureParents, Info.User);
             Navigate(next);
         }
 
         private void vButton2_Click(object sender, EventArgs e)
         {
             //Add
-            if (User != null && !String.IsNullOrWhiteSpace(textBox1.Text))
+            if (Info.User != null && !String.IsNullOrWhiteSpace(textBox1.Text))
             {
-                User.AddFav(textBox1.Text);
+                Info.User.AddFav(textBox1.Text);
                 textBox1.Text = "";
                 RefreshList();
             }
@@ -57,16 +52,16 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         private void vButton3_Click(object sender, EventArgs e)
         {
             //Remove
-            if (User != null && listBox1.SelectedIndex >= 0)
+            if (Info.User != null && listBox1.SelectedIndex >= 0)
             {
-                User.DelFav(((UserFavoriteInfo)listBox1.SelectedItem).ShowName);
+                Info.User.DelFav(((UserFavoriteInfo)listBox1.SelectedItem).ShowName);
                 RefreshList();
             }
         }
 
         public void RefreshList()
-        {   
-            RefreshList(User);
+        {
+            RefreshList(Info.User);
         }
 
         public void RefreshList(UserInfo u)
@@ -98,15 +93,14 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             {
                 UserFavoriteInfo fav = (UserFavoriteInfo)listBox1.SelectedItem;
                 ShowSummaryInfo ssi = new ShowSummaryInfo(fav.ShowName, fav.ShowTitle, -1);
-                TVShowNavPanel showPnl = new TVShowNavPanel();
-                showPnl.SetShow(ssi);
-                Navigate(showPnl);
+                TvShowNavInfo nfo = new TvShowNavInfo(ssi, Info.FutureParents, Info.User);
+                Navigate(nfo);
             }
         }
 
         private void vButton5_Click(object sender, EventArgs e)
         {
-            Navigate(new SearchNavPanel());
+            Navigate(new SearchNavInfo(Info.FutureParents, Info.User));
         }
     }
 }
