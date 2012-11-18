@@ -223,11 +223,15 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
-        public List<TvWebsiteEntry> Links(int id)
+        public List<TvWebsiteEntry> Links(string epname)
         {
+            CookieContainer cookies = new CookieContainer();
+            // Build cookies
+            GatheringUtility.GetPageSource("http://watchseries.eu/episode/" + epname + ".html", cookies);
             Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
+            int id = int.Parse(epname.Substring(epname.LastIndexOf('-') + 1));
             string baseurl = "http://watchseries.eu/getlinks.php?q=" + id + "&domain=all";
-            string src = GatheringUtility.GetPageSource(baseurl);
+            string src = GatheringUtility.GetPageSource(baseurl, cookies);
             string deb = "<div class=\"linewrap\" >";
             int start = src.IndexOf(deb) + deb.Length;
             while (start >= deb.Length)
@@ -254,10 +258,10 @@ namespace EMCRestService.Services
                 websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
             return websites;
         }
-        [WebGet(UriTemplate = "GetLinks/{epid}")]
-        public string GetLinks(string epid)
+        [WebGet(UriTemplate = "GetLinks/{epname}")]
+        public string GetLinks(string epname)
         {
-            return JsonConvert.SerializeObject(Links(int.Parse(epid)));
+            return JsonConvert.SerializeObject(Links(epname));
         }
         [WebGet(UriTemplate = "GetEpisode/{epname}")]
         public string GetEpisode(string epname)
@@ -268,7 +272,7 @@ namespace EMCRestService.Services
             entry.EpisodeNo = int.Parse(StringUtility.Extract(epname.Substring(epname.LastIndexOf('_')), "_e", "-"));
             string season = epname.Remove(epname.LastIndexOf('_'));
             entry.SeasonNo = int.Parse(season.Substring(season.LastIndexOf('_') + 2));
-            entry.Links = Links(entry.EpisodeId);
+            entry.Links = Links(epname);
 
             string baseurl = "http://watchseries.eu/episode/" + epname + ".html";
             string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl),"<div class=\"fullwrap\">","</div>");
