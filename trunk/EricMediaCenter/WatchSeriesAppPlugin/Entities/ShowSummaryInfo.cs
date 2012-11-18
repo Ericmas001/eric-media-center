@@ -44,6 +44,8 @@ namespace WatchSeriesAppPlugin.Entities
         public ShowInfo LoadShow()
         {
             dynamic s = EMCGlobal.GetWebServiceResult("WatchSeries|GetShow", m_Name);
+            if (s == null)
+                return null;
             ShowInfo show = new ShowInfo(this, s.ReleaseDate, s.Genre, s.Status, s.Network, s.Imdb, s.Description, s.NbEpisodes, s.RssFeed, s.LogoURL);
             show.Seasons = SeasonInfo.GetSeasons(show, s.Seasons);
             return show;
