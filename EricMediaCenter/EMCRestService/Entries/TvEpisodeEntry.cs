@@ -25,7 +25,7 @@ namespace EMCRestService.Entries
 
         public string EpisodeName
         {
-            get { return m_EpisodeName; }
+            get { return m_EpisodeName.Replace(':', ';'); }
             set { m_EpisodeName = value; }
         }
         private string m_EpisodeTitle;
