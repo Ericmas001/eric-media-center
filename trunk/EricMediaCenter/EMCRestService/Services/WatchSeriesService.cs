@@ -143,6 +143,7 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "GetShow/{showname}")]
         public string GetShow(string showname)
         {
+            showname = showname.Replace(';', ':');
             TvShowDetailedEntry entry = new TvShowDetailedEntry();
             entry.ShowName = showname;
 
@@ -266,6 +267,7 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "GetEpisode/{epname}")]
         public string GetEpisode(string epname)
         {
+            epname = epname.Replace(';', ':');
             TvEpisodeDetailedEntry entry = new TvEpisodeDetailedEntry();
             entry.EpisodeName = epname;
             entry.EpisodeId = int.Parse(epname.Substring(epname.LastIndexOf('-') + 1));

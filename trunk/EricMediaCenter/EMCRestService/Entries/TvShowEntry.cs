@@ -11,7 +11,7 @@ namespace EMCRestService.Entries
 
         public string ShowName
         {
-            get { return m_ShowName; }
+            get { return m_ShowName.Replace(':', ';'); }
             set { m_ShowName = value; }
         }
         private string m_ShowTitle;
