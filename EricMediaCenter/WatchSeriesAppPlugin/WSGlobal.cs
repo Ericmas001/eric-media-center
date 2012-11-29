@@ -26,6 +26,7 @@ namespace WatchSeriesAppPlugin
         private static TestNavPanel m_PanelTest = new TestNavPanel();
         private static SearchNavPanel m_PanelSearch = new SearchNavPanel();
         private static TVShowNavPanel m_PanelTVShow = new TVShowNavPanel();
+        private static TVEpisodeNavPanel m_PanelTVEpisode = new TVEpisodeNavPanel();
         private static LoginPanel m_LoginPanel = new LoginPanel();
 
         public static LoginPanel LoginPanel
@@ -62,6 +63,10 @@ namespace WatchSeriesAppPlugin
         {
             get { return WSGlobal.m_PanelTVShow; }
         }
+        public static TVEpisodeNavPanel PanelTVEpisode
+        {
+            get { return WSGlobal.m_PanelTVEpisode; }
+        }
 
         public static MainPanel PanelMain
         {
@@ -90,6 +95,11 @@ namespace WatchSeriesAppPlugin
                 case NavType.TVShow:
                     {
                         nav = PanelTVShow;
+                        break;
+                    }
+                case NavType.TVEpisode:
+                    {
+                        nav = PanelTVEpisode;
                         break;
                     }
                 default:

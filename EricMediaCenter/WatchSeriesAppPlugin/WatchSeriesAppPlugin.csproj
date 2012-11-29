@@ -72,6 +72,13 @@
     <Compile Include="Entities\SeasonInfo.cs" />
     <Compile Include="Entities\ShowInfo.cs" />
     <Compile Include="Entities\ShowSummaryInfo.cs" />
+    <Compile Include="Panels\Navigation\TVEpisodeNavPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Navigation\TVEpisodeNavPanel.Designer.cs">
+      <DependentUpon>TVEpisodeNavPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Navigation\TVEpisodeNavInfo.cs" />
     <Compile Include="Panels\Navigation\TVShowNavInfo.cs" />
     <Compile Include="Panels\Navigation\TestNavInfo.cs" />
     <Compile Include="Panels\Navigation\Core\NavInfo.cs" />
@@ -131,6 +138,9 @@
     <Compile Include="WatchSeriesPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSGlobal.cs" />
+    <EmbeddedResource Include="Panels\Navigation\TVEpisodeNavPanel.resx">
+      <DependentUpon>TVEpisodeNavPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\Navigation\TVShowNavPanel.resx">
       <DependentUpon>TVShowNavPanel.cs</DependentUpon>
     </EmbeddedResource>

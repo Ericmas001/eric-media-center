@@ -22,15 +22,14 @@ namespace WatchSeriesAppPlugin.Entities
             set { m_Links = value; }
         }
 
-        public EpisodeInfo(EpisodeSummaryInfo i, string description, Dictionary<string, LinkInfo> links)
-            : this(i.Season, i.No, i.Id, i.Name, i.Title, i.ReleaseDate, description, links)
+        public EpisodeInfo(EpisodeSummaryInfo i, string description)
+            : this(i.Season, i.No, i.Id, i.Name, i.Title, i.ReleaseDate, description)
         {
         }
-        public EpisodeInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate, string description, Dictionary<string, LinkInfo> links)
+        public EpisodeInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate, string description)
             : base(season, no, id, name, title, releaseDate)
         {
             m_Description = description;
-            m_Links = links;
         }
         public override string ToString()
         {
