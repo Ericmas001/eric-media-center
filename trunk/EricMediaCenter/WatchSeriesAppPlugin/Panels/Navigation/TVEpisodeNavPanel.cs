@@ -27,6 +27,8 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             lstLinks.Items.Clear();
             if (TVEpisodeInfo.EpisodeFull != null)
                 lstWebsites.Items.AddRange(TVEpisodeInfo.EpisodeFull.Links.Values.ToArray());
+            btnLast.Visible = TVEpisodeInfo.EpisodePrev != null;
+            btnNext.Visible = TVEpisodeInfo.EpisodeNext != null;
             base.InfoSetted(oldI, newI);
         }
         protected override void info_UserSetted(object sender, UserEventArgs args)
