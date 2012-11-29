@@ -47,7 +47,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             //"ReleaseDate":"\/Date(1347865200000-0700)\/"
             //}  
             m_Description = (string)r["Description"];
-            m_Links = LinkInfo.DeserializeLinks(this, (JArray)r["Episodes"]);
+            m_Links = LinkInfo.DeserializeLinks(this, (JArray)r["Links"]);
         }
         public override string ToString()
         {

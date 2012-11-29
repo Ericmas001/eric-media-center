@@ -31,13 +31,17 @@ namespace WatchSeriesAppPlugin.Entities
         }
         public override string ToString()
         {
-            //TODO
-            string ids = "";
-            foreach (int i in m_Ids)
-                ids += i + ", ";
-            if (ids.Length > 1)
-                ids = ids.Remove(ids.Length - 3);
-            return String.Format("\"{0}\": {1}", m_Name, ids);
+            return m_Name;
+        }
+        public static Dictionary<string, LinkInfo> GetLinks(EpisodeInfo episode, dynamic lstLinks)
+        {
+            Dictionary<string, LinkInfo> links = new Dictionary<string, LinkInfo>();
+            foreach (string s in lstLinks.Keys)
+            {
+                LinkInfo l = new LinkInfo(episode,lstLinks[s].Name,lstLinks[s].Ids);
+                links.Add(s, l);
+            }
+            return links;
         }
     }
 }

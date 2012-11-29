@@ -10,6 +10,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation.Core
         None,
         Test,
         Search,
-        TVShow
+        TVShow,
+        TVEpisode
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Entities
 {
@@ -69,6 +70,15 @@ namespace WatchSeriesAppPlugin.Entities
                 episodes.Add(i, esi);
             }
             return episodes;
+        }
+        public EpisodeInfo LoadEpisode()
+        {
+            dynamic e = EMCGlobal.GetWebServiceResult("WatchSeries|GetEpisode", m_Name);
+            if (e == null)
+                return null;
+            EpisodeInfo ep = new EpisodeInfo(this,e.Description);
+            ep.Links = LinkInfo.GetLinks(ep, e.Links);
+            return ep;
         }
     }
 }

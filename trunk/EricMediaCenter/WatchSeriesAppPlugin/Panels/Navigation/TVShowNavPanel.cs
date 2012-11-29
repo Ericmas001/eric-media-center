@@ -73,5 +73,36 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                 lstEpisodes.Items.AddRange(s.Episodes.Values.ToArray());
             }
         }
+
+        private void lstEpisodes_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstEpisodes.SelectedIndex >= 0)
+            {
+                EpisodeSummaryInfo esi = (EpisodeSummaryInfo)lstEpisodes.SelectedItem;
+
+                // Get Prev
+                EpisodeSummaryInfo prev = null;
+                if (lstEpisodes.SelectedIndex > 0)
+                    prev = (EpisodeSummaryInfo)lstEpisodes.Items[lstEpisodes.SelectedIndex - 1];
+                else if (lstSeasons.SelectedIndex > 0)
+                {
+                    SeasonInfo lastS = (SeasonInfo)lstSeasons.Items[lstSeasons.SelectedIndex - 1];
+                    prev = lastS.Episodes.Last().Value;
+                }
+
+                // Get Next
+                EpisodeSummaryInfo next = null;
+                if (lstEpisodes.SelectedIndex < (lstEpisodes.Items.Count-1))
+                    next = (EpisodeSummaryInfo)lstEpisodes.Items[lstEpisodes.SelectedIndex + 1];
+                else if (lstSeasons.SelectedIndex < (lstSeasons.Items.Count - 1))
+                {
+                    SeasonInfo nextS = (SeasonInfo)lstSeasons.Items[lstSeasons.SelectedIndex + 1];
+                    prev = nextS.Episodes.First().Value;
+                }
+
+                TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, prev, next, Info.FutureParents, Info.User);
+                Navigate(epNfo);
+            }
+        }
     }
 }

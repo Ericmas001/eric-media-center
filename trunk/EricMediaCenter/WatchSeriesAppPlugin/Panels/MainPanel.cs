@@ -29,6 +29,7 @@ namespace WatchSeriesAppPlugin.Panels
             WSGlobal.PanelTest.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
             WSGlobal.PanelSearch.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
             WSGlobal.PanelTVShow.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+            WSGlobal.PanelTVEpisode.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
         }
 
         void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)

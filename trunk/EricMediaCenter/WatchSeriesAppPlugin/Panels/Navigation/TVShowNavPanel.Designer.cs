@@ -49,6 +49,7 @@
             this.lstEpisodes.Name = "lstEpisodes";
             this.lstEpisodes.Size = new System.Drawing.Size(263, 350);
             this.lstEpisodes.TabIndex = 10;
+            this.lstEpisodes.DoubleClick += new System.EventHandler(this.lstEpisodes_DoubleClick);
             // 
             // lstSeasons
             // 
