@@ -49,7 +49,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation.Core
 
         public virtual void Navigate(NavInfo next)
         {
-            next.Parents = m_Info.FutureParents;
+            //next.Parents = m_Info.FutureParents;
             Navigating(this, new KeyEventArgs<NavInfo>(next));
         }
     }

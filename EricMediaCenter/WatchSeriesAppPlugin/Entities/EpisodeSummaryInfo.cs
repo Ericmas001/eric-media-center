@@ -80,5 +80,43 @@ namespace WatchSeriesAppPlugin.Entities
             ep.Links = LinkInfo.GetLinks(ep, e.Links);
             return ep;
         }
+
+        public EpisodeSummaryInfo GetPreviousEpisode()
+        {
+            EpisodeSummaryInfo ep = null;
+            int[] epInSeasons = Season.Episodes.Keys.ToArray();
+            int ei = 0;
+            for (; ei < epInSeasons.Length && epInSeasons[ei] != No; ++ei) ;
+            if (ei == epInSeasons.Length)
+                return null;
+            if (ei > 0)
+                ep = Season.Episodes[epInSeasons[ei - 1]];
+            else
+            {
+                SeasonInfo lastS = Season.GetPreviousSeason();
+                if (lastS != null)
+                    ep = lastS.Episodes.Last().Value;
+            }
+            return ep;
+        }
+
+        public EpisodeSummaryInfo GetNextEpisode()
+        {
+            EpisodeSummaryInfo ep = null;
+            int[] epInSeasons = Season.Episodes.Keys.ToArray();
+            int ei = 0;
+            for (; ei < epInSeasons.Length && epInSeasons[ei] != No; ++ei) ;
+            if (ei == epInSeasons.Length)
+                return null;
+            if (ei < epInSeasons.Length-1)
+                ep = Season.Episodes[epInSeasons[ei + 1]];
+            else
+            {
+                SeasonInfo nextS = Season.GetNextSeason();
+                if (nextS != null)
+                    ep = nextS.Episodes.First().Value;
+            }
+            return ep;
+        }
     }
 }

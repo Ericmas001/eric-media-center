@@ -60,5 +60,31 @@ namespace WatchSeriesAppPlugin.Entities
             }
             return seasons;
         }
+
+        public SeasonInfo GetPreviousSeason()
+        {
+                SeasonInfo s = null;
+                int[] sInShow = Show.Seasons.Keys.ToArray();
+                int si = 0;
+                for (; si < sInShow.Length && sInShow[si] != No; ++si) ;
+                if (si == sInShow.Length)
+                    return null;
+                if (si > 0)
+                    s = Show.Seasons[sInShow[si - 1]];
+                return s;
+        }
+
+        public SeasonInfo GetNextSeason()
+        {
+            SeasonInfo s = null;
+            int[] sInShow = Show.Seasons.Keys.ToArray();
+            int si = 0;
+            for (; si < sInShow.Length && sInShow[si] != No; ++si) ;
+            if (si == sInShow.Length)
+                return null;
+            if (si < sInShow.Length - 1)
+                s = Show.Seasons[sInShow[si + 1]];
+            return s;
+        }
     }
 }

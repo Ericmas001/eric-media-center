@@ -44,5 +44,17 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                     lstLinks.Items.Add("Link #" + (l.Ids.Count - i));
             }
         }
+
+        private void btnLast_Click(object sender, EventArgs e)
+        {
+            TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(TVEpisodeInfo.EpisodePrev, TVEpisodeInfo.EpisodePrev.GetPreviousEpisode(), TVEpisodeInfo.EpisodePrev.GetNextEpisode(), Info.Parents, Info.User);
+            Navigate(epNfo);
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(TVEpisodeInfo.EpisodeNext, TVEpisodeInfo.EpisodeNext.GetPreviousEpisode(), TVEpisodeInfo.EpisodeNext.GetNextEpisode(), Info.Parents, Info.User);
+            Navigate(epNfo);
+        }
     }
 }
