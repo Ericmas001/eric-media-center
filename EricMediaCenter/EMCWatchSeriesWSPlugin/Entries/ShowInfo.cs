@@ -99,7 +99,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             // "Description":"What would you do without it all? In this epic adventure from J.J. Abrams' Bad Robot Productions...",
             // "NbEpisodes":5,
             // "RssFeed":"5921",
-            // "Logo":"http://watchseries.eu/imagini/Revolution2012.JPG",
+            // "Logo":"http://watchseries.li/imagini/Revolution2012.JPG",
             // "Seasons": [...],
             // "ShowName":"revolution_(2012)",
             // "ShowTitle":"Revolution (2012)",

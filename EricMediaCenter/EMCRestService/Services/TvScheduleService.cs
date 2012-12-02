@@ -42,7 +42,7 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "GetSchedule/{id}")]
         public string GetSchedule(string id)
         {
-            string src = GatheringUtility.GetPageSource("http://watchseries.eu/tvschedule/"+id);
+            string src = GatheringUtility.GetPageSource("http://watchseries.li/tvschedule/"+id);
             string content = StringUtility.Extract(src, "<h2 class=\"listbig\">", "<!-- end of right -->");
             string lineDebut = "<a href=\"";
             string lineFin = "</a>";

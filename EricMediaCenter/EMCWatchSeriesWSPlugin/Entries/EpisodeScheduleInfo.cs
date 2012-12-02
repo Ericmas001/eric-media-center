@@ -57,7 +57,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
         public EpisodeScheduleInfo(JObject r)
         {
             //{
-            //"Url":"http://watchseries.eu/serie/48_hours_mystery",
+            //"Url":"http://watchseries.li/serie/48_hours_mystery",
             //"ShowName":"48 Hours Mystery",
             //"ShowTitle":"The Preacher's Passion",
             //"Season":26,
