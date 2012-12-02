@@ -164,12 +164,12 @@ namespace WatchSeriesAppPlugin.Entities
             return res.Success;
         }
 
-        public bool SetLastViewd(string show, int s, int e)
+        public bool SetLastViewed(string show, int s, int e)
         {
             if (!Connect())
                 return false;
 
-            if (string.IsNullOrWhiteSpace(show) || s < 0 || e < 0)
+            if (string.IsNullOrWhiteSpace(show) || s < -1 || e < -1)
             {
                 m_LastMessage = "Not all the required fields have been filled!";
                 return false;

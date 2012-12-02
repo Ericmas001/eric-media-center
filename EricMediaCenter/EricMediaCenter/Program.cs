@@ -23,3 +23,7 @@ namespace EricMediaCenter
         }
     }
 }
+
+// TODOS
+// Largeur du bouton lorsque reutilise ;) (NavBar)
+// Popular
