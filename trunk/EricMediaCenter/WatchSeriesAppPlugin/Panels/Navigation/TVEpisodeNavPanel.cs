@@ -10,6 +10,7 @@ using WatchSeriesAppPlugin.Entities;
 using EMCMasterPluginLib;
 using System.Collections;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
+using System.Diagnostics;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
@@ -42,8 +43,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             {
                 lstLinks.Items.Clear();
                 LinkWebsiteInfo l = (LinkWebsiteInfo)lstWebsites.SelectedItem;
-                for (int i = l.LinkIds.Count - 1; i >= 0; --i)
-                    lstLinks.Items.Add("Link #" + (l.LinkIds.Count - i));
+                lstLinks.Items.AddRange(l.LinkIds.ToArray());
             }
         }
 
@@ -63,7 +63,9 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             if (lstLinks.SelectedIndex >= 0)
             {
-                //LinkWebsiteInfo li = (LinkWebsiteInfo)lstLinks.SelectedItem;
+                LinkSummaryInfo lsi = (LinkSummaryInfo)lstLinks.SelectedItem;
+                LinkInfo li = lsi.LoadLink();
+                Process.Start(li.FullUrl);
                 //li.
                 //TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, esi.GetPreviousEpisode(), esi.GetNextEpisode(), Info.FutureParents, Info.User);
                 //Navigate(epNfo);

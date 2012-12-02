@@ -65,6 +65,8 @@
     <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinkInfo.cs" />
+    <Compile Include="Entities\LinkSummaryInfo.cs" />
     <Compile Include="Entities\EpisodeInfo.cs" />
     <Compile Include="Entities\EpisodeScheduleInfo.cs" />
     <Compile Include="Entities\EpisodeSummaryInfo.cs" />
