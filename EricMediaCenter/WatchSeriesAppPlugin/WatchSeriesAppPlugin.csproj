@@ -68,7 +68,7 @@
     <Compile Include="Entities\EpisodeInfo.cs" />
     <Compile Include="Entities\EpisodeScheduleInfo.cs" />
     <Compile Include="Entities\EpisodeSummaryInfo.cs" />
-    <Compile Include="Entities\LinkInfo.cs" />
+    <Compile Include="Entities\LinkWebsiteInfo.cs" />
     <Compile Include="Entities\SeasonInfo.cs" />
     <Compile Include="Entities\ShowInfo.cs" />
     <Compile Include="Entities\ShowSummaryInfo.cs" />

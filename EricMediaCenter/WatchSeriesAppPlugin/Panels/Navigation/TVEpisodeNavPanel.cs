@@ -41,9 +41,9 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             if( lstWebsites.SelectedIndex >= 0 )
             {
                 lstLinks.Items.Clear();
-                LinkInfo l = (LinkInfo)lstWebsites.SelectedItem;
-                for (int i = l.Ids.Count - 1; i >= 0; --i)
-                    lstLinks.Items.Add("Link #" + (l.Ids.Count - i));
+                LinkWebsiteInfo l = (LinkWebsiteInfo)lstWebsites.SelectedItem;
+                for (int i = l.LinkIds.Count - 1; i >= 0; --i)
+                    lstLinks.Items.Add("Link #" + (l.LinkIds.Count - i));
             }
         }
 
@@ -57,6 +57,17 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         {
             TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(TVEpisodeInfo.EpisodeNext, TVEpisodeInfo.EpisodeNext.GetPreviousEpisode(), TVEpisodeInfo.EpisodeNext.GetNextEpisode(), Info.Parents, Info.User);
             Navigate(epNfo);
+        }
+
+        private void lstLinks_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstLinks.SelectedIndex >= 0)
+            {
+                //LinkWebsiteInfo li = (LinkWebsiteInfo)lstLinks.SelectedItem;
+                //li.
+                //TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, esi.GetPreviousEpisode(), esi.GetNextEpisode(), Info.FutureParents, Info.User);
+                //Navigate(epNfo);
+            }
         }
     }
 }
