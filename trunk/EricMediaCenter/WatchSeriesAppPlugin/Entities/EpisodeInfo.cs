@@ -9,14 +9,14 @@ namespace WatchSeriesAppPlugin.Entities
     public class EpisodeInfo : EpisodeSummaryInfo
     {
         private string m_Description;
-        private Dictionary<string, LinkInfo> m_Links;
+        private Dictionary<string, LinkWebsiteInfo> m_Links;
 
         public string Description
         {
             get { return m_Description; }
             set { m_Description = value; }
         }
-        public Dictionary<string, LinkInfo> Links
+        public Dictionary<string, LinkWebsiteInfo> Links
         {
             get { return m_Links; }
             set { m_Links = value; }

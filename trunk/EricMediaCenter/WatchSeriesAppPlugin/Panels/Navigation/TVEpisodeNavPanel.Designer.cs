@@ -49,6 +49,7 @@
             this.lstLinks.Name = "lstLinks";
             this.lstLinks.Size = new System.Drawing.Size(263, 350);
             this.lstLinks.TabIndex = 10;
+            this.lstLinks.DoubleClick += new System.EventHandler(this.lstLinks_DoubleClick);
             // 
             // lstWebsites
             // 

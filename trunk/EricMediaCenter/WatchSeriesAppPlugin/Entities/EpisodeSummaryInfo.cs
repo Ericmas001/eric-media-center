@@ -77,7 +77,7 @@ namespace WatchSeriesAppPlugin.Entities
             if (e == null)
                 return null;
             EpisodeInfo ep = new EpisodeInfo(this,e.Description);
-            ep.Links = LinkInfo.GetLinks(ep, e.Links);
+            ep.Links = LinkWebsiteInfo.GetLinks(ep, e.Links);
             return ep;
         }
 
