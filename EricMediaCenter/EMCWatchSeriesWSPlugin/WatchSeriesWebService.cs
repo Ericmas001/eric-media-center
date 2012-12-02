@@ -124,7 +124,10 @@ namespace EMCWatchSeriesWSPlugin
             //shame
             //[{"ShowName":"shameless","ShowTitle":"Shameless","ReleaseYear":2004},{"ShowName":"shameless_(us)","ShowTitle":"Shameless (US)","ReleaseYear":2011}]
             List<ShowSummaryInfo> list = new List<ShowSummaryInfo>();
-            foreach (JObject r in JsonConvert.DeserializeObject<dynamic>(result))
+            dynamic res = JsonConvert.DeserializeObject<dynamic>(result);
+            if (res == null)
+                return list;
+            foreach (JObject r in res)
                 list.Add(new ShowSummaryInfo(r));
             return list;
         }

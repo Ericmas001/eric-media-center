@@ -118,6 +118,8 @@ namespace EMCRestService.Services
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource("http://watchseries.li/search/" + keywords);
             string allShows = StringUtility.Extract(src, "<div class=\"episode-summary\">", "</div>");
+            if (allShows == null)
+                return null;
             string td = "<td valign=\"top\">";
             string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(td) + td.Length;
