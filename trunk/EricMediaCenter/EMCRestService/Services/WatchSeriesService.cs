@@ -20,14 +20,14 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WatchSeriesService
     {
-        private const string RANDOM_EPISODE_URL = "http://watchseries.eu/episode/big_bang_theory_s1_e9-8171.html";
+        private const string RANDOM_EPISODE_URL = "http://watchseries.li/episode/big_bang_theory_s1_e9-8171.html";
         [WebGet(UriTemplate = "GetPopulars")]
         public string GetPopulars()
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
-            string src = GatheringUtility.GetPageSource("http://watchseries.eu/");
+            string src = GatheringUtility.GetPageSource("http://watchseries.li/");
             string allShows = StringUtility.Extract(src, "<div class=\"div-home-inside-left\">", "</div>");
-            string showurl = "http://watchseries.eu/serie/";
+            string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(showurl) + showurl.Length;
             while (start >= showurl.Length)
             {
@@ -50,13 +50,13 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "AvailableLetters")]
         public string AvailableLetters()
         {
-            return getAvailableItems("http://watchseries.eu/letters/");
+            return getAvailableItems("http://watchseries.li/letters/");
         }
         
         [WebGet(UriTemplate = "AvailableGenres")]
         public string AvailableGenres()
         {
-            return getAvailableItems("http://watchseries.eu/genres/");
+            return getAvailableItems("http://watchseries.li/genres/");
         }
 
         private string getAvailableItems( string baseurl )
@@ -80,12 +80,12 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "GetLetter/{letter}")]
         public string GetLetter(string letter)
         {
-            return getAvailableShows("http://watchseries.eu/letters/" + letter);
+            return getAvailableShows("http://watchseries.li/letters/" + letter);
         }
         [WebGet(UriTemplate = "GetGenre/{genre}")]
         public string GetGenre(string genre)
         {
-            return getAvailableShows("http://watchseries.eu/genres/" + genre);
+            return getAvailableShows("http://watchseries.li/genres/" + genre);
         }
 
         private string getAvailableShows(string baseurl)
@@ -93,7 +93,7 @@ namespace EMCRestService.Services
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource(baseurl);
             string allShows = StringUtility.Extract(src, "<div id=\"left\" >", "</ul>") + StringUtility.Extract(src, "<div id=\"right\">", "</ul>");
-            string showurl = "http://watchseries.eu/serie/";
+            string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(showurl) + showurl.Length;
             while (start >= showurl.Length)
             {
@@ -116,10 +116,10 @@ namespace EMCRestService.Services
         public string Search(string keywords)
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
-            string src = GatheringUtility.GetPageSource("http://watchseries.eu/search/" + keywords);
+            string src = GatheringUtility.GetPageSource("http://watchseries.li/search/" + keywords);
             string allShows = StringUtility.Extract(src, "<div class=\"episode-summary\">", "</div>");
             string td = "<td valign=\"top\">";
-            string showurl = "http://watchseries.eu/serie/";
+            string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(td) + td.Length;
             while (start >= td.Length)
             {
@@ -147,7 +147,7 @@ namespace EMCRestService.Services
             TvShowDetailedEntry entry = new TvShowDetailedEntry();
             entry.ShowName = showname;
 
-            string baseurl = "http://watchseries.eu/serie/" + showname;
+            string baseurl = "http://watchseries.li/serie/" + showname;
             string src = GatheringUtility.GetPageSource(baseurl);
 
             if (src.Contains("Um, Where did the page go?"))
@@ -165,7 +165,7 @@ namespace EMCRestService.Services
             entry.ReleaseDate = DateTime.ParseExact(rDate, "dd , MMMM yyyy", CultureInfo.InvariantCulture);
             entry.ReleaseYear = entry.ReleaseDate.Year;
 
-            entry.Genre = StringUtility.Extract(summary, "http://watchseries.eu/genres/", "\"");
+            entry.Genre = StringUtility.Extract(summary, "http://watchseries.li/genres/", "\"");
 
             entry.Status = StringUtility.Extract(summary, "<b>Status : </b>", "<");
             if (entry.Status != null) entry.Status = entry.Status.Trim();
@@ -194,7 +194,7 @@ namespace EMCRestService.Services
                 season.NbEpisodes = int.Parse(StringUtility.Extract(itemS, "  (", " episodes)"));
                 season.SeasonName = null;
                 int no = 0;
-                if (!int.TryParse(StringUtility.Extract(itemS, "watchseries.eu/season-", "/"), out no))
+                if (!int.TryParse(StringUtility.Extract(itemS, "watchseries.li/season-", "/"), out no))
                     continue;
                 season.SeasonNo = no;
 
@@ -231,7 +231,7 @@ namespace EMCRestService.Services
             // Build cookies
             GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
             Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
-            string baseurl = "http://watchseries.eu/getlinks.php?q=" + id + "&domain=all";
+            string baseurl = "http://watchseries.li/getlinks.php?q=" + id + "&domain=all";
             string src = GatheringUtility.GetPageSource(baseurl, cookies);
             string deb = "<div class=\"linewrap\" >";
             int start = src.IndexOf(deb) + deb.Length;
@@ -276,10 +276,10 @@ namespace EMCRestService.Services
             entry.SeasonNo = int.Parse(season.Substring(season.LastIndexOf('_') + 2));
             entry.Links = Links(entry.EpisodeId);
 
-            string baseurl = "http://watchseries.eu/episode/" + epname + ".html";
+            string baseurl = "http://watchseries.li/episode/" + epname + ".html";
             string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl),"<div class=\"fullwrap\">","</div>");
 
-            string showtitle = StringUtility.Extract(src, "<a href=\"http://watchseries.eu/serie/", "</a>");
+            string showtitle = StringUtility.Extract(src, "<a href=\"http://watchseries.li/serie/", "</a>");
             entry.ShowTitle = showtitle.Substring(showtitle.LastIndexOf('>') + 1);
 
             entry.EpisodeTitle = StringUtility.Extract(src, "  - ", "</span>").Trim();
@@ -302,8 +302,8 @@ namespace EMCRestService.Services
             GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
 
             //Get link
-            string gateway = "http://watchseries.eu/gateway.php?link=";
-            string cale = GatheringUtility.GetPageSource("http://watchseries.eu/open/cale/" + linkid + "/idepisod/42.html", cookies);
+            string gateway = "http://watchseries.li/gateway.php?link=";
+            string cale = GatheringUtility.GetPageSource("http://watchseries.li/open/cale/" + linkid + "/idepisod/42.html", cookies);
             string token = StringUtility.Extract(cale, gateway, "\"");
 
             //Get RealURL
