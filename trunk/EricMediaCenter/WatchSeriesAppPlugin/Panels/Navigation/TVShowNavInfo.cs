@@ -18,6 +18,16 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         private ShowSummaryInfo m_ShowSummary;
         private ShowInfo m_ShowFull;
 
+        public UserFavoriteInfo Favorite
+        {
+            get
+            {
+                if (User != null && User.Favorites.ContainsKey(m_ShowSummary.Name))
+                    return User.Favorites[m_ShowSummary.Name];
+                return null;
+            }
+        }
+
         public ShowSummaryInfo ShowSummary
         {
             get { return m_ShowSummary; }
