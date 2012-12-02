@@ -58,7 +58,6 @@
             this.lstEpisodes.Size = new System.Drawing.Size(263, 326);
             this.lstEpisodes.TabIndex = 10;
             this.lstEpisodes.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstEpisodes_DrawItem);
-            this.lstEpisodes.SelectedIndexChanged += new System.EventHandler(this.lstEpisodes_SelectedIndexChanged);
             this.lstEpisodes.DoubleClick += new System.EventHandler(this.lstEpisodes_DoubleClick);
             this.lstEpisodes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstEpisodes_MouseDown);
             // 
