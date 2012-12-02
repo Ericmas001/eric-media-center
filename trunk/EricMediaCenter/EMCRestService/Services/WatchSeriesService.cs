@@ -185,6 +185,7 @@ namespace EMCRestService.Services
             string allSeasons = StringUtility.Extract(src, "<div id=\"left\">", "<!-- end of left -->") + StringUtility.Extract(src, "<div id=\"right\">", "<!-- end right -->");
             string seasDeb = "<h2 class=\"lists\">";
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
+            int lastS = -1;
             while (startS >= seasDeb.Length)
             {
                 TvSeasonEntry season = new TvSeasonEntry();
@@ -198,6 +199,8 @@ namespace EMCRestService.Services
                 int no = 0;
                 if (!int.TryParse(StringUtility.Extract(itemS, "watchseries.li/season-", "/"), out no))
                     continue;
+                if (no == lastS)
+                    season = entry.Seasons.Last();
                 season.SeasonNo = no;
 
                 string epDeb = "<li>";
@@ -221,7 +224,9 @@ namespace EMCRestService.Services
                     season.Episodes.Add(episode);
                     startE = itemS.IndexOf(epDeb,endE) + epDeb.Length;
                 }
-                entry.Seasons.Add(season);
+                if (no != lastS)
+                    entry.Seasons.Add(season);
+                lastS = no;
             }
 
 
