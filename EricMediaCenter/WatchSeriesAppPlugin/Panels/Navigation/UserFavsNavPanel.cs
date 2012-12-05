@@ -68,5 +68,10 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                 Navigate(nfo);
             }
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            Navigate(new SearchNavInfo(Info.FutureParents, Info.User));
+        }
     }
 }
