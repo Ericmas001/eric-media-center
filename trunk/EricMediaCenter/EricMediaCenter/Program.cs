@@ -31,6 +31,7 @@ namespace EricMediaCenter
 // What to do with links ! (Open Website / Download in browser / Copy link to clipboard / Download with EMC)
 // SearchNavPabel is ugly
 // Global configs
-// [] Stay connected
-// Settings for an app
-// Plugins update panel + 
+// [X] Stay connected acting like a cookie
+// Settings for an app (Setting
+// Plugins update panel + cool
+// "Register" action in disabled AddToFav TVShow Page just does nothing now !!! (Need register to be a navpage) 

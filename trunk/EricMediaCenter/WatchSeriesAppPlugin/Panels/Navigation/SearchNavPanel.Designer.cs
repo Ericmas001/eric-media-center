@@ -42,11 +42,13 @@
             this.lstResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstResults.FormattingEnabled = true;
             this.lstResults.IntegralHeight = false;
-            this.lstResults.Location = new System.Drawing.Point(100, 65);
+            this.lstResults.ItemHeight = 20;
+            this.lstResults.Location = new System.Drawing.Point(129, 72);
             this.lstResults.Name = "lstResults";
-            this.lstResults.Size = new System.Drawing.Size(325, 251);
+            this.lstResults.Size = new System.Drawing.Size(296, 244);
             this.lstResults.TabIndex = 10;
             this.lstResults.DoubleClick += new System.EventHandler(this.lstResults_DoubleClick);
             // 
@@ -54,21 +56,24 @@
             // 
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSearch.Location = new System.Drawing.Point(100, 40);
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(129, 40);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(247, 20);
+            this.txtSearch.Size = new System.Drawing.Size(218, 26);
             this.txtSearch.TabIndex = 11;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // btnSearch
             // 
             this.btnSearch.AllowAnimations = true;
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.BackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(353, 41);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.RoundedCornersMask = ((byte)(15));
-            this.btnSearch.Size = new System.Drawing.Size(72, 19);
+            this.btnSearch.Size = new System.Drawing.Size(72, 25);
             this.btnSearch.TabIndex = 12;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -79,10 +84,11 @@
             // 
             this.btnGenres.AllowAnimations = true;
             this.btnGenres.BackColor = System.Drawing.Color.Transparent;
-            this.btnGenres.Location = new System.Drawing.Point(6, 90);
+            this.btnGenres.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenres.Location = new System.Drawing.Point(6, 97);
             this.btnGenres.Name = "btnGenres";
             this.btnGenres.RoundedCornersMask = ((byte)(15));
-            this.btnGenres.Size = new System.Drawing.Size(88, 19);
+            this.btnGenres.Size = new System.Drawing.Size(117, 19);
             this.btnGenres.TabIndex = 13;
             this.btnGenres.Text = "By Genre";
             this.btnGenres.UseVisualStyleBackColor = false;
@@ -93,10 +99,11 @@
             // 
             this.btnLetters.AllowAnimations = true;
             this.btnLetters.BackColor = System.Drawing.Color.Transparent;
-            this.btnLetters.Location = new System.Drawing.Point(6, 65);
+            this.btnLetters.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLetters.Location = new System.Drawing.Point(6, 72);
             this.btnLetters.Name = "btnLetters";
             this.btnLetters.RoundedCornersMask = ((byte)(15));
-            this.btnLetters.Size = new System.Drawing.Size(88, 19);
+            this.btnLetters.Size = new System.Drawing.Size(117, 19);
             this.btnLetters.TabIndex = 15;
             this.btnLetters.Text = "By Letter";
             this.btnLetters.UseVisualStyleBackColor = false;
@@ -107,17 +114,20 @@
             // 
             this.lstChoices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.lstChoices.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstChoices.FormattingEnabled = true;
             this.lstChoices.IntegralHeight = false;
-            this.lstChoices.Location = new System.Drawing.Point(6, 115);
+            this.lstChoices.ItemHeight = 20;
+            this.lstChoices.Location = new System.Drawing.Point(6, 122);
             this.lstChoices.Name = "lstChoices";
-            this.lstChoices.Size = new System.Drawing.Size(88, 201);
+            this.lstChoices.Size = new System.Drawing.Size(117, 194);
             this.lstChoices.TabIndex = 16;
             this.lstChoices.SelectedIndexChanged += new System.EventHandler(this.lstChoices_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(23, 39);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(52, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 20);
             this.label1.TabIndex = 17;
