@@ -23,17 +23,18 @@ namespace WatchSeriesAppPlugin
         private static List<string> m_Genres;
         private static List<string> m_Letters;
         private static MainPanel m_PanelMain;
-        private static TestNavPanel m_PanelTest = new TestNavPanel();
         private static SearchNavPanel m_PanelSearch = new SearchNavPanel();
         private static TVShowNavPanel m_PanelTVShow = new TVShowNavPanel();
         private static TVEpisodeNavPanel m_PanelTVEpisode = new TVEpisodeNavPanel();
+        private static UserFavsNavPanel m_PanelUserFavs = new UserFavsNavPanel();
+
         private static LoginPanel m_LoginPanel = new LoginPanel();
+        private static RegisterPanel m_RegisterPanel = new RegisterPanel();
 
         public static LoginPanel LoginPanel
         {
             get { return WSGlobal.m_LoginPanel; }
         }
-        private static RegisterPanel m_RegisterPanel = new RegisterPanel();
 
         public static RegisterPanel RegisterPanel
         {
@@ -50,11 +51,6 @@ namespace WatchSeriesAppPlugin
             get { return m_Genres; }
             set { m_Genres = value; } 
         }
-
-        public static TestNavPanel PanelTest
-        {
-            get { return WSGlobal.m_PanelTest; }
-        }
         public static SearchNavPanel PanelSearch
         {
             get { return WSGlobal.m_PanelSearch; }
@@ -66,6 +62,11 @@ namespace WatchSeriesAppPlugin
         public static TVEpisodeNavPanel PanelTVEpisode
         {
             get { return WSGlobal.m_PanelTVEpisode; }
+        }
+
+        public static UserFavsNavPanel PanelUserFavs
+        {
+            get { return WSGlobal.m_PanelUserFavs; }
         }
 
         public static MainPanel PanelMain
@@ -82,11 +83,6 @@ namespace WatchSeriesAppPlugin
 
             switch (nfo.TypeNav)
             {
-                case NavType.Test:
-                    {
-                        nav = PanelTest;
-                        break;
-                    }
                 case NavType.Search:
                     {
                         nav = PanelSearch;
@@ -100,6 +96,11 @@ namespace WatchSeriesAppPlugin
                 case NavType.TVEpisode:
                     {
                         nav = PanelTVEpisode;
+                        break;
+                    }
+                case NavType.UserFavs:
+                    {
+                        nav = PanelUserFavs;
                         break;
                     }
                 default:

@@ -60,7 +60,12 @@ namespace WatchSeriesAppPlugin.Entities
         }
         public override string ToString()
         {
-            return m_ShowTitle + " (" + m_ShowName + "): LastEpisode: " + m_LastSeason + "x" + m_LastEpisode + ", Watched: " + m_LastViewedSeason + "x" + m_LastViewedEpisode;
+            return m_ShowTitle;
+            //if (m_LastSeason == m_LastViewedSeason && m_LastEpisode == m_LastViewedEpisode)
+            //    return string.Format("{0} - Last Episode: S{1:00}E{2:00}", m_ShowTitle, m_LastSeason, m_LastEpisode);
+            //else
+            //    return string.Format("{0} - Last Episode: S{1:00}E{2:00} - Last Viewed: S{3:00}E{4:00}", m_ShowTitle, m_LastSeason, m_LastEpisode, m_LastViewedSeason, m_LastViewedEpisode);
+            // return m_ShowTitle + " (" + m_ShowName + "): LastEpisode: " + m_LastSeason + "x" + m_LastEpisode + ", Watched: " + m_LastViewedSeason + "x" + m_LastViewedEpisode;
         }
     }
 }

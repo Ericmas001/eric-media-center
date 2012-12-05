@@ -25,11 +25,12 @@ namespace WatchSeriesAppPlugin.Panels
             
             WSGlobal.RegisterPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
             WSGlobal.RegisterPanel.WrongScreen += new EricUtility.EmptyHandler(regPanel_WrongScreen);
-            
-            WSGlobal.PanelTest.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+
             WSGlobal.PanelSearch.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
             WSGlobal.PanelTVShow.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
             WSGlobal.PanelTVEpisode.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+            WSGlobal.PanelTVEpisode.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
+            WSGlobal.PanelUserFavs.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
         }
 
         void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
@@ -43,7 +44,7 @@ namespace WatchSeriesAppPlugin.Panels
             else
             {
                 //Enter as a user
-                SetContent(WSGlobal.Navigate(new TestNavInfo(new NavInfo[0], WSGlobal.User)));
+                SetContent(WSGlobal.Navigate(new UserFavsNavInfo(new NavInfo[0], WSGlobal.User)));
             }
         }
 
