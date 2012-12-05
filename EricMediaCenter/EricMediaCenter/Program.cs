@@ -27,7 +27,10 @@ namespace EricMediaCenter
 // TODOS
 // Largeur du bouton lorsque reutilise ;) (NavBar)
 // Populars in SearchNavPanel
-// Favorite Nav Page
 // Login & Register need to be NavPages
 // What to do with links ! (Open Website / Download in browser / Copy link to clipboard / Download with EMC)
 // SearchNavPabel is ugly
+// Global configs
+// [] Stay connected
+// Settings for an app
+// Plugins update panel + 

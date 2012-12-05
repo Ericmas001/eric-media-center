@@ -7,10 +7,10 @@ using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
-    public class TestNavInfo : NavInfo
+    public class UserFavsNavInfo : NavInfo
     {
-        public TestNavInfo(NavInfo[] parents, UserInfo user)
-            : base(DateTime.Now.ToLongTimeString(), NavType.Test, parents, user)
+        public UserFavsNavInfo(NavInfo[] parents, UserInfo user)
+            : base(user.Username, NavType.UserFavs, parents, user)
         {
         }
     }

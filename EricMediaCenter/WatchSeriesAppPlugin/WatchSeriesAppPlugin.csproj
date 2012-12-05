@@ -74,6 +74,13 @@
     <Compile Include="Entities\SeasonInfo.cs" />
     <Compile Include="Entities\ShowInfo.cs" />
     <Compile Include="Entities\ShowSummaryInfo.cs" />
+    <Compile Include="Panels\Navigation\UserFavsNavPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Navigation\UserFavsNavPanel.Designer.cs">
+      <DependentUpon>UserFavsNavPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Navigation\UserFavsNavInfo.cs" />
     <Compile Include="Panels\Navigation\TVEpisodeNavPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -82,7 +89,6 @@
     </Compile>
     <Compile Include="Panels\Navigation\TVEpisodeNavInfo.cs" />
     <Compile Include="Panels\Navigation\TVShowNavInfo.cs" />
-    <Compile Include="Panels\Navigation\TestNavInfo.cs" />
     <Compile Include="Panels\Navigation\Core\NavInfo.cs" />
     <Compile Include="Panels\Navigation\Core\NavType.cs" />
     <Compile Include="Panels\Navigation\SearchNavInfo.cs" />
@@ -128,18 +134,15 @@
     <Compile Include="Panels\Navigation\Core\NavBar.Designer.cs">
       <DependentUpon>NavBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\Navigation\TestNavPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Panels\Navigation\TestNavPanel.Designer.cs">
-      <DependentUpon>TestNavPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entities\UserFavoriteInfo.cs" />
     <Compile Include="Entities\UserInfo.cs" />
     <Compile Include="WatchSeriesApp.cs" />
     <Compile Include="WatchSeriesPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSGlobal.cs" />
+    <EmbeddedResource Include="Panels\Navigation\UserFavsNavPanel.resx">
+      <DependentUpon>UserFavsNavPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\Navigation\TVEpisodeNavPanel.resx">
       <DependentUpon>TVEpisodeNavPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,9 +177,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Panels\Navigation\TestNavPanel.resx">
-      <DependentUpon>TestNavPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
