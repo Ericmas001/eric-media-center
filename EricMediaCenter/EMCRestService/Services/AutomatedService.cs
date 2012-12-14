@@ -24,7 +24,8 @@ namespace EMCRestService.Services
         {
             SqlConnection myConnection = Connector.GetConnection();
             List<Dictionary<string, object>> results = Connector.SelectRows(myConnection, "select * from ericmas001.TLastEpisodes", new Dictionary<string, object>());
-            WatchSeriesService service =  new WatchSeriesService();
+            //WatchSeriesService service =  new WatchSeriesService();
+            TubePlusService service = new TubePlusService();
             List<object> changes = new List<object>();
             foreach (Dictionary<string, object> result in results)
             {
@@ -33,7 +34,10 @@ namespace EMCRestService.Services
                 int saved_lastEpisode = String.IsNullOrEmpty(result["lastEpisode"].ToString()) ? 0 : (int)result["lastEpisode"];
                 string res = service.GetShow(show);
                 if (res == null)
+                {
+                    changes.Add(new { showname = show, error = "show not found" });
                     continue;
+                }
                 JObject r = JsonConvert.DeserializeObject<dynamic>(res);
                 JArray seasons = (JArray)r["Seasons"];
                 JObject lastSeason = (JObject)seasons[seasons.Count - 1];
