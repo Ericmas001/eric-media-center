@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Application\IEMCApplicationPlugin.cs" />
     <Compile Include="Application\IApplication.cs" />
+    <Compile Include="SettingEntry.cs" />
     <Compile Include="WebService\IWebService.cs" />
     <Compile Include="WebService\IEMCWebServicePlugin.cs" />
     <Compile Include="EMCGlobal.cs" />

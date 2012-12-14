@@ -10,6 +10,7 @@ using EricUtility.Networking.Gathering;
 using EMCMasterPluginLib;
 using EMCMasterPluginLib.WebService;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace EMCMasterPluginLib
 {
@@ -24,6 +25,7 @@ namespace EMCMasterPluginLib
         private static bool m_WebServiceLoaded = false;
         private static bool m_ApplicationLoaded = false;
         private static bool m_AvailablePluginsLoaded = false;
+        private static bool m_SettingsLoaded = false;
 
         private static Dictionary<string, IEMCApplicationPlugin> m_ApplicationPlugins = new Dictionary<string, IEMCApplicationPlugin>();
         private static Dictionary<string, IEMCWebServicePlugin> m_WebServicePlugins = new Dictionary<string, IEMCWebServicePlugin>();
@@ -32,6 +34,19 @@ namespace EMCMasterPluginLib
 
         private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
         private static Dictionary<string, Dictionary<string, Version>> m_AvailablesPluginsByCat = new Dictionary<string,Dictionary<string,Version>>();
+
+        private static Dictionary<string, Dictionary<string, SettingEntry>> m_Settings = new Dictionary<string, Dictionary<string, SettingEntry>>();
+
+        public static Dictionary<string, Dictionary<string, SettingEntry>> Settings
+        {
+            get
+            {
+                if (!m_SettingsLoaded)
+                    ReloadSettings();
+                return EMCGlobal.m_Settings;
+            }
+            set { EMCGlobal.m_Settings = value; }
+        }
 
         public static Dictionary<string, IEMCApplicationPlugin> ApplicationPlugins
         {
@@ -115,6 +130,19 @@ namespace EMCMasterPluginLib
 
 
 
+        private static void ReloadSettings()
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(EMCPath + Path.DirectorySeparatorChar + "EMCSettings.xml");
+
+            XmlNode root = document.SelectSingleNode("settings");
+            double version = double.Parse(root.Attributes["version"].Value);
+
+            m_SettingsLoaded = true;
+
+            //TODO !!!
+        }
+
         public static void RefreshAvailablePlugins()
         {
             m_AvailablesPlugins.Clear();
@@ -139,7 +167,6 @@ namespace EMCMasterPluginLib
             m_AvailablePluginsLoaded = true;
             AvailablePluginsUpdated();
         }
-
 
         public static void ReloadApplicationPlugins()
         {
@@ -211,7 +238,7 @@ namespace EMCMasterPluginLib
         }
         public static object GetWebServiceResult(string c, string a)
         {
-            IWebService client = m_WebServiceClients[c];
+            IWebService client = WebServiceClients[c];
             string command = c.Substring(c.IndexOf('|')+1);
             if (!String.IsNullOrEmpty(a))
                 a = "/" + a;
