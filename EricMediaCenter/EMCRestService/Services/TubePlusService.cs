@@ -108,13 +108,14 @@ namespace EMCRestService.Services
             TvShowDetailedEntry entry = new TvShowDetailedEntry();
 
             //Patch laide, temporary convert watchseries to tubeplus:
+            showname = showname.ToLower();
             showname = showname.Replace("2_broke_girls", "1964654");
             showname = showname.Replace("21_jump_street", "661838");
             showname = showname.Replace("666_park_avenue", "2106585");
             showname = showname.Replace("ally_mcbeal", "692463");
             showname = showname.Replace("alphas", "1680142");
             showname = showname.Replace("animal_practice", "1979669");
-            showname = showname.Replace("Arrow", "1978302");//Arrow");//");
+            showname = showname.Replace("arrow", "1978302");//Arrow");//");
             showname = showname.Replace("awkward", "1962544");//Awkward");//");
             showname = showname.Replace("big_bang_theory", "1386155");//The_Big_Bang_Theory");//");
             showname = showname.Replace("blue_bloods", "1619483");//Blue_Bloods");//");

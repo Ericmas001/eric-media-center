@@ -10,6 +10,7 @@ using WatchSeriesAppPlugin.Entities;
 using EMCMasterPluginLib;
 using System.Collections;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
+using System.Diagnostics;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
@@ -98,8 +99,9 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             if (lstEpisodes.SelectedIndex >= 0)
             {
                 EpisodeSummaryInfo esi = (EpisodeSummaryInfo)lstEpisodes.SelectedItem;
-                TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, esi.GetPreviousEpisode(), esi.GetNextEpisode(), Info.FutureParents, Info.User);
-                Navigate(epNfo);
+                Process.Start("http://www.tubeplus.me/player/" + esi.Id + "/");
+                //TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, esi.GetPreviousEpisode(), esi.GetNextEpisode(), Info.FutureParents, Info.User);
+                //Navigate(epNfo);
             }
         }
 

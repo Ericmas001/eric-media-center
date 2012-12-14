@@ -29,24 +29,24 @@ namespace EMCWatchSeriesWSPlugin
 
         public string BaseUrl
         {
-            get { return "http://emc.ericmas001.com/WatchSeries/"; }
+            get { return "http://emc.ericmas001.com/TubePlus/"; }
         }
 
-        public Dictionary<string,string> Commands
+        public Dictionary<string, string> Commands
         {
             get
             {
                 return new Dictionary<string, string>{
                     {"GetPopulars",""},
                     {"AvailableLetters",""},
-                    {"AvailableGenres",""},
+              //      {"AvailableGenres",""},
                     {"GetLetter","{letter}"},
-                    {"GetGenre","{genre}"},
+              //      {"GetGenre","{genre}"},
                     {"Search","{keywords}"},
                     {"GetShow","{showname}"},
-                    {"GetLinks","{epid}"},
-                    {"GetEpisode","{epname}"},
-                    {"GetUrl","{linkid}"}
+             //       {"GetLinks","{epid}"},
+             //       {"GetEpisode","{epname}"},
+             //       {"GetUrl","{linkid}"}
                 };
             }
         }
@@ -58,14 +58,14 @@ namespace EMCWatchSeriesWSPlugin
             {
                 case "GetPopulars": newRes = WatchSeriesGetPopulars(result); break;
                 case "AvailableLetters": newRes = WatchSeriesAvailableLetters(result); break;
-                case "AvailableGenres": newRes = WatchSeriesAvailableGenres(result); break;
+                //     case "AvailableGenres": newRes = WatchSeriesAvailableGenres(result); break;
                 case "GetLetter": newRes = WatchSeriesGetLetter(result); break;
-                case "GetGenre": newRes = WatchSeriesGetGenre(result); break;
+                //     case "GetGenre": newRes = WatchSeriesGetGenre(result); break;
                 case "Search": newRes = WatchSeriesSearch(result); break;
                 case "GetShow": newRes = WatchSeriesGetShow(result); break;
-                case "GetLinks": newRes = WatchSeriesGetLinks(result); break;
-                case "GetEpisode": newRes = WatchSeriesGetEpisode(result); break;
-                case "GetUrl": newRes = WatchSeriesGetUrl(result); break;
+                //     case "GetLinks": newRes = WatchSeriesGetLinks(result); break;
+                //     case "GetEpisode": newRes = WatchSeriesGetEpisode(result); break;
+                //     case "GetUrl": newRes = WatchSeriesGetUrl(result); break;
             }
             return newRes;
         }
