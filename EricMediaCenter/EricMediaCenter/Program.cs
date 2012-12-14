@@ -29,7 +29,6 @@ namespace EricMediaCenter
 // Populars in SearchNavPanel
 // Login & Register need to be NavPages
 // What to do with links ! (Open Website / Download in browser / Copy link to clipboard / Download with EMC)
-// SearchNavPabel is ugly
 // Global configs
 // [X] Stay connected acting like a cookie
 // Settings for an app (Setting

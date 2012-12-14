@@ -28,7 +28,7 @@ namespace EricMediaCenter
         public MainForm()
         {
             InitializeComponent();
-            panels.Add(btnSettings.Name, new SettingsPanel());
+            panels.Add(btnSettings.Name, new SettingsNavPanel());
             EMCGlobal.SupportedAppUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedAppUpdated);
             EMCGlobal.MainPanelChanged += new EventHandler<KeyValueEventArgs<string, UserControl>>(EMCGlobal_MainPanelChanged);
         }
