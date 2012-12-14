@@ -80,6 +80,7 @@
     <Compile Include="Entries\TvRageEntry.cs" />
     <Compile Include="Entries\EpGuideEntry.cs" />
     <Compile Include="Services\AutomatedService.cs" />
+    <Compile Include="Services\TubePlusService.cs" />
     <Compile Include="Services\TvRageService.cs" />
     <Compile Include="Services\EpGuideService.cs" />
     <Compile Include="Entries\TvEpisodeEntry.cs" />
