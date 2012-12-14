@@ -232,45 +232,45 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
-        public List<TvWebsiteEntry> Links(int id)
-        {
-            CookieContainer cookies = new CookieContainer();
-            // Build cookies
-            GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
-            Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
-            string baseurl = "http://watchseries.li/getlinks.php?q=" + id + "&domain=all";
-            string src = GatheringUtility.GetPageSource(baseurl, cookies);
-            string deb = "<div class=\"linewrap\" >";
-            int start = src.IndexOf(deb) + deb.Length;
-            while (start >= deb.Length)
-            {
-                int end = src.IndexOf("<br class=\"clear\">", start);
-                string item = src.Substring(start, end - start).Trim();
+        //public List<TvWebsiteEntry> Links(int id)
+        //{
+        //    CookieContainer cookies = new CookieContainer();
+        //    // Build cookies
+        //    GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
+        //    Dictionary<string, List<int>> all = new Dictionary<string, List<int>>();
+        //    string baseurl = "http://watchseries.li/getlinks.php?q=" + id + "&domain=all";
+        //    string src = GatheringUtility.GetPageSource(baseurl, cookies);
+        //    string deb = "<div class=\"linewrap\" >";
+        //    int start = src.IndexOf(deb) + deb.Length;
+        //    while (start >= deb.Length)
+        //    {
+        //        int end = src.IndexOf("<br class=\"clear\">", start);
+        //        string item = src.Substring(start, end - start).Trim();
 
-                string site = StringUtility.Extract(item, "<div class=\"site\">", "</div>").Trim();
-                if (site.Contains(" "))
-                    site = site.Remove(site.IndexOf(" "));
-                int wid = int.Parse(StringUtility.Extract(item, "../open/cale/", "/idepisod/").Trim());
+        //        string site = StringUtility.Extract(item, "<div class=\"site\">", "</div>").Trim();
+        //        if (site.Contains(" "))
+        //            site = site.Remove(site.IndexOf(" "));
+        //        int wid = int.Parse(StringUtility.Extract(item, "../open/cale/", "/idepisod/").Trim());
 
-                if (!all.ContainsKey(site))
-                    all.Add(site, new List<int>());
-                all[site].Add(wid);
+        //        if (!all.ContainsKey(site))
+        //            all.Add(site, new List<int>());
+        //        all[site].Add(wid);
 
-                start = src.IndexOf(deb, end) + deb.Length;
-            }
-            string[] items = new string[all.Count];
-            all.Keys.CopyTo(items, 0);
-            Array.Sort(items);
-            List<TvWebsiteEntry> websites = new List<TvWebsiteEntry>();
-            foreach (string s in items)
-                websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
-            return websites;
-        }
-        [WebGet(UriTemplate = "GetLinks/{epid}")]
-        public string GetLinks(string epid)
-        {
-            return JsonConvert.SerializeObject(Links(int.Parse(epid)));
-        }
+        //        start = src.IndexOf(deb, end) + deb.Length;
+        //    }
+        //    string[] items = new string[all.Count];
+        //    all.Keys.CopyTo(items, 0);
+        //    Array.Sort(items);
+        //    List<TvWebsiteEntry> websites = new List<TvWebsiteEntry>();
+        //    foreach (string s in items)
+        //        websites.Add(new TvWebsiteEntry(){ Name = s, LinkIDs = all[s]});
+        //    return websites;
+        //}
+        //[WebGet(UriTemplate = "GetLinks/{epid}")]
+        //public string GetLinks(string epid)
+        //{
+        //    return JsonConvert.SerializeObject(Links(int.Parse(epid)));
+        //}
         [WebGet(UriTemplate = "GetEpisode/{epname}")]
         public string GetEpisode(string epname)
         {
@@ -281,7 +281,8 @@ namespace EMCRestService.Services
             entry.EpisodeNo = int.Parse(StringUtility.Extract(epname.Substring(epname.LastIndexOf('_')), "_e", "-"));
             string season = epname.Remove(epname.LastIndexOf('_'));
             entry.SeasonNo = int.Parse(season.Substring(season.LastIndexOf('_') + 2));
-            entry.Links = Links(entry.EpisodeId);
+            //entry.Links = Links(entry.EpisodeId);
+            entry.Links = new List<TvWebsiteEntry>();
 
             string baseurl = "http://watchseries.li/episode/" + epname + ".html";
             string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl),"<div class=\"fullwrap\">","</div>");
@@ -301,28 +302,28 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
-        [WebGet(UriTemplate = "GetUrl/{linkid}")]
-        public string GetUrl(string linkid)
-        {
-            CookieContainer cookies = new CookieContainer();
-            // Build cookies
-            GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
+        //[WebGet(UriTemplate = "GetUrl/{linkid}")]
+        //public string GetUrl(string linkid)
+        //{
+        //    CookieContainer cookies = new CookieContainer();
+        //    // Build cookies
+        //    GatheringUtility.GetPageSource(RANDOM_EPISODE_URL, cookies);
 
-            //Get link
-            string gateway = "http://watchseries.li/gateway.php?link=";
-            string cale = GatheringUtility.GetPageSource("http://watchseries.li/open/cale/" + linkid + "/idepisod/42.html", cookies);
-            string token = StringUtility.Extract(cale, gateway, "\"");
+        //    //Get link
+        //    string gateway = "http://watchseries.li/gateway.php?link=";
+        //    string cale = GatheringUtility.GetPageSource("http://watchseries.li/open/cale/" + linkid + "/idepisod/42.html", cookies);
+        //    string token = StringUtility.Extract(cale, gateway, "\"");
 
-            //Get RealURL
-            string rurl = GatheringUtility.GetPageUrl(gateway + token,cookies,"","application/x-www-form-urlencoded");
+        //    //Get RealURL
+        //    string rurl = GatheringUtility.GetPageUrl(gateway + token,cookies,"","application/x-www-form-urlencoded");
 
-            string trimmed = rurl.Replace("http://", "").Replace("https://", "").Replace("www.", "");
-            string websiteName = trimmed.Remove(trimmed.IndexOf('/'));
-            bool isSupported = VideoParsingService.Parsers.ContainsKey(websiteName);
-            string websiteArgs = null;
-            if (isSupported)
-                websiteArgs = VideoParsingService.Parsers[websiteName].ParseArgs(trimmed);
-            return JsonConvert.SerializeObject(new { url = rurl, supported = isSupported, website = websiteName, args = websiteArgs });
-        }
+        //    string trimmed = rurl.Replace("http://", "").Replace("https://", "").Replace("www.", "");
+        //    string websiteName = trimmed.Remove(trimmed.IndexOf('/'));
+        //    bool isSupported = VideoParsingService.Parsers.ContainsKey(websiteName);
+        //    string websiteArgs = null;
+        //    if (isSupported)
+        //        websiteArgs = VideoParsingService.Parsers[websiteName].ParseArgs(trimmed);
+        //    return JsonConvert.SerializeObject(new { url = rurl, supported = isSupported, website = websiteName, args = websiteArgs });
+        //}
     }
 }
