@@ -254,9 +254,11 @@ namespace EMCRestService.Services
 
                     episode.ReleaseDate = DateTime.MinValue;
                     if (infos.ContainsKey(episode.EpisodeId))
+                    {
                         episode.ReleaseDate = infos[episode.EpisodeId];
-                    if (episode.ReleaseDate <= DateTime.Now)
-                        season.Episodes.Insert(0,episode);
+                        if (episode.ReleaseDate <= DateTime.Now)
+                            season.Episodes.Insert(0, episode);
+                    }
                     startE = itemS.IndexOf(epDeb, endE) + epDeb.Length;
                 }
                 season.NbEpisodes = season.Episodes.Count;
