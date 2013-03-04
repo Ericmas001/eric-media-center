@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EricMediaCenter", "EricMediaCenter\EricMediaCenter.csproj", "{0F3348E9-DC95-41AA-A316-81398188F76A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCMasterPluginLib", "EMCMasterPluginLib\EMCMasterPluginLib.csproj", "{71F195E1-12C6-42BE-97DF-6D685A3D2CC0}"
