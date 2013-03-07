@@ -90,6 +90,7 @@
     <Compile Include="Entries\TvRageEntry.cs" />
     <Compile Include="Entries\EpGuideEntry.cs" />
     <Compile Include="Services\AutomatedService.cs" />
+    <Compile Include="Services\TvService.cs" />
     <Compile Include="Services\TubePlusService.cs" />
     <Compile Include="Services\TvRageService.cs" />
     <Compile Include="Services\EpGuideService.cs" />
@@ -99,6 +100,14 @@
     <Compile Include="Entries\TvShowEntry.cs" />
     <Compile Include="Services\WatchSeriesService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="TvWebsites\TvLinksWebsite.cs" />
+    <Compile Include="TvWebsites\ProjectFreeTvWebsite.cs" />
+    <Compile Include="TvWebsites\Entities\ListedEpisodes.cs" />
+    <Compile Include="TvWebsites\Entities\TvShow.cs" />
+    <Compile Include="TvWebsites\Entities\ListedTvShow.cs" />
+    <Compile Include="TvWebsites\ITvWebsite.cs" />
+    <Compile Include="TvWebsites\TubePlusWebsite.cs" />
+    <Compile Include="TvWebsites\WatchseriesOnlineWebsite.cs" />
     <Compile Include="VideoParser\BrokenOrGone\MegaVideoParser.cs" />
     <Compile Include="VideoParser\BrokenOrGone\MovShareParser.cs" />
     <Compile Include="VideoParser\BrokenOrGone\NovaMovParser.cs" />
