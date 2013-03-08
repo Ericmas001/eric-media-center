@@ -14,6 +14,7 @@ using System.Net;
 using EMCRestService.Entries;
 using EMCRestService.TvWebsites;
 using EMCRestService.TvWebsites.Entities;
+using System.Threading.Tasks;
 
 namespace EMCRestService.Services
 {
@@ -41,6 +42,12 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "Search/{website}/{keywords}")]
         public string Search(string website, string keywords)
         {
+            if (website == "all")
+            {
+                Dictionary<string, object> res = new Dictionary<string, object>();
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site,m_Supported[site].Search(keywords)));
+                return JsonConvert.SerializeObject(res);
+            }
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].Search(keywords));
@@ -49,6 +56,12 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "Letter/{website}/{letter}")]
         public string Letter(string website, string letter)
         {
+            if (website == "all")
+            {
+                Dictionary<string, object> res = new Dictionary<string, object>();
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].StartsWith(letter)));
+                return JsonConvert.SerializeObject(res);
+            }
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].StartsWith(letter));
@@ -57,6 +70,12 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "Show/{website}/{showId}")]
         public string Show(string website, string showId)
         {
+            if (website == "all")
+            {
+                Dictionary<string, object> res = new Dictionary<string, object>();
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].Show(showId) ?? new TvShow()));
+                return JsonConvert.SerializeObject(res);
+            }
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].Show(showId) ?? new TvShow());
