@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
 {
@@ -57,70 +58,50 @@ namespace EMCRestService.TvWebsites
             show.Title = StringUtility.Extract(src, "<h1 style=\"margin:0; font-size: 20px;\">", "</h1>");
             if (show.Title == null)
                 return null;
-            //string allSeasons = StringUtility.Extract(src, "<div id=\"seasons\">", "</div>");
-            //string seasDeb = "<a id=";
-            //int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
-            //while (startS >= seasDeb.Length)
-            //{
-            //    int endS = allSeasons.IndexOf("</span>", startS);
-            //    string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-            //    String sInfo = StringUtility.Extract(itemS, "javascript:show_season(", "\")'>");
-            //    string[] eps = sInfo.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-            //    Dictionary<int, DateTime> infos = new Dictionary<int, DateTime>();
-            //    foreach (string ep in eps)
-            //    {
-            //        string[] parts = ep.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-            //        if (parts.Length > 2)
-            //        {
-            //            int id = int.Parse(parts[2]);
-            //            try
-            //            {
-            //                DateTime date = DateTime.ParseExact(parts.Last(), "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-            //                infos.Add(id, date);
-            //            }
-            //            catch { }
-            //        }
-            //    }
+            Dictionary<int,string> seasons = new Dictionary<int,string>();
+            string allSeasons = StringUtility.Extract(src, " Categories</td>", "<!-- Start of the latest link tables -->");
+            string seasDeb = "mnlcategorylist\">";
+            int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
+            while (startS >= seasDeb.Length)
+            {
+                int endS = allSeasons.IndexOf("</td>", startS);
+                string itemS = allSeasons.Substring(startS, endS - startS).Trim();
+                //string url = baseurl + "/" + StringUtility.Extract(itemS, "<a href=\"", "\">");
+                int no = int.Parse(StringUtility.Extract(itemS, "<b>Season ", "</b>"));
+                seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", "\">"));
+                show.Episodes.Add(no, new List<ListedEpisode>());
+                startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
+            }
 
-            //    startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
-            //    int no = 0;
-            //    if (!int.TryParse(StringUtility.Extract(itemS, "lseason_", "\""), out no))
-            //        continue;
-            //    if (!show.Episodes.ContainsKey(no))
-            //        show.Episodes.Add(no, new List<ListedEpisode>());
-            //    List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
+            Parallel.ForEach(seasons.Keys, no =>
+            {
+                List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
+                string srcS = GatheringUtility.GetPageSource(baseurl + "/" + seasons[no]);
+                string allEps = StringUtility.Extract(srcS, "<!-- Start of middle column -->", "<!-- End of the middle_column -->");
+                string epDeb = "<td class=\"episode\">";
+                int startE = allEps.IndexOf(epDeb) + epDeb.Length;
+                while (startE >= epDeb.Length)
+                {
+                    ListedEpisode ep = new ListedEpisode();
+                    int endE = allEps.IndexOf("<a class=\"info\"", startE);
+                    if (endE == -1)
+                        break;
+                    string itemS = allEps.Substring(startE, endE - startE).Trim();
+                    ep.Name = StringUtility.Extract(itemS, "<a name=\"", "\"></a>") + "-" + seasons[no];
+                    ep.Title = StringUtility.Extract(itemS, "</a><b>", "</b></td>");
+                    string nfo = StringUtility.Extract(itemS, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
+                    ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
+                    ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
+                    string dt = StringUtility.Extract(nfo, "Air Date: ", "<");
+                    ep.ReleaseDate = DateTime.ParseExact(dt, "dd MMMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    episodes.Add(ep);
+                    startE = allEps.IndexOf(epDeb, endE) + epDeb.Length;
+                }
+            });
 
-            //    string epDeb = "<a name=";
-            //    int startE = itemS.IndexOf(epDeb) + epDeb.Length;
-            //    while (startE >= epDeb.Length)
-            //    {
-            //        ListedEpisode episode = new ListedEpisode();
-            //        int endE = itemS.IndexOf("</a>", startE);
-            //        string itemE = itemS.Substring(startE, endE - startE).Trim();
-
-            //        episode.Name = StringUtility.Extract(itemE, "/player/", "/");
-            //        int id = int.Parse(episode.Name);
-            //        episode.NoEpisode = int.Parse(StringUtility.Extract(itemE, ">Episode ", " -"));
-            //        episode.NoSeason = no;
-            //        episode.Title = itemE.Substring(itemE.LastIndexOf(" - ") + 3);
-
-            //        episode.ReleaseDate = DateTime.MinValue;
-            //        if (infos.ContainsKey(id))
-            //        {
-            //            episode.ReleaseDate = infos[id];
-            //            if (episode.ReleaseDate <= DateTime.Now)
-            //            {
-            //                episodes.Insert(0, episode);
-            //                if (show.NoLastSeason == 0)
-            //                {
-            //                    show.NoLastSeason = episode.NoSeason;
-            //                    show.NoLastEpisode = episode.NoEpisode;
-            //                }
-            //            }
-            //        }
-            //        startE = itemS.IndexOf(epDeb, endE) + epDeb.Length;
-            //    }
-            //}
+            ListedEpisode lastEp = show.Episodes.Last().Value.Last();
+            show.NoLastEpisode = lastEp.NoEpisode;
+            show.NoLastSeason = lastEp.NoSeason;
             return show;
         }
     }
