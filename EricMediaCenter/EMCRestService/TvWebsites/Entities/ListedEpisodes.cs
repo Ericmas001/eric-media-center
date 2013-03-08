@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EMCRestService.TvWebsites.Entities
 {
-    public class ListedEpisode
+    public class ListedEpisode : IComparable<ListedEpisode>
     {
         private int m_NoSeason;
         private int m_NoEpisode;
@@ -41,6 +41,16 @@ namespace EMCRestService.TvWebsites.Entities
         {
             get { return m_ReleaseDate; }
             set { m_ReleaseDate = value; }
+        }
+
+        public int CompareTo(ListedEpisode other)
+        {
+            int res = NoSeason.CompareTo(other.NoSeason);
+            if (res == 0)
+                res = NoEpisode.CompareTo(other.NoEpisode);
+            if (res == 0)
+                res = ReleaseDate.CompareTo(other.ReleaseDate);
+            return res;
         }
     }
 }

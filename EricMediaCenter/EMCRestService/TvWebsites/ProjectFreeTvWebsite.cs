@@ -66,10 +66,12 @@ namespace EMCRestService.TvWebsites
             {
                 int endS = allSeasons.IndexOf("</td>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-                //string url = baseurl + "/" + StringUtility.Extract(itemS, "<a href=\"", "\">");
-                int no = int.Parse(StringUtility.Extract(itemS, "<b>Season ", "</b>"));
-                seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", "\">"));
-                show.Episodes.Add(no, new List<ListedEpisode>());
+                int no = int.Parse(StringUtility.Extract(itemS, "<b>Season ", "</b>")??"-1");
+                if (no != -1)
+                {
+                    seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", "\">"));
+                    show.Episodes.Add(no, new List<ListedEpisode>());
+                }
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
             }
 
