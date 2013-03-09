@@ -170,7 +170,7 @@ namespace EMCRestService.TvWebsites
 
                 string nfo = StringUtility.Extract(itemP, "<a target=\"_blank\" id=\"hovered\"", "</td>");
                 string website = StringUtility.Extract(nfo, ">", "<");
-                string url = StringUtility.Extract(nfo, "href=\"", "\">");
+                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/getlink.php?l=http://", "\">").Replace("/","_");
 
                 if( !ep.Links.ContainsKey(website))
                     ep.Links.Add(website,new List<string>());
