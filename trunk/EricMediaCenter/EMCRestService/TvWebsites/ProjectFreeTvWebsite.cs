@@ -106,5 +106,11 @@ namespace EMCRestService.TvWebsites
             show.NoLastSeason = lastEp.NoSeason;
             return show;
         }
+
+
+        public Task<Episode> EpisodeAsync(string epId)
+        {
+            return null;
+        }
     }
 }

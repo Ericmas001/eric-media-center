@@ -106,6 +106,7 @@
     <Compile Include="Entries\TvShowEntry.cs" />
     <Compile Include="Services\WatchSeriesService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="TvWebsites\Entities\Episode.cs" />
     <Compile Include="TvWebsites\TvLinksWebsite.cs" />
     <Compile Include="TvWebsites\ProjectFreeTvWebsite.cs" />
     <Compile Include="TvWebsites\Entities\ListedEpisodes.cs" />

@@ -69,15 +69,17 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "Show/{website}/{showId}")]
         public string Show(string website, string showId)
         {
-            if (website == "all")
-            {
-                Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].ShowAsync(showId).Result ?? new TvShow()));
-                return JsonConvert.SerializeObject(res);
-            }
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId).Result ?? new TvShow());
+        }
+
+        [WebGet(UriTemplate = "Episode/{website}/{epId}")]
+        public string Episode(string website, string epId)
+        {
+            if (!m_Supported.ContainsKey(website))
+                return null;
+            return JsonConvert.SerializeObject(m_Supported[website].EpisodeAsync(epId).Result ?? new Episode());
         }
     }
 }

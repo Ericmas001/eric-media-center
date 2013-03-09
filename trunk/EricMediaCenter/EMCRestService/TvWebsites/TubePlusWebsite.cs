@@ -126,5 +126,11 @@ namespace EMCRestService.TvWebsites
             }
             return show;
         }
+
+
+        public Task<Episode> EpisodeAsync(string epId)
+        {
+            return null;
+        }
     }
 }
