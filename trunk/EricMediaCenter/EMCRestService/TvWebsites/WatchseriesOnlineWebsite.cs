@@ -1,10 +1,10 @@
 ﻿using EMCRestService.TvWebsites.Entities;
 using EricUtility;
-using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +12,10 @@ namespace EMCRestService.TvWebsites
 {
     public class WatchseriesOnlineWebsite : ITvWebsite
     {
-        private IEnumerable<ListedTvShow> AvailableShows(params string[] keywords)
+        private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
-            string src = GatheringUtility.GetPageSource("http://www.watchseries-online.eu/2005/07/index.html");
+            string src = await new HttpClient().GetStringAsync("http://www.watchseries-online.eu/2005/07/index.html");
             string allShows = StringUtility.Extract(src, "<div id=\"ddmcc_container\">","<div class=\"cleared\">");
             string itemp = "<li>";
             int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -36,14 +36,14 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
-        public IEnumerable<ListedTvShow> Search(string keywords)
+        public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
-            return AvailableShows(keywords.Split(' '));
+            return await AvailableShowsAsync(keywords.Split(' '));
         }
-        public IEnumerable<ListedTvShow> StartsWith(string letter)
+        public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             char debut = letter.ToLower()[0];
-            return AvailableShows(debut.ToString()).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0]< 'a' || x.Title.ToLower()[0] > 'z')));
+            return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
 
         public List<ListedEpisode> GetEpisodesOnPage(string showname, string src)
@@ -94,13 +94,13 @@ namespace EMCRestService.TvWebsites
             return eps;
         }
 
-        public TvShow Show(string name)
+        public async Task<TvShow> ShowAsync(string name)
         {
             TvShow show = new TvShow();
             show.Name = name;
 
             string baseurl = "http://www.watchseries-online.eu/category/" + name;
-            string src = GatheringUtility.GetPageSource(baseurl);
+            string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Page not found"))
                 return null;
@@ -114,7 +114,7 @@ namespace EMCRestService.TvWebsites
                 string navig = StringUtility.Extract(src, "<ol class=\"wp-paginate\">", "class=\"next\">");
                 navig = navig.Substring(navig.LastIndexOf("class='page'>"));
                 int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
-                Parallel.For(2, nbPages + 1, i => eps.AddRange(GetEpisodesOnPage(show.Title, GatheringUtility.GetPageSource(baseurl + "/page/" + i))));
+                Parallel.For(2, nbPages + 1, async i => eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i))));
             } 
 
             Dictionary<int, IEnumerable<ListedEpisode>> les = new Dictionary<int, IEnumerable<ListedEpisode>>();

@@ -1,20 +1,21 @@
 ﻿using EMCRestService.TvWebsites.Entities;
 using EricUtility;
-using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
 {
     public class TubePlusWebsite : ITvWebsite
     {
-        private IEnumerable<ListedTvShow> AvailableShows(string baseurl)
+        private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(string baseurl)
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
-            string src = GatheringUtility.GetPageSource(baseurl);
+            string src = await new HttpClient().GetStringAsync(baseurl);
             string allShows = StringUtility.Extract(src, "<div id=\"list_body\">", "<div id=\"list_footer\">");
             string itemp = "<div class=\"list_item";
             int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -34,16 +35,16 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
-        public IEnumerable<ListedTvShow> Search(string keywords)
+        public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
-            return AvailableShows("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
+            return await AvailableShowsAsync("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
         }
-        public IEnumerable<ListedTvShow> StartsWith(string letter)
+        public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
-            return AvailableShows("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
+            return await AvailableShowsAsync("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
         }
 
-        public TvShow Show(string name)
+        public async Task<TvShow> ShowAsync(string name)
         {
             int bidon = 0;
             if (!int.TryParse(name, out bidon))
@@ -52,7 +53,7 @@ namespace EMCRestService.TvWebsites
             show.Name = name;
 
             string baseurl = "http://www.tubeplus.me/info/" + name + "/";
-            string src = GatheringUtility.GetPageSource(baseurl);
+            string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Movie have been removed"))
                 return null;
