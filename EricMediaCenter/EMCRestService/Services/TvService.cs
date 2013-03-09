@@ -6,7 +6,6 @@ using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
 using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
 using EricUtility;
 using EricUtility2011;
 using System.Globalization;
@@ -45,12 +44,12 @@ namespace EMCRestService.Services
             if (website == "all")
             {
                 Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site,m_Supported[site].Search(keywords)));
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].SearchAsync(keywords).Result));
                 return JsonConvert.SerializeObject(res);
             }
             if (!m_Supported.ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].Search(keywords));
+            return JsonConvert.SerializeObject(m_Supported[website].SearchAsync(keywords).Result);
         }
 
         [WebGet(UriTemplate = "Letter/{website}/{letter}")]
@@ -59,12 +58,12 @@ namespace EMCRestService.Services
             if (website == "all")
             {
                 Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].StartsWith(letter)));
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].StartsWithAsync(letter).Result));
                 return JsonConvert.SerializeObject(res);
             }
             if (!m_Supported.ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].StartsWith(letter));
+            return JsonConvert.SerializeObject(m_Supported[website].StartsWithAsync(letter).Result);
         }
 
         [WebGet(UriTemplate = "Show/{website}/{showId}")]
@@ -73,12 +72,12 @@ namespace EMCRestService.Services
             if (website == "all")
             {
                 Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].Show(showId) ?? new TvShow()));
+                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].ShowAsync(showId).Result ?? new TvShow()));
                 return JsonConvert.SerializeObject(res);
             }
             if (!m_Supported.ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].Show(showId) ?? new TvShow());
+            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId).Result ?? new TvShow());
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using EMCRestService.TvWebsites.Entities;
 using EricUtility;
-using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +12,10 @@ namespace EMCRestService.TvWebsites
 {
     public class ProjectFreeTvWebsite : ITvWebsite
     {
-        private IEnumerable<ListedTvShow> AvailableShows(params string[] keywords)
+        private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
-            string src = GatheringUtility.GetPageSource("http://www.free-tv-video-online.me/internet/");
+            string src = await new HttpClient().GetStringAsync("http://www.free-tv-video-online.me/internet/");
             string allShows = StringUtility.Extract(src, "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" align=\"center\" bgcolor=\"#FFFFFF\">", "<!-- Start of the latest link tables -->");
             string itemp = "class=\"mnlcategorylist\"";
             int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -36,22 +36,22 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
-        public IEnumerable<ListedTvShow> Search(string keywords)
+        public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
-            return AvailableShows(keywords.Split(' '));
+            return await AvailableShowsAsync(keywords.Split(' '));
         }
-        public IEnumerable<ListedTvShow> StartsWith(string letter)
+        public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             char debut = letter.ToLower()[0];
-            return AvailableShows(debut.ToString()).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
+            return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
-        public TvShow Show(string name)
+        public async Task<TvShow> ShowAsync(string name)
         {
             TvShow show = new TvShow();
             show.Name = name;
 
             string baseurl = "http://www.free-tv-video-online.me/internet/" + name;
-            string src = GatheringUtility.GetPageSource(baseurl);
+            string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Project Free TV Disclaimer"))
                 return null;
@@ -75,10 +75,10 @@ namespace EMCRestService.TvWebsites
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
             }
 
-            Parallel.ForEach(seasons.Keys, no =>
+            Parallel.ForEach(seasons.Keys, async no =>
             {
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
-                string srcS = GatheringUtility.GetPageSource(baseurl + "/" + seasons[no]);
+                string srcS = await new HttpClient().GetStringAsync(baseurl + "/" + seasons[no]);
                 string allEps = StringUtility.Extract(srcS, "<!-- Start of middle column -->", "<!-- End of the middle_column -->");
                 string epDeb = "<td class=\"episode\">";
                 int startE = allEps.IndexOf(epDeb) + epDeb.Length;
