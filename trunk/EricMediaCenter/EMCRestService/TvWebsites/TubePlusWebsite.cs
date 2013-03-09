@@ -128,9 +128,42 @@ namespace EMCRestService.TvWebsites
         }
 
 
-        public Task<Episode> EpisodeAsync(string epId)
+        public async Task<Episode> EpisodeAsync(string epId)
         {
-            return null;
+            Episode ep = new Episode();
+            ep.Name = epId;
+            string baseurl = "http://www.tubeplus.me/player/" + epId + "/";
+            string src = await new HttpClient().GetStringAsync(baseurl);
+
+            if (src.Contains("Movie have been removed"))
+                return null;
+
+            string nfos = StringUtility.Extract(src, "<a class=\"none\" href=\"#\">", "</a>");
+            string sep = " - ";
+            ep.Title = StringUtility.Extract(nfos, sep, sep);
+            string nfoNos = StringUtility.Extract(nfos, "  ", sep);
+            ep.NoSeason = int.Parse(StringUtility.Extract(nfoNos, "S", "E"));
+            ep.NoEpisode = int.Parse(nfoNos.Substring(nfoNos.IndexOf("E")+1));
+            ep.ReleaseDate = DateTime.MinValue;
+
+            string all = StringUtility.Extract(src, "<ul id=\"links_list\" class=\"wonline\">", "</ul>");
+
+            string linkDeb = "<li ";
+            int startP = all.IndexOf(linkDeb) + linkDeb.Length;
+            while (startP >= linkDeb.Length)
+            {
+                int endP = all.IndexOf("</li>", startP);
+                string itemP = all.Substring(startP, endP - startP).Trim();
+                startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
+
+                string website = StringUtility.Extract(itemP, "<span>Host: </span>", "</div>").Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
+                string url = StringUtility.Extract(itemP, "onclick=\"visited('", "');");
+
+                if (!ep.Links.ContainsKey(website))
+                    ep.Links.Add(website, new List<string>());
+                ep.Links[website].Add(url);
+            }
+            return ep;
         }
     }
 }
