@@ -45,7 +45,32 @@ namespace EMCRestService.TvWebsites
             char debut = letter.ToLower()[0];
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
-
+        public void ExtractTitleAndNos(ListedEpisode episode, string title, string showname)
+        {
+            string[] tparts = title.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] sparts = showname.Split(' ');
+            episode.Title = String.Join(" ", tparts.Skip(sparts.Length + 1));
+            string nfo = tparts[sparts.Length].Trim();
+            if (nfo.StartsWith("-"))
+            {
+                string mid = "&#215;";
+                if (nfo.Contains("x"))
+                    mid = "x";
+                if (nfo.Contains("X"))
+                    mid = "X";
+                if (nfo.Contains("×"))
+                    mid = "×";
+                episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "-", mid));
+                episode.NoEpisode = int.Parse(StringUtility.Extract(nfo, mid, "-"));
+            }
+            else if (nfo.StartsWith("S"))
+            {
+                episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "S", "E"));
+                episode.NoEpisode = int.Parse(nfo.Substring(nfo.IndexOf('E') + 1));
+            }
+            else
+                episode.NoSeason = episode.NoEpisode = -1;
+        }
         public List<ListedEpisode> GetEpisodesOnPage(string showname, string src)
         {
             List<ListedEpisode> eps = new List<ListedEpisode>();
@@ -62,29 +87,7 @@ namespace EMCRestService.TvWebsites
                 episode.Name = StringUtility.Extract(itemP, "<a href=\"http://www.watchseries-online.eu/", ".html").Replace("/", "_");
 
                 string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(itemP, "<span class=\"PostHeader\">", "</a>")).Replace("\n", "");
-                string[] tparts = title.Split(new char[]{' '},StringSplitOptions.RemoveEmptyEntries);
-                string[] sparts = showname.Split(' ');
-                episode.Title = String.Join(" ",tparts.Skip(sparts.Length + 1));
-                string nfo = tparts[sparts.Length].Trim();
-                if (nfo.StartsWith("-"))
-                {
-                    string mid = "&#215;";
-                    if (nfo.Contains("x"))
-                        mid = "x";
-                    if (nfo.Contains("X"))
-                        mid = "X";
-                    if (nfo.Contains("×"))
-                        mid = "×";
-                    episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "-", mid));
-                    episode.NoEpisode = int.Parse(StringUtility.Extract(nfo, mid, "-"));
-                }
-                else if (nfo.StartsWith("S"))
-                {
-                    episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "S", "E"));
-                    episode.NoEpisode = int.Parse(nfo.Substring(nfo.IndexOf('E')+1));
-                }
-                else
-                    episode.NoSeason = episode.NoEpisode = -1;
+                ExtractTitleAndNos(episode, title, showname);
 
                 string date = StringUtility.Extract(itemP, "alt=\"PostDateIcon\" />", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "");
                 episode.ReleaseDate = DateTime.ParseExact(date, "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
@@ -135,6 +138,45 @@ namespace EMCRestService.TvWebsites
             show.NoLastEpisode = lastEp.NoEpisode;
             show.NoLastSeason = lastEp.NoSeason;
             return show;
+        }
+
+
+        public async Task<Episode> EpisodeAsync(string epId)
+        {
+            Episode ep = new Episode();
+            ep.Name = epId;
+            string baseurl = "http://www.watchseries-online.eu/" + epId.Replace("_","/") + ".html";
+            string src = await new HttpClient().GetStringAsync(baseurl);
+
+            if (src.Contains("Page not found"))
+                return null;
+
+            string showname = StringUtility.Extract(src, "rel=\"category tag\">", "</a>");
+            string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(src, "<span class=\"PostHeader\">", "</span>")).Replace("\n", "").Trim();
+            ExtractTitleAndNos(ep, title, showname);
+            
+            string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "");
+            ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
+            string all = StringUtility.Extract(src, "<table class=\"postlinks\">", "</table>");
+
+            string linkDeb = "<tr><td class=";
+            int startP = all.IndexOf(linkDeb) + linkDeb.Length;
+            while (startP >= linkDeb.Length)
+            {
+                int endP = all.IndexOf("</td></tr>", startP);
+                string itemP = all.Substring(startP, endP - startP).Trim();
+                startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
+
+                string nfo = StringUtility.Extract(itemP, "<a target=\"_blank\" id=\"hovered\"", "</td>");
+                string website = StringUtility.Extract(nfo, ">", "<");
+                string url = StringUtility.Extract(nfo, "href=\"", "\">");
+
+                if( !ep.Links.ContainsKey(website))
+                    ep.Links.Add(website,new List<string>());
+                ep.Links[website].Add(url);
+            }
+            return ep;
         }
     }
 }
