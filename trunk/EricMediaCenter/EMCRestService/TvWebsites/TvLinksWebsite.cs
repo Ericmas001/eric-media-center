@@ -59,7 +59,7 @@ namespace EMCRestService.TvWebsites
             if (show.Title == null)
                 return null;
             show.Title = show.Title.Trim();
-            string n =  StringUtility.Extract(src, "<meta property=\"og:url\" content=\"http://www.tv-links.eu/tv-shows/", "/\"/>");
+            string n = StringUtility.Extract(src, "<meta property=\"og:url\" content=\"http://www.tv-links.eu/tv-shows/", "/\"/>");
             if (n.ToLower() != name.ToLower())
                 return null;
             string allSeasons = StringUtility.Extract(src, "<!--Episodes-->", "<!--End Episodes-->");
@@ -76,7 +76,7 @@ namespace EMCRestService.TvWebsites
                 if (!show.Episodes.ContainsKey(no))
                     show.Episodes.Add(no, new List<ListedEpisode>());
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
-            
+
 
                 string epDeb = "<li>";
                 int startE = itemS.IndexOf(epDeb) + epDeb.Length;
@@ -90,16 +90,16 @@ namespace EMCRestService.TvWebsites
                         continue;
 
                     string noE = StringUtility.Extract(itemE, "/episode_", "/");
-                    episode.Name = "season_" + no + "-episode_" + noE;
+                    episode.Name = name + "-" + "season_" + no + "-episode_" + noE;
                     int id = int.Parse(noE);
                     episode.NoEpisode = int.Parse(noE);
                     episode.NoSeason = no;
                     episode.Title = StringUtility.Extract(itemE, "<span class=\"c2\">", "</span>");
 
                     string date = StringUtility.Extract(itemE, "<span class=\"c3", "</span>");
-                    date = date.Substring(date.IndexOf('>') + 1).Replace("&nbsp;","");
+                    date = date.Substring(date.IndexOf('>') + 1).Replace("&nbsp;", "");
                     episode.ReleaseDate = DateTime.MinValue;
-                    if( !String.IsNullOrWhiteSpace(date))
+                    if (!String.IsNullOrWhiteSpace(date))
                         episode.ReleaseDate = DateTime.ParseExact(date, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
                     episodes.Add(episode);
                 }
@@ -113,9 +113,44 @@ namespace EMCRestService.TvWebsites
         }
 
 
-        public Task<Episode> EpisodeAsync(string epId)
+        public async Task<Episode> EpisodeAsync(string epId)
         {
-            return null;
+            Episode ep = new Episode();
+            ep.Name = epId;
+            string baseurl = "http://www.tv-links.eu/tv-shows/" + epId.Replace("-", "/") + "/video-results/";
+            string src = await new HttpClient().GetStringAsync(baseurl);
+
+            if (!src.Contains("<ul id=\"table_search\" class=\"mb_1\">"))
+                return null;
+
+            string nfos = StringUtility.Extract(src, "<div class=\"cfix mb_1\"> <input type=\"text\" value=\"", "\" ");
+            string sep = " - ";
+            ep.Title = nfos.Substring(nfos.IndexOf(sep) + sep.Length);
+            ep.NoSeason = int.Parse(StringUtility.Extract(nfos, " Season ", " Episode "));
+            ep.NoEpisode = int.Parse(StringUtility.Extract(nfos, " Episode ", sep));
+            ep.ReleaseDate = DateTime.MinValue;
+
+            string all = StringUtility.Extract(src, "<ul id=\"table_search\" class=\"mb_1\">", "</ul>");
+
+            string linkDeb = "<li>";
+            int startP = all.IndexOf(linkDeb) + linkDeb.Length;
+            while (startP >= linkDeb.Length)
+            {
+                int endP = all.IndexOf("</li>", startP);
+                string itemP = all.Substring(startP, endP - startP).Trim();
+                startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
+
+                if (itemP.Contains("<span class=\"dark\">featured result</span>"))
+                    continue;
+
+                string website = StringUtility.Extract(itemP, ">Visit ", "</span>");
+                string url = StringUtility.Extract(itemP, "return frameLink('", "');");
+
+                if (!ep.Links.ContainsKey(website))
+                    ep.Links.Add(website, new List<string>());
+                ep.Links[website].Add(url);
+            }
+            return ep;
         }
     }
 }
