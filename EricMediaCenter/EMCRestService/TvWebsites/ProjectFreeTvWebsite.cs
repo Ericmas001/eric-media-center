@@ -69,16 +69,17 @@ namespace EMCRestService.TvWebsites
                 int no = int.Parse(StringUtility.Extract(itemS, "<b>Season ", "</b>")??"-1");
                 if (no != -1)
                 {
-                    seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", "\">"));
+                    seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", ".html\">"));
                     show.Episodes.Add(no, new List<ListedEpisode>());
                 }
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
             }
 
-            Parallel.ForEach(seasons.Keys, async no =>
+            foreach(int no in seasons.Keys)
+            //Parallel.ForEach(seasons.Keys, async no =>
             {
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
-                string srcS = await new HttpClient().GetStringAsync(baseurl + "/" + seasons[no]);
+                string srcS = await new HttpClient().GetStringAsync(baseurl + "/" + seasons[no]+".html");
                 string allEps = StringUtility.Extract(srcS, "<!-- Start of middle column -->", "<!-- End of the middle_column -->");
                 string epDeb = "<td class=\"episode\">";
                 int startE = allEps.IndexOf(epDeb) + epDeb.Length;
@@ -89,7 +90,7 @@ namespace EMCRestService.TvWebsites
                     if (endE == -1)
                         break;
                     string itemS = allEps.Substring(startE, endE - startE).Trim();
-                    ep.Name = StringUtility.Extract(itemS, "<a name=\"", "\"></a>") + "-" + seasons[no];
+                    ep.Name = show.Name + "-" + seasons[no] + "-" + StringUtility.Extract(itemS, "<a name=\"", "\"></a>");
                     ep.Title = StringUtility.Extract(itemS, "</a><b>", "</b></td>");
                     string nfo = StringUtility.Extract(itemS, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
                     ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
@@ -99,7 +100,7 @@ namespace EMCRestService.TvWebsites
                     episodes.Add(ep);
                     startE = allEps.IndexOf(epDeb, endE) + epDeb.Length;
                 }
-            });
+            }//);
 
             ListedEpisode lastEp = show.Episodes.Last().Value.Last();
             show.NoLastEpisode = lastEp.NoEpisode;
@@ -108,9 +109,48 @@ namespace EMCRestService.TvWebsites
         }
 
 
-        public Task<Episode> EpisodeAsync(string epId)
+        public async Task<Episode> EpisodeAsync(string epId)
         {
-            return null;
+            Episode ep = new Episode();
+            ep.Name = epId;
+            string[] info = epId.Split('-');
+            string baseurl = "http://www.free-tv-video-online.me/internet/" + info[0] + "/" + info[1] + ".html";
+            string src = await new HttpClient().GetStringAsync(baseurl);
+
+            if (src.Contains("Project Free TV Disclaimer"))
+                return null;
+
+            string all = StringUtility.Extract(src.Replace("</td></tr><tr class=\"3\" bgcolor=\"#E3E3E3\" >", "</td></tr></table>"), "<a name=\"" + info[2] + "\">", "</td></tr></table>");
+
+            ep.Title = StringUtility.Extract(all, "</a><b>", "</b");
+            string nfo = StringUtility.Extract(all, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
+            ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
+            ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
+            string dt = StringUtility.Extract(nfo, "Air Date: ", "<");
+            ep.ReleaseDate = DateTime.ParseExact(dt, "dd MMMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
+
+            string linkDeb = "class=\"mnllinklist dotted\">";
+            int startP = all.IndexOf(linkDeb) + linkDeb.Length;
+            while (startP >= linkDeb.Length)
+            {
+                int endP = all.IndexOf("</a>", startP);
+                string itemP = all.Substring(startP, endP - startP).Trim();
+                startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
+
+                string website = StringUtility.Extract(itemP, "Host: ", "<br/>");
+                string url = StringUtility.Extract(itemP, "href=\"http://www.free-tv-video-online.me/player/", "\"");
+                if (url == null)
+                {
+                    url = StringUtility.Extract(itemP, "href=\"http://", "\"").Replace("/","_");
+                }
+
+                if (!ep.Links.ContainsKey(website))
+                    ep.Links.Add(website, new List<string>());
+                ep.Links[website].Add(url);
+            }
+
+            return ep;
         }
     }
 }
