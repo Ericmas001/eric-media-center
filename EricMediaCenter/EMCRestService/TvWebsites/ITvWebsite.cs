@@ -13,5 +13,6 @@ namespace EMCRestService.TvWebsites
         Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter);
         Task<TvShow> ShowAsync(string showId);
         Task<Episode> EpisodeAsync(string epId);
+        Task<StreamingInfo> StreamAsync(string website, string args);
     }
 }
