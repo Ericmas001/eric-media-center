@@ -81,5 +81,13 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].EpisodeAsync(epId).Result ?? new Episode());
         }
+
+        [WebGet(UriTemplate = "Stream/{website}/{streamWebsite}/{args}")]
+        public string Stream(string website, string streamWebsite, string args)
+        {
+            if (!m_Supported.ContainsKey(website))
+                return null;
+            return JsonConvert.SerializeObject(m_Supported[website].StreamAsync(streamWebsite, args).Result ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
+        }
     }
 }
