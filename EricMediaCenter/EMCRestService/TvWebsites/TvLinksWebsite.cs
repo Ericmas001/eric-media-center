@@ -156,7 +156,7 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            return null;
+            return new StreamingInfo() { StreamingURL = "http://www.tv-links.eu/gateway.php?data=" + args, Arguments = args, Website = website };
         }
     }
 }

@@ -142,8 +142,10 @@ namespace EMCRestService.TvWebsites
                 string url = StringUtility.Extract(itemP, "href=\"http://www.free-tv-video-online.me/player/", "\"");
                 if (url == null)
                 {
-                    url = StringUtility.Extract(itemP, "href=\"http://", "\"").Replace("/","_");
+                    url = StringUtility.Extract(itemP, "href=\"http://", "\"").Replace("/", "_");
                 }
+                else
+                    url = "php_" + url.Replace(".php?id=", "_id_");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());
@@ -156,7 +158,15 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            return null;
+            if (args.StartsWith("php_"))
+            {
+                string mid = "_id_";
+                string page = StringUtility.Extract(args, "php_", mid) + ".php";
+                string id = args.Substring(args.IndexOf(mid) + mid.Length);
+                return new StreamingInfo() { StreamingURL = "http://www.free-tv-video-online.me/player/" + page + "?id=" + id, Arguments = args, Website = website };
+            }
+            else
+                return new StreamingInfo() { StreamingURL = "http://" + args.Replace("_", "/"), Arguments = args, Website = website };
         }
     }
 }
