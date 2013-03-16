@@ -182,7 +182,7 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            return null;
+            return new StreamingInfo() { StreamingURL = "http://" + args.Replace("_", "/"), Arguments = args, Website = website };
         }
     }
 }
