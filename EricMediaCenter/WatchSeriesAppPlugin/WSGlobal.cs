@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using WatchSeriesAppPlugin.Entities;
 using WatchSeriesAppPlugin.Panels;
 using WatchSeriesAppPlugin.Panels.Navigation;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
-using System.Windows.Forms;
-using WatchSeriesAppPlugin.Entities;
-using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin
 {
@@ -20,6 +15,7 @@ namespace WatchSeriesAppPlugin
             get { return WSGlobal.m_User; }
             set { WSGlobal.m_User = value; }
         }
+
         private static List<string> m_Genres;
         private static List<string> m_Letters;
         private static MainPanel m_PanelMain;
@@ -46,19 +42,23 @@ namespace WatchSeriesAppPlugin
             get { return m_Letters; }
             set { m_Letters = value; }
         }
+
         public static List<string> Genres
         {
             get { return m_Genres; }
-            set { m_Genres = value; } 
+            set { m_Genres = value; }
         }
+
         public static SearchNavPanel PanelSearch
         {
             get { return WSGlobal.m_PanelSearch; }
         }
+
         public static TVShowNavPanel PanelTVShow
         {
             get { return WSGlobal.m_PanelTVShow; }
         }
+
         public static TVEpisodeNavPanel PanelTVEpisode
         {
             get { return WSGlobal.m_PanelTVEpisode; }
@@ -74,8 +74,6 @@ namespace WatchSeriesAppPlugin
             get { return WSGlobal.m_PanelMain; }
             set { WSGlobal.m_PanelMain = value; }
         }
-
-
 
         public static NavPanel Navigate(NavInfo nfo)
         {

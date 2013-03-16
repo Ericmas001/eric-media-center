@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using EricUtility;
+using System;
 using System.Windows.Forms;
-using EricUtility;
 using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels
@@ -14,6 +8,7 @@ namespace WatchSeriesAppPlugin.Panels
     public partial class LoginPanel : UserControl
     {
         public event EventHandler<KeyEventArgs<UserInfo>> UserLoggedIn = delegate { };
+
         public event EmptyHandler WrongScreen = delegate { };
 
         public LoginPanel()

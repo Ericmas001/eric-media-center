@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.Application;
+﻿using EMCMasterPluginLib.Application;
+using EMCMasterPluginLib.WebService;
 using EricUtility;
+using EricUtility.Networking.Gathering;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using EricUtility.Networking.Gathering;
-using EMCMasterPluginLib;
-using EMCMasterPluginLib.WebService;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -16,10 +14,12 @@ namespace EMCMasterPluginLib
 {
     public class EMCGlobal
     {
+        public static event EventHandler<KeyValueEventArgs<string, UserControl>> MainPanelChanged = delegate { };
 
-        public static event EventHandler<KeyValueEventArgs<string,UserControl>> MainPanelChanged = delegate { };
         public static event EmptyHandler AvailablePluginsUpdated = delegate { };
+
         public static event EmptyHandler SupportedWebServiceUpdated = delegate { };
+
         public static event EmptyHandler SupportedAppUpdated = delegate { };
 
         private static bool m_WebServiceLoaded = false;
@@ -32,8 +32,8 @@ namespace EMCMasterPluginLib
 
         private static Dictionary<string, IWebService> m_WebServiceClients = new Dictionary<string, IWebService>();
 
-        private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string,Version>();
-        private static Dictionary<string, Dictionary<string, Version>> m_AvailablesPluginsByCat = new Dictionary<string,Dictionary<string,Version>>();
+        private static Dictionary<string, Version> m_AvailablesPlugins = new Dictionary<string, Version>();
+        private static Dictionary<string, Dictionary<string, Version>> m_AvailablesPluginsByCat = new Dictionary<string, Dictionary<string, Version>>();
 
         private static Dictionary<string, Dictionary<string, SettingEntry>> m_Settings = new Dictionary<string, Dictionary<string, SettingEntry>>();
 
@@ -58,6 +58,7 @@ namespace EMCMasterPluginLib
             }
             set { EMCGlobal.m_ApplicationPlugins = value; }
         }
+
         public static Dictionary<string, IWebService> WebServiceClients
         {
             get
@@ -68,6 +69,7 @@ namespace EMCMasterPluginLib
             }
             set { EMCGlobal.m_WebServiceClients = value; }
         }
+
         public static Dictionary<string, IEMCWebServicePlugin> WebServicePlugins
         {
             get
@@ -116,19 +118,14 @@ namespace EMCMasterPluginLib
                 }
                 return path.ToString();
             }
-
         }
 
-        public static void ChangeMainPanel(string name, UserControl control )
+        public static void ChangeMainPanel(string name, UserControl control)
         {
-            MainPanelChanged(null, new KeyValueEventArgs<string,UserControl>(name,control));
+            MainPanelChanged(null, new KeyValueEventArgs<string, UserControl>(name, control));
         }
 
-
-
-/*===============================================================================================*/
-
-
+        /*===============================================================================================*/
 
         private static void ReloadSettings()
         {
@@ -159,8 +156,8 @@ namespace EMCMasterPluginLib
                 Version v = new Version(info[1]);
                 string cat = info[2];
                 m_AvailablesPlugins.Add(name, v);
-                if( !m_AvailablesPluginsByCat.ContainsKey(cat))
-                    m_AvailablesPluginsByCat.Add(cat,new Dictionary<string,Version>());
+                if (!m_AvailablesPluginsByCat.ContainsKey(cat))
+                    m_AvailablesPluginsByCat.Add(cat, new Dictionary<string, Version>());
                 m_AvailablesPluginsByCat[cat].Add(name, v);
             }
 
@@ -170,7 +167,6 @@ namespace EMCMasterPluginLib
 
         public static void ReloadApplicationPlugins()
         {
-
             if (!m_AvailablePluginsLoaded)
                 RefreshAvailablePlugins();
 
@@ -199,10 +195,8 @@ namespace EMCMasterPluginLib
             SupportedAppUpdated();
         }
 
-
         public static void ReloadWebServicePlugins()
         {
-
             if (!m_AvailablePluginsLoaded)
                 RefreshAvailablePlugins();
 
@@ -236,19 +230,22 @@ namespace EMCMasterPluginLib
             m_WebServiceLoaded = true;
             SupportedAppUpdated();
         }
+
         public static object GetWebServiceResult(string c, string a)
         {
             IWebService client = WebServiceClients[c];
-            string command = c.Substring(c.IndexOf('|')+1);
+            string command = c.Substring(c.IndexOf('|') + 1);
             if (!String.IsNullOrEmpty(a))
                 a = "/" + a;
             string url = (client.BaseUrl + command + a).Replace('|', '/');
             string result;
             object res = null;
+
             //try
             //{
-                result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
-                res = client.GetResult(command, result);
+            result = StringUtility.RemoveHTMLTags(GatheringUtility.GetPageSource(url));
+            res = client.GetResult(command, result);
+
             //}
             //catch (Exception ex)
             //{

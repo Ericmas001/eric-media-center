@@ -35,7 +35,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
             return "http://www." + url + "/video/" + args;
         }
 
-        #endregion
+        #endregion IVideoWebsiteParser Members
     }
 }
 */

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.WebService;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using EMCMasterPluginLib.WebService;
 using EMCWatchSeriesWSPlugin.Entries;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace EMCWatchSeriesWSPlugin
 {
@@ -22,17 +19,17 @@ namespace EMCWatchSeriesWSPlugin
         {
             get { return "TvSchedule from WatchSeries.li"; }
         }
-        #endregion
+
+        #endregion IWebService Members
 
         #region IWebService Members
-
 
         public string BaseUrl
         {
             get { return "http://emc.ericmas001.com/TvSchedule/"; }
         }
 
-        public Dictionary<string,string> Commands
+        public Dictionary<string, string> Commands
         {
             get
             {
@@ -54,7 +51,7 @@ namespace EMCWatchSeriesWSPlugin
             return newRes;
         }
 
-        private Dictionary<int,string> TvScheduleAvailableSchedule(string result)
+        private Dictionary<int, string> TvScheduleAvailableSchedule(string result)
         {
             //
             //[{"Key":"-1","Value":"Tuesday, October 16"},{"Key":"0","Value":"Wednesday, October 17"},{"Key":"1","Value":"Thursday, October 18"},{"Key":"2","Value":"Friday, October 19"},{"Key":"3","Value":"Saturday, October 20"},{"Key":"4","Value":"Sunday, October 21"},{"Key":"5","Value":"Monday, October 22"}]
@@ -72,7 +69,6 @@ namespace EMCWatchSeriesWSPlugin
             return EpisodeScheduleInfo.DeserializeEpisodes(results);
         }
 
-
-        #endregion
+        #endregion IWebService Members
     }
 }

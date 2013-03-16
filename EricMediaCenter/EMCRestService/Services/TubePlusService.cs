@@ -1,17 +1,14 @@
-﻿using System;
+﻿using EMCRestService.Entries;
+using EricUtility;
+using EricUtility.Networking.Gathering;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using System.Net;
-using EMCRestService.Entries;
 
 namespace EMCRestService.Services
 {
@@ -34,17 +31,19 @@ namespace EMCRestService.Services
                 string item = allShows.Substring(start, end - start);
 
                 TvShowEntry entry = new TvShowEntry();
-                entry.ShowName = StringUtility.Extract(item,"/player/","/");
-                entry.ShowTitle = StringUtility.Extract(item,"<img alt=\"","  - ");
+                entry.ShowName = StringUtility.Extract(item, "/player/", "/");
+                entry.ShowTitle = StringUtility.Extract(item, "<img alt=\"", "  - ");
                 entry.ReleaseYear = 0;
                 availables.Add(entry);
                 start = allShows.IndexOf(showurl, end) + showurl.Length;
             }
             TvShowEntry[] items = new TvShowEntry[availables.Count];
             availables.CopyTo(items, 0);
+
             //Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "AvailableLetters")]
         public string AvailableLetters()
         {
@@ -65,6 +64,7 @@ namespace EMCRestService.Services
             Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "GetLetter/{letter}")]
         public string GetLetter(string letter)
         {
@@ -97,11 +97,13 @@ namespace EMCRestService.Services
             Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "Search/{keywords}")]
         public string Search(string keywords)
         {
-            return getAvailableShows("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ","_") + "/");
+            return getAvailableShows("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
         }
+
         [WebGet(UriTemplate = "GetShow/{showname}")]
         public string GetShow(string showname)
         {
@@ -212,7 +214,7 @@ namespace EMCRestService.Services
                 int endS = allSeasons.IndexOf("</span>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
                 String sInfo = StringUtility.Extract(itemS, "javascript:show_season(", "\")'>");
-                string[] eps = sInfo.Split(new char[]{'|'},StringSplitOptions.RemoveEmptyEntries);
+                string[] eps = sInfo.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 Dictionary<int, DateTime> infos = new Dictionary<int, DateTime>();
                 foreach (string ep in eps)
                 {
@@ -263,13 +265,13 @@ namespace EMCRestService.Services
                 }
                 season.NbEpisodes = season.Episodes.Count;
                 if (no != lastS && season.NbEpisodes > 0)
-                    entry.Seasons.Insert(0,season);
+                    entry.Seasons.Insert(0, season);
                 lastS = no;
             }
 
-
             return JsonConvert.SerializeObject(entry);
         }
+
         //public List<TvWebsiteEntry> Links(int id)
         //{
         //    CookieContainer cookies = new CookieContainer();

@@ -9,7 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
@@ -20,7 +19,7 @@ namespace EMCRestService.TvWebsites
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
             string src = await new HttpClient().GetStringAsync("http://www.watchseries-online.eu/2005/07/index.html");
-            string allShows = StringUtility.Extract(src, "<div id=\"ddmcc_container\">","<div class=\"cleared\">");
+            string allShows = StringUtility.Extract(src, "<div id=\"ddmcc_container\">", "<div class=\"cleared\">");
             string itemp = "<li>";
             int start = allShows.IndexOf(itemp) + itemp.Length;
             while (start >= itemp.Length)
@@ -40,15 +39,18 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
+
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
             return await AvailableShowsAsync(keywords.Split(' '));
         }
+
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             char debut = letter.ToLower()[0];
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
+
         public void ExtractTitleAndNos(ListedEpisode episode, string title, string showname)
         {
             string[] tparts = title.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -75,6 +77,7 @@ namespace EMCRestService.TvWebsites
             else
                 episode.NoSeason = episode.NoEpisode = -1;
         }
+
         public List<ListedEpisode> GetEpisodesOnPage(string showname, string src)
         {
             List<ListedEpisode> eps = new List<ListedEpisode>();
@@ -122,7 +125,7 @@ namespace EMCRestService.TvWebsites
                 navig = navig.Substring(navig.LastIndexOf("class='page'>"));
                 int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
                 Parallel.For(2, nbPages + 1, async i => eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i))));
-            } 
+            }
 
             Dictionary<int, IEnumerable<ListedEpisode>> les = new Dictionary<int, IEnumerable<ListedEpisode>>();
             foreach (ListedEpisode le in eps)
@@ -136,7 +139,7 @@ namespace EMCRestService.TvWebsites
             {
                 ListedEpisode[] epis = les[no].ToArray();
                 Array.Sort(epis);
-                show.Episodes.Add(no,epis);
+                show.Episodes.Add(no, epis);
             }
             ListedEpisode lastEp = show.Episodes.Last().Value.Last();
             show.NoLastEpisode = lastEp.NoEpisode;
@@ -144,12 +147,11 @@ namespace EMCRestService.TvWebsites
             return show;
         }
 
-
         public async Task<Episode> EpisodeAsync(string epId)
         {
             Episode ep = new Episode();
             ep.Name = epId;
-            string baseurl = "http://www.watchseries-online.eu/" + epId.Replace("_","/") + ".html";
+            string baseurl = "http://www.watchseries-online.eu/" + epId.Replace("_", "/") + ".html";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Page not found"))
@@ -158,7 +160,7 @@ namespace EMCRestService.TvWebsites
             string showname = StringUtility.Extract(src, "rel=\"category tag\">", "</a>");
             string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(src, "<span class=\"PostHeader\">", "</span>")).Replace("\n", "").Trim();
             ExtractTitleAndNos(ep, title, showname);
-            
+
             string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "");
             ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
@@ -174,15 +176,14 @@ namespace EMCRestService.TvWebsites
 
                 string nfo = StringUtility.Extract(itemP, "<a target=\"_blank\" id=\"hovered\"", "</td>");
                 string website = StringUtility.Extract(nfo, ">", "<");
-                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/getlink.php?l=http://", "\">").Replace("/","_");
+                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/getlink.php?l=http://", "\">").Replace("/", "_");
 
-                if( !ep.Links.ContainsKey(website))
-                    ep.Links.Add(website,new List<string>());
+                if (!ep.Links.ContainsKey(website))
+                    ep.Links.Add(website, new List<string>());
                 ep.Links[website].Add(url);
             }
             return ep;
         }
-
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {

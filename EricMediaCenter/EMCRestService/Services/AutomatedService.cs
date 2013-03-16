@@ -1,13 +1,12 @@
-﻿using System;
+﻿using EricUtility2011.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using EricUtility;
-using EricUtility2011.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace EMCRestService.Services
 {
@@ -24,6 +23,7 @@ namespace EMCRestService.Services
         {
             SqlConnection myConnection = Connector.GetConnection();
             List<Dictionary<string, object>> results = Connector.SelectRows(myConnection, "select * from ericmas001.TLastEpisodes", new Dictionary<string, object>());
+
             //WatchSeriesService service =  new WatchSeriesService();
             TubePlusService service = new TubePlusService();
             List<object> changes = new List<object>();

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using WatchSeriesAppPlugin.Entities;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
-using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
@@ -13,6 +9,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
         NoFav,
         Fav
     }
+
     public class TvShowNavInfo : NavInfo
     {
         private ShowSummaryInfo m_ShowSummary;
@@ -33,11 +30,13 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             get { return m_ShowSummary; }
             set { m_ShowSummary = value; }
         }
+
         public ShowInfo ShowFull
         {
             get { return m_ShowFull; }
             set { m_ShowFull = value; }
         }
+
         public TvShowFavBtnState State
         {
             get
@@ -50,6 +49,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                     return TvShowFavBtnState.NoFav;
             }
         }
+
         public TvShowNavInfo(ShowSummaryInfo nfo, NavInfo[] parents, UserInfo user)
             : base(nfo.Title, NavType.TVShow, parents, user)
         {

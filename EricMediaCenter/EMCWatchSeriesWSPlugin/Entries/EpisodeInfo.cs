@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
@@ -16,6 +14,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             get { return m_Description; }
             set { m_Description = value; }
         }
+
         public Dictionary<string, LinkInfo> Links
         {
             get { return m_Links; }
@@ -26,12 +25,14 @@ namespace EMCWatchSeriesWSPlugin.Entries
             : this(i.Season, i.No, i.Id, i.Name, i.Title, i.ReleaseDate, description, links)
         {
         }
+
         public EpisodeInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate, string description, Dictionary<string, LinkInfo> links)
             : base(season, no, id, name, title, releaseDate)
         {
             m_Description = description;
             m_Links = links;
         }
+
         public EpisodeInfo(SeasonInfo season, JObject r)
             : base(season, r)
         {
@@ -45,10 +46,11 @@ namespace EMCWatchSeriesWSPlugin.Entries
             //"EpisodeName":"revolution_(2012)_s1_e1-194518",
             //"EpisodeTitle":"Pilot",
             //"ReleaseDate":"\/Date(1347865200000-0700)\/"
-            //}  
+            //}
             m_Description = (string)r["Description"];
             m_Links = LinkInfo.DeserializeLinks(this, (JArray)r["Links"]);
         }
+
         public override string ToString()
         {
             //TODO

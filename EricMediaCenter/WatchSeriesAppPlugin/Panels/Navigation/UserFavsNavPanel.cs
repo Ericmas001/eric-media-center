@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
-using EMCMasterPluginLib;
-using System.Collections;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
@@ -16,16 +8,19 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
     public partial class UserFavsNavPanel : NavPanel
     {
         public UserFavsNavInfo UserFavsInfo { get { return Info as UserFavsNavInfo; } }
+
         public UserFavsNavPanel()
         {
             InitializeComponent();
         }
+
         protected override void InfoSetted(NavInfo oldI, NavInfo newI)
         {
             base.InfoSetted(oldI, newI);
             UserFavsNavInfo nfo = newI as UserFavsNavInfo;
             RefreshList(nfo.User);
         }
+
         protected override void info_UserSetted(object sender, UserEventArgs args)
         {
             base.info_UserSetted(sender, args);

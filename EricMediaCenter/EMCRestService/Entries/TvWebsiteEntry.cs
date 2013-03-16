@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +12,7 @@ namespace EMCRestService.Entries
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         private List<int> m_LinkIDs;
 
         public List<int> LinkIDs
@@ -29,6 +28,6 @@ namespace EMCRestService.Entries
             return this.Name.CompareTo(other.Name);
         }
 
-        #endregion
+        #endregion IComparable<ScheduleEntry> Members
     }
 }

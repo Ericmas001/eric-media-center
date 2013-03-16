@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-
-namespace WatchSeriesAppPlugin.Entities
+﻿namespace WatchSeriesAppPlugin.Entities
 {
-
     public class LinkInfo : LinkSummaryInfo
     {
         private string m_FullUrl;
@@ -38,8 +31,8 @@ namespace WatchSeriesAppPlugin.Entities
             set { m_Args = value; }
         }
 
-        public LinkInfo(LinkSummaryInfo nfo, string fullUrl, bool supported, string webSiteURL, string args):
-            base(nfo.Website,nfo.Id,nfo.No)
+        public LinkInfo(LinkSummaryInfo nfo, string fullUrl, bool supported, string webSiteURL, string args) :
+            base(nfo.Website, nfo.Id, nfo.No)
         {
             m_FullUrl = fullUrl;
             m_Supported = supported;

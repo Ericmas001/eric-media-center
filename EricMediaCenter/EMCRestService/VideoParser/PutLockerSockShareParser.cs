@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using EricUtility;
 using EricUtility.Networking.Gathering;
-using EricUtility;
 
 namespace EMCRestService.VideoParser
 {
     public class PutLockerSockShareParser : IVideoParser
     {
-
         public string BuildURL(string url, string args)
         {
             return "http://www." + url + "/file/" + args;
         }
+
         public string ParseArgs(string url)
         {
-            return url.Substring(url.LastIndexOf('/')+1);
+            return url.Substring(url.LastIndexOf('/') + 1);
         }
 
         public string GetDownloadURL(string url, System.Net.CookieContainer cookies)
         {
-            string res = GatheringUtility.GetPageSource(url,cookies);
+            string res = GatheringUtility.GetPageSource(url, cookies);
             string beginurl = "http://www.sockshare.com";
             if (url.Contains("www.putlocker.com"))
                 beginurl = "http://www.putlocker.com";

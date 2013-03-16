@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +11,7 @@ namespace EMCRestService.Entries
             get { return m_ShowName.Replace(':', ';'); }
             set { m_ShowName = value; }
         }
+
         private string m_ShowTitle;
 
         public string ShowTitle
@@ -21,6 +19,7 @@ namespace EMCRestService.Entries
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
+
         private int m_ReleaseYear;
 
         public int ReleaseYear
@@ -36,6 +35,6 @@ namespace EMCRestService.Entries
             return this.ShowTitle.CompareTo(other.ShowTitle);
         }
 
-        #endregion
+        #endregion IComparable<ScheduleEntry> Members
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security;
 using System.IO;
-using System.Xml.Serialization;
+using System.Security;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace EricMediaCenter
 {
@@ -21,8 +19,8 @@ namespace EricMediaCenter
     ///   All the properties of <b>UserOptions</b> are maintained in an XML file.  The path
     ///   to the XML file is
     ///   "<see cref="Environment.SpecialFolder">ApplicationData</see>\
-    ///    <see cref="Application.CompanyName"/>\ 
-    ///    <see cref="Application.ProductName"/>\ 
+    ///    <see cref="Application.CompanyName"/>\
+    ///    <see cref="Application.ProductName"/>\
     ///    <i>appname</i>.options.xml".
     ///    A typical path is
     ///    "C:\Documents and Settings\<i>username</i>\Application Data\<i>company</i>\<i>product</i>\<i>appname</i>.exe.options.xml".
@@ -34,10 +32,10 @@ namespace EricMediaCenter
     /// </remarks>
     public class UserOptions
     {
-
         private static UserOptions current;
 
         #region Constructor
+
         /// <summary>
         ///   Creates a new instance of the <see cref="UserOptions"/> class.
         /// </summary>
@@ -48,13 +46,15 @@ namespace EricMediaCenter
         public UserOptions()
         {
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties (User options)
 
-        #endregion
+        #endregion Properties (User options)
 
         #region Static Properties
+
         /// <summary>
         ///   Gets the current <see cref="UserOptions"/> for the application.
         /// </summary>
@@ -89,9 +89,11 @@ namespace EricMediaCenter
                 return current;
             }
         }
-        #endregion
+
+        #endregion Static Properties
 
         #region Serialization
+
         /// <summary>
         ///   Loads a the <b>UserOptions</b> file into a new instance.
         /// </summary>
@@ -104,7 +106,6 @@ namespace EricMediaCenter
                 return new UserOptions();
             try
             {
-
                 XmlSerializer serializer = new XmlSerializer(typeof(UserOptions));
                 using (FileStream stream = new FileStream(OptionsPath, FileMode.Open))
                 {
@@ -147,12 +148,12 @@ namespace EricMediaCenter
         ///   If a path does not exist, one is created in the following format:
         ///   <para>
         ///   <see cref="Environment.SpecialFolder">ApplicationData</see>\
-        ///    <see cref="Application.CompanyName"/>\ 
-        ///    <see cref="Application.ProductName"/>\ 
+        ///    <see cref="Application.CompanyName"/>\
+        ///    <see cref="Application.ProductName"/>\
         ///    <i>appname</i>.options.xml
         ///   </para>
         ///   <para>
-        ///    A typical <b>OptionsPath</b>, is 
+        ///    A typical <b>OptionsPath</b>, is
         ///    "C:\Documents and Settings\<i>username</i>\Application Data\<i>company</i>\<i>product</i>\<i>appname</i>.exe.options.xml".
         ///    </para>
         /// </remarks>
@@ -180,6 +181,7 @@ namespace EricMediaCenter
                 return path.ToString();
             }
         }
-        #endregion
+
+        #endregion Serialization
     }
 }

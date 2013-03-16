@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
@@ -65,6 +61,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_WebSite = (string)r["website"];
             m_Args = (string)r["args"];
         }
+
         public override string ToString()
         {
             //TODO

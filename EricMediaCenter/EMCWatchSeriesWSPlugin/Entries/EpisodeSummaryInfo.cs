@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
-
-
     public class EpisodeSummaryInfo
     {
         private int m_No;
@@ -22,26 +18,31 @@ namespace EMCWatchSeriesWSPlugin.Entries
             get { return m_No; }
             set { m_No = value; }
         }
+
         public int Id
         {
             get { return m_Id; }
             set { m_Id = value; }
         }
+
         public string Name
         {
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         public string Title
         {
             get { return m_Title; }
             set { m_Title = value; }
         }
+
         public DateTime ReleaseDate
         {
             get { return m_ReleaseDate; }
             set { m_ReleaseDate = value; }
         }
+
         public SeasonInfo Season
         {
             get { return m_Season; }
@@ -57,6 +58,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_ReleaseDate = releaseDate;
             m_Season = season;
         }
+
         public static Dictionary<int, EpisodeSummaryInfo> DeserializeEpisodes(SeasonInfo season, JArray results)
         {
             Dictionary<int, EpisodeSummaryInfo> all = new Dictionary<int, EpisodeSummaryInfo>();
@@ -67,6 +69,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             }
             return all;
         }
+
         public EpisodeSummaryInfo(SeasonInfo season, JObject r)
         {
             //          {
@@ -83,6 +86,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_ReleaseDate = (DateTime)r["ReleaseDate"];
             m_Season = season;
         }
+
         public override string ToString()
         {
             //TODO

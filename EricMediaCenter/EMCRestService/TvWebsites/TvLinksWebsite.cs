@@ -9,7 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
@@ -40,15 +39,18 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
+
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
             return await AvailableShowsAsync(keywords.Split(' '));
         }
+
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             char debut = letter.ToLower()[0];
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
+
         public async Task<TvShow> ShowAsync(string name)
         {
             TvShow show = new TvShow();
@@ -80,7 +82,6 @@ namespace EMCRestService.TvWebsites
                 if (!show.Episodes.ContainsKey(no))
                     show.Episodes.Add(no, new List<ListedEpisode>());
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
-
 
                 string epDeb = "<li>";
                 int startE = itemS.IndexOf(epDeb) + epDeb.Length;
@@ -115,7 +116,6 @@ namespace EMCRestService.TvWebsites
             show.NoLastSeason = lastEp.NoSeason;
             return show;
         }
-
 
         public async Task<Episode> EpisodeAsync(string epId)
         {
@@ -156,7 +156,6 @@ namespace EMCRestService.TvWebsites
             }
             return ep;
         }
-
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {

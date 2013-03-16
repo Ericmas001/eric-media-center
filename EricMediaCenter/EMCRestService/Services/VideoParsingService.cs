@@ -1,17 +1,11 @@
-﻿using System;
+﻿using EMCRestService.VideoParser;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using System.Net;
-using EMCRestService.VideoParser;
 
 namespace EMCRestService.Services
 {
@@ -39,6 +33,7 @@ namespace EMCRestService.Services
         {
             return JsonConvert.SerializeObject(Parsers.Keys.ToArray());
         }
+
         [WebGet(UriTemplate = "Parse/{website}/{args}")]
         public string Parse(string website, string args)
         {

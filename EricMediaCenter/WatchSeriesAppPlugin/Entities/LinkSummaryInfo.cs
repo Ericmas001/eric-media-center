@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using EMCMasterPluginLib;
+﻿using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Entities
 {
-
     public class LinkSummaryInfo
     {
         private LinkWebsiteInfo m_Website;
@@ -38,10 +32,12 @@ namespace WatchSeriesAppPlugin.Entities
             m_Id = id;
             m_No = no;
         }
+
         public override string ToString()
         {
             return "Link #" + m_No;
         }
+
         public LinkInfo LoadLink()
         {
             dynamic l = EMCGlobal.GetWebServiceResult("WatchSeries|GetUrl", m_Id.ToString());

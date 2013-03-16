@@ -1,8 +1,6 @@
-﻿using System;
+﻿using EMCMasterPluginLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Entities
 {
@@ -13,7 +11,7 @@ namespace WatchSeriesAppPlugin.Entities
         private string m_Token;
         private DateTime m_ValidUntil;
         private string m_LastMessage;
-        private Dictionary<string,UserFavoriteInfo> m_Favorites;
+        private Dictionary<string, UserFavoriteInfo> m_Favorites;
 
         public Dictionary<string, UserFavoriteInfo> Favorites
         {
@@ -56,6 +54,7 @@ namespace WatchSeriesAppPlugin.Entities
             m_Username = username;
             m_Password = password;
         }
+
         public bool Connect()
         {
             if (!String.IsNullOrWhiteSpace(m_Token) && ((ValidUntil - DateTime.Now).Minutes >= 1))
@@ -77,6 +76,7 @@ namespace WatchSeriesAppPlugin.Entities
                 m_LastMessage = res.Message;
             return res.Success;
         }
+
         public bool GetFavs()
         {
             if (!Connect())
@@ -85,7 +85,7 @@ namespace WatchSeriesAppPlugin.Entities
             if (res.Success)
             {
                 m_Favorites = new Dictionary<string, UserFavoriteInfo>();
-                foreach( string k in res.Favorites.Keys)
+                foreach (string k in res.Favorites.Keys)
                 {
                     var v = res.Favorites[k];
                     m_Favorites.Add(k, new UserFavoriteInfo(v.ShowName, v.ShowTitle, v.LastSeason, v.LastEpisode, v.LastViewedSeason, v.LastViewedEpisode));

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EMCRestService.Entries
+﻿namespace EMCRestService.Entries
 {
     public class EpGuideEntry
     {
@@ -14,6 +9,7 @@ namespace EMCRestService.Entries
             get { return m_TvRageId; }
             set { m_TvRageId = value; }
         }
+
         private string m_TvId;
 
         public string TvId
@@ -21,6 +17,7 @@ namespace EMCRestService.Entries
             get { return m_TvId; }
             set { m_TvId = value; }
         }
+
         private string m_FutonCriticId;
 
         public string FutonCriticId
@@ -28,6 +25,7 @@ namespace EMCRestService.Entries
             get { return m_FutonCriticId; }
             set { m_FutonCriticId = value; }
         }
+
         private string m_ImdbId;
 
         public string ImdbId
@@ -35,6 +33,7 @@ namespace EMCRestService.Entries
             get { return m_ImdbId; }
             set { m_ImdbId = value; }
         }
+
         private string m_ShareTvId;
 
         public string ShareTvId
@@ -42,6 +41,7 @@ namespace EMCRestService.Entries
             get { return m_ShareTvId; }
             set { m_ShareTvId = value; }
         }
+
         private string m_TvClubId;
 
         public string TvClubId
@@ -49,6 +49,7 @@ namespace EMCRestService.Entries
             get { return m_TvClubId; }
             set { m_TvClubId = value; }
         }
+
         private string m_TvGuideId;
 
         public string TvGuideId
@@ -56,6 +57,7 @@ namespace EMCRestService.Entries
             get { return m_TvGuideId; }
             set { m_TvGuideId = value; }
         }
+
         private string m_WikiId;
 
         public string WikiId
@@ -63,6 +65,7 @@ namespace EMCRestService.Entries
             get { return m_WikiId; }
             set { m_WikiId = value; }
         }
+
         private string m_ClickerId;
 
         public string ClickerId

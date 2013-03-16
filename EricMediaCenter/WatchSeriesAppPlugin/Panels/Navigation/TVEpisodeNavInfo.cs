@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using WatchSeriesAppPlugin.Entities;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
-using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
@@ -19,16 +15,19 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             get { return m_EpisodeSummary; }
             set { m_EpisodeSummary = value; }
         }
+
         public EpisodeSummaryInfo EpisodePrev
         {
             get { return m_EpisodePrev; }
             set { m_EpisodePrev = value; }
         }
+
         public EpisodeSummaryInfo EpisodeNext
         {
             get { return m_EpisodeNext; }
             set { m_EpisodeNext = value; }
         }
+
         public EpisodeInfo EpisodeFull
         {
             get { return m_EpisodeFull; }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace WatchSeriesAppPlugin.Entities
 {
@@ -16,6 +13,7 @@ namespace WatchSeriesAppPlugin.Entities
             get { return m_Description; }
             set { m_Description = value; }
         }
+
         public Dictionary<string, LinkWebsiteInfo> Links
         {
             get { return m_Links; }
@@ -26,11 +24,13 @@ namespace WatchSeriesAppPlugin.Entities
             : this(i.Season, i.No, i.Id, i.Name, i.Title, i.ReleaseDate, description)
         {
         }
+
         public EpisodeInfo(SeasonInfo season, int no, int id, string name, string title, DateTime releaseDate, string description)
             : base(season, no, id, name, title, releaseDate)
         {
             m_Description = description;
         }
+
         public override string ToString()
         {
             //TODO

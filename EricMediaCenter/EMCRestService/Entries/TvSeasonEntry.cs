@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +12,7 @@ namespace EMCRestService.Entries
             get { return m_SeasonNo; }
             set { m_SeasonNo = value; }
         }
+
         private int m_NbEpisodes;
 
         public int NbEpisodes
@@ -21,6 +20,7 @@ namespace EMCRestService.Entries
             get { return m_NbEpisodes; }
             set { m_NbEpisodes = value; }
         }
+
         private string m_SeasonName;
 
         public string SeasonName
@@ -44,6 +44,6 @@ namespace EMCRestService.Entries
             return this.SeasonNo.CompareTo(other.SeasonNo);
         }
 
-        #endregion
+        #endregion IComparable<TvSeasonEntry> Members
     }
 }

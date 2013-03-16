@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.WebService;
+﻿using EMCMasterPluginLib.WebService;
+using System;
 
 namespace EMCWatchSeriesWSPlugin
 {
@@ -15,7 +12,7 @@ namespace EMCWatchSeriesWSPlugin
             return new WatchSeriesWebService();
         }
 
-        #endregion
+        #endregion IEMCWebServicePlugin Members
 
         #region IEMCMasterPlugin Members
 
@@ -39,6 +36,6 @@ namespace EMCWatchSeriesWSPlugin
             return true;
         }
 
-        #endregion
+        #endregion IEMCMasterPlugin Members
     }
 }

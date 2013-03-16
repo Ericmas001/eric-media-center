@@ -1,17 +1,14 @@
-﻿using System;
+﻿using EMCRestService.Entries;
+using EricUtility;
+using EricUtility.Networking.Gathering;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using System.Net;
-using EMCRestService.Entries;
 
 namespace EMCRestService.Services
 {
@@ -21,6 +18,7 @@ namespace EMCRestService.Services
     public class WatchSeriesService
     {
         private const string RANDOM_EPISODE_URL = "http://watchseries.li/episode/big_bang_theory_s1_e9-8171.html";
+
         [WebGet(UriTemplate = "GetPopulars")]
         public string GetPopulars()
         {
@@ -36,30 +34,33 @@ namespace EMCRestService.Services
 
                 TvShowEntry entry = new TvShowEntry();
                 entry.ShowName = item.Remove(item.IndexOf("\""));
+
                 //entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
-                entry.ShowTitle = new CultureInfo("en-US",false).TextInfo.ToTitleCase(entry.ShowName.Replace("_"," "));
+                entry.ShowTitle = new CultureInfo("en-US", false).TextInfo.ToTitleCase(entry.ShowName.Replace("_", " "));
                 entry.ReleaseYear = 0;
                 availables.Add(entry);
                 start = allShows.IndexOf(showurl, end) + showurl.Length;
             }
             TvShowEntry[] items = new TvShowEntry[availables.Count];
             availables.CopyTo(items, 0);
+
             //Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "AvailableLetters")]
         public string AvailableLetters()
         {
             return getAvailableItems("http://watchseries.li/letters/");
         }
-        
+
         [WebGet(UriTemplate = "AvailableGenres")]
         public string AvailableGenres()
         {
             return getAvailableItems("http://watchseries.li/genres/");
         }
 
-        private string getAvailableItems( string baseurl )
+        private string getAvailableItems(string baseurl)
         {
             List<string> availables = new List<string>();
             string src = GatheringUtility.GetPageSource(baseurl);
@@ -70,18 +71,20 @@ namespace EMCRestService.Services
                 int end = choices.IndexOf("\"", start);
                 string letter = choices.Substring(start, end - start);
                 availables.Add(letter);
-                start = choices.IndexOf(baseurl,end) + baseurl.Length;
+                start = choices.IndexOf(baseurl, end) + baseurl.Length;
             }
             string[] items = new string[availables.Count];
             availables.CopyTo(items, 0);
             Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "GetLetter/{letter}")]
         public string GetLetter(string letter)
         {
             return getAvailableShows("http://watchseries.li/letters/" + letter);
         }
+
         [WebGet(UriTemplate = "GetGenre/{genre}")]
         public string GetGenre(string genre)
         {
@@ -112,6 +115,7 @@ namespace EMCRestService.Services
             Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "Search/{keywords}")]
         public string Search(string keywords)
         {
@@ -133,7 +137,7 @@ namespace EMCRestService.Services
                 entry.ShowTitle = StringUtility.Extract(item, "><b>", "</b>");
                 string year = entry.ShowTitle.Substring(entry.ShowTitle.LastIndexOf("("));
                 entry.ReleaseYear = int.Parse(StringUtility.Extract(year, "(", ")"));
-                entry.ShowTitle = entry.ShowTitle.Remove(entry.ShowTitle.LastIndexOf("(")-1);
+                entry.ShowTitle = entry.ShowTitle.Remove(entry.ShowTitle.LastIndexOf("(") - 1);
                 availables.Add(entry);
                 start = allShows.IndexOf(td, end) + td.Length;
             }
@@ -142,6 +146,7 @@ namespace EMCRestService.Services
             Array.Sort(items);
             return JsonConvert.SerializeObject(items);
         }
+
         [WebGet(UriTemplate = "GetShow/{showname}")]
         public string GetShow(string showname)
         {
@@ -155,9 +160,9 @@ namespace EMCRestService.Services
             if (src.Contains("Um, Where did the page go?"))
                 return null;
 
-            entry.RssFeed = StringUtility.Extract(src," <a class=\"rss-title\" href=\"../rss/",".xml");
+            entry.RssFeed = StringUtility.Extract(src, " <a class=\"rss-title\" href=\"../rss/", ".xml");
 
-            string summary = StringUtility.Extract(src,"<div class=\"show-summary\">","</div>");
+            string summary = StringUtility.Extract(src, "<div class=\"show-summary\">", "</div>");
 
             string imageAndTitle = StringUtility.Extract(summary, "<img src=\"", "</a>");
             entry.Logo = imageAndTitle.Remove(imageAndTitle.IndexOf("\""));
@@ -193,7 +198,6 @@ namespace EMCRestService.Services
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
 
-
                 season.NbEpisodes = int.Parse(StringUtility.Extract(itemS, "  (", " episodes)"));
                 season.SeasonName = null;
                 int no = 0;
@@ -212,26 +216,26 @@ namespace EMCRestService.Services
                     string itemE = itemS.Substring(startE, endE - startE).Trim();
 
                     episode.EpisodeName = StringUtility.Extract(itemE, "href=\"../episode/", ".html");
-                    episode.EpisodeId = int.Parse(episode.EpisodeName.Substring(episode.EpisodeName.LastIndexOf("-")+1));
+                    episode.EpisodeId = int.Parse(episode.EpisodeName.Substring(episode.EpisodeName.LastIndexOf("-") + 1));
                     episode.EpisodeNo = int.Parse(StringUtility.Extract(itemE, ">Episode ", "&nbsp;"));
                     episode.EpisodeTitle = StringUtility.Extract(itemE, "&nbsp;&nbsp;&nbsp;", "</span>");
 
                     string eRDate = StringUtility.Extract(itemE, "<span class=\"epnum\">", "</span>");
                     DateTime d = DateTime.MinValue;
-                    DateTime.TryParseExact(eRDate, "dd/MM/yyyy", CultureInfo.InvariantCulture,DateTimeStyles.None, out d);
+                    DateTime.TryParseExact(eRDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out d);
                     episode.ReleaseDate = d;
 
                     season.Episodes.Add(episode);
-                    startE = itemS.IndexOf(epDeb,endE) + epDeb.Length;
+                    startE = itemS.IndexOf(epDeb, endE) + epDeb.Length;
                 }
                 if (no != lastS)
                     entry.Seasons.Add(season);
                 lastS = no;
             }
 
-
             return JsonConvert.SerializeObject(entry);
         }
+
         //public List<TvWebsiteEntry> Links(int id)
         //{
         //    CookieContainer cookies = new CookieContainer();
@@ -281,11 +285,12 @@ namespace EMCRestService.Services
             entry.EpisodeNo = int.Parse(StringUtility.Extract(epname.Substring(epname.LastIndexOf('_')), "_e", "-"));
             string season = epname.Remove(epname.LastIndexOf('_'));
             entry.SeasonNo = int.Parse(season.Substring(season.LastIndexOf('_') + 2));
+
             //entry.Links = Links(entry.EpisodeId);
             entry.Links = new List<TvWebsiteEntry>();
 
             string baseurl = "http://watchseries.li/episode/" + epname + ".html";
-            string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl),"<div class=\"fullwrap\">","</div>");
+            string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl), "<div class=\"fullwrap\">", "</div>");
 
             string showtitle = StringUtility.Extract(src, "<a href=\"http://watchseries.li/serie/", "</a>");
             entry.ShowTitle = showtitle.Substring(showtitle.LastIndexOf('>') + 1);
@@ -302,6 +307,7 @@ namespace EMCRestService.Services
 
             return JsonConvert.SerializeObject(entry);
         }
+
         //[WebGet(UriTemplate = "GetUrl/{linkid}")]
         //public string GetUrl(string linkid)
         //{

@@ -64,7 +64,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
 			    ik2=(ik2*17+92717)%192811;
                 ar2.Add((ik1 + ik2) % 128);
             }
-            
+
             for (int i = 256; i > -1; --i)
             {
 			    int mi=Math.Min(ar2[i],i%128);
@@ -98,6 +98,6 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion IVideoWebsiteParser Members
     }
 }*/

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.WebService;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using EMCMasterPluginLib.WebService;
 using EMCUserWSPlugin.Entries;
-using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace EMCUserWSPlugin
 {
@@ -23,10 +19,10 @@ namespace EMCUserWSPlugin
         {
             get { return "UserService for EricMediaCenter"; }
         }
-        #endregion
+
+        #endregion IWebService Members
 
         #region IWebService Members
-
 
         public string BaseUrl
         {
@@ -110,7 +106,6 @@ namespace EMCUserWSPlugin
             return new UserDetailedResponse(r);
         }
 
-
         private UserDetailedResponse UserSetLastViewed(string result)
         {
             //c6c91b11cdfed4b4b264b1e8e23f05b3/dexter/7/3
@@ -119,6 +114,6 @@ namespace EMCUserWSPlugin
             return new UserDetailedResponse(r);
         }
 
-        #endregion
+        #endregion IWebService Members
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WatchSeriesAppPlugin.Panels.Navigation.Core;
+﻿using System.Collections.Generic;
 using WatchSeriesAppPlugin.Entities;
+using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
@@ -37,6 +34,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             get { return m_IsLetter; }
             set { m_IsLetter = value; }
         }
+
         public SearchNavInfo(NavInfo[] parents, UserInfo user)
             : base("Search", NavType.Search, parents, user)
         {

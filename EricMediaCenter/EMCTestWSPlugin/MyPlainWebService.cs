@@ -1,10 +1,5 @@
-﻿using System;
+﻿using EMCMasterPluginLib.WebService;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.WebService;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 
 namespace EMCTestWSPlugin
 {
@@ -21,17 +16,17 @@ namespace EMCTestWSPlugin
         {
             get { return "My Plain WebService"; }
         }
-        #endregion
+
+        #endregion IWebService Members
 
         #region IWebService Members
-
 
         public string BaseUrl
         {
             get { return "http://emc.ericmas001.com/"; }
         }
 
-        public Dictionary<string,string> Commands
+        public Dictionary<string, string> Commands
         {
             get
             {
@@ -71,6 +66,6 @@ namespace EMCTestWSPlugin
             return result;
         }
 
-        #endregion
+        #endregion IWebService Members
     }
 }
