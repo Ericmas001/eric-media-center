@@ -1,18 +1,12 @@
-﻿using System;
+﻿using EMCRestService.TvWebsites;
+using EMCRestService.TvWebsites.Entities;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using System.Net;
-using EMCRestService.Entries;
-using EMCRestService.TvWebsites;
-using EMCRestService.TvWebsites.Entities;
 using System.Threading.Tasks;
 
 namespace EMCRestService.Services

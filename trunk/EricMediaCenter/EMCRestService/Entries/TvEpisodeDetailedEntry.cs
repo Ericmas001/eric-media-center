@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +11,7 @@ namespace EMCRestService.Entries
             get { return m_SeasonNo; }
             set { m_SeasonNo = value; }
         }
+
         private string m_Description;
 
         public string Description
@@ -21,6 +19,7 @@ namespace EMCRestService.Entries
             get { return m_Description; }
             set { m_Description = value; }
         }
+
         private string m_ShowTitle;
 
         public string ShowTitle
@@ -28,6 +27,7 @@ namespace EMCRestService.Entries
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
+
         private List<TvWebsiteEntry> m_Links;
 
         public List<TvWebsiteEntry> Links

@@ -1,11 +1,8 @@
-﻿ using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.WebService;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using EMCMasterPluginLib.WebService;
 using EMCWatchSeriesWSPlugin.Entries;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace EMCWatchSeriesWSPlugin
 {
@@ -22,10 +19,10 @@ namespace EMCWatchSeriesWSPlugin
         {
             get { return "Series from WatchSeries.li"; }
         }
-        #endregion
+
+        #endregion IWebService Members
 
         #region IWebService Members
-
 
         public string BaseUrl
         {
@@ -58,17 +55,21 @@ namespace EMCWatchSeriesWSPlugin
             {
                 case "GetPopulars": newRes = WatchSeriesGetPopulars(result); break;
                 case "AvailableLetters": newRes = WatchSeriesAvailableLetters(result); break;
+
                 //     case "AvailableGenres": newRes = WatchSeriesAvailableGenres(result); break;
                 case "GetLetter": newRes = WatchSeriesGetLetter(result); break;
+
                 //     case "GetGenre": newRes = WatchSeriesGetGenre(result); break;
                 case "Search": newRes = WatchSeriesSearch(result); break;
                 case "GetShow": newRes = WatchSeriesGetShow(result); break;
+
                 //     case "GetLinks": newRes = WatchSeriesGetLinks(result); break;
                 //     case "GetEpisode": newRes = WatchSeriesGetEpisode(result); break;
                 //     case "GetUrl": newRes = WatchSeriesGetUrl(result); break;
             }
             return newRes;
         }
+
         private List<ShowSummaryInfo> WatchSeriesGetPopulars(string result)
         {
             //
@@ -153,7 +154,7 @@ namespace EMCWatchSeriesWSPlugin
             //revolution_(2012)_s1_e1-194518
             //{"SeasonNo":1,"Description":"After 15 years of darkness, an unlikely trio sets out on a journey to save the world. Source: NBCDirector: Jon FavreauWriter: Eric Kripke","ShowTitle":"Revolution (2012)","Links":[{"Name":"180upload.com","LinkIDs":[6800989]},{"Name":"allmyvideos.net","LinkIDs":[6804502,6802462,6802391]},{"Name":"clicktoview.org","LinkIDs":[6962003,6946503,6807019,6802463,6802390,6798570]},{"Name":"cyberlocker.ch","LinkIDs":[6804687,6800378]},{"Name":"filenuke.com","LinkIDs":[6807031,6804710,6802568,6802523,6802389,6801352,6800264,6799207,6798644,6798643]},{"Name":"flashx.tv","LinkIDs":[6807023,6802467,6802395]},{"Name":"hostingbulk.com","LinkIDs":[6807035]},{"Name":"movreel.com","LinkIDs":[6802461,6802388,6801962,6799969,6799373]},{"Name":"muchshare.net","LinkIDs":[6801372]},{"Name":"nosvideo.com","LinkIDs":[6955331,6798671]},{"Name":"novamov.com","LinkIDs":[6904836]},{"Name":"nowvideo.li","LinkIDs":[6860806,6860805,6860804]},{"Name":"putlocker.com","LinkIDs":[6904835]},{"Name":"uploadc.com","LinkIDs":[6953608,6802584,6802231,6801469]},{"Name":"vidbull.com","LinkIDs":[6802465,6802393,6801639,6801638,6799970,6799294,6799264]},{"Name":"vidbux.com","LinkIDs":[6904837,6802460,6802387,6799203]},{"Name":"vidxden.com","LinkIDs":[6904834,6802459,6802386,6802232,6799202,6798652,6798651]},{"Name":"vreer.com","LinkIDs":[6802466,6802394,6801920,6801884,6801666,6801330,6801207]},{"Name":"vureel.com","LinkIDs":[7144060]}],"EpisodeNo":1,"EpisodeId":194518,"EpisodeName":"revolution_(2012)_s1_e1-194518","EpisodeTitle":"Pilot","ReleaseDate":"\/Date(1347865200000-0700)\/"}
             JObject r = JsonConvert.DeserializeObject<dynamic>(result);
-            return new EpisodeInfo(null,r);
+            return new EpisodeInfo(null, r);
         }
 
         private DownloadUrl WatchSeriesGetUrl(string result)
@@ -166,6 +167,6 @@ namespace EMCWatchSeriesWSPlugin
             return new DownloadUrl(r);
         }
 
-        #endregion
+        #endregion IWebService Members
     }
 }

@@ -18,7 +18,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
             if (indexU < 0)
                 return new ParsedVideoWebsite(url);
             string videoID = src.Substring(indexIF, indexU - indexIF);
-            
+
             string buffer = src;
             int start = 0, end = 0;
             string startTag = "\"fmt_url_map\": ";
@@ -30,6 +30,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
             str = str.Substring(start);
             str = str.Replace("\\/","/");
             str += "&video.flv";
+
             //string str2 = WebStringUtility.EncodeUrl(str);
             //return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, str, str2);
             return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv, str);

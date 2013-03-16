@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +11,7 @@ namespace EMCRestService.Entries
             get { return m_EpisodeNo; }
             set { m_EpisodeNo = value; }
         }
+
         private int m_EpisodeId;
 
         public int EpisodeId
@@ -21,6 +19,7 @@ namespace EMCRestService.Entries
             get { return m_EpisodeId; }
             set { m_EpisodeId = value; }
         }
+
         private string m_EpisodeName;
 
         public string EpisodeName
@@ -28,6 +27,7 @@ namespace EMCRestService.Entries
             get { return m_EpisodeName.Replace(':', ';'); }
             set { m_EpisodeName = value; }
         }
+
         private string m_EpisodeTitle;
 
         public string EpisodeTitle
@@ -51,6 +51,6 @@ namespace EMCRestService.Entries
             return this.EpisodeNo.CompareTo(other.EpisodeNo);
         }
 
-        #endregion
+        #endregion IComparable<TvSeasonEntry> Members
     }
 }

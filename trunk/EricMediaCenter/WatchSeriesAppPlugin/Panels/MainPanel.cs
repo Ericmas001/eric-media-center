@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using EMCMasterPluginLib;
+using System;
 using System.Windows.Forms;
-using WatchSeriesAppPlugin.Panels.Navigation;
 using WatchSeriesAppPlugin.Entities;
+using WatchSeriesAppPlugin.Panels.Navigation;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
-using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Panels
 {
@@ -22,7 +16,7 @@ namespace WatchSeriesAppPlugin.Panels
 
             WSGlobal.LoginPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
             WSGlobal.LoginPanel.WrongScreen += new EricUtility.EmptyHandler(loginPanel_WrongScreen);
-            
+
             WSGlobal.RegisterPanel.UserLoggedIn += new EventHandler<EricUtility.KeyEventArgs<UserInfo>>(loginPanel_UserLoggedIn);
             WSGlobal.RegisterPanel.WrongScreen += new EricUtility.EmptyHandler(regPanel_WrongScreen);
 
@@ -33,7 +27,7 @@ namespace WatchSeriesAppPlugin.Panels
             WSGlobal.PanelUserFavs.Navigating += new EventHandler<EricUtility.KeyEventArgs<NavInfo>>(nav_Navigating);
         }
 
-        void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
+        private void loginPanel_UserLoggedIn(object sender, EricUtility.KeyEventArgs<UserInfo> e)
         {
             WSGlobal.User = e.Key;
             if (e.Key == null)
@@ -48,20 +42,20 @@ namespace WatchSeriesAppPlugin.Panels
             }
         }
 
-        void nav_Navigating(object sender, EricUtility.KeyEventArgs<NavInfo> e)
+        private void nav_Navigating(object sender, EricUtility.KeyEventArgs<NavInfo> e)
         {
             if (e.Key == null)
                 SetContent(WSGlobal.LoginPanel);
             else
                 SetContent(WSGlobal.Navigate(e.Key));
         }
-        
-        void loginPanel_WrongScreen()
+
+        private void loginPanel_WrongScreen()
         {
             SetContent(WSGlobal.RegisterPanel);
         }
 
-        void regPanel_WrongScreen()
+        private void regPanel_WrongScreen()
         {
             SetContent(WSGlobal.LoginPanel);
         }

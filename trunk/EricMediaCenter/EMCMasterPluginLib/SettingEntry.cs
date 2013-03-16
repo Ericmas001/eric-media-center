@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-
-namespace EMCMasterPluginLib
+﻿namespace EMCMasterPluginLib
 {
     public class SettingEntry
     {
@@ -15,6 +9,7 @@ namespace EMCMasterPluginLib
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         private string m_TypeSetting;
 
         public string TypeSetting
@@ -22,6 +17,7 @@ namespace EMCMasterPluginLib
             get { return m_TypeSetting; }
             set { m_TypeSetting = value; }
         }
+
         private string m_Value;
 
         public string Value2
@@ -29,6 +25,7 @@ namespace EMCMasterPluginLib
             get { return m_Value; }
             set { m_Value = value; }
         }
+
         public SettingEntry(string name, string type, string value)
         {
             m_Name = name;

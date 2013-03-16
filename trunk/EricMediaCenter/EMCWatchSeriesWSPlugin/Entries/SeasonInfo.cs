@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
@@ -13,31 +10,37 @@ namespace EMCWatchSeriesWSPlugin.Entries
         private string m_Name;
         private Dictionary<int, EpisodeSummaryInfo> m_Episodes;
         private ShowInfo m_Show;
+
         public int No
         {
             get { return m_No; }
             set { m_No = value; }
         }
+
         public int NbEpisodes
         {
             get { return m_NbEpisodes; }
             set { m_NbEpisodes = value; }
         }
+
         public string Name
         {
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         public Dictionary<int, EpisodeSummaryInfo> Episodes
         {
             get { return m_Episodes; }
             set { m_Episodes = value; }
         }
+
         public ShowInfo Show
         {
             get { return m_Show; }
             set { m_Show = value; }
         }
+
         public SeasonInfo(ShowInfo show, int no, int nbEpisodes, string name, Dictionary<int, EpisodeSummaryInfo> episodes)
         {
             m_No = no;
@@ -46,6 +49,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_Episodes = episodes;
             m_Show = show;
         }
+
         public static Dictionary<int, SeasonInfo> DeserializeSeasons(ShowInfo show, JArray results)
         {
             Dictionary<int, SeasonInfo> all = new Dictionary<int, SeasonInfo>();
@@ -56,6 +60,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             }
             return all;
         }
+
         public SeasonInfo(ShowInfo show, JObject r)
         {
             //      {
@@ -70,6 +75,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_Episodes = EpisodeSummaryInfo.DeserializeEpisodes(this, (JArray)r["Episodes"]);
             m_Show = show;
         }
+
         public override string ToString()
         {
             //TODO

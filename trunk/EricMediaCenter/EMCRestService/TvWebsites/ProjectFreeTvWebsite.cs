@@ -8,7 +8,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
@@ -39,15 +38,18 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
+
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
             return await AvailableShowsAsync(keywords.Split(' '));
         }
+
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             char debut = letter.ToLower()[0];
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
+
         public async Task<TvShow> ShowAsync(string name)
         {
             TvShow show = new TvShow();
@@ -79,6 +81,7 @@ namespace EMCRestService.TvWebsites
             }
 
             foreach (int no in seasons.Keys)
+
             //Parallel.ForEach(seasons.Keys, async no =>
             {
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
@@ -111,7 +114,6 @@ namespace EMCRestService.TvWebsites
             return show;
         }
 
-
         public async Task<Episode> EpisodeAsync(string epId)
         {
             Episode ep = new Episode();
@@ -131,7 +133,6 @@ namespace EMCRestService.TvWebsites
             ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
             string dt = StringUtility.Extract(nfo, "Air Date: ", "<");
             ep.ReleaseDate = DateTime.ParseExact(dt, "dd MMMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
-
 
             string linkDeb = "class=\"mnllinklist dotted\">";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -157,7 +158,6 @@ namespace EMCRestService.TvWebsites
 
             return ep;
         }
-
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {

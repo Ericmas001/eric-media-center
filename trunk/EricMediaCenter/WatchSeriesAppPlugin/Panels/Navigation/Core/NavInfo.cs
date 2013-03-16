@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using WatchSeriesAppPlugin.Entities;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation.Core
@@ -12,6 +9,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation.Core
         private UserInfo m_New;
 
         public UserInfo Old { get { return m_Old; } }
+
         public UserInfo New { get { return m_New; } }
 
         public UserEventArgs(UserInfo oldUser, UserInfo newUser)
@@ -20,6 +18,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation.Core
             m_New = newUser;
         }
     }
+
     public class NavInfo
     {
         public event EventHandler<UserEventArgs> UserSetted = delegate { };
@@ -36,7 +35,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation.Core
             {
                 UserInfo oldUser = m_User;
                 m_User = value;
-                UserSetted(this,new UserEventArgs(oldUser,value));
+                UserSetted(this, new UserEventArgs(oldUser, value));
             }
         }
 

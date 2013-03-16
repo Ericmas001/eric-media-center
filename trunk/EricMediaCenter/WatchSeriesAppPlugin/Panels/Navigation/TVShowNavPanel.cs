@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
-using EMCMasterPluginLib;
-using System.Collections;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
-using System.Diagnostics;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
 {
     public partial class TVShowNavPanel : NavPanel
     {
         public TvShowNavInfo TVShowInfo { get { return Info as TvShowNavInfo; } }
+
         public TVShowNavPanel()
         {
             InitializeComponent();
         }
+
         protected override void InfoSetted(NavInfo oldI, NavInfo newI)
         {
             lblShowTitle.Text = Info.Name;
@@ -37,6 +34,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             RefreshFavs();
             base.InfoSetted(oldI, newI);
         }
+
         private void RefreshFavs()
         {
             if (TVShowInfo.Favorite != null && TVShowInfo.Favorite.LastViewedSeason > 0)
@@ -46,6 +44,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             lstSeasons.Refresh();
             lstEpisodes.Refresh();
         }
+
         protected override void info_UserSetted(object sender, UserEventArgs args)
         {
             base.info_UserSetted(sender, args);
@@ -57,12 +56,13 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             }
             RefreshFavs();
         }
+
         private void btnFav_Click(object sender, EventArgs e)
         {
             UserInfo old = Info.User;
             switch (TVShowInfo.State)
             {
-                case TvShowFavBtnState.NoUser: 
+                case TvShowFavBtnState.NoUser:
                     {
                         if (MessageBox.Show("This feature is only available to registered users. Do you want to register ?", "Not Available", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
@@ -81,12 +81,12 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                         break;
                     }
             }
-            Info.FireUserSetted(old,Info.User);
+            Info.FireUserSetted(old, Info.User);
         }
 
         private void lstSeasons_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if( lstSeasons.SelectedIndex >= 0 )
+            if (lstSeasons.SelectedIndex >= 0)
             {
                 lstEpisodes.Items.Clear();
                 SeasonInfo s = (SeasonInfo)lstSeasons.SelectedItem;
@@ -100,6 +100,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
             {
                 EpisodeSummaryInfo esi = (EpisodeSummaryInfo)lstEpisodes.SelectedItem;
                 Process.Start("http://www.tubeplus.me/player/" + esi.Id + "/");
+
                 //TVEpisodeNavInfo epNfo = new TVEpisodeNavInfo(esi, esi.GetPreviousEpisode(), esi.GetNextEpisode(), Info.FutureParents, Info.User);
                 //Navigate(epNfo);
             }
@@ -184,7 +185,7 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
                     isNew = true;
                 else if (si.No < ufi.LastViewedSeason)
                     isNew = false;
-                else if (ufi.LastViewedSeason ==si.No && si.Episodes.Last().Key <= ufi.LastViewedEpisode)
+                else if (ufi.LastViewedSeason == si.No && si.Episodes.Last().Key <= ufi.LastViewedEpisode)
                     isNew = false;
                 e.Graphics.DrawString(si.ToString(), new Font(lstEpisodes.Font.FontFamily, lstEpisodes.Font.Size, isNew ? FontStyle.Bold : FontStyle.Regular), Brushes.Black, e.Bounds);
             }

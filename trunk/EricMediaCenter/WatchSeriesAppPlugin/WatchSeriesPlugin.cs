@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EMCMasterPluginLib.Application;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using EMCMasterPluginLib.Application;
+using System;
 
 namespace WatchSeriesAppPlugin
 {
@@ -17,7 +12,7 @@ namespace WatchSeriesAppPlugin
             return new WatchSeriesApp();
         }
 
-        #endregion
+        #endregion IEMCApplicationPlugin Members
 
         #region IEMCMasterPlugin Members
 
@@ -41,6 +36,6 @@ namespace WatchSeriesAppPlugin
             return true;
         }
 
-        #endregion
+        #endregion IEMCMasterPlugin Members
     }
 }

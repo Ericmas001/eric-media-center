@@ -1,16 +1,13 @@
-﻿using System;
+﻿using EMCRestService.Entries;
+using EricUtility;
+using EricUtility.Networking.Gathering;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using EMCRestService.Entries;
 
 namespace EMCRestService.Services
 {
@@ -39,10 +36,11 @@ namespace EMCRestService.Services
             }
             return JsonConvert.SerializeObject(availables);
         }
+
         [WebGet(UriTemplate = "GetSchedule/{id}")]
         public string GetSchedule(string id)
         {
-            string src = GatheringUtility.GetPageSource("http://watchseries.li/tvschedule/"+id);
+            string src = GatheringUtility.GetPageSource("http://watchseries.li/tvschedule/" + id);
             string content = StringUtility.Extract(src, "<h2 class=\"listbig\">", "<!-- end of right -->");
             string lineDebut = "<a href=\"";
             string lineFin = "</a>";
@@ -60,7 +58,7 @@ namespace EMCRestService.Services
                 string info = line.Substring(line.IndexOf(">") + 1);
                 string splitter = " - ";
                 entry.ShowName = info.Remove(info.IndexOf(splitter)).Trim();
-                int titleDeb = info.IndexOf(splitter)+splitter.Length;
+                int titleDeb = info.IndexOf(splitter) + splitter.Length;
                 int numberDeb = info.LastIndexOf("(");
                 entry.ShowTitle = info.Substring(titleDeb, numberDeb - titleDeb).Trim();
 
@@ -70,7 +68,6 @@ namespace EMCRestService.Services
                 {
                     nbs = number.Substring(1).Split('-');
                     nbs[1] = "99";
-                
                 }
                 else
                     nbs = number.Split('x');

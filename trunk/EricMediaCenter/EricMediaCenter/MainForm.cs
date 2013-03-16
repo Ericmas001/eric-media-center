@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-using EMCMasterPluginLib;
-using EricUtility.Networking.Gathering;
-using EricUtilityNetworking;
-using System.Net;
-using EricMediaCenter.Panels;
-using VIBlend.WinForms.Controls;
+﻿using EMCMasterPluginLib;
 using EMCMasterPluginLib.Application;
-using System.Threading;
+using EricMediaCenter.Panels;
 using EricUtility;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Windows.Forms;
+using VIBlend.WinForms.Controls;
 
 namespace EricMediaCenter
 {
     public partial class MainForm : Form
     {
-        bool alreadyToggling = false;
+        private bool alreadyToggling = false;
         public vToggleButton oldMenu;
         public Dictionary<string, UserControl> panels = new Dictionary<string, UserControl>();
+
         public MainForm()
         {
             InitializeComponent();
@@ -33,11 +24,11 @@ namespace EricMediaCenter
             EMCGlobal.MainPanelChanged += new EventHandler<KeyValueEventArgs<string, UserControl>>(EMCGlobal_MainPanelChanged);
         }
 
-        void EMCGlobal_MainPanelChanged(object sender, KeyValueEventArgs<string, UserControl> e)
+        private void EMCGlobal_MainPanelChanged(object sender, KeyValueEventArgs<string, UserControl> e)
         {
-            if (panels.ContainsKey("btn"+e.Key))
+            if (panels.ContainsKey("btn" + e.Key))
             {
-                UserControl oldC = panels["btn"+e.Key];
+                UserControl oldC = panels["btn" + e.Key];
                 UserControl newC = e.Value;
                 panels[oldMenu.Name] = newC;
                 if (panel1.Controls.Contains(oldC))
@@ -53,7 +44,8 @@ namespace EricMediaCenter
                 }
             }
         }
-        void EMCGlobal_SupportedAppUpdated()
+
+        private void EMCGlobal_SupportedAppUpdated()
         {
             if (this.InvokeRequired)
             {

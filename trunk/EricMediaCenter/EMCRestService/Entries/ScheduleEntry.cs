@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.Entries
 {
@@ -14,6 +11,7 @@ namespace EMCRestService.Entries
             get { return m_Url; }
             set { m_Url = value; }
         }
+
         private string m_ShowName;
 
         public string ShowName
@@ -21,6 +19,7 @@ namespace EMCRestService.Entries
             get { return m_ShowName; }
             set { m_ShowName = value; }
         }
+
         private string m_ShowTitle;
 
         public string ShowTitle
@@ -28,6 +27,7 @@ namespace EMCRestService.Entries
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
+
         private int m_Season;
 
         public int Season
@@ -35,6 +35,7 @@ namespace EMCRestService.Entries
             get { return m_Season; }
             set { m_Season = value; }
         }
+
         private int m_Episode;
 
         public int Episode
@@ -50,6 +51,6 @@ namespace EMCRestService.Entries
             return this.ShowTitle.CompareTo(other.ShowTitle);
         }
 
-        #endregion
+        #endregion IComparable<ScheduleEntry> Members
     }
 }

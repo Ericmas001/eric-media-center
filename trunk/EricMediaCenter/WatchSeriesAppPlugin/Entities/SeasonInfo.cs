@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace WatchSeriesAppPlugin.Entities
 {
@@ -13,31 +11,37 @@ namespace WatchSeriesAppPlugin.Entities
         private string m_Name;
         private Dictionary<int, EpisodeSummaryInfo> m_Episodes;
         private ShowInfo m_Show;
+
         public int No
         {
             get { return m_No; }
             set { m_No = value; }
         }
+
         public int NbEpisodes
         {
             get { return m_NbEpisodes; }
             set { m_NbEpisodes = value; }
         }
+
         public string Name
         {
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         public Dictionary<int, EpisodeSummaryInfo> Episodes
         {
             get { return m_Episodes; }
             set { m_Episodes = value; }
         }
+
         public ShowInfo Show
         {
             get { return m_Show; }
             set { m_Show = value; }
         }
+
         public SeasonInfo(ShowInfo show, int no, int nbEpisodes, string name)
         {
             m_No = no;
@@ -45,10 +49,12 @@ namespace WatchSeriesAppPlugin.Entities
             m_Name = name;
             m_Show = show;
         }
+
         public override string ToString()
         {
-            return String.Format("Season {0:00}",m_No);
+            return String.Format("Season {0:00}", m_No);
         }
+
         public static Dictionary<int, SeasonInfo> GetSeasons(ShowInfo show, dynamic lstSeasons)
         {
             Dictionary<int, SeasonInfo> seasons = new Dictionary<int, SeasonInfo>();
@@ -63,15 +69,15 @@ namespace WatchSeriesAppPlugin.Entities
 
         public SeasonInfo GetPreviousSeason()
         {
-                SeasonInfo s = null;
-                int[] sInShow = Show.Seasons.Keys.ToArray();
-                int si = 0;
-                for (; si < sInShow.Length && sInShow[si] != No; ++si) ;
-                if (si == sInShow.Length)
-                    return null;
-                if (si > 0)
-                    s = Show.Seasons[sInShow[si - 1]];
-                return s;
+            SeasonInfo s = null;
+            int[] sInShow = Show.Seasons.Keys.ToArray();
+            int si = 0;
+            for (; si < sInShow.Length && sInShow[si] != No; ++si) ;
+            if (si == sInShow.Length)
+                return null;
+            if (si > 0)
+                s = Show.Seasons[sInShow[si - 1]];
+            return s;
         }
 
         public SeasonInfo GetNextSeason()

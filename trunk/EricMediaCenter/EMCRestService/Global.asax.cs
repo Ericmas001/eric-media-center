@@ -1,14 +1,14 @@
-﻿using System;
+﻿using EMCRestService.Services;
+using System;
 using System.ServiceModel.Activation;
 using System.Web;
 using System.Web.Routing;
-using EMCRestService.Services;
 
 namespace EMCRestService
 {
     public class Global : HttpApplication
     {
-        void Application_Start(object sender, EventArgs e)
+        private void Application_Start(object sender, EventArgs e)
         {
             RegisterRoutes();
         }

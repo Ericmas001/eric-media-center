@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-
-namespace WatchSeriesAppPlugin.Entities
+﻿namespace WatchSeriesAppPlugin.Entities
 {
     public class UserFavoriteInfo
     {
@@ -26,6 +20,7 @@ namespace WatchSeriesAppPlugin.Entities
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
+
         public int LastSeason
         {
             get { return m_LastSeason; }
@@ -49,6 +44,7 @@ namespace WatchSeriesAppPlugin.Entities
             get { return m_LastViewedEpisode; }
             set { m_LastViewedEpisode = value; }
         }
+
         public UserFavoriteInfo(string showName, string showTitle, int lastSeason, int lastEpisode, int lastViewedSeason, int lastViewedEpisode)
         {
             m_ShowName = showName;
@@ -58,9 +54,11 @@ namespace WatchSeriesAppPlugin.Entities
             m_LastViewedSeason = lastViewedSeason;
             m_LastViewedEpisode = lastViewedEpisode;
         }
+
         public override string ToString()
         {
             return m_ShowTitle;
+
             //if (m_LastSeason == m_LastViewedSeason && m_LastEpisode == m_LastViewedEpisode)
             //    return string.Format("{0} - Last Episode: S{1:00}E{2:00}", m_ShowTitle, m_LastSeason, m_LastEpisode);
             //else

@@ -1,17 +1,12 @@
-﻿using System;
+﻿using EMCRestService.Entries;
+using EricUtility;
+using EricUtility.Networking.Gathering;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using System.Text;
-using Newtonsoft.Json;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using EricUtility2011;
-using System.Globalization;
-using System.Net;
-using EMCRestService.Entries;
 
 namespace EMCRestService.Services
 {
@@ -21,6 +16,7 @@ namespace EMCRestService.Services
     public class EpGuideService
     {
         public static string EPGUIDE_USELESS { get { return "(a Titles & Air Dates Guide)"; } }
+
         public static List<SearchResultEntry> GoogleSearch(string searchString, int maxresults)
         {
             string pattern = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&safe=active&q={0}&start={1}";
@@ -35,6 +31,7 @@ namespace EMCRestService.Services
                 {
                     string url = StringUtility.Extract(res, "\"url\":\"", "\"", i);
                     string title = WebUtility.HtmlDecode(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
+
                     //string title = Uri.UnescapeDataString(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
                     //string title = WebStringUtility.DecodeString(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
                     string content = StringUtility.Extract(res, "\"content\":\"", "\"", i);
@@ -43,10 +40,12 @@ namespace EMCRestService.Services
             }
             return resultsList;
         }
+
         public static List<SearchResultEntry> GoogleSearch(string searchString)
         {
             return GoogleSearch(searchString, 8);
         }
+
         [WebGet(UriTemplate = "Search/{id}")]
         public string Search(string id)
         {
@@ -57,12 +56,13 @@ namespace EMCRestService.Services
             {
                 string title = e.Title.Replace(EPGUIDE_USELESS, "").Trim();
                 string name = e.Url.Replace("http://epguides.com/", "").Replace("/", "");
-                if( !name.Contains(".shtml") )
+                if (!name.Contains(".shtml"))
                     results.Add(name, title);
             }
-            
+
             return JsonConvert.SerializeObject(results);
         }
+
         [WebGet(UriTemplate = "GetShow/{id}")]
         public string GetShow(string id)
         {

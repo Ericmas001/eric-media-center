@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EMCRestService.TvWebsites.Entities
 {
@@ -9,7 +6,6 @@ namespace EMCRestService.TvWebsites.Entities
     {
         private string m_Name;
         private string m_Title;
-
 
         public string Name
         {

@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
-
     public class LinkInfo
     {
         private string m_Name;
@@ -29,6 +26,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_Name = name;
             m_Ids = ids;
         }
+
         public static Dictionary<string, LinkInfo> DeserializeLinks(EpisodeInfo episode, JArray results)
         {
             Dictionary<string, LinkInfo> all = new Dictionary<string, LinkInfo>();
@@ -41,6 +39,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             }
             return all;
         }
+
         public LinkInfo(EpisodeInfo episode, JObject r)
         {
             //  {
@@ -57,6 +56,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             foreach (JToken t in (JArray)r["LinkIDs"])
                 m_Ids.Add((int)t);
         }
+
         public override string ToString()
         {
             //TODO

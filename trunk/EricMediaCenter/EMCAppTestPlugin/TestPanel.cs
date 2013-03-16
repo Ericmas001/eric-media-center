@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-using System.Net;
-using EMCMasterPluginLib;
-using EricUtility.Networking.Gathering;
-using EricUtility;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using EMCMasterPluginLib;
+using System;
 using System.Collections;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace EMCAppTestPlugin
 {
@@ -56,7 +44,6 @@ namespace EMCAppTestPlugin
                         }
                         else
                             textBox3.Text += "> " + k.ToString() + ": " + value.ToString() + Environment.NewLine;
-
                     }
                 }
                 else

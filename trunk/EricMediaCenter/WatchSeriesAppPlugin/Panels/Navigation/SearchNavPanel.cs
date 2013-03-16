@@ -1,14 +1,9 @@
-﻿using System;
+﻿using EMCMasterPluginLib;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using WatchSeriesAppPlugin.Entities;
-using EMCMasterPluginLib;
-using System.Collections;
 using WatchSeriesAppPlugin.Panels.Navigation.Core;
 
 namespace WatchSeriesAppPlugin.Panels.Navigation
@@ -16,10 +11,12 @@ namespace WatchSeriesAppPlugin.Panels.Navigation
     public partial class SearchNavPanel : NavPanel
     {
         public SearchNavInfo SearchInfo { get { return Info as SearchNavInfo; } }
+
         public SearchNavPanel()
         {
             InitializeComponent();
         }
+
         private void btnGenres_Click(object sender, EventArgs e)
         {
             if (WSGlobal.Genres == null)

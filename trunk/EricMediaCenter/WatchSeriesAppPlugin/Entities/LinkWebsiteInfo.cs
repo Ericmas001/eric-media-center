@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
 
 namespace WatchSeriesAppPlugin.Entities
 {
-
     public class LinkWebsiteInfo
     {
         private EpisodeInfo m_Episode;
         private string m_Name;
         private List<LinkSummaryInfo> m_LinkIds;
 
-
         public EpisodeInfo Episode
         {
             get { return m_Episode; }
             set { m_Episode = value; }
         }
+
         public string Name
         {
             get { return m_Name; }
@@ -36,10 +31,12 @@ namespace WatchSeriesAppPlugin.Entities
             m_Episode = episode;
             m_Name = name;
         }
+
         public override string ToString()
         {
             return m_Name;
         }
+
         public static Dictionary<string, LinkWebsiteInfo> GetLinks(EpisodeInfo episode, dynamic lstLinks)
         {
             Dictionary<string, LinkWebsiteInfo> links = new Dictionary<string, LinkWebsiteInfo>();

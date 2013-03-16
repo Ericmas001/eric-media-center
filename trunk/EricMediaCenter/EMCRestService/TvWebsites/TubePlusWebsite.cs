@@ -8,7 +8,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
@@ -38,10 +37,12 @@ namespace EMCRestService.TvWebsites
             Array.Sort(items);
             return items;
         }
+
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
             return await AvailableShowsAsync("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
         }
+
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
             return await AvailableShowsAsync("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
@@ -130,7 +131,6 @@ namespace EMCRestService.TvWebsites
             return show;
         }
 
-
         public async Task<Episode> EpisodeAsync(string epId)
         {
             Episode ep = new Episode();
@@ -168,7 +168,6 @@ namespace EMCRestService.TvWebsites
             }
             return ep;
         }
-
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {

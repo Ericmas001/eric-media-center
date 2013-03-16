@@ -1,9 +1,7 @@
-﻿using System;
+﻿using EMCMasterPluginLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using EMCMasterPluginLib;
 
 namespace WatchSeriesAppPlugin.Entities
 {
@@ -21,26 +19,31 @@ namespace WatchSeriesAppPlugin.Entities
             get { return m_No; }
             set { m_No = value; }
         }
+
         public int Id
         {
             get { return m_Id; }
             set { m_Id = value; }
         }
+
         public string Name
         {
             get { return m_Name; }
             set { m_Name = value; }
         }
+
         public string Title
         {
             get { return m_Title; }
             set { m_Title = value; }
         }
+
         public DateTime ReleaseDate
         {
             get { return m_ReleaseDate; }
             set { m_ReleaseDate = value; }
         }
+
         public SeasonInfo Season
         {
             get { return m_Season; }
@@ -56,11 +59,12 @@ namespace WatchSeriesAppPlugin.Entities
             m_ReleaseDate = releaseDate;
             m_Season = season;
         }
+
         public override string ToString()
         {
-
             return String.Format("#{0:00}: {1} ({2:yyyy-MM-dd})", m_No, m_Title, m_ReleaseDate);
         }
+
         public static Dictionary<int, EpisodeSummaryInfo> GetEpisodes(SeasonInfo season, dynamic lstEpisodes)
         {
             Dictionary<int, EpisodeSummaryInfo> episodes = new Dictionary<int, EpisodeSummaryInfo>();
@@ -71,12 +75,13 @@ namespace WatchSeriesAppPlugin.Entities
             }
             return episodes;
         }
+
         public EpisodeInfo LoadEpisode()
         {
             dynamic e = EMCGlobal.GetWebServiceResult("WatchSeries|GetEpisode", m_Name);
             if (e == null)
                 return null;
-            EpisodeInfo ep = new EpisodeInfo(this,e.Description);
+            EpisodeInfo ep = new EpisodeInfo(this, e.Description);
             ep.Links = LinkWebsiteInfo.GetLinks(ep, e.Links);
             return ep;
         }
@@ -108,7 +113,7 @@ namespace WatchSeriesAppPlugin.Entities
             for (; ei < epInSeasons.Length && epInSeasons[ei] != No; ++ei) ;
             if (ei == epInSeasons.Length)
                 return null;
-            if (ei < epInSeasons.Length-1)
+            if (ei < epInSeasons.Length - 1)
                 ep = Season.Episodes[epInSeasons[ei + 1]];
             else
             {

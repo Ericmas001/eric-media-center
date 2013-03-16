@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using EricUtility;
 using EricUtility.Networking.Gathering;
-using EricUtility;
 
 namespace EMCRestService.VideoParser
 {
     public class GorillaVidParser : IVideoParser
     {
-
         public string BuildURL(string url, string args)
         {
             return "http://" + url + "/" + args;
         }
+
         public string ParseArgs(string url)
         {
-            return url.Substring(url.LastIndexOf('/')+1);
+            return url.Substring(url.LastIndexOf('/') + 1);
         }
 
         public string GetDownloadURL(string url, System.Net.CookieContainer cookies)
         {
-            string res = GatheringUtility.GetPageSource(url,cookies);
+            string res = GatheringUtility.GetPageSource(url, cookies);
             while (res.Contains("Please wait while we verify your request"))
             {
                 string id = StringUtility.Extract(res, "<input type=\"hidden\" name=\"id\" value=\"", "\">");

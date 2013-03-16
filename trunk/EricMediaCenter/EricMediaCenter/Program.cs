@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace EricMediaCenter
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             // HTTP POST Returns The Error: 417 “Expectation Failed.” (C#)
             // http://stackoverflow.com/questions/566437/http-post-returns-the-error-417-expectation-failed-c
@@ -33,4 +31,4 @@ namespace EricMediaCenter
 // [X] Stay connected acting like a cookie
 // Settings for an app (Setting
 // Plugins update panel + cool
-// "Register" action in disabled AddToFav TVShow Page just does nothing now !!! (Need register to be a navpage) 
+// "Register" action in disabled AddToFav TVShow Page just does nothing now !!! (Need register to be a navpage)

@@ -1,14 +1,14 @@
-﻿using System;
+﻿using EricUtility;
+using EricUtility2011.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using EricUtility;
-using EricUtility2011.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
 
 namespace EMCRestService.Services
 {
@@ -42,7 +42,7 @@ namespace EMCRestService.Services
             {
                 string t = StringUtility.GetMd5Hash(user + ";" + DateTime.Now.ToString());
                 DateTime d = DateTime.Now + TimeSpan.FromMinutes(5);
-                DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second,DateTimeKind.Local);
+                DateTime validUntil = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second, DateTimeKind.Local);
                 Connector.Execute(myConnection, "update ericmas001.TUser set lastToken = @Token, tokenValidUntil = @Valid where username = @User", new Dictionary<string, object>() { { "Token", t }, { "Valid", validUntil }, { "User", user } });
 
                 if (myConnection != null)
@@ -56,6 +56,7 @@ namespace EMCRestService.Services
                 return JsonConvert.SerializeObject(new { success = ok, problem = error });
             }
         }
+
         [WebGet(UriTemplate = "Register/{user}/{pass}")]
         public string Register(string user, string pass)
         {
@@ -90,7 +91,7 @@ namespace EMCRestService.Services
             }
         }
 
-        private KeyValuePair<string,DateTime> GetUsernameFromToken(SqlConnection myConnection, string token)
+        private KeyValuePair<string, DateTime> GetUsernameFromToken(SqlConnection myConnection, string token)
         {
             if (myConnection != null)
             {
@@ -111,7 +112,7 @@ namespace EMCRestService.Services
         public string GetFavs(string token)
         {
             SqlConnection myConnection = Connector.GetConnection();
-            KeyValuePair<string,DateTime> tokenInfo = GetUsernameFromToken(myConnection,token);
+            KeyValuePair<string, DateTime> tokenInfo = GetUsernameFromToken(myConnection, token);
             string user = tokenInfo.Key;
             if (user == null)
             {
@@ -127,6 +128,7 @@ namespace EMCRestService.Services
                 return JsonConvert.SerializeObject(new { success = true, favorites = results, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
             }
         }
+
         [WebGet(UriTemplate = "AddFav/{token}/{showname}")]
         public string AddFav(string token, string showname)
         {
@@ -153,9 +155,9 @@ namespace EMCRestService.Services
                     {
                         WatchSeriesService service = new WatchSeriesService();
                         JObject r = JsonConvert.DeserializeObject<dynamic>(service.GetShow(showname));
-                        Connector.Execute(myConnection, "insert into ericmas001.TShows (showname, showtitle) values (@Show, @Title)", new Dictionary<string, object>() { { "Show", showname},{"Title", r["ShowTitle"].ToString() } });
+                        Connector.Execute(myConnection, "insert into ericmas001.TShows (showname, showtitle) values (@Show, @Title)", new Dictionary<string, object>() { { "Show", showname }, { "Title", r["ShowTitle"].ToString() } });
                     }
-            
+
                     myConnection.Close();
                     return JsonConvert.SerializeObject(new { success = true, token = token, until = tokenInfo.Value }, new IsoDateTimeConverter());
                 }
@@ -166,6 +168,7 @@ namespace EMCRestService.Services
                 }
             }
         }
+
         [WebGet(UriTemplate = "DelFav/{token}/{showname}")]
         public string DelFav(string token, string showname)
         {
@@ -194,6 +197,7 @@ namespace EMCRestService.Services
                 }
             }
         }
+
         [WebGet(UriTemplate = "SetLastViewed/{token}/{showname}/{lastViewedSeason}/{lastViewedEpisode}")]
         public string SetLastViewed(string token, string showname, string lastViewedSeason, string lastViewedEpisode)
         {

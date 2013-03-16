@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using EricUtility.Networking.Gathering;
-using System.Reflection;
-using EricUtilityNetworking;
-using EMCMasterPluginLib;
+﻿using EMCMasterPluginLib;
 using EMCMasterPluginLib.Application;
+using EricUtilityNetworking;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace EricMediaCenter.Panels
 {
@@ -23,7 +15,7 @@ namespace EricMediaCenter.Panels
             EMCGlobal.SupportedAppUpdated += new EricUtility.EmptyHandler(EMCGlobal_SupportedAppUpdated);
         }
 
-        void EMCGlobal_SupportedAppUpdated()
+        private void EMCGlobal_SupportedAppUpdated()
         {
             dgvApplication.Rows.Clear();
             foreach (string name in EMCGlobal.AvailablesPluginsByCat["Application"].Keys)
@@ -46,7 +38,7 @@ namespace EricMediaCenter.Panels
             dgvApplication.ClearSelection();
         }
 
-        void it_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void it_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             EMCGlobal.ReloadApplicationPlugins();
         }

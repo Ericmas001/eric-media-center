@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace EMCUserWSPlugin.Entries
 {
@@ -16,7 +13,6 @@ namespace EMCUserWSPlugin.Entries
         private int m_LastViewedSeason;
         private int m_LastViewedEpisode;
         private UserFavoritesResponse m_Response;
-
 
         public string UserName
         {
@@ -35,6 +31,7 @@ namespace EMCUserWSPlugin.Entries
             get { return m_ShowTitle; }
             set { m_ShowTitle = value; }
         }
+
         public int LastSeason
         {
             get { return m_LastSeason; }
@@ -58,6 +55,7 @@ namespace EMCUserWSPlugin.Entries
             get { return m_LastViewedEpisode; }
             set { m_LastViewedEpisode = value; }
         }
+
         public UserFavoriteInfo(UserFavoritesResponse response, string userName, string showName, string showTitle, int lastSeason, int lastEpisode, int lastViewedSeason, int lastViewedEpisode)
         {
             m_UserName = userName;
@@ -69,6 +67,7 @@ namespace EMCUserWSPlugin.Entries
             m_LastViewedEpisode = lastViewedEpisode;
             m_Response = response;
         }
+
         public static Dictionary<string, UserFavoriteInfo> DeserializeFavs(UserFavoritesResponse response, JArray results)
         {
             Dictionary<string, UserFavoriteInfo> all = new Dictionary<string, UserFavoriteInfo>();
@@ -79,6 +78,7 @@ namespace EMCUserWSPlugin.Entries
             }
             return all;
         }
+
         public UserFavoriteInfo(UserFavoritesResponse response, JObject r)
         {
             //{
@@ -99,6 +99,7 @@ namespace EMCUserWSPlugin.Entries
             m_LastViewedEpisode = r.Value<int?>("lastViewedEpisode") ?? -1;
             m_Response = response;
         }
+
         public override string ToString()
         {
             return m_ShowTitle + " (" + m_ShowName + "): LastEpisode: " + m_LastSeason + "x" + m_LastEpisode + ", " + m_UserName + " watched: " + m_LastViewedSeason + "x" + m_LastViewedEpisode;

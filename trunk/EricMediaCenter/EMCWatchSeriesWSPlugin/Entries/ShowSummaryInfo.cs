@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace EMCWatchSeriesWSPlugin.Entries
 {
     public class ShowSummaryInfo
     {
-        string m_Name;
-        string m_Title;
-        int m_ReleaseYear;
+        private string m_Name;
+        private string m_Title;
+        private int m_ReleaseYear;
 
         public string Name
         {
@@ -36,6 +33,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_Title = title;
             m_ReleaseYear = releaseYear;
         }
+
         public ShowSummaryInfo(JObject r)
         {
             // {"ShowName":"x_files","ShowTitle":"X Files","ReleaseYear":1993}
@@ -43,6 +41,7 @@ namespace EMCWatchSeriesWSPlugin.Entries
             m_Title = (string)r["ShowTitle"];
             m_ReleaseYear = (int)r["ReleaseYear"];
         }
+
         public override string ToString()
         {
             //X Files: x_files
