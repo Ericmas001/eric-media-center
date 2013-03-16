@@ -27,6 +27,7 @@ namespace EMCRestService.Services
                 return new Dictionary<string, IVideoParser>()
                 {
                     {"gorillavid.in",new GorillaVidParser()},
+                    {"gorillavid.com",new GorillaVidParser()},
                     {"putlocker.com",new PutLockerSockShareParser()},
                     {"sockshare.com",new PutLockerSockShareParser()},
                 };

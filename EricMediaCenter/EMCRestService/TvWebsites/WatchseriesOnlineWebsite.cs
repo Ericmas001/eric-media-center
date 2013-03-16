@@ -1,9 +1,13 @@
-﻿using EMCRestService.TvWebsites.Entities;
+﻿using EMCRestService.Services;
+using EMCRestService.TvWebsites.Entities;
+using EMCRestService.VideoParser;
 using EricUtility;
+using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,7 +186,16 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            return new StreamingInfo() { StreamingURL = "http://" + args.Replace("_", "/"), Arguments = args, Website = website };
+            string url = "http://" + args.Replace("_", "/");
+            string durl = null;
+            if (VideoParsingService.Parsers.ContainsKey(website))
+            {
+                CookieContainer cookies = new CookieContainer();
+                url = GatheringUtility.GetPageUrl(url, cookies);
+                IVideoParser p = VideoParsingService.Parsers[website];
+                durl = p.GetDownloadURL(url, new CookieContainer());
+            }
+            return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
     }
 }

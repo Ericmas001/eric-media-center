@@ -1,9 +1,12 @@
-﻿using EMCRestService.TvWebsites.Entities;
+﻿using EMCRestService.Services;
+using EMCRestService.TvWebsites.Entities;
+using EMCRestService.VideoParser;
 using EricUtility;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -170,6 +173,7 @@ namespace EMCRestService.TvWebsites
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = null;
+            string durl = null;
 
             switch (website)
             {
@@ -179,8 +183,8 @@ namespace EMCRestService.TvWebsites
                 case "vidbux.com": url = "http://www.vidbux.com/embed-" + args + "-width-653-height-400.html"; break;
                 case "videoweed.com":
                 case "videoweed.es": url = "http://embed.videoweed.es/embed.php?v=" + args + "&width=653&height=525"; break;
-                case "putlocker.com": url = "http://www.putlocker.com/embed/" + args; break;
-                case "sockshare.com": url = "http://www.sockshare.com/embed/" + args; break;
+                case "putlocker.com": url = "http://www.putlocker.com/file/" + args; break;
+                case "sockshare.com": url = "http://www.sockshare.com/file" + args; break;
                 case "videobb.com": url = "http://videobb.com/e/" + args; break;
                 case "divxden.com":
                 case "vidxden.com": url = "http://www.vidxden.com/embed-" + args + ".html"; break;
@@ -193,7 +197,7 @@ namespace EMCRestService.TvWebsites
                 case "veevr.com": url = "http://veevr.com/embed/" + args + "?w=653&h=370"; break;
                 case "ovfile.com": url = "http://ovfile.com/embed-" + args + "-650x325.html"; break;
                 case "gorillavid.com":
-                case "gorillavid.in": url = "http://gorillavid.in/embed-" + args + "-650x400.html"; break;
+                case "gorillavid.in": url = "http://gorillavid.in/" + args; break;
                 case "zalaa.com": url = "http://www.zalaa.com/embed-" + args + ".html"; break;
                 case "filebox.com": url = "http://www.filebox.com/embed-" + args + "-650x450.html"; break;
                 case "muchshare.net": url = "http://muchshare.net/embed-" + args + ".html"; break;
@@ -224,9 +228,13 @@ namespace EMCRestService.TvWebsites
                 case "videobam.com": url = "http://videobam.com/widget/" + args + "/custom/650"; break;
                 case "xvidstream.net": url = "http://xvidstream.net/embed-" + args + ".html"; break;
             }
+            if (VideoParsingService.Parsers.ContainsKey(website))
+            {
+                IVideoParser p = VideoParsingService.Parsers[website];
+                durl = p.GetDownloadURL(url, new CookieContainer());
+            }
 
-
-            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website };
+            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
     }
 }

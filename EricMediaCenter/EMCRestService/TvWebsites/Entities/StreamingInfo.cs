@@ -28,5 +28,12 @@ namespace EMCRestService.TvWebsites.Entities
             get { return m_StreamingURL; }
             set { m_StreamingURL = value; }
         }
+        private string m_DownloadURL;
+
+        public string DownloadURL
+        {
+            get { return m_DownloadURL; }
+            set { m_DownloadURL = value; }
+        }
     }
 }
