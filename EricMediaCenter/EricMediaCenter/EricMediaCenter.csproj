@@ -161,6 +161,10 @@
     <None Include="Resources\Control Panel.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\TTvShow\SPTvGetShow.sql" />
+    <Content Include="Database\TTvShow\SPTvLastEpisode.sql" />
+    <Content Include="Database\TTvShow\SPTvAddShow.sql" />
+    <Content Include="Database\TTvShow\TTvShow.sql" />
     <Content Include="Database\TUsers\SPUserChangePassword.sql" />
     <Content Include="Database\TUsers\SPUserChangeInfo.sql" />
     <Content Include="Database\TUsers\SPUserGetInfo.sql" />
