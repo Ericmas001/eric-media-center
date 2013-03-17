@@ -13,18 +13,19 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF OBJECT_ID('SPUserGetInfo') IS NOT NULL
-DROP PROC SPUserGetInfo
+IF OBJECT_ID('SPUserChangePassword') IS NOT NULL
+DROP PROC SPUserChangePassword
 GO
 -- =============================================
 -- Author:		ericmas001
 -- Create date: 2013-03-16
--- Description:	Get Info of  a user
+-- Description:	Change password of a user
 -- =============================================
-CREATE PROCEDURE SPUserGetInfo 
+CREATE PROCEDURE SPUserChangePassword 
 	-- Add the parameters for the stored procedure here
 	@username NVARCHAR(50), 
 	@session NVARCHAR(32),
+	@password NVARCHAR(50),
 	@ok BIT = 0 OUT,
 	@info NVARCHAR(100) OUT,
 	@validUntil DATETIME OUT
@@ -37,8 +38,10 @@ BEGIN
 	EXEC [ericmas001].[SPUserValidToken] @username, @session, @ok output, @info output, @validUntil output
 
 	IF @ok = 1
-	BEGIN
-		SELECT username, email from [ericmas001].[TUser] where username = @username
+	BEGIN		
+		DECLARE @hashed NVARCHAR(32)
+		SELECT @hashed = CONVERT(NVARCHAR(32),HashBytes('MD5', @password),2)
+		UPDATE [ericmas001].[TUser] SET password = @hashed where username = @username
 	END
 END
 GO

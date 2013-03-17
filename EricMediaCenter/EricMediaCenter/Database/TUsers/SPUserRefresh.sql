@@ -30,14 +30,20 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
+
 	DECLARE @now DATETIME
 	SELECT @now = GETDATE()
+	
+	DECLARE @ok BIT = 0
+	SELECT @ok = 1 FROM [ericmas001].[TUser] where idUser = @idUser AND @now < validUntil
 
-	DECLARE @expire DATETIME
-	SELECT @expire = DATEADD(minute, 5, @now)
+	IF @ok = 1
+	BEGIN
+		DECLARE @expire DATETIME
+		SELECT @expire = DATEADD(minute, 5, @now)
 
-	UPDATE [ericmas001].[TUser] SET validUntil = @expire WHERE idUser = @idUser
-	SELECT @validUntil=@expire
+		UPDATE [ericmas001].[TUser] SET validUntil = @expire WHERE idUser = @idUser
+		SELECT @validUntil=@expire
+	END
 END
 GO

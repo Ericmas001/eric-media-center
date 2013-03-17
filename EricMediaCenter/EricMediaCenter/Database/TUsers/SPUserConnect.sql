@@ -19,7 +19,7 @@ GO
 -- =============================================
 -- Author:		ericmas001
 -- Create date: 2013-03-16
--- Description:	Register a user
+-- Description:	Connect a user
 -- =============================================
 CREATE PROCEDURE SPUserConnect 
 	-- Add the parameters for the stored procedure here
@@ -43,13 +43,18 @@ BEGIN
 
 	IF @ok = 1
 	BEGIN
+		DECLARE @now DATETIME
 		DECLARE @key NVARCHAR(100)
-		SELECT @key = @username + '_' + CONVERT(NVARCHAR(100),NEWID())
 		DECLARE @token NVARCHAR(32)
+		DECLARE @expire DATETIME
+
+		SELECT @now = GETDATE()
+		SELECT @key = @username + '_' + CONVERT(NVARCHAR(100),NEWID())
 		SELECT @token = CONVERT(NVARCHAR(32),HashBytes('MD5',@key ),2)
-		UPDATE [ericmas001].[TUser] SET sessionToken = @token WHERE idUser = @idUser
-		EXEC [ericmas001].[SPUserRefresh] @idUser, @validUntil output
-		SELECT @info = @token
+		SELECT @expire = DATEADD(minute, 5, @now)
+
+		UPDATE [ericmas001].[TUser] SET sessionToken = @token, validUntil = @expire WHERE idUser = @idUser
+		SELECT @info = @token, @validUntil = @expire
 	END
 	ELSE
 	BEGIN

@@ -19,7 +19,7 @@ GO
 -- =============================================
 -- Author:		ericmas001
 -- Create date: 2013-03-16
--- Description:	Register a user
+-- Description:	Check if a token is still valid
 -- =============================================
 CREATE PROCEDURE SPUserValidToken 
 	-- Add the parameters for the stored procedure here
