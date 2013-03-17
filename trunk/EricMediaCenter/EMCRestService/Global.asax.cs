@@ -24,7 +24,6 @@ namespace EMCRestService
             RouteTable.Routes.Add(new ServiceRoute("TubePlus", new WebServiceHostFactory(), typeof(TubePlusService)));
             RouteTable.Routes.Add(new ServiceRoute("Automated", new WebServiceHostFactory(), typeof(AutomatedService)));
 
-
             RouteTable.Routes.Add(new ServiceRoute("EpGuide", new WebServiceHostFactory(), typeof(EpGuideService)));
             RouteTable.Routes.Add(new ServiceRoute("TvRage", new WebServiceHostFactory(), typeof(TvRageService)));
 

@@ -1,7 +1,6 @@
 ﻿using EMCRestService.TvWebsites.Entities;
 using EricUtility2011.Data;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,7 +49,7 @@ namespace EMCRestService.Services
                         continue;
                     }
 
-                    List<SPParam> parms = new List<SPParam>
+                    Dictionary<string, object> p = Connector.ExecuteSP(myConnection, "ericmas001.SPTvLastEpisode", new List<SPParam>
                     {
                         new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
                         new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),name),
@@ -58,9 +57,7 @@ namespace EMCRestService.Services
                         new SPParam(new SqlParameter("@lastEpisode", SqlDbType.Int),show.NoLastEpisode),
                         new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
                         new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
-                    };
-
-                    Dictionary<string,object> p = Connector.ExecuteSP(myConnection, "ericmas001.SPTvLastEpisode", parms).Parameters;
+                    }).Parameters;
 
                     changes.Add(new { showname = name, website = website, info = (String)p["@info"] });
                 }
