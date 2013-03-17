@@ -1,11 +1,10 @@
 ﻿USE [emc2]
 GO
 
-/****** Object:  Table [ericmas001].[TUser]    Script Date: 2013-03-16 21:09:16 ******/
+IF OBJECT_ID('[ericmas001].[TUser]') IS NOT NULL
 DROP TABLE [ericmas001].[TUser]
 GO
 
-/****** Object:  Table [ericmas001].[TUser]    Script Date: 2013-03-16 21:09:16 ******/
 SET ANSI_NULLS ON
 GO
 
