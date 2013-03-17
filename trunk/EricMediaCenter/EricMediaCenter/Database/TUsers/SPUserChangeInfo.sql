@@ -13,18 +13,19 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF OBJECT_ID('SPUserGetInfo') IS NOT NULL
-DROP PROC SPUserGetInfo
+IF OBJECT_ID('SPUserChangeInfo') IS NOT NULL
+DROP PROC SPUserChangeInfo
 GO
 -- =============================================
 -- Author:		ericmas001
 -- Create date: 2013-03-16
--- Description:	Get Info of  a user
+-- Description: Change info of a user
 -- =============================================
-CREATE PROCEDURE SPUserGetInfo 
+CREATE PROCEDURE SPUserChangeInfo 
 	-- Add the parameters for the stored procedure here
 	@username NVARCHAR(50), 
 	@session NVARCHAR(32),
+	@email NVARCHAR(100),
 	@ok BIT = 0 OUT,
 	@info NVARCHAR(100) OUT,
 	@validUntil DATETIME OUT
@@ -38,7 +39,7 @@ BEGIN
 
 	IF @ok = 1
 	BEGIN
-		SELECT username, email from [ericmas001].[TUser] where username = @username
+		UPDATE [ericmas001].[TUser] SET email = @email where username = @username
 	END
 END
 GO
