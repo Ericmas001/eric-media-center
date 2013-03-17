@@ -161,7 +161,11 @@
     <None Include="Resources\Control Panel.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\SPUserRefresh.sql" />
+    <Content Include="Database\TUser.sql" />
+    <Content Include="Database\SPUserRegister.sql" />
     <Content Include="emc.ico" />
+    <Content Include="Database\emc2-draft.txt" />
     <None Include="Resources\emcTitle.png" />
   </ItemGroup>
   <ItemGroup />

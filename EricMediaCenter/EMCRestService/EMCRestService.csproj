@@ -96,6 +96,7 @@
     <Compile Include="Entries\TvRageEntry.cs" />
     <Compile Include="Entries\EpGuideEntry.cs" />
     <Compile Include="Services\AutomatedService.cs" />
+    <Compile Include="Services\UsersService.cs" />
     <Compile Include="Services\TvService.cs" />
     <Compile Include="Services\TubePlusService.cs" />
     <Compile Include="Services\TvRageService.cs" />
