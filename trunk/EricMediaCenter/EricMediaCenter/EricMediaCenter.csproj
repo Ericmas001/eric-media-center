@@ -161,6 +161,7 @@
     <None Include="Resources\Control Panel.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\SPUserConnect.sql" />
     <Content Include="Database\SPUserRefresh.sql" />
     <Content Include="Database\TUser.sql" />
     <Content Include="Database\SPUserRegister.sql" />

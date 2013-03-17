@@ -13,17 +13,18 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF OBJECT_ID('SPUsersRefresh') IS NOT NULL
-DROP PROC SPUsersRefresh
+IF OBJECT_ID('SPUserRefresh') IS NOT NULL
+DROP PROC SPUserRefresh
 GO
 -- =============================================
 -- Author:		ericmas001
 -- Create date: 2013-03-16
 -- Description:	Refresh the session token of a user
 -- =============================================
-CREATE PROCEDURE SPUsersRefresh 
+CREATE PROCEDURE SPUserRefresh 
 	-- Add the parameters for the stored procedure here
-	@idUser INT
+	@idUser INT,
+	@validUntil DATETIME OUT
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -37,5 +38,6 @@ BEGIN
 	SELECT @expire = DATEADD(minute, 5, @now)
 
 	UPDATE [ericmas001].[TUser] SET validUntil = @expire WHERE idUser = @idUser
+	SELECT @validUntil=@expire
 END
 GO
