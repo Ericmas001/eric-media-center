@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.ServiceModel;
@@ -20,241 +21,132 @@ namespace EMCRestService.Services
         [WebGet(UriTemplate = "Connect/{user}/{pass}")]
         public string Connect(string user, string pass)
         {
-            SqlConnection myConnection = Connector.GetConnection();
-            bool ok = false;
             try
             {
-                using (SqlCommand cmd = new SqlCommand("ericmas001.SPUserConnect", myConnection))
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPUserConnect", new List<SPParam>
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@password", SqlDbType.VarChar, 50),pass),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                }).Parameters;
 
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@ok", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@info", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@validUntil", SqlDbType.DateTimeOffset).Direction = ParameterDirection.Output;
-
-                    cmd.Parameters["@username"].Value = user;
-                    cmd.Parameters["@password"].Value = pass;
-
-                    cmd.ExecuteNonQuery();
-
-                    ok = Convert.ToBoolean(cmd.Parameters["@ok"].Value);
-                    if (ok)
-                    {
-                        DateTimeOffset d = (DateTimeOffset)cmd.Parameters["@validUntil"].Value;
-                        string t = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, token = t, until = d }, new IsoDateTimeConverter());
-                    }
-                    else
-                    {
-                        string e = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, problem = e });
-                    }
-                }
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true, token = (String)p["@info"], until = (DateTimeOffset)p["@validUntil"] }, new IsoDateTimeConverter());
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
             }
             catch (Exception e)
             {
-                if (myConnection != null)
-                    myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, problem = e.ToString() });
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
 
         [WebGet(UriTemplate = "Register/{user}/{pass}/{email}")]
         public string Register(string user, string pass, string email)
         {
-            SqlConnection myConnection = Connector.GetConnection();
-            bool ok = false;
             try
             {
-                using (SqlCommand cmd = new SqlCommand("ericmas001.SPUserRegister", myConnection))
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPUserRegister", new List<SPParam>
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@password", SqlDbType.VarChar, 50),pass),
+                        new SPParam(new SqlParameter("@email", SqlDbType.VarChar, 100),email),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                }).Parameters;
 
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@email", SqlDbType.VarChar, 100);
-                    cmd.Parameters.Add("@ok", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@info", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
-                    cmd.Parameters["@username"].Value = user;
-                    cmd.Parameters["@password"].Value = pass;
-                    cmd.Parameters["@email"].Value = email;
-
-                    cmd.ExecuteNonQuery();
-
-                    ok = Convert.ToBoolean(cmd.Parameters["@ok"].Value);
-                    if (ok)
-                    {
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok });
-                    }
-                    else
-                    {
-                        string e = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, problem = e });
-                    }
-                }
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true });
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
             }
             catch (Exception e)
             {
-                if (myConnection != null)
-                    myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, problem = e.ToString() });
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
 
         [WebGet(UriTemplate = "ChangeInfo/{user}/{token}/{email}")]
         public string ChangeInfo(string user, string token, string email)
         {
-            SqlConnection myConnection = Connector.GetConnection();
-            bool ok = false;
             try
             {
-                using (SqlCommand cmd = new SqlCommand("ericmas001.SPUserChangeInfo", myConnection))
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPUserChangeInfo", new List<SPParam>
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@email", SqlDbType.VarChar, 100),email),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                }).Parameters;
 
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@session", SqlDbType.VarChar, 32);
-                    cmd.Parameters.Add("@email", SqlDbType.VarChar, 100);
-                    cmd.Parameters.Add("@ok", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@info", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@validUntil", SqlDbType.DateTimeOffset).Direction = ParameterDirection.Output;
-
-                    cmd.Parameters["@username"].Value = user;
-                    cmd.Parameters["@session"].Value = token;
-                    cmd.Parameters["@email"].Value = email;
-
-                    cmd.ExecuteNonQuery();
-
-                    ok = Convert.ToBoolean(cmd.Parameters["@ok"].Value);
-                    if (ok)
-                    {
-                        DateTimeOffset d = (DateTimeOffset)cmd.Parameters["@validUntil"].Value;
-                        string t = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, token = t, until = d }, new IsoDateTimeConverter());
-                    }
-                    else
-                    {
-                        string e = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, problem = e });
-                    }
-                }
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true, token = (String)p["@info"], until = (DateTimeOffset)p["@validUntil"] }, new IsoDateTimeConverter());
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
             }
             catch (Exception e)
             {
-                if (myConnection != null)
-                    myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, problem = e.ToString() });
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
 
         [WebGet(UriTemplate = "ChangePassword/{user}/{token}/{password}")]
         public string ChangePassword(string user, string token, string password)
         {
-            SqlConnection myConnection = Connector.GetConnection();
-            bool ok = false;
             try
             {
-                using (SqlCommand cmd = new SqlCommand("ericmas001.SPUserChangePassword", myConnection))
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPUserChangePassword", new List<SPParam>
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@password", SqlDbType.VarChar, 50),password),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                }).Parameters;
 
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@session", SqlDbType.VarChar, 32);
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar, 100);
-                    cmd.Parameters.Add("@ok", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@info", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@validUntil", SqlDbType.DateTimeOffset).Direction = ParameterDirection.Output;
-
-                    cmd.Parameters["@username"].Value = user;
-                    cmd.Parameters["@session"].Value = token;
-                    cmd.Parameters["@password"].Value = password;
-
-                    cmd.ExecuteNonQuery();
-
-                    ok = Convert.ToBoolean(cmd.Parameters["@ok"].Value);
-                    if (ok)
-                    {
-                        DateTimeOffset d = (DateTimeOffset)cmd.Parameters["@validUntil"].Value;
-                        string t = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, token = t, until = d }, new IsoDateTimeConverter());
-                    }
-                    else
-                    {
-                        string e = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, problem = e });
-                    }
-                }
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true, token = (String)p["@info"], until = (DateTimeOffset)p["@validUntil"] }, new IsoDateTimeConverter());
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
             }
             catch (Exception e)
             {
-                if (myConnection != null)
-                    myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, problem = e.ToString() });
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
 
         [WebGet(UriTemplate = "Me/{user}/{token}")]
         public string Me(string user, string token)
         {
-            SqlConnection myConnection = Connector.GetConnection();
-            bool ok = false;
             try
             {
-                using (SqlCommand cmd = new SqlCommand("ericmas001.SPUserGetInfo", myConnection))
+                SPResult res = Connector.SelectRowsSP("ericmas001.SPUserGetInfo", new List<SPParam>
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                });
 
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar, 50);
-                    cmd.Parameters.Add("@session", SqlDbType.VarChar, 32);
-                    cmd.Parameters.Add("@ok", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@info", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("@validUntil", SqlDbType.DateTimeOffset).Direction = ParameterDirection.Output;
+                Dictionary<string, object> p = res.Parameters;
 
-                    cmd.Parameters["@username"].Value = user;
-                    cmd.Parameters["@session"].Value = token;
-
-                    SqlDataReader sdr = cmd.ExecuteReader();
-                    string u = null;
-                    string em = null;
-                    if (sdr.Read())
-                    {
-                        u = (string)sdr["username"];
-                        em = (string)sdr["email"];
-                    }
-                    sdr.Close();
-                    ok = Convert.ToBoolean(cmd.Parameters["@ok"].Value);
-
-                    if (ok)
-                    {
-                        DateTimeOffset d = (DateTimeOffset)cmd.Parameters["@validUntil"].Value;
-                        string t = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, token = t, until = d, username = u, email = em }, new IsoDateTimeConverter());
-                    }
-                    else
-                    {
-                        string e = (String)cmd.Parameters["@info"].Value;
-                        myConnection.Close();
-                        return JsonConvert.SerializeObject(new { success = ok, problem = e });
-                    }
+                if ((bool)p["@ok"])
+                {
+                    Dictionary<string, object> r = res.QueryResults[0];
+                    return JsonConvert.SerializeObject(new { success = true, username = (String)r["username"], email = (String)r["email"], token = (String)p["@info"], until = (DateTimeOffset)p["@validUntil"] }, new IsoDateTimeConverter());
                 }
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
             }
             catch (Exception e)
             {
-                if (myConnection != null)
-                    myConnection.Close();
-                return JsonConvert.SerializeObject(new { success = ok, problem = e.ToString() });
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
     }
