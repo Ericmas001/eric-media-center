@@ -227,11 +227,11 @@ namespace EMCRestService.TvWebsites
             else
                 url = "http://" + args.Replace("_", "/");
 
-            if (VideoParsingService.Parsers.ContainsKey(website))
-            {
-                IVideoParser p = VideoParsingService.Parsers[website];
-                durl = p.GetDownloadURL(url, new CookieContainer());
-            }
+            //if (VideoParsingService.Parsers.ContainsKey(website))
+            //{
+            //    IVideoParser p = VideoParsingService.Parsers[website];
+            //    durl = p.GetDownloadURL(url, new CookieContainer());
+            //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
     }

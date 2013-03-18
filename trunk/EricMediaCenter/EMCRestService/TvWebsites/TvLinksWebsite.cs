@@ -161,13 +161,13 @@ namespace EMCRestService.TvWebsites
         {
             string url = "http://www.tv-links.eu/gateway.php?data=" + args;
             string durl = null;
-            if (VideoParsingService.Parsers.ContainsKey(website))
-            {
-                CookieContainer cookies = new CookieContainer();
-                url = GatheringUtility.GetPageUrl(url, cookies);
-                IVideoParser p = VideoParsingService.Parsers[website];
-                durl = p.GetDownloadURL(url, new CookieContainer());
-            }
+            //if (VideoParsingService.Parsers.ContainsKey(website))
+            //{
+            //    CookieContainer cookies = new CookieContainer();
+            //    url = GatheringUtility.GetPageUrl(url, cookies);
+            //    IVideoParser p = VideoParsingService.Parsers[website];
+            //    durl = p.GetDownloadURL(url, new CookieContainer());
+            //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
     }

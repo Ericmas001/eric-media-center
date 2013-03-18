@@ -22,8 +22,8 @@ namespace EMCRestService.Services
                 {
                     {"gorillavid.in",new GorillaVidParser()},
                     {"gorillavid.com",new GorillaVidParser()},
-                    {"putlocker.com",new PutLockerSockShareParser()},
-                    {"sockshare.com",new PutLockerSockShareParser()},
+                   // {"putlocker.com",new PutLockerSockShareParser()},
+                   // {"sockshare.com",new PutLockerSockShareParser()},
                 };
             }
         }

@@ -124,7 +124,8 @@ namespace EMCRestService.TvWebsites
                 string navig = StringUtility.Extract(src, "<ol class=\"wp-paginate\">", "class=\"next\">");
                 navig = navig.Substring(navig.LastIndexOf("class='page'>"));
                 int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
-                Parallel.For(2, nbPages + 1, async i => eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i))));
+                for (int i = 2; i <= nbPages; ++i)
+                    eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i)));
             }
 
             Dictionary<int, IEnumerable<ListedEpisode>> les = new Dictionary<int, IEnumerable<ListedEpisode>>();
@@ -176,6 +177,9 @@ namespace EMCRestService.TvWebsites
 
                 string nfo = StringUtility.Extract(itemP, "<a target=\"_blank\" id=\"hovered\"", "</td>");
                 string website = StringUtility.Extract(nfo, ">", "<");
+                int sp = website.IndexOf(" ");
+                if (sp > 1)
+                    website = website.Remove(sp);
                 string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/getlink.php?l=http://", "\">").Replace("/", "_");
 
                 if (!ep.Links.ContainsKey(website))
@@ -187,15 +191,15 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://" + args.Replace("_", "/");
+            string url = "http://www.watchseries-online.eu/getlink.php?l=http://" + args.Replace("_", "/");
             string durl = null;
-            if (VideoParsingService.Parsers.ContainsKey(website))
-            {
-                CookieContainer cookies = new CookieContainer();
-                url = GatheringUtility.GetPageUrl(url, cookies);
-                IVideoParser p = VideoParsingService.Parsers[website];
-                durl = p.GetDownloadURL(url, new CookieContainer());
-            }
+            //if (VideoParsingService.Parsers.ContainsKey(website))
+            //{
+            //    CookieContainer cookies = new CookieContainer();
+            //    url = GatheringUtility.GetPageUrl(url, cookies);
+            //    IVideoParser p = VideoParsingService.Parsers[website];
+            //    durl = p.GetDownloadURL(url, new CookieContainer());
+            //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
     }
