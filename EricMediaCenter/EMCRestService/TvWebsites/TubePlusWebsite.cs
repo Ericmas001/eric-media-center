@@ -227,11 +227,11 @@ namespace EMCRestService.TvWebsites
                 case "videobam.com": url = "http://videobam.com/widget/" + args + "/custom/650"; break;
                 case "xvidstream.net": url = "http://xvidstream.net/embed-" + args + ".html"; break;
             }
-            if (VideoParsingService.Parsers.ContainsKey(website))
-            {
-                IVideoParser p = VideoParsingService.Parsers[website];
-                durl = p.GetDownloadURL(url, new CookieContainer());
-            }
+            //if (VideoParsingService.Parsers.ContainsKey(website))
+            //{
+            //    IVideoParser p = VideoParsingService.Parsers[website];
+            //    durl = p.GetDownloadURL(url, new CookieContainer());
+            //}
 
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
