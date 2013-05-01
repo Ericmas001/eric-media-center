@@ -161,6 +161,9 @@
     <None Include="Resources\Control Panel.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\TFavShows\SPFavAddShow.sql" />
+    <Content Include="Database\TFavShows\SPUserAllFavs.sql" />
+    <Content Include="Database\TFavShows\TFavShows.sql" />
     <Content Include="Database\TTvShow\SPTvAllShows.sql" />
     <Content Include="Database\TTvShow\SPTvGetShow.sql" />
     <Content Include="Database\TTvShow\SPTvLastEpisode.sql" />
