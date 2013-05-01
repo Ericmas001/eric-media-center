@@ -1,8 +1,13 @@
 ﻿using EMCRestService.TvWebsites;
 using EMCRestService.TvWebsites.Entities;
+using EricUtility2011.Data;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -17,6 +22,7 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class TvService
     {
+        private SqlServerConnector Connector = new SqlServerConnector("TURNSOL.arvixe.com", "emc2", "emc.webservice", "Emc42FTW");
         private static Dictionary<string, ITvWebsite> m_Supported = new Dictionary<string, ITvWebsite>()
         {
             {"tubeplus.me",new TubePlusWebsite()},
@@ -83,6 +89,63 @@ namespace EMCRestService.Services
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].StreamAsync(streamWebsite, args).Result ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
+        }
+
+        [WebGet(UriTemplate = "Favs/{user}/{token}")]
+        public string Favs(string user, string token)
+        {
+            try
+            {
+                SPResult rAll = Connector.SelectRowsSP("ericmas001.SPUserAllFavs", new List<SPParam>
+                {
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                });
+
+                Dictionary<string, object> p = rAll.Parameters;
+
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true, username = user, shows = rAll.QueryResults, token = (String)p["@info"], until = (DateTimeOffset)p["@validUntil"] }, new IsoDateTimeConverter());
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
+            }
+            catch (Exception e)
+            {
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
+            }
+        }
+
+        [WebGet(UriTemplate = "AddFav/{user}/{token}/{website}/{showname}/{showtitle}/{lastseason}/{lastepisode}")]
+        public string Register(string user, string token, string website, string showname, string showtitle, string lastseason, string lastepisode)
+        {
+            try
+            {
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPFavAddShow", new List<SPParam>
+                {
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
+                        new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),showname),
+                        new SPParam(new SqlParameter("@title", SqlDbType.VarChar, 100),showtitle),
+                        new SPParam(new SqlParameter("@lastSeason", SqlDbType.Int),int.Parse(lastseason)),
+                        new SPParam(new SqlParameter("@lastEpisode", SqlDbType.Int),int.Parse(lastepisode)),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                }).Parameters;
+
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true });
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
+            }
+            catch (Exception e)
+            {
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
+            }
         }
     }
 }
