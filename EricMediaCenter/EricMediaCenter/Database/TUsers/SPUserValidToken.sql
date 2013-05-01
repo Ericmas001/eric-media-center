@@ -27,14 +27,14 @@ CREATE PROCEDURE SPUserValidToken
 	@session NVARCHAR(32),
 	@ok BIT = 0 OUT,
 	@info NVARCHAR(100) OUT,
-	@validUntil DATETIME OUT
+	@validUntil DATETIME OUT,
+	@idUser INT OUT
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	DECLARE @idUser INT
 	SET @ok = 0
 	SELECT @ok = 1, @idUser = idUser from [ericmas001].[TUser] where username = @username AND sessionToken = @session AND GETDATE() < validUntil
 
