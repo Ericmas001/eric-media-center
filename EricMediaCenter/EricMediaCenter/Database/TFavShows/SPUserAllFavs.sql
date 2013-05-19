@@ -37,6 +37,6 @@ BEGIN
 	DECLARE	@idUser INT
 	EXEC [ericmas001].[SPUserValidToken] @username, @session, @ok output, @info output, @validUntil output, @idUser output
 	IF @ok = 1	
-		SELECT s.idShow, s.website, s.showname, s.showtitle, s.lastSeason, s.lastEpisode, f.lastViewedSeason, f.lastViewedEpisode FROM [ericmas001].[TFavShows] f LEFT OUTER JOIN [ericmas001].[TTvShow] s ON f.idShow = s.idShow WHERE f.idUser = @idUser
+		SELECT s.idShow, s.website, s.showname, s.showtitle, ISNULL(s.lastSeason, -1) as lastSeason, ISNULL(s.lastEpisode, -1) as lastEpisode, ISNULL(f.lastViewedSeason, -1) as lastViewedSeason, ISNULL(f.lastViewedEpisode, -1) as lastViewedEpisode FROM [ericmas001].[TFavShows] f LEFT OUTER JOIN [ericmas001].[TTvShow] s ON f.idShow = s.idShow WHERE f.idUser = @idUser
 END
 GO
