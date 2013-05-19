@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserFavsResponse.cs" />
+    <Compile Include="FavoriteTvShow.cs" />
     <Compile Include="ListedLink.cs" />
     <Compile Include="Episode.cs" />
     <Compile Include="ListedEpisodes.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="SessionInfo.cs" />
     <Compile Include="StreamingInfo.cs" />
     <Compile Include="TvShow.cs" />
-    <Compile Include="UserDetailedResponse.cs" />
     <Compile Include="UserResponse.cs" />
     <Compile Include="WSUtility.cs" />
     <EmbeddedResource Include="LoginForm.resx">

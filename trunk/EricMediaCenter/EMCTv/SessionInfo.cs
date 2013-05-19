@@ -26,6 +26,9 @@ namespace EMCTv
             set { m_Password = value; }
         }
 
+        public bool Connected { get { return !String.IsNullOrEmpty(m_Token); } }
+        public bool StillActive { get { return m_Until > DateTime.Now; } }
+
         public SessionInfo(string user, string pass)
         {
             m_User = user;
@@ -34,13 +37,24 @@ namespace EMCTv
 
         public async Task<bool> Connect()
         {
-            var user = await WSUtility.CallWS<UserDetailedResponse>("user", "connect", m_User, m_Password);
+            var user = await WSUtility.CallWS<UserResponse>("users", "connect", m_User, m_Password);
             if (user.Success)
             {
                 m_Token = user.Token;
                 m_Until = user.Until;
             }
             return user.Success;
+        }
+
+        public async Task<List<FavoriteTvShow>> Favorites()
+        {
+            if (!Connected || (!StillActive && !(await Connect())))
+                return new List<FavoriteTvShow>();
+
+            var favs = await WSUtility.CallWS<UserFavsResponse>("tv", "favs", m_User, m_Token);
+            if (!favs.Success)
+                return new List<FavoriteTvShow>();
+            return favs.Shows;
         }
     }
 }

@@ -31,6 +31,9 @@ namespace EMCTv
             tvEpisode.Enabled = enable;
             tvLink.Enabled = enable;
             pictureBox1.Visible = !enable;
+            lstFavs.Enabled = enable;
+            btnRefresh.Enabled = enable;
+            btnRefreshHard.Enabled = enable;
         }
         private string website;
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -55,16 +58,24 @@ namespace EMCTv
             }
         }
 
-        private async void tvSearch_DoubleClick(object sender, EventArgs e)
+        private void tvSearch_DoubleClick(object sender, EventArgs e)
         {
             EMCTreeNode<ListedShow> etn = tvSearch.SelectedNode as EMCTreeNode<ListedShow>;
             if (etn != null)
             {
-                Enable(false);
-                tvEpisode.Nodes.Clear();
-                tvLink.Nodes.Clear();
                 website = etn.Parent.Text;
-                var show = await WSUtility.CallWS<TvShow>("tv", "show", website, etn.Info.Name);
+                LoadShow(website, etn.Info);
+            }
+        }
+
+        private async void LoadShow(string website, ListedShow ls)
+        {
+            Enable(false);
+            tvEpisode.Nodes.Clear();
+            tvLink.Nodes.Clear();
+            var show = await WSUtility.CallWS<TvShow>("tv", "show", website, ls.Name);
+            if (show != null)
+            {
                 foreach (int s in show.Episodes.Keys)
                 {
                     TreeNode tn = new TreeNode("Season " + s);
@@ -77,8 +88,8 @@ namespace EMCTv
                         tn.Nodes.Add(tn2);
                     }
                 }
-                Enable(true);
             }
+            Enable(true);
         }
 
         private async void tvEpisode_DoubleClick(object sender, EventArgs e)
@@ -131,6 +142,35 @@ namespace EMCTv
                 e.SuppressKeyPress = true;
                 btnSearch_Click(sender, e);
             }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            btnRefresh_Click(sender, e);
+        }
+
+        private void lstFavs_DoubleClick(object sender, EventArgs e)
+        {
+            FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
+            if (fts != null)
+                LoadShow(fts.Website, fts);
+        }
+
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            tvEpisode.Nodes.Clear();
+            tvLink.Nodes.Clear();
+            lstFavs.Items.Clear();
+            lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
+            Enable(true);
+        }
+
+        private async void btnRefreshHard_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            await WSUtility.CallWS<StreamingInfo>("bot", "TvUpdate");
+            btnRefresh_Click(sender, e);
         }
     }
 }

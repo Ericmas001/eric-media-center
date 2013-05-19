@@ -41,7 +41,7 @@ namespace EMCTv
         }
         public override string ToString()
         {
-            return "Episode " + m_NoEpisode;
+            return "Episode " + m_NoEpisode + (String.IsNullOrWhiteSpace(Title)? "" : (" - " + Title));
         }
     }
 }
