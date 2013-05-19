@@ -121,5 +121,15 @@ namespace EMCTv
                 Enable(true);
             }
         }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                btnSearch_Click(sender, e);
+            }
+        }
     }
 }
