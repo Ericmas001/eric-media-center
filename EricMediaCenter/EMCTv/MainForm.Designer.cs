@@ -33,6 +33,8 @@
             this.tvSearch = new System.Windows.Forms.TreeView();
             this.tvEpisode = new System.Windows.Forms.TreeView();
             this.tvLink = new System.Windows.Forms.TreeView();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -82,11 +84,22 @@
             this.tvLink.TabIndex = 3;
             this.tvLink.DoubleClick += new System.EventHandler(this.tvLink_DoubleClick);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::EMCTv.Properties.Resources.wait;
+            this.pictureBox1.Location = new System.Drawing.Point(1096, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(47, 48);
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1155, 436);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tvLink);
             this.Controls.Add(this.tvEpisode);
             this.Controls.Add(this.tvSearch);
@@ -97,6 +110,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EMC Tv";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,6 +123,7 @@
         private System.Windows.Forms.TreeView tvSearch;
         private System.Windows.Forms.TreeView tvEpisode;
         private System.Windows.Forms.TreeView tvLink;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
