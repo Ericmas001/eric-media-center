@@ -147,5 +147,32 @@ namespace EMCRestService.Services
                 return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
             }
         }
+
+        [WebGet(UriTemplate = "DelFav/{user}/{token}/{website}/{showname}")]
+        public string DelFav(string user, string token, string website, string showname)
+        {
+            try
+            {
+                Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPFavDelShow", new List<SPParam>
+                {
+                        new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
+                        new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
+                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
+                        new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),showname),
+                        new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
+                        new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
+                        new SPParam(new SqlParameter("@validUntil", SqlDbType.DateTimeOffset),ParamDir.Output),
+                }).Parameters;
+
+                if ((bool)p["@ok"])
+                    return JsonConvert.SerializeObject(new { success = true });
+                else
+                    return JsonConvert.SerializeObject(new { success = false, problem = (String)p["@info"] });
+            }
+            catch (Exception e)
+            {
+                return JsonConvert.SerializeObject(new { success = false, problem = e.ToString() });
+            }
+        }
     }
 }
