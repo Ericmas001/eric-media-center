@@ -28,6 +28,8 @@ namespace EMCTv
 
         private async void btnConnect_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(txtUser.Text) || String.IsNullOrWhiteSpace(txtUser.Text))
+                return;
             EnableAll(false);
             m_Session = new SessionInfo(txtUser.Text, txtPass.Text);
             ok = await m_Session.Connect();

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms;
 
 namespace EMCTv
 {
@@ -19,9 +20,23 @@ namespace EMCTv
         }
         public static async Task<T> CallWS<T>(string ws, string command, params string[] parms)
         {
-            string url = "http://emc.ericmas001.com/" + ws + "/" + command + "/" + String.Join("/", parms);
-            string res = await new HttpClient().GetStringAsync(url);
-            return JsonConvert.DeserializeObject<T>(StringUtility.RemoveHTMLTags(HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(res))));
+            List<string> path = new List<string> { "http://emc.ericmas001.com", ws, command };
+            path.AddRange(parms);
+
+            string url = String.Join("/", path.ToArray());
+            try
+            {
+                string res = await new HttpClient().GetStringAsync(url);
+                return JsonConvert.DeserializeObject<T>(StringUtility.RemoveHTMLTags(HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(res))));
+            }
+            catch (Exception e)
+            {
+                Exception ex = e;
+                while( ex.InnerException != null )
+                    ex = ex.InnerException;
+                MessageBox.Show(e.ToString());
+                return default(T);
+            }
         }
     }
 }

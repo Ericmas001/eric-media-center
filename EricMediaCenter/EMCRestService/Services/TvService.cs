@@ -119,7 +119,7 @@ namespace EMCRestService.Services
         }
 
         [WebGet(UriTemplate = "AddFav/{user}/{token}/{website}/{showname}/{showtitle}/{lastseason}/{lastepisode}")]
-        public string Register(string user, string token, string website, string showname, string showtitle, string lastseason, string lastepisode)
+        public string AddFav(string user, string token, string website, string showname, string showtitle, string lastseason, string lastepisode)
         {
             try
             {

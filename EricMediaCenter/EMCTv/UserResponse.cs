@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace EMCTv
 {
@@ -6,6 +7,20 @@ namespace EMCTv
     {
         private bool m_Success;
         private string m_Problem;
+        private string m_Token;
+        private DateTime m_Until;
+
+        public string Token
+        {
+            get { return m_Token; }
+            set { m_Token = value; }
+        }
+
+        public DateTime Until
+        {
+            get { return m_Until; }
+            set { m_Until = value; }
+        }
 
         public bool Success
         {
@@ -17,29 +32,6 @@ namespace EMCTv
         {
             get { return m_Problem; }
             set { m_Problem = value; }
-        }
-
-        public UserResponse(bool success, string message)
-        {
-            m_Success = success;
-            m_Problem = message;
-        }
-        public UserResponse()
-        {
-        }
-
-        public UserResponse(JObject r)
-        {
-            //{"success":true}
-            //{"success":false,"problem":"User already exist"}
-            m_Success = (bool)r["success"];
-            m_Problem = m_Success ? null : (string)r["problem"];
-        }
-
-        public override string ToString()
-        {
-            //TODO
-            return base.ToString();
         }
     }
 }
