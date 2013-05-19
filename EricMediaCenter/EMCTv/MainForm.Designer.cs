@@ -37,16 +37,19 @@
             // 
             // txtSearch
             // 
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.Location = new System.Drawing.Point(12, 12);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(292, 22);
+            this.txtSearch.Size = new System.Drawing.Size(270, 30);
             this.txtSearch.TabIndex = 0;
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(310, 12);
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(288, 12);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.Size = new System.Drawing.Size(97, 30);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -54,25 +57,28 @@
             // 
             // tvSearch
             // 
-            this.tvSearch.Location = new System.Drawing.Point(12, 40);
+            this.tvSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvSearch.Location = new System.Drawing.Point(12, 48);
             this.tvSearch.Name = "tvSearch";
-            this.tvSearch.Size = new System.Drawing.Size(373, 389);
+            this.tvSearch.Size = new System.Drawing.Size(373, 381);
             this.tvSearch.TabIndex = 2;
             this.tvSearch.DoubleClick += new System.EventHandler(this.tvSearch_DoubleClick);
             // 
             // tvEpisode
             // 
-            this.tvEpisode.Location = new System.Drawing.Point(391, 40);
+            this.tvEpisode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvEpisode.Location = new System.Drawing.Point(391, 48);
             this.tvEpisode.Name = "tvEpisode";
-            this.tvEpisode.Size = new System.Drawing.Size(373, 389);
+            this.tvEpisode.Size = new System.Drawing.Size(373, 381);
             this.tvEpisode.TabIndex = 2;
             this.tvEpisode.DoubleClick += new System.EventHandler(this.tvEpisode_DoubleClick);
             // 
             // tvLink
             // 
-            this.tvLink.Location = new System.Drawing.Point(770, 40);
+            this.tvLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvLink.Location = new System.Drawing.Point(770, 48);
             this.tvLink.Name = "tvLink";
-            this.tvLink.Size = new System.Drawing.Size(373, 389);
+            this.tvLink.Size = new System.Drawing.Size(373, 381);
             this.tvLink.TabIndex = 3;
             this.tvLink.DoubleClick += new System.EventHandler(this.tvLink_DoubleClick);
             // 
@@ -89,6 +95,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EMC Tv";
             this.ResumeLayout(false);
             this.PerformLayout();
