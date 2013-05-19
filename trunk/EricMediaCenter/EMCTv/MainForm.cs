@@ -17,8 +17,10 @@ namespace EMCTv
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        private SessionInfo m_Session;
+        public MainForm(SessionInfo session)
         {
+            m_Session = session;
             InitializeComponent();
         }
         private void Enable(bool enable)
@@ -28,6 +30,7 @@ namespace EMCTv
             tvSearch.Enabled = enable;
             tvEpisode.Enabled = enable;
             tvLink.Enabled = enable;
+            pictureBox1.Visible = !enable;
         }
         private string website;
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -39,8 +42,7 @@ namespace EMCTv
                 tvEpisode.Nodes.Clear();
                 tvLink.Nodes.Clear();
 
-                Dictionary<string, List<ListedShow>> all = JsonConvert.DeserializeObject<Dictionary<string, List<ListedShow>>>(await WSUtility.CallWS("http://emc.ericmas001.com/tv/search/all/" + txtSearch.Text));
-
+                var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", "all", txtSearch.Text);
                 foreach (string w in all.Keys)
                 {
                     TreeNode tn = new TreeNode(w);
@@ -62,7 +64,7 @@ namespace EMCTv
                 tvEpisode.Nodes.Clear();
                 tvLink.Nodes.Clear();
                 website = etn.Parent.Text;
-                TvShow show = JsonConvert.DeserializeObject<TvShow>(await WSUtility.CallWS("http://emc.ericmas001.com/tv/show/" + website + "/" + etn.Info.Name));
+                var show = await WSUtility.CallWS<TvShow>("tv", "show", website, etn.Info.Name);
                 foreach (int s in show.Episodes.Keys)
                 {
                     TreeNode tn = new TreeNode("Season " + s);
@@ -86,7 +88,7 @@ namespace EMCTv
             {
                 Enable(false);
                 tvLink.Nodes.Clear();
-                Episode ep = JsonConvert.DeserializeObject<Episode>(await WSUtility.CallWS("http://emc.ericmas001.com/tv/episode/" + website + "/" + etn.Info.Name));
+                var ep = await WSUtility.CallWS<Episode>("tv", "episode", website, etn.Info.Name);
                 foreach (string w in ep.Links.Keys)
                 {
                     TreeNode tn = new TreeNode(w);
@@ -110,9 +112,8 @@ namespace EMCTv
             if (etn != null)
             {
                 Enable(false);
-                string url = "http://emc.ericmas001.com/tv/stream/" + website + "/" + etn.Info.Website + "/" + etn.Info.Name;
-                StreamingInfo si = JsonConvert.DeserializeObject<StreamingInfo>(await WSUtility.CallWS(url));
-
+                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", website, etn.Info.Website, etn.Info.Name);
+                
                 if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                     Process.Start(si.DownloadURL);
                 else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
