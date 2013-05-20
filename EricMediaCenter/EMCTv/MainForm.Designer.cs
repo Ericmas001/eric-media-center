@@ -79,6 +79,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvSearch.HideSelection = false;
             this.tvSearch.Location = new System.Drawing.Point(6, 42);
             this.tvSearch.Name = "tvSearch";
             this.tvSearch.Size = new System.Drawing.Size(332, 328);
@@ -90,6 +91,7 @@
             this.tvEpisode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvEpisode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvEpisode.HideSelection = false;
             this.tvEpisode.Location = new System.Drawing.Point(370, 87);
             this.tvEpisode.Name = "tvEpisode";
             this.tvEpisode.Size = new System.Drawing.Size(373, 339);
@@ -101,6 +103,7 @@
             this.tvLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvLink.HideSelection = false;
             this.tvLink.Location = new System.Drawing.Point(749, 87);
             this.tvLink.Name = "tvLink";
             this.tvLink.Size = new System.Drawing.Size(373, 339);
@@ -140,7 +143,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(365, 379);
+            this.tabPage1.Size = new System.Drawing.Size(344, 376);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Favorites";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -149,7 +152,7 @@
             // 
             this.btnRefreshHard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshHard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.btnRefreshHard.Location = new System.Drawing.Point(219, 6);
+            this.btnRefreshHard.Location = new System.Drawing.Point(198, 6);
             this.btnRefreshHard.Name = "btnRefreshHard";
             this.btnRefreshHard.Size = new System.Drawing.Size(140, 29);
             this.btnRefreshHard.TabIndex = 2;
@@ -164,7 +167,7 @@
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnRefresh.Location = new System.Drawing.Point(6, 6);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(207, 29);
+            this.btnRefresh.Size = new System.Drawing.Size(186, 29);
             this.btnRefresh.TabIndex = 1;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = false;
@@ -180,7 +183,7 @@
             this.lstFavs.ItemHeight = 25;
             this.lstFavs.Location = new System.Drawing.Point(6, 41);
             this.lstFavs.Name = "lstFavs";
-            this.lstFavs.Size = new System.Drawing.Size(353, 332);
+            this.lstFavs.Size = new System.Drawing.Size(332, 329);
             this.lstFavs.TabIndex = 0;
             this.lstFavs.DoubleClick += new System.EventHandler(this.lstFavs_DoubleClick);
             // 
