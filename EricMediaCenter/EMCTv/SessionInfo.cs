@@ -56,5 +56,35 @@ namespace EMCTv
                 return new List<FavoriteTvShow>();
             return favs.Shows;
         }
+
+        public async Task<bool> AddFav(string website, string showname, string showtitle, int lastseason, int lastepisode)
+        {
+            if (!Connected || (!StillActive && !(await Connect())))
+                return false;
+
+            var res = await WSUtility.CallWS<UserResponse>("tv", "AddFav", m_User, m_Token, website, showname, showtitle, lastseason.ToString(), lastepisode.ToString());
+            
+            return res != null && res.Success;
+        }
+
+        public async Task<bool> DelFav(string website, string showname)
+        {
+            if (!Connected || (!StillActive && !(await Connect())))
+                return false;
+
+            var res = await WSUtility.CallWS<UserResponse>("tv", "DelFav", m_User, m_Token, website, showname);
+
+            return res != null && res.Success;
+        }
+
+        public async Task<bool> SetLastViewed(string website, string showname, int lastseason, int lastepisode)
+        {
+            if (!Connected || (!StillActive && !(await Connect())))
+                return false;
+
+            var res = await WSUtility.CallWS<UserResponse>("tv", "LastViewed", m_User, m_Token, website, showname, lastseason.ToString(), lastepisode.ToString());
+
+            return res != null && res.Success;
+        }
     }
 }
