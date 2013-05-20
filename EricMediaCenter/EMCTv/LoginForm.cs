@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMCTv.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,6 +25,14 @@ namespace EMCTv
         public LoginForm()
         {
             InitializeComponent();
+            Settings s = Properties.Settings.Default;
+            if (s.login_Remember)
+            {
+                txtUser.Text = s.login_User;
+                txtPass.Text = s.login_Pass;
+                chkRemember.Checked = true;
+                chkConnect.Checked = s.login_Automatic;
+            }
         }
 
         private async void btnConnect_Click(object sender, EventArgs e)
@@ -33,8 +42,26 @@ namespace EMCTv
             EnableAll(false);
             m_Session = new SessionInfo(txtUser.Text, txtPass.Text);
             ok = await m_Session.Connect();
-            if(ok)
+            if (ok)
+            {
+                Settings s = Properties.Settings.Default;
+                if (chkRemember.Checked)
+                {
+                    s.login_Automatic = chkConnect.Checked;
+                    s.login_Pass = txtPass.Text;
+                    s.login_Remember = true;
+                    s.login_User = txtUser.Text;
+                }
+                else
+                {
+                    s.login_Automatic = false;
+                    s.login_Pass = "";
+                    s.login_Remember = false;
+                    s.login_User = "";
+                }
+                s.Save();
                 Close();
+            }
             else
                 EnableAll(true);
         }
@@ -93,6 +120,12 @@ namespace EMCTv
                 e.SuppressKeyPress = true;
                 Close();
             }
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.login_Automatic)
+                btnConnect_Click(sender, e);
         }
     }
 }
