@@ -62,6 +62,17 @@ namespace EMCTv
             get { return m_LastViewedEpisode; }
             set { m_LastViewedEpisode = value; }
         }
+        int m_AllViewed;
+
+        public int AllViewed
+        {
+            get { return m_AllViewed; }
+            set { m_AllViewed = value; }
+        }
+        public bool IsAllViewed
+        {
+            get { return m_AllViewed==1; }
+        }
         public override string ToString()
         {
             return base.Title + (String.IsNullOrWhiteSpace(m_Website) ? "" : " (" + m_Website + ")");

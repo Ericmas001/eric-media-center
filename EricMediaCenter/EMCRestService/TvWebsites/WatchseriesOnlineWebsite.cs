@@ -55,27 +55,40 @@ namespace EMCRestService.TvWebsites
         {
             string[] tparts = title.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string[] sparts = showname.Split(' ');
-            episode.Title = String.Join(" ", tparts.Skip(sparts.Length + 1));
-            string nfo = tparts[sparts.Length].Trim();
-            if (nfo.StartsWith("-"))
+            int i = 1;
+            episode.NoSeason = episode.NoEpisode = -1;
+            while ((i < tparts.Length) && episode.NoSeason == -1 && episode.NoEpisode == -1)
             {
-                string mid = "&#215;";
-                if (nfo.Contains("x"))
-                    mid = "x";
-                if (nfo.Contains("X"))
-                    mid = "X";
-                if (nfo.Contains("×"))
-                    mid = "×";
-                episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "-", mid));
-                episode.NoEpisode = int.Parse(StringUtility.Extract(nfo, mid, "-"));
+                string nfo = tparts[i].Trim();
+                try
+                {
+                    if (nfo.StartsWith("-"))
+                    {
+                        string mid = "&#215;";
+                        if (nfo.Contains("x"))
+                            mid = "x";
+                        if (nfo.Contains("X"))
+                            mid = "X";
+                        if (nfo.Contains("×"))
+                            mid = "×";
+                        episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "-", mid));
+                        episode.NoEpisode = int.Parse(StringUtility.Extract(nfo, mid, "-"));
+                    }
+                    else if (nfo.StartsWith("S"))
+                    {
+                        episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "S", "E"));
+                        episode.NoEpisode = int.Parse(nfo.Substring(nfo.IndexOf('E') + 1));
+                    }
+                    else
+                        episode.NoSeason = episode.NoEpisode = -1;
+                }
+                catch
+                {
+                    episode.NoSeason = episode.NoEpisode = -1;
+                }
+                ++i;
             }
-            else if (nfo.StartsWith("S"))
-            {
-                episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "S", "E"));
-                episode.NoEpisode = int.Parse(nfo.Substring(nfo.IndexOf('E') + 1));
-            }
-            else
-                episode.NoSeason = episode.NoEpisode = -1;
+            episode.Title = String.Join(" ", tparts.Skip(i));
         }
 
         public List<ListedEpisode> GetEpisodesOnPage(string showname, string src)

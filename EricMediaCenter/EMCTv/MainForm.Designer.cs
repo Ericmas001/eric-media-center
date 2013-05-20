@@ -178,6 +178,7 @@
             this.lstFavs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFavs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstFavs.FormattingEnabled = true;
             this.lstFavs.IntegralHeight = false;
             this.lstFavs.ItemHeight = 25;
@@ -185,6 +186,7 @@
             this.lstFavs.Name = "lstFavs";
             this.lstFavs.Size = new System.Drawing.Size(332, 329);
             this.lstFavs.TabIndex = 0;
+            this.lstFavs.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstFavs_DrawItem);
             this.lstFavs.DoubleClick += new System.EventHandler(this.lstFavs_DoubleClick);
             // 
             // tabPage2
