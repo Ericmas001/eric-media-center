@@ -256,5 +256,17 @@ namespace EMCTv
             }
             btnRefresh_Click(sender, e);
         }
+
+        private void lstFavs_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            FavoriteTvShow fts = lstFavs.Items[e.Index] as FavoriteTvShow;
+            Font font = fts.IsAllViewed ? lstFavs.Font : new Font(lstFavs.Font, FontStyle.Bold);
+            Color c = lstFavs.ForeColor;
+            if (!lstFavs.Enabled)
+                c = ControlPaint.Light(c, 42);
+            e.Graphics.DrawString(lstFavs.Items[e.Index].ToString(), font, new SolidBrush(c), e.Bounds);
+            e.DrawFocusRectangle();
+        }
     }
 }
