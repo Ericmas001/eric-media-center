@@ -18,6 +18,9 @@ namespace EMCTv
     public partial class MainForm : Form
     {
         private SessionInfo m_Session;
+        string m_Website;
+        TvShow m_Show;
+        Episode m_Episode;
         public MainForm(SessionInfo session)
         {
             m_Session = session;
@@ -34,16 +37,16 @@ namespace EMCTv
             lstFavs.Enabled = enable;
             btnRefresh.Enabled = enable;
             btnRefreshHard.Enabled = enable;
+            btnAddFavorites.Enabled = enable && m_Show != null;
+            btnDelFavorites.Enabled = enable && m_Show != null;
+            btnLastViewed.Enabled = enable && m_Episode != null;
         }
-        private string website;
         private async void btnSearch_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(txtSearch.Text))
             {
                 Enable(false);
-                tvSearch.Nodes.Clear();
-                tvEpisode.Nodes.Clear();
-                tvLink.Nodes.Clear();
+                ClearSearch();
 
                 var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", "all", txtSearch.Text);
                 foreach (string w in all.Keys)
@@ -63,26 +66,26 @@ namespace EMCTv
             EMCTreeNode<ListedShow> etn = tvSearch.SelectedNode as EMCTreeNode<ListedShow>;
             if (etn != null)
             {
-                website = etn.Parent.Text;
-                LoadShow(website, etn.Info);
+                ClearShow();
+                m_Website = etn.Parent.Text;
+                LoadShow(etn.Info);
             }
         }
 
-        private async void LoadShow(string website, ListedShow ls)
+        private async void LoadShow(ListedShow ls)
         {
             Enable(false);
-            tvEpisode.Nodes.Clear();
-            tvLink.Nodes.Clear();
-            var show = await WSUtility.CallWS<TvShow>("tv", "show", website, ls.Name);
-            if (show != null)
+            m_Show = await WSUtility.CallWS<TvShow>("tv", "show", m_Website, ls.Name);
+            lblShow.Text = m_Show.Title;
+            if (m_Show != null)
             {
-                foreach (int s in show.Episodes.Keys)
+                foreach (int s in m_Show.Episodes.Keys)
                 {
                     TreeNode tn = new TreeNode("Season " + s);
 
                     tvEpisode.Nodes.Add(tn);
 
-                    foreach (ListedEpisode le in show.Episodes[s])
+                    foreach (ListedEpisode le in m_Show.Episodes[s])
                     {
                         EMCTreeNode<ListedEpisode> tn2 = new EMCTreeNode<ListedEpisode>(le);
                         tn.Nodes.Add(tn2);
@@ -98,15 +101,16 @@ namespace EMCTv
             if (etn != null)
             {
                 Enable(false);
-                tvLink.Nodes.Clear();
-                var ep = await WSUtility.CallWS<Episode>("tv", "episode", website, etn.Info.Name);
-                foreach (string w in ep.Links.Keys)
+                ClearEpisode();
+                m_Episode = await WSUtility.CallWS<Episode>("tv", "episode", m_Website, etn.Info.Name);
+                lblEpisode.Text = String.Format("S{0:00}E{1:00}", m_Episode.NoSeason, m_Episode.NoEpisode);
+                foreach (string w in m_Episode.Links.Keys)
                 {
                     TreeNode tn = new TreeNode(w);
 
                     tvLink.Nodes.Add(tn);
                     int i = 1;
-                    foreach (string l in ep.Links[w])
+                    foreach (string l in m_Episode.Links[w])
                     {
                         EMCTreeNode<ListedLink> tn2 = new EMCTreeNode<ListedLink>(new ListedLink() { Name = l, Title = "Link #" + i, Website = w });
                         tn.Nodes.Add(tn2);
@@ -123,7 +127,7 @@ namespace EMCTv
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", website, etn.Info.Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_Website, etn.Info.Website, etn.Info.Name);
                 
                 if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                     Process.Start(si.DownloadURL);
@@ -153,15 +157,17 @@ namespace EMCTv
         {
             FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
             if (fts != null)
-                LoadShow(fts.Website, fts);
+            {
+                ClearShow();
+                m_Website = fts.Website;
+                LoadShow(fts);
+            }
         }
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             Enable(false);
-            tvEpisode.Nodes.Clear();
-            tvLink.Nodes.Clear();
-            lstFavs.Items.Clear();
+            ClearFavs();
             lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
             Enable(true);
         }
@@ -170,6 +176,55 @@ namespace EMCTv
         {
             Enable(false);
             await WSUtility.CallWS<StreamingInfo>("bot", "TvUpdate");
+            btnRefresh_Click(sender, e);
+        }
+
+        private async void btnAddFavorites_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            if (!(await m_Session.AddFav(m_Website, m_Show.Name, m_Show.Title, m_Show.NoLastSeason, m_Show.NoLastEpisode)))
+                MessageBox.Show("Une erreur est survenue :(");
+            btnRefresh_Click(sender, e);
+        }
+
+        private async void btnDelFavorites_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            if (!(await m_Session.DelFav(m_Website, m_Show.Name)))
+                MessageBox.Show("Une erreur est survenue :(");
+            btnRefresh_Click(sender, e);
+        }
+
+        private void ClearEpisode()
+        {
+            tvLink.Nodes.Clear();
+            m_Episode = null;
+            lblEpisode.Text = "";
+        }
+        private void ClearShow()
+        {
+            tvEpisode.Nodes.Clear();
+            m_Show = null;
+            m_Website = null;
+            lblShow.Text = "";
+            ClearEpisode();
+        }
+        
+        private void ClearFavs()
+        {
+            lstFavs.Items.Clear();
+        }
+        private void ClearSearch()
+        {
+            tvSearch.Nodes.Clear();
+            ClearShow();
+        }
+
+        private async void btnLastViewed_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            if (!(await m_Session.SetLastViewed(m_Website, m_Show.Name, m_Episode.NoSeason, m_Episode.NoEpisode)))
+                MessageBox.Show("Une erreur est survenue :(");
             btnRefresh_Click(sender, e);
         }
     }
