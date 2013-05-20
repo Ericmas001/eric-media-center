@@ -18,6 +18,7 @@ namespace EMCTv
     public partial class MainForm : Form
     {
         private SessionInfo m_Session;
+        private FavoriteTvShow m_Fav;
         string m_Website;
         TvShow m_Show;
         Episode m_Episode;
@@ -47,7 +48,7 @@ namespace EMCTv
             {
                 Enable(false);
                 ClearSearch();
-
+                m_Fav = null;
                 var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", "all", txtSearch.Text);
                 foreach (string w in all.Keys)
                 {
@@ -77,6 +78,12 @@ namespace EMCTv
             Enable(false);
             m_Show = await WSUtility.CallWS<TvShow>("tv", "show", m_Website, ls.Name);
             lblShow.Text = m_Show.Title;
+            PeupleShow();
+            Enable(true);
+        }
+
+        private void PeupleShow()
+        {
             if (m_Show != null)
             {
                 foreach (int s in m_Show.Episodes.Keys)
@@ -84,15 +91,25 @@ namespace EMCTv
                     TreeNode tn = new TreeNode("Season " + s);
 
                     tvEpisode.Nodes.Add(tn);
-
+                    bool allviewed = true;
                     foreach (ListedEpisode le in m_Show.Episodes[s])
                     {
                         EMCTreeNode<ListedEpisode> tn2 = new EMCTreeNode<ListedEpisode>(le);
+                        if (m_Fav != null && (tn2.Info.NoSeason < m_Fav.LastViewedSeason || (tn2.Info.NoSeason == m_Fav.LastViewedSeason && tn2.Info.NoEpisode <= m_Fav.LastViewedEpisode)))
+                            tn2.ForeColor = Color.DarkGray;
+                        else
+                        {
+                            tn2.ForeColor = Color.Black;
+                            allviewed = false;
+                        }
                         tn.Nodes.Add(tn2);
                     }
+                    if (allviewed)
+                        tn.ForeColor = Color.DarkGray;
+                    else
+                        tn.ForeColor = Color.Black;
                 }
             }
-            Enable(true);
         }
 
         private async void tvEpisode_DoubleClick(object sender, EventArgs e)
@@ -159,6 +176,7 @@ namespace EMCTv
             if (fts != null)
             {
                 ClearShow();
+                m_Fav = fts;
                 m_Website = fts.Website;
                 LoadShow(fts);
             }
@@ -225,6 +243,17 @@ namespace EMCTv
             Enable(false);
             if (!(await m_Session.SetLastViewed(m_Website, m_Show.Name, m_Episode.NoSeason, m_Episode.NoEpisode)))
                 MessageBox.Show("Une erreur est survenue :(");
+            else
+            {
+                m_Fav.LastViewedSeason = m_Episode.NoSeason;
+                m_Fav.LastViewedEpisode = m_Episode.NoEpisode;
+                tvEpisode.Nodes.Clear();
+                PeupleShow();
+                foreach (TreeNode tn in tvEpisode.Nodes)
+                    foreach (EMCTreeNode<ListedEpisode> etn in tn.Nodes)
+                        if (etn.Info.NoSeason == m_Episode.NoSeason && etn.Info.NoEpisode == m_Episode.NoEpisode)
+                            tvEpisode.SelectedNode = etn;
+            }
             btnRefresh_Click(sender, e);
         }
     }
