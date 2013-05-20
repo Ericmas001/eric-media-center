@@ -77,7 +77,6 @@
             // chkRemember
             // 
             this.chkRemember.AutoSize = true;
-            this.chkRemember.Enabled = false;
             this.chkRemember.Location = new System.Drawing.Point(15, 68);
             this.chkRemember.Name = "chkRemember";
             this.chkRemember.Size = new System.Drawing.Size(226, 21);
@@ -89,7 +88,6 @@
             // chkConnect
             // 
             this.chkConnect.AutoSize = true;
-            this.chkConnect.Enabled = false;
             this.chkConnect.Location = new System.Drawing.Point(15, 95);
             this.chkConnect.Name = "chkConnect";
             this.chkConnect.Size = new System.Drawing.Size(169, 21);
@@ -138,6 +136,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LoginForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
