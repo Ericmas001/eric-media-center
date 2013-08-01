@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 
-namespace EMCTv
+namespace EMCTv.WebService
 {
     public class WSUtility
     {

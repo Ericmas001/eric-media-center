@@ -1,4 +1,5 @@
 ﻿using EMCTv.Properties;
+using EMCTv.WebService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EMCTv
+namespace EMCTv.Windows.Forms
 {
     public partial class LoginForm : Form
     {

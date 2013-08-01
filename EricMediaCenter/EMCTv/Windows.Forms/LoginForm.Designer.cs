@@ -1,4 +1,4 @@
-﻿namespace EMCTv
+﻿namespace EMCTv.Windows.Forms
 {
     partial class LoginForm
     {
@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.lblUser = new System.Windows.Forms.Label();
             this.lblPass = new System.Windows.Forms.Label();
             this.txtUser = new System.Windows.Forms.TextBox();
             this.txtPass = new System.Windows.Forms.TextBox();
             this.chkRemember = new System.Windows.Forms.CheckBox();
             this.chkConnect = new System.Windows.Forms.CheckBox();
-            this.btnConnect = new System.Windows.Forms.Button();
+            this.btnConnect = new VIBlend.WinForms.Controls.vButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -97,12 +98,19 @@
             // 
             // btnConnect
             // 
+            this.btnConnect.AllowAnimations = true;
+            this.btnConnect.BackColor = System.Drawing.Color.Transparent;
+            this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConnect.Image = global::EMCTv.Properties.Resources.emc_login;
             this.btnConnect.Location = new System.Drawing.Point(15, 122);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(269, 26);
-            this.btnConnect.TabIndex = 6;
+            this.btnConnect.RoundedCornersMask = ((byte)(15));
+            this.btnConnect.Size = new System.Drawing.Size(269, 62);
+            this.btnConnect.TabIndex = 8;
             this.btnConnect.Text = "Login";
-            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnConnect.UseVisualStyleBackColor = false;
+            this.btnConnect.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROGREEN;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // pictureBox1
@@ -119,9 +127,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 156);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(291, 192);
             this.Controls.Add(this.btnConnect);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.chkConnect);
             this.Controls.Add(this.chkRemember);
             this.Controls.Add(this.txtPass);
@@ -129,6 +137,7 @@
             this.Controls.Add(this.lblPass);
             this.Controls.Add(this.lblUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -152,7 +161,7 @@
         private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.CheckBox chkRemember;
         private System.Windows.Forms.CheckBox chkConnect;
-        private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private VIBlend.WinForms.Controls.vButton btnConnect;
     }
 }

@@ -12,8 +12,10 @@ using Newtonsoft.Json;
 using EricUtility;
 using System.Web;
 using System.Diagnostics;
+using EMCTv.Entities;
+using EMCTv.WebService;
 
-namespace EMCTv
+namespace EMCTv.Windows.Forms
 {
     public partial class MainForm : Form
     {
@@ -41,6 +43,7 @@ namespace EMCTv
             btnAddFavorites.Enabled = enable && m_Show != null;
             btnDelFavorites.Enabled = enable && m_Show != null;
             btnLastViewed.Enabled = enable && m_Episode != null;
+            btnLoadAll.Enabled = enable && m_Show != null && !m_Show.IsComplete;
         }
         private async void btnSearch_Click(object sender, EventArgs e)
         {
@@ -69,14 +72,15 @@ namespace EMCTv
             {
                 ClearShow();
                 m_Website = etn.Parent.Text;
-                LoadShow(etn.Info);
+                LoadShow(etn.Info,false);
             }
         }
 
-        private async void LoadShow(ListedShow ls)
+        private async void LoadShow(ListedShow ls, bool full)
         {
             Enable(false);
-            m_Show = await WSUtility.CallWS<TvShow>("tv", "show", m_Website, ls.Name);
+            string command = full ? "showFull" : "show";
+            m_Show = await WSUtility.CallWS<TvShow>("tv", command, m_Website, ls.Name);
             lblShow.Text = m_Show.Title;
             PeupleShow();
             Enable(true);
@@ -178,7 +182,7 @@ namespace EMCTv
                 ClearShow();
                 m_Fav = fts;
                 m_Website = fts.Website;
-                LoadShow(fts);
+                LoadShow(fts,false);
             }
         }
 
@@ -267,6 +271,20 @@ namespace EMCTv
                 c = ControlPaint.Light(c, 42);
             e.Graphics.DrawString(lstFavs.Items[e.Index].ToString(), font, new SolidBrush(c), e.Bounds);
             e.DrawFocusRectangle();
+        }
+
+        private void btnLoadAll_Click(object sender, EventArgs e)
+        {
+            ListedShow ls = m_Show;
+            string website = m_Website;
+            ClearShow();
+            m_Website = website;
+            LoadShow(ls, true);
+        }
+
+        private void lstFavs_MouseDown(object sender, MouseEventArgs e)
+        {
+            lstFavs.SelectedIndex = lstFavs.IndexFromPoint(e.Location);
         }
     }
 }

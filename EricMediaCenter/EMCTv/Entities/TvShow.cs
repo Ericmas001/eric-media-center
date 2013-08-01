@@ -1,12 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace EMCTv
+namespace EMCTv.Entities
 {
     public class TvShow : ListedShow
     {
         private SortedDictionary<int, IEnumerable<ListedEpisode>> m_Episodes = new SortedDictionary<int, IEnumerable<ListedEpisode>>();
         private int m_NoLastSeason;
         private int m_NoLastEpisode;
+        private bool m_IsComplete;
+
+        public bool IsComplete
+        {
+            get { return m_IsComplete; }
+            set { m_IsComplete = value; }
+        }
 
         public SortedDictionary<int, IEnumerable<ListedEpisode>> Episodes
         {
