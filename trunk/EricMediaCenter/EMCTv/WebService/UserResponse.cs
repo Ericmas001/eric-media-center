@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
-namespace EMCTv
+namespace EMCTv.WebService
 {
     public class UserResponse
     {

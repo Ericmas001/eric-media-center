@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMCTv
+namespace EMCTv.Entities
 {
     public class ListedEpisode
     {

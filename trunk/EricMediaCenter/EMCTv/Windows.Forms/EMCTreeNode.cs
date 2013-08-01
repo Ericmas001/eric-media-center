@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EMCTv
+namespace EMCTv.Windows.Forms
 {
     public class EMCTreeNode<T> : TreeNode
     {

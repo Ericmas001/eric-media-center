@@ -1,4 +1,4 @@
-﻿namespace EMCTv
+﻿namespace EMCTv.Entities
 {
     public class StreamingInfo
     {
