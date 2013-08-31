@@ -171,5 +171,16 @@ namespace EMCRestService.TvWebsites
             //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
+
+
+        public string ShowURL(string showId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string EpisodeURL(string epId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

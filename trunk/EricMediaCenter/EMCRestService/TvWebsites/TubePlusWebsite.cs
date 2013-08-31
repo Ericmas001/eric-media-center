@@ -235,5 +235,16 @@ namespace EMCRestService.TvWebsites
 
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
+
+
+        public string ShowURL(string name)
+        {
+            return "http://www.tubeplus.me/info/" + name + "/";
+        }
+
+        public string EpisodeURL(string epId)
+        {
+            return "http://www.tubeplus.me/player/" + epId + "/";
+        }
     }
 }

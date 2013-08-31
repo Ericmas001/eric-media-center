@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new VIBlend.WinForms.Controls.vButton();
@@ -47,10 +48,14 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
+            this.ctxtFavs = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ctxtFavs.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -179,6 +184,7 @@
             this.lstFavs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFavs.ContextMenuStrip = this.ctxtFavs;
             this.lstFavs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstFavs.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstFavs.FormattingEnabled = true;
@@ -300,6 +306,28 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
+            // ctxtFavs
+            // 
+            this.ctxtFavs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInBrowserToolStripMenuItem,
+            this.removeFromFavoritesToolStripMenuItem});
+            this.ctxtFavs.Name = "ctxtFavs";
+            this.ctxtFavs.Size = new System.Drawing.Size(234, 52);
+            // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
+            this.openInBrowserToolStripMenuItem.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // removeFromFavoritesToolStripMenuItem
+            // 
+            this.removeFromFavoritesToolStripMenuItem.Name = "removeFromFavoritesToolStripMenuItem";
+            this.removeFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
+            this.removeFromFavoritesToolStripMenuItem.Text = "Remove From Favorites";
+            this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -327,6 +355,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ctxtFavs.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -351,6 +380,9 @@
         private VIBlend.WinForms.Controls.vButton btnLastViewed;
         private System.Windows.Forms.Label lblEpisode;
         private VIBlend.WinForms.Controls.vButton btnLoadAll;
+        private System.Windows.Forms.ContextMenuStrip ctxtFavs;
+        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;
     }
 }
 
