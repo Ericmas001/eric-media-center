@@ -18,7 +18,7 @@ namespace EMCRestService.TvWebsites
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
-            string src = await new HttpClient().GetStringAsync("http://www.tv-links.eu/tv-shows/all_links");
+            string src = await new HttpClient().GetStringAsync("http://www.tvmuse.eu/tv-shows/all_links");
             string allShows = StringUtility.Extract(src, "<div class=\"cfix\">", "<div class=\"a_center pt_1\">");
             string itemp = "<li>";
             int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -51,12 +51,13 @@ namespace EMCRestService.TvWebsites
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
 
-        public async Task<TvShow> ShowAsync(string name)
+        public async Task<TvShow> ShowAsync(string name, bool full)
         {
             TvShow show = new TvShow();
             show.Name = name;
+            show.IsComplete = true;
 
-            string baseurl = "http://www.tv-links.eu/tv-shows/" + name + "/";
+            string baseurl = "http://www.tvmuse.eu/tv-shows/" + name + "/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Page not found!"))
@@ -65,7 +66,7 @@ namespace EMCRestService.TvWebsites
             if (show.Title == null)
                 return null;
             show.Title = show.Title.Trim();
-            string n = StringUtility.Extract(src, "<meta property=\"og:url\" content=\"http://www.tv-links.eu/tv-shows/", "/\"/>");
+            string n = StringUtility.Extract(src, "<meta property=\"og:url\" content=\"http://www.tvmuse.eu/tv-shows/", "/\"/>");
             if (n.ToLower() != name.ToLower())
                 return null;
             string allSeasons = StringUtility.Extract(src, "<!--Episodes-->", "<!--End Episodes-->");
@@ -121,7 +122,7 @@ namespace EMCRestService.TvWebsites
         {
             Episode ep = new Episode();
             ep.Name = epId;
-            string baseurl = "http://www.tv-links.eu/tv-shows/" + epId.Replace("-", "/") + "/video-results/";
+            string baseurl = "http://www.tvmuse.eu/tv-shows/" + epId.Replace("-", "/") + "/video-results/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (!src.Contains("<ul id=\"table_search\" class=\"mb_1\">"))
@@ -159,7 +160,7 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://www.tv-links.eu/gateway.php?data=" + args;
+            string url = "http://www.tvmuse.eu/gateway.php?data=" + args;
             string durl = null;
             //if (VideoParsingService.Parsers.ContainsKey(website))
             //{

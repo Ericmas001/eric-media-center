@@ -50,7 +50,7 @@ namespace EMCRestService.TvWebsites
             return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
         }
 
-        public async Task<TvShow> ShowAsync(string name)
+        public async Task<TvShow> ShowAsync(string name, bool full)
         {
             TvShow show = new TvShow();
             show.Name = name;
@@ -71,7 +71,10 @@ namespace EMCRestService.TvWebsites
             {
                 int endS = allSeasons.IndexOf("</td>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-                int no = int.Parse(StringUtility.Extract(itemS, "<b>Season ", "</b>") ?? "-1");
+                string noSt = StringUtility.Extract(itemS, "<b>Season ", "</b>");
+                int no = -1;
+                if (!int.TryParse(noSt, out no))
+                    no = -1;
                 if (no != -1)
                 {
                     seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", ".html\">"));
@@ -79,10 +82,9 @@ namespace EMCRestService.TvWebsites
                 }
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
             }
-
-            foreach (int no in seasons.Keys)
-
-            //Parallel.ForEach(seasons.Keys, async no =>
+            int[] noS = full ? seasons.Keys.ToArray() : (new int[] { seasons.Keys.Max() });
+            show.IsComplete = (noS.Length == seasons.Keys.Count);
+            foreach (int no in noS)
             {
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
                 string srcS = await new HttpClient().GetStringAsync(baseurl + "/" + seasons[no] + ".html");
@@ -97,7 +99,10 @@ namespace EMCRestService.TvWebsites
                         break;
                     string itemS = allEps.Substring(startE, endE - startE).Trim();
                     ep.Name = show.Name + "-" + seasons[no] + "-" + StringUtility.Extract(itemS, "<a name=\"", "\"></a>");
-                    ep.Title = StringUtility.Extract(itemS, "</a><b>", "</b></td>");
+                    string eTitle = StringUtility.Extract(itemS, "</a><b>", "</b></td>");
+                    string noEnd = ". ";
+                    int iNoEnd = eTitle.IndexOf(noEnd);
+                    ep.Title = iNoEnd >= 0 ? eTitle.Substring(iNoEnd + noEnd.Length) : eTitle;
                     string nfo = StringUtility.Extract(itemS, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
                     ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
                     ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
@@ -106,7 +111,7 @@ namespace EMCRestService.TvWebsites
                     episodes.Add(ep);
                     startE = allEps.IndexOf(epDeb, endE) + epDeb.Length;
                 }
-            }//);
+            }
 
             ListedEpisode lastEp = show.Episodes.Last().Value.Last();
             show.NoLastEpisode = lastEp.NoEpisode;
