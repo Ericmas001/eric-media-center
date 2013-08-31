@@ -239,5 +239,17 @@ namespace EMCRestService.TvWebsites
             //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
+
+
+        public string ShowURL(string name)
+        {
+            return "http://www.free-tv-video-online.me/internet/" + name;
+        }
+
+        public string EpisodeURL(string epId)
+        {
+            string[] info = epId.Split('-');
+            return "http://www.free-tv-video-online.me/internet/" + info[0] + "/" + info[1] + ".html#" + info[2];
+        }
     }
 }

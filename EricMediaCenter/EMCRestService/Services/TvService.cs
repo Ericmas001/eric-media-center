@@ -81,6 +81,13 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, true).Result ?? new TvShow());
         }
+        [WebGet(UriTemplate = "ShowURL/{website}/{showId}")]
+        public string ShowURL(string website, string showId)
+        {
+            if (!m_Supported.ContainsKey(website))
+                return null;
+            return JsonConvert.SerializeObject(m_Supported[website].ShowURL(showId));
+        }
 
         [WebGet(UriTemplate = "Episode/{website}/{epId}")]
         public string Episode(string website, string epId)
@@ -88,6 +95,13 @@ namespace EMCRestService.Services
             if (!m_Supported.ContainsKey(website))
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].EpisodeAsync(epId).Result ?? new Episode());
+        }
+        [WebGet(UriTemplate = "EpisodeURL/{website}/{epId}")]
+        public string EpisodeURL(string website, string epId)
+        {
+            if (!m_Supported.ContainsKey(website))
+                return null;
+            return JsonConvert.SerializeObject(m_Supported[website].EpisodeURL(epId));
         }
 
         [WebGet(UriTemplate = "Stream/{website}/{streamWebsite}/{args}")]

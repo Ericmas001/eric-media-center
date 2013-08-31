@@ -220,5 +220,16 @@ namespace EMCRestService.TvWebsites
             //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
+
+
+        public string ShowURL(string name)
+        {
+            return "http://www.watchseries-online.eu/category/" + name;
+        }
+
+        public string EpisodeURL(string epId)
+        {
+            return "http://www.watchseries-online.eu/" + epId.Replace("_", "/") + ".html";
+        }
     }
 }

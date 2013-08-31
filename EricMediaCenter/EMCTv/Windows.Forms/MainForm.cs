@@ -305,5 +305,35 @@ namespace EMCTv.Windows.Forms
         {
             lstFavs.SelectedIndex = lstFavs.IndexFromPoint(e.Location);
         }
+
+        private async void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
+            if (fts != null)
+            {
+                Enable(false);
+                if (!(await m_Session.DelFav(fts.Website, fts.ShowName)))
+                    MessageBox.Show("Une erreur est survenue :(");
+                btnRefresh_Click(sender, e);
+            }
+        }
+
+        private async void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
+            if (fts != null)
+            {
+                Enable(false);
+                var si = await WSUtility.CallWS<string>("tv", "ShowURL", fts.Website, fts.ShowName);
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                {
+                    if (!String.IsNullOrWhiteSpace(si))
+                        Process.Start(si);
+                }
+                Enable(true);
+            }
+        }
     }
 }
