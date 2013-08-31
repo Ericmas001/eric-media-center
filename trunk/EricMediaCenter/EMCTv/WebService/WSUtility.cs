@@ -20,6 +20,7 @@ namespace EMCTv.WebService
         }
         public static async Task<T> CallWS<T>(string ws, string command, params string[] parms)
         {
+            //List<string> path = new List<string> { "http://localhost:50082", ws, command };
             List<string> path = new List<string> { "http://emc.ericmas001.com", ws, command };
             path.AddRange(parms);
 
@@ -27,7 +28,8 @@ namespace EMCTv.WebService
             try
             {
                 string res = await new HttpClient().GetStringAsync(url);
-                return JsonConvert.DeserializeObject<T>(StringUtility.RemoveHTMLTags(HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(res))));
+                string toDeserialize = StringUtility.RemoveHTMLTags(HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(res.Replace("&quot;", "'")).Replace("&quot;", "'")));
+                return JsonConvert.DeserializeObject<T>(toDeserialize);
             }
             catch (Exception e)
             {

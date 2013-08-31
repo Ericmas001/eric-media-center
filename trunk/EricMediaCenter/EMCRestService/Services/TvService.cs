@@ -28,7 +28,7 @@ namespace EMCRestService.Services
             {"tubeplus.me",new TubePlusWebsite()},
             {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
             {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
-            {"tv-links.eu",new TvLinksWebsite()},
+          //  {"tv-links.eu",new TvLinksWebsite()}, //Forget this one, it's boring now !!
         };
 
         [WebGet(UriTemplate = "Supported")]
@@ -72,7 +72,14 @@ namespace EMCRestService.Services
         {
             if (!m_Supported.ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId).Result ?? new TvShow());
+            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, false).Result ?? new TvShow());
+        }
+        [WebGet(UriTemplate = "ShowFull/{website}/{showId}")]
+        public string ShowFull(string website, string showId)
+        {
+            if (!m_Supported.ContainsKey(website))
+                return null;
+            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, true).Result ?? new TvShow());
         }
 
         [WebGet(UriTemplate = "Episode/{website}/{epId}")]

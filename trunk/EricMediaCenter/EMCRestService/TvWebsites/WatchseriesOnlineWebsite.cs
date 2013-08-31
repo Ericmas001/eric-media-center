@@ -117,7 +117,7 @@ namespace EMCRestService.TvWebsites
             return eps;
         }
 
-        public async Task<TvShow> ShowAsync(string name)
+        public async Task<TvShow> ShowAsync(string name, bool full)
         {
             TvShow show = new TvShow();
             show.Name = name;
@@ -131,14 +131,19 @@ namespace EMCRestService.TvWebsites
             if (show.Title == null)
                 return null;
             List<ListedEpisode> eps = GetEpisodesOnPage(show.Title, src);
-
+            show.IsComplete = true;
             if (src.Contains("<ol class=\"wp-paginate\">"))
             {
-                string navig = StringUtility.Extract(src, "<ol class=\"wp-paginate\">", "class=\"next\">");
-                navig = navig.Substring(navig.LastIndexOf("class='page'>"));
-                int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
-                for (int i = 2; i <= nbPages; ++i)
-                    eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i)));
+                if (full)
+                {
+                    string navig = StringUtility.Extract(src, "<ol class=\"wp-paginate\">", "class=\"next\">");
+                    navig = navig.Substring(navig.LastIndexOf("class='page'>"));
+                    int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
+                    for (int i = 2; i <= nbPages; ++i)
+                        eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i)));
+                }
+                else
+                    show.IsComplete = false;
             }
 
             Dictionary<int, IEnumerable<ListedEpisode>> les = new Dictionary<int, IEnumerable<ListedEpisode>>();
@@ -175,7 +180,7 @@ namespace EMCRestService.TvWebsites
             string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(src, "<span class=\"PostHeader\">", "</span>")).Replace("\n", "").Trim();
             ExtractTitleAndNos(ep, title, showname);
 
-            string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "");
+            string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("Augu ", "August ");
             ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
             string all = StringUtility.Extract(src, "<table class=\"postlinks\">", "</table>");

@@ -48,14 +48,14 @@ namespace EMCRestService.TvWebsites
             return await AvailableShowsAsync("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
         }
 
-        public async Task<TvShow> ShowAsync(string name)
+        public async Task<TvShow> ShowAsync(string name, bool full)
         {
             int bidon = 0;
             if (!int.TryParse(name, out bidon))
                 return null;
             TvShow show = new TvShow();
             show.Name = name;
-
+            show.IsComplete = true;
             string baseurl = "http://www.tubeplus.me/info/" + name + "/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 

@@ -53,13 +53,18 @@ namespace EMCTv.Windows.Forms
                 ClearSearch();
                 m_Fav = null;
                 var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", "all", txtSearch.Text);
-                foreach (string w in all.Keys)
+                if (all == null)
+                    MessageBox.Show("An error occured !");
+                else
                 {
-                    TreeNode tn = new TreeNode(w);
-                    tvSearch.Nodes.Add(tn);
+                    foreach (string w in all.Keys)
+                    {
+                        TreeNode tn = new TreeNode(w);
+                        tvSearch.Nodes.Add(tn);
 
-                    foreach (ListedShow ls in all[w])
-                        tn.Nodes.Add(new EMCTreeNode<ListedShow>(ls));
+                        foreach (ListedShow ls in all[w])
+                            tn.Nodes.Add(new EMCTreeNode<ListedShow>(ls));
+                    }
                 }
                 Enable(true);
             }
@@ -81,8 +86,13 @@ namespace EMCTv.Windows.Forms
             Enable(false);
             string command = full ? "showFull" : "show";
             m_Show = await WSUtility.CallWS<TvShow>("tv", command, m_Website, ls.Name);
-            lblShow.Text = m_Show.Title;
-            PeupleShow();
+            if (m_Show == null)
+                MessageBox.Show("An error occured !");
+            else
+            {
+                lblShow.Text = m_Show.Title;
+                PeupleShow();
+            }
             Enable(true);
         }
 
@@ -124,18 +134,24 @@ namespace EMCTv.Windows.Forms
                 Enable(false);
                 ClearEpisode();
                 m_Episode = await WSUtility.CallWS<Episode>("tv", "episode", m_Website, etn.Info.Name);
-                lblEpisode.Text = String.Format("S{0:00}E{1:00}", m_Episode.NoSeason, m_Episode.NoEpisode);
-                foreach (string w in m_Episode.Links.Keys)
-                {
-                    TreeNode tn = new TreeNode(w);
 
-                    tvLink.Nodes.Add(tn);
-                    int i = 1;
-                    foreach (string l in m_Episode.Links[w])
+                if (m_Episode == null)
+                    MessageBox.Show("An error occured !");
+                else
+                {
+                    lblEpisode.Text = String.Format("S{0:00}E{1:00}", m_Episode.NoSeason, m_Episode.NoEpisode);
+                    foreach (string w in m_Episode.Links.Keys)
                     {
-                        EMCTreeNode<ListedLink> tn2 = new EMCTreeNode<ListedLink>(new ListedLink() { Name = l, Title = "Link #" + i, Website = w });
-                        tn.Nodes.Add(tn2);
-                        ++i;
+                        TreeNode tn = new TreeNode(w);
+
+                        tvLink.Nodes.Add(tn);
+                        int i = 1;
+                        foreach (string l in m_Episode.Links[w])
+                        {
+                            EMCTreeNode<ListedLink> tn2 = new EMCTreeNode<ListedLink>(new ListedLink() { Name = l, Title = "Link #" + i, Website = w });
+                            tn.Nodes.Add(tn2);
+                            ++i;
+                        }
                     }
                 }
                 Enable(true);
@@ -149,12 +165,15 @@ namespace EMCTv.Windows.Forms
             {
                 Enable(false);
                 var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_Website, etn.Info.Website, etn.Info.Name);
-                
-                if (!String.IsNullOrWhiteSpace(si.DownloadURL))
-                    Process.Start(si.DownloadURL);
-                else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
-                    Process.Start(si.StreamingURL);
-
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                {
+                    if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                        Process.Start(si.DownloadURL);
+                    else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
+                        Process.Start(si.StreamingURL);
+                }
                 Enable(true);
             }
         }
