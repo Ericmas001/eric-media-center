@@ -40,9 +40,9 @@ namespace EMCTv.Windows.Forms
             lstFavs.Enabled = enable;
             btnRefresh.Enabled = enable;
             btnRefreshHard.Enabled = enable;
-            btnAddFavorites.Enabled = enable && m_Show != null;
-            btnDelFavorites.Enabled = enable && m_Show != null;
-            btnLastViewed.Enabled = enable && m_Episode != null;
+            btnAddFavorites.Enabled = enable && m_Show != null && m_Fav == null;
+            btnDelFavorites.Enabled = enable && m_Show != null && m_Fav != null;
+            btnLastViewed.Enabled = enable && m_Episode != null && m_Fav != null;
             btnLoadAll.Enabled = enable && m_Show != null && !m_Show.IsComplete;
         }
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -76,6 +76,7 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 ClearShow();
+                m_Fav = null;
                 m_Website = etn.Parent.Text;
                 LoadShow(etn.Info,false);
             }
@@ -225,7 +226,10 @@ namespace EMCTv.Windows.Forms
             Enable(false);
             if (!(await m_Session.AddFav(m_Website, m_Show.Name, m_Show.Title, m_Show.NoLastSeason, m_Show.NoLastEpisode)))
                 MessageBox.Show("Une erreur est survenue :(");
-            btnRefresh_Click(sender, e);
+            ClearFavs();
+            lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
+            lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website);
+            lstFavs_DoubleClick(sender, e);
         }
 
         private async void btnDelFavorites_Click(object sender, EventArgs e)
@@ -334,6 +338,55 @@ namespace EMCTv.Windows.Forms
                 }
                 Enable(true);
             }
+        }
+
+        private async void openInBrowserToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedShow> etn = tvSearch.SelectedNode as EMCTreeNode<ListedShow>;
+            if (etn != null)
+            {
+                Enable(false);
+                var si = await WSUtility.CallWS<string>("tv", "ShowURL", etn.Parent.Text, etn.Info.Name);
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                {
+                    if (!String.IsNullOrWhiteSpace(si))
+                        Process.Start(si);
+                }
+                Enable(true);
+            }
+        }
+
+        private async void addToFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedShow> etn = tvSearch.SelectedNode as EMCTreeNode<ListedShow>;
+            if (etn != null)
+            {
+                Enable(false);
+                if (!(await m_Session.AddFav(etn.Parent.Text, etn.Info.Name, etn.Info.Title, 0, 0)))
+                    MessageBox.Show("Une erreur est survenue :(");
+                btnRefresh_Click(sender, e);
+            }
+        }
+
+        private void ctxtFavs_Opening(object sender, CancelEventArgs e)
+        {
+            FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
+            if (fts == null)
+                e.Cancel = true;
+        }
+
+        private void ctxtSearch_Opening(object sender, CancelEventArgs e)
+        {
+            EMCTreeNode<ListedShow> etn = tvSearch.SelectedNode as EMCTreeNode<ListedShow>;
+            if (etn == null)
+                e.Cancel = true;
+        }
+
+        private void tvSearch_MouseDown(object sender, MouseEventArgs e)
+        {
+            tvSearch.SelectedNode = tvSearch.GetNodeAt(e.X, e.Y);
         }
     }
 }

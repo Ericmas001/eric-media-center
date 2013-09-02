@@ -164,7 +164,7 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public async Task<StreamingInfo> StreamAsync(string website, string args)
+        public StreamingInfo StreamAsync(string website, string args)
         {
             string url = null;
             string durl = null;

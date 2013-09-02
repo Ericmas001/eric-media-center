@@ -207,7 +207,7 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public async Task<StreamingInfo> StreamAsync(string website, string args)
+        public StreamingInfo StreamAsync(string website, string args)
         {
             string url = "http://www.watchseries-online.eu/getlink.php?l=http://" + args.Replace("_", "/");
             string durl = null;

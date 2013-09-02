@@ -109,7 +109,7 @@ namespace EMCRestService.Services
         {
             if (!m_Supported.ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].StreamAsync(streamWebsite, args).Result ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
+            return JsonConvert.SerializeObject(m_Supported[website].StreamAsync(streamWebsite, args) ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
         }
 
         [WebGet(UriTemplate = "Favs/{user}/{token}")]
