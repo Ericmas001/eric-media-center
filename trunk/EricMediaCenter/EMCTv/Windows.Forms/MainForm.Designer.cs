@@ -33,6 +33,10 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new VIBlend.WinForms.Controls.vButton();
             this.tvSearch = new System.Windows.Forms.TreeView();
+            this.ctxtSearch = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvEpisode = new System.Windows.Forms.TreeView();
             this.tvLink = new System.Windows.Forms.TreeView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -41,6 +45,7 @@
             this.btnRefresh = new VIBlend.WinForms.Controls.vButton();
             this.lstFavs = new System.Windows.Forms.ListBox();
             this.ctxtFavs = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -51,15 +56,19 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
-            this.ctxtSearch = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxtEpisode = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxtLinks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.setAsLastViewedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxtSearch.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.ctxtFavs.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.ctxtSearch.SuspendLayout();
+            this.ctxtEpisode.SuspendLayout();
+            this.ctxtLinks.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -103,10 +112,42 @@
             this.tvSearch.DoubleClick += new System.EventHandler(this.tvSearch_DoubleClick);
             this.tvSearch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvSearch_MouseDown);
             // 
+            // ctxtSearch
+            // 
+            this.ctxtSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem1,
+            this.openInBrowserToolStripMenuItem1,
+            this.addToFavoritesToolStripMenuItem});
+            this.ctxtSearch.Name = "ctxtSearch";
+            this.ctxtSearch.Size = new System.Drawing.Size(188, 76);
+            this.ctxtSearch.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtSearch_Opening);
+            // 
+            // openToolStripMenuItem1
+            // 
+            this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
+            this.openToolStripMenuItem1.Size = new System.Drawing.Size(187, 24);
+            this.openToolStripMenuItem1.Text = "Open";
+            this.openToolStripMenuItem1.Click += new System.EventHandler(this.tvSearch_DoubleClick);
+            // 
+            // openInBrowserToolStripMenuItem1
+            // 
+            this.openInBrowserToolStripMenuItem1.Name = "openInBrowserToolStripMenuItem1";
+            this.openInBrowserToolStripMenuItem1.Size = new System.Drawing.Size(187, 24);
+            this.openInBrowserToolStripMenuItem1.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem1.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem1_Click);
+            // 
+            // addToFavoritesToolStripMenuItem
+            // 
+            this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
+            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(187, 24);
+            this.addToFavoritesToolStripMenuItem.Text = "Add to Favorites";
+            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            // 
             // tvEpisode
             // 
             this.tvEpisode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvEpisode.ContextMenuStrip = this.ctxtEpisode;
             this.tvEpisode.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvEpisode.HideSelection = false;
             this.tvEpisode.Location = new System.Drawing.Point(370, 87);
@@ -114,11 +155,13 @@
             this.tvEpisode.Size = new System.Drawing.Size(373, 309);
             this.tvEpisode.TabIndex = 2;
             this.tvEpisode.DoubleClick += new System.EventHandler(this.tvEpisode_DoubleClick);
+            this.tvEpisode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvEpisode_MouseDown);
             // 
             // tvLink
             // 
             this.tvLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvLink.ContextMenuStrip = this.ctxtLinks;
             this.tvLink.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvLink.HideSelection = false;
             this.tvLink.Location = new System.Drawing.Point(749, 87);
@@ -126,6 +169,7 @@
             this.tvLink.Size = new System.Drawing.Size(373, 339);
             this.tvLink.TabIndex = 3;
             this.tvLink.DoubleClick += new System.EventHandler(this.tvLink_DoubleClick);
+            this.tvLink.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvLink_MouseDown);
             // 
             // tabControl1
             // 
@@ -207,11 +251,19 @@
             // ctxtFavs
             // 
             this.ctxtFavs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
             this.openInBrowserToolStripMenuItem,
             this.removeFromFavoritesToolStripMenuItem});
             this.ctxtFavs.Name = "ctxtFavs";
-            this.ctxtFavs.Size = new System.Drawing.Size(234, 52);
+            this.ctxtFavs.Size = new System.Drawing.Size(234, 76);
             this.ctxtFavs.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtFavs_Opening);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.lstFavs_DoubleClick);
             // 
             // openInBrowserToolStripMenuItem
             // 
@@ -335,28 +387,43 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
-            // ctxtSearch
+            // ctxtEpisode
             // 
-            this.ctxtSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInBrowserToolStripMenuItem1,
-            this.addToFavoritesToolStripMenuItem});
-            this.ctxtSearch.Name = "ctxtSearch";
-            this.ctxtSearch.Size = new System.Drawing.Size(188, 52);
-            this.ctxtSearch.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtSearch_Opening);
+            this.ctxtEpisode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem2,
+            this.setAsLastViewedToolStripMenuItem});
+            this.ctxtEpisode.Name = "ctxtEpisode";
+            this.ctxtEpisode.Size = new System.Drawing.Size(201, 74);
+            this.ctxtEpisode.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtEpisode_Opening);
             // 
-            // openInBrowserToolStripMenuItem1
+            // ctxtLinks
             // 
-            this.openInBrowserToolStripMenuItem1.Name = "openInBrowserToolStripMenuItem1";
-            this.openInBrowserToolStripMenuItem1.Size = new System.Drawing.Size(187, 24);
-            this.openInBrowserToolStripMenuItem1.Text = "Open In Browser";
-            this.openInBrowserToolStripMenuItem1.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem1_Click);
+            this.ctxtLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem3});
+            this.ctxtLinks.Name = "ctxtLinks";
+            this.ctxtLinks.Size = new System.Drawing.Size(115, 28);
+            this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
             // 
-            // addToFavoritesToolStripMenuItem
+            // openToolStripMenuItem2
             // 
-            this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
-            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(187, 24);
-            this.addToFavoritesToolStripMenuItem.Text = "Add to Favorites";
-            this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
+            this.openToolStripMenuItem2.Name = "openToolStripMenuItem2";
+            this.openToolStripMenuItem2.Size = new System.Drawing.Size(200, 24);
+            this.openToolStripMenuItem2.Text = "Open";
+            this.openToolStripMenuItem2.Click += new System.EventHandler(this.tvEpisode_DoubleClick);
+            // 
+            // openToolStripMenuItem3
+            // 
+            this.openToolStripMenuItem3.Name = "openToolStripMenuItem3";
+            this.openToolStripMenuItem3.Size = new System.Drawing.Size(114, 24);
+            this.openToolStripMenuItem3.Text = "Open";
+            this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
+            // 
+            // setAsLastViewedToolStripMenuItem
+            // 
+            this.setAsLastViewedToolStripMenuItem.Name = "setAsLastViewedToolStripMenuItem";
+            this.setAsLastViewedToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
+            this.setAsLastViewedToolStripMenuItem.Text = "Set as Last Viewed";
+            this.setAsLastViewedToolStripMenuItem.Click += new System.EventHandler(this.setAsLastViewedToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -380,13 +447,15 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EMC Tv";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ctxtSearch.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ctxtFavs.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ctxtSearch.ResumeLayout(false);
+            this.ctxtEpisode.ResumeLayout(false);
+            this.ctxtLinks.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -417,6 +486,13 @@
         private System.Windows.Forms.ContextMenuStrip ctxtSearch;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addToFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip ctxtEpisode;
+        private System.Windows.Forms.ContextMenuStrip ctxtLinks;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
     }
 }
 
