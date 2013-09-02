@@ -366,7 +366,15 @@ namespace EMCTv.Windows.Forms
                 Enable(false);
                 if (!(await m_Session.AddFav(etn.Parent.Text, etn.Info.Name, etn.Info.Title, 0, 0)))
                     MessageBox.Show("Une erreur est survenue :(");
-                btnRefresh_Click(sender, e);
+                if (etn.Parent.Text == m_Website && m_Show != null && etn.Info.Name == m_Show.Name)
+                {
+                    ClearFavs();
+                    lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
+                    lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website);
+                    lstFavs_DoubleClick(sender, e);
+                }
+                else
+                    btnRefresh_Click(sender, e);
             }
         }
 
@@ -387,6 +395,51 @@ namespace EMCTv.Windows.Forms
         private void tvSearch_MouseDown(object sender, MouseEventArgs e)
         {
             tvSearch.SelectedNode = tvSearch.GetNodeAt(e.X, e.Y);
+        }
+
+        private void tvEpisode_MouseDown(object sender, MouseEventArgs e)
+        {
+            tvEpisode.SelectedNode = tvEpisode.GetNodeAt(e.X, e.Y);
+        }
+
+        private void tvLink_MouseDown(object sender, MouseEventArgs e)
+        {
+            tvLink.SelectedNode = tvLink.GetNodeAt(e.X, e.Y);
+        }
+
+        private void ctxtEpisode_Opening(object sender, CancelEventArgs e)
+        {
+            EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
+            if (etn == null)
+                e.Cancel = true;
+            setAsLastViewedToolStripMenuItem.Visible = m_Fav != null;
+        }
+
+        private void ctxtLinks_Opening(object sender, CancelEventArgs e)
+        {
+            EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
+            if (etn == null)
+                e.Cancel = true;
+        }
+
+        private async void setAsLastViewedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
+            Enable(false);
+            if (!(await m_Session.SetLastViewed(m_Website, m_Show.Name, etn.Info.NoSeason, etn.Info.NoEpisode)))
+                MessageBox.Show("Une erreur est survenue :(");
+            else
+            {
+                m_Fav.LastViewedSeason = etn.Info.NoSeason;
+                m_Fav.LastViewedEpisode = etn.Info.NoEpisode;
+                tvEpisode.Nodes.Clear();
+                PeupleShow();
+                foreach (TreeNode tn in tvEpisode.Nodes)
+                    foreach (EMCTreeNode<ListedEpisode> et in tn.Nodes)
+                        if (et.Info.NoSeason == etn.Info.NoSeason && et.Info.NoEpisode == etn.Info.NoEpisode)
+                            tvEpisode.SelectedNode = et;
+            }
+            btnRefresh_Click(sender, e);
         }
     }
 }
