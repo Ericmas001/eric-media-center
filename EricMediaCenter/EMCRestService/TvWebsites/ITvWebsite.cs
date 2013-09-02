@@ -14,7 +14,7 @@ namespace EMCRestService.TvWebsites
 
         Task<Episode> EpisodeAsync(string epId);
 
-        Task<StreamingInfo> StreamAsync(string website, string args);
+        StreamingInfo StreamAsync(string website, string args);
 
         string ShowURL(string showId);
         string EpisodeURL(string epId);
