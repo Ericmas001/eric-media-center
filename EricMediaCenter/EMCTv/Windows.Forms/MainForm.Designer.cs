@@ -38,7 +38,12 @@
             this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addToFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvEpisode = new System.Windows.Forms.TreeView();
+            this.ctxtEpisode = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.setAsLastViewedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvLink = new System.Windows.Forms.TreeView();
+            this.ctxtLinks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnRefreshHard = new VIBlend.WinForms.Controls.vButton();
@@ -56,19 +61,15 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
-            this.ctxtEpisode = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ctxtLinks = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.setAsLastViewedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.ctxtSearch.SuspendLayout();
+            this.ctxtEpisode.SuspendLayout();
+            this.ctxtLinks.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.ctxtFavs.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.ctxtEpisode.SuspendLayout();
-            this.ctxtLinks.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -157,6 +158,29 @@
             this.tvEpisode.DoubleClick += new System.EventHandler(this.tvEpisode_DoubleClick);
             this.tvEpisode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvEpisode_MouseDown);
             // 
+            // ctxtEpisode
+            // 
+            this.ctxtEpisode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem2,
+            this.setAsLastViewedToolStripMenuItem});
+            this.ctxtEpisode.Name = "ctxtEpisode";
+            this.ctxtEpisode.Size = new System.Drawing.Size(201, 52);
+            this.ctxtEpisode.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtEpisode_Opening);
+            // 
+            // openToolStripMenuItem2
+            // 
+            this.openToolStripMenuItem2.Name = "openToolStripMenuItem2";
+            this.openToolStripMenuItem2.Size = new System.Drawing.Size(200, 24);
+            this.openToolStripMenuItem2.Text = "Open";
+            this.openToolStripMenuItem2.Click += new System.EventHandler(this.tvEpisode_DoubleClick);
+            // 
+            // setAsLastViewedToolStripMenuItem
+            // 
+            this.setAsLastViewedToolStripMenuItem.Name = "setAsLastViewedToolStripMenuItem";
+            this.setAsLastViewedToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
+            this.setAsLastViewedToolStripMenuItem.Text = "Set as Last Viewed";
+            this.setAsLastViewedToolStripMenuItem.Click += new System.EventHandler(this.setAsLastViewedToolStripMenuItem_Click);
+            // 
             // tvLink
             // 
             this.tvLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -170,6 +194,21 @@
             this.tvLink.TabIndex = 3;
             this.tvLink.DoubleClick += new System.EventHandler(this.tvLink_DoubleClick);
             this.tvLink.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvLink_MouseDown);
+            // 
+            // ctxtLinks
+            // 
+            this.ctxtLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem3});
+            this.ctxtLinks.Name = "ctxtLinks";
+            this.ctxtLinks.Size = new System.Drawing.Size(115, 28);
+            this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
+            // 
+            // openToolStripMenuItem3
+            // 
+            this.openToolStripMenuItem3.Name = "openToolStripMenuItem3";
+            this.openToolStripMenuItem3.Size = new System.Drawing.Size(114, 24);
+            this.openToolStripMenuItem3.Text = "Open";
+            this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
             // 
             // tabControl1
             // 
@@ -370,6 +409,7 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btnLoadAll
             // 
@@ -387,43 +427,15 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
-            // ctxtEpisode
+            // button1
             // 
-            this.ctxtEpisode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem2,
-            this.setAsLastViewedToolStripMenuItem});
-            this.ctxtEpisode.Name = "ctxtEpisode";
-            this.ctxtEpisode.Size = new System.Drawing.Size(201, 74);
-            this.ctxtEpisode.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtEpisode_Opening);
-            // 
-            // ctxtLinks
-            // 
-            this.ctxtLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem3});
-            this.ctxtLinks.Name = "ctxtLinks";
-            this.ctxtLinks.Size = new System.Drawing.Size(115, 28);
-            this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
-            // 
-            // openToolStripMenuItem2
-            // 
-            this.openToolStripMenuItem2.Name = "openToolStripMenuItem2";
-            this.openToolStripMenuItem2.Size = new System.Drawing.Size(200, 24);
-            this.openToolStripMenuItem2.Text = "Open";
-            this.openToolStripMenuItem2.Click += new System.EventHandler(this.tvEpisode_DoubleClick);
-            // 
-            // openToolStripMenuItem3
-            // 
-            this.openToolStripMenuItem3.Name = "openToolStripMenuItem3";
-            this.openToolStripMenuItem3.Size = new System.Drawing.Size(114, 24);
-            this.openToolStripMenuItem3.Text = "Open";
-            this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
-            // 
-            // setAsLastViewedToolStripMenuItem
-            // 
-            this.setAsLastViewedToolStripMenuItem.Name = "setAsLastViewedToolStripMenuItem";
-            this.setAsLastViewedToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
-            this.setAsLastViewedToolStripMenuItem.Text = "Set as Last Viewed";
-            this.setAsLastViewedToolStripMenuItem.Click += new System.EventHandler(this.setAsLastViewedToolStripMenuItem_Click);
+            this.button1.Location = new System.Drawing.Point(184, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // MainForm
             // 
@@ -431,6 +443,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1134, 433);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLoadAll);
             this.Controls.Add(this.lblEpisode);
             this.Controls.Add(this.btnLastViewed);
@@ -448,14 +461,14 @@
             this.Text = "EMC Tv";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ctxtSearch.ResumeLayout(false);
+            this.ctxtEpisode.ResumeLayout(false);
+            this.ctxtLinks.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ctxtFavs.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ctxtEpisode.ResumeLayout(false);
-            this.ctxtLinks.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -493,6 +506,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }
 
