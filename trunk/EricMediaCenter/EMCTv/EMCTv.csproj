@@ -54,6 +54,8 @@
     <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VideoParser\NovaMovParser.cs" />
+    <Compile Include="VideoParser\VideoWeedParser.cs" />
     <Compile Include="VideoParser\GorillaVidParser.cs" />
     <Compile Include="VideoParser\IVideoParser.cs" />
     <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
