@@ -54,6 +54,10 @@
     <Reference Include="VIBlend.WinForms.Utilities, Version=8.0.0.0, Culture=neutral, PublicKeyToken=970a5af59bc48043" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VideoParser\GorillaVidParser.cs" />
+    <Compile Include="VideoParser\IVideoParser.cs" />
+    <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
+    <Compile Include="VideoParser\VideoParsingFactory.cs" />
     <Compile Include="WebService\UserFavsResponse.cs" />
     <Compile Include="Entities\FavoriteTvShow.cs" />
     <Compile Include="Entities\ListedLink.cs" />
@@ -80,6 +84,12 @@
     <Compile Include="Entities\TvShow.cs" />
     <Compile Include="WebService\UserResponse.cs" />
     <Compile Include="WebService\WSUtility.cs" />
+    <Compile Include="Windows.Forms\OpenURLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows.Forms\OpenURLForm.Designer.cs">
+      <DependentUpon>OpenURLForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Windows.Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +106,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Windows.Forms\OpenURLForm.resx">
+      <DependentUpon>OpenURLForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -110,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EricUtilityNetworking\EricUtilityNetworking2011.csproj">
+      <Project>{980f8de9-2f6e-4a96-849d-23754b364271}</Project>
+      <Name>EricUtilityNetworking2011</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
       <Project>{e88c4aef-1b0b-45c0-a08d-cbcda35c1e62}</Project>
       <Name>EricUtility2011</Name>

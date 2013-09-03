@@ -14,6 +14,7 @@ using System.Web;
 using System.Diagnostics;
 using EMCTv.Entities;
 using EMCTv.WebService;
+using EMCTv.VideoParser;
 
 namespace EMCTv.Windows.Forms
 {
@@ -78,7 +79,7 @@ namespace EMCTv.Windows.Forms
                 ClearShow();
                 m_Fav = null;
                 m_Website = etn.Parent.Text;
-                LoadShow(etn.Info,false);
+                LoadShow(etn.Info, false);
             }
         }
 
@@ -170,8 +171,11 @@ namespace EMCTv.Windows.Forms
                     MessageBox.Show("An error occured !");
                 else
                 {
-                    if (!String.IsNullOrWhiteSpace(si.DownloadURL))
-                        Process.Start(si.DownloadURL);
+                    if (await VideoParsingFactory.GetDownloadURLAsync(si))
+                    {
+                        if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                            new OpenURLForm(si).ShowDialog();
+                    }
                     else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
                         Process.Start(si.StreamingURL);
                 }
@@ -202,7 +206,7 @@ namespace EMCTv.Windows.Forms
                 ClearShow();
                 m_Fav = fts;
                 m_Website = fts.Website;
-                LoadShow(fts,false);
+                LoadShow(fts, false);
             }
         }
 
@@ -254,7 +258,7 @@ namespace EMCTv.Windows.Forms
             lblShow.Text = "";
             ClearEpisode();
         }
-        
+
         private void ClearFavs()
         {
             lstFavs.Items.Clear();
@@ -440,6 +444,16 @@ namespace EMCTv.Windows.Forms
                             tvEpisode.SelectedNode = et;
             }
             btnRefresh_Click(sender, e);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            string res = @"<script type='text/javascript'>function eric() {return(function(p,a,c,k,e,d){while(c--)if(k[c])p=p.replace(new RegExp('\\b'+c.toString(a)+'\\b','g'),k[c]);return p}('2o(""2n"").2m({e:""4://k.5.2:2l/d/2k/2j.2i"",2h:""4://k.5.2/i/2g/2f.2e"",2d:""4"",2c:""../a/2b.2a"",29:""28"",27:26,25:24,23:""4://5.2/a/a.21"",20:""9-3,1z-1"",\'1y\':{\'1x\':1w(j){1v(!j.1u){1t()}}},\'1s.c\':""1r"",\'1q\':""h"",\'1p\':""1o"",\'1n\':""h"",\'1m\':""1l"",\'9.b\':""4://5.2/g"",\'9.1k\':""%1j%1i%1h%1g%1f%1e%1d.2%1c-g-1b.1a%22%19%7%18%7%17%7%16%14%13%12%11%10%f%z%y%f"",\'6.e\':""4://5.2/x/w.v"",\'6.u\':t,\'6.s\':15,\'6.r\':1,\'6.q\':0.8,\'6.c\':""p-o"",\'6.b\':""4://5.2"",n:""m"",l:""4://5.2""});',36,97,'||com||http|vidbull|logo|3D0||sharing|player|link|position||file|3E|hqtzrxufk6v4|always||event|fs10|aboutlink|VidBull|abouttext|right|top|out|over|timeout|false|hide|png|vidbull_playerlogo|images|2FIFRAME|3C|3D338|20HEIGHT|3D640|20WIDTH|3DNO||20SCROLLING|20MARGINHEIGHT|20MARGINWIDTH|20FRAMEBORDER|html|640x318|2Fembed|2Fvidbull|2F|3A|22http|3D|20SRC|3CIFRAME|code|uniform|stretching|allowscriptaccess|opaque|wmode|allowfullscreen|left|dock|displayAgain|fullscreen|if|function|onFullscreen|events|lightsout|plugins|swf||flashplayer|318|height|640|width|2516|duration|zip|modieus1|skin|provider|jpg|cs8gslz87e2q|00079|image|mp4|video|4zsncdtoljrwuximve6xd2a552gmlfhasimczd7algdcn6verzdsfqtf|182|setup|flvplayer|jwplayer'.split('|')))}</script></HTML>";
+            WebBrowser wb = new WebBrowser();
+            wb.Navigate("about:blank");
+            wb.Document.Write(res);
+            string r = wb.Document.InvokeScript("eric").ToString() ;
+            MessageBox.Show(r);
         }
     }
 }
