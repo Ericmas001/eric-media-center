@@ -142,24 +142,28 @@ namespace EMCTv.Windows.Forms
                 else
                 {
                     lblEpisode.Text = String.Format("S{0:00}E{1:00}", m_Episode.NoSeason, m_Episode.NoEpisode);
-                    foreach (string w in m_Episode.Links.Keys)
-                    {
-                        TreeNode tn = new TreeNode(w);
-
-                        tvLink.Nodes.Add(tn);
-                        int i = 1;
-                        foreach (string l in m_Episode.Links[w])
-                        {
-                            EMCTreeNode<ListedLink> tn2 = new EMCTreeNode<ListedLink>(new ListedLink() { Name = l, Title = "Link #" + i, Website = w });
-                            tn.Nodes.Add(tn2);
-                            ++i;
-                        }
-                    }
+                    AddLinks(m_Episode.Links.Keys.Where(w => VideoParsingFactory.Parsers.ContainsKey(w)), Color.Blue);
+                    AddLinks(m_Episode.Links.Keys.Where(w => !VideoParsingFactory.Parsers.ContainsKey(w)), Color.Black);
                 }
                 Enable(true);
             }
         }
-
+        private void AddLinks(IEnumerable<string> websites, Color color)
+        {
+            foreach (string w in websites)
+            {
+                TreeNode tn = new TreeNode(w);
+                tn.ForeColor = color;
+                tvLink.Nodes.Add(tn);
+                int i = 1;
+                foreach (string l in m_Episode.Links[w])
+                {
+                    EMCTreeNode<ListedLink> tn2 = new EMCTreeNode<ListedLink>(new ListedLink() { Name = l, Title = "Link #" + i, Website = w });
+                    tn.Nodes.Add(tn2);
+                    ++i;
+                }
+            }
+        }
         private async void tvLink_DoubleClick(object sender, EventArgs e)
         {
             EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
@@ -174,10 +178,20 @@ namespace EMCTv.Windows.Forms
                     if (await VideoParsingFactory.GetDownloadURLAsync(si))
                     {
                         if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                        {
                             new OpenURLForm(si).ShowDialog();
+                            etn.ForeColor = Color.DarkGray;
+                        }
+                        else
+                            etn.ForeColor = Color.Red;
                     }
                     else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
+                    {
                         Process.Start(si.StreamingURL);
+                        etn.ForeColor = Color.DarkGray;
+                    }
+                    else
+                        etn.ForeColor = Color.Red;
                 }
                 Enable(true);
             }

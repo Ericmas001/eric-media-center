@@ -19,7 +19,12 @@ namespace EMCTv.VideoParser
                     {"gorillavid.in",new GorillaVidParser()},
                     {"gorillavid.com",new GorillaVidParser()},
                     {"putlocker.com",new PutLockerSockShareParser()},
-                    {"sockshare.com",new PutLockerSockShareParser()},
+                    {"sockshare.com",new PutLockerSockShareParser()}, 
+                    {"divxstage.eu",new VideoWeedParser()},
+                    {"movshare.net",new VideoWeedParser()},
+                    {"novamov.com",new NovaMovParser()},
+                    {"nowvideo.eu",new VideoWeedParser()},
+                    {"videoweed.es",new VideoWeedParser()},
                 };
             }
         }
