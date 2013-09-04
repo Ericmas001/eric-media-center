@@ -61,7 +61,6 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
-            this.button1 = new System.Windows.Forms.Button();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -409,7 +408,6 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btnLoadAll
             // 
@@ -427,23 +425,12 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(184, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1134, 433);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLoadAll);
             this.Controls.Add(this.lblEpisode);
             this.Controls.Add(this.btnLastViewed);
@@ -506,7 +493,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
     }
 }
 
