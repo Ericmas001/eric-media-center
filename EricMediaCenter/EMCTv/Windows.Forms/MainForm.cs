@@ -179,7 +179,7 @@ namespace EMCTv.Windows.Forms
                     {
                         if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                         {
-                            new OpenURLForm(si).ShowDialog();
+                            new OpenURLForm(si, m_Show, m_Episode).ShowDialog();
                             etn.ForeColor = Color.DarkGray;
                         }
                         else

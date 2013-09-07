@@ -31,6 +31,7 @@
             this.btnDwldBrowser = new VIBlend.WinForms.Controls.vButton();
             this.btnDwldClipboard = new VIBlend.WinForms.Controls.vButton();
             this.btnStreamBrowser = new VIBlend.WinForms.Controls.vButton();
+            this.btnDwldEMCD = new VIBlend.WinForms.Controls.vButton();
             this.SuspendLayout();
             // 
             // btnDwldBrowser
@@ -75,12 +76,27 @@
             this.btnStreamBrowser.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
             this.btnStreamBrowser.Click += new System.EventHandler(this.btnStreamBrowser_Click);
             // 
+            // btnDwldEMCD
+            // 
+            this.btnDwldEMCD.AllowAnimations = true;
+            this.btnDwldEMCD.BackColor = System.Drawing.Color.Transparent;
+            this.btnDwldEMCD.Location = new System.Drawing.Point(12, 120);
+            this.btnDwldEMCD.Name = "btnDwldEMCD";
+            this.btnDwldEMCD.RoundedCornersMask = ((byte)(15));
+            this.btnDwldEMCD.Size = new System.Drawing.Size(258, 30);
+            this.btnDwldEMCD.TabIndex = 3;
+            this.btnDwldEMCD.Text = "Open Download URL in EMCDownloader";
+            this.btnDwldEMCD.UseVisualStyleBackColor = false;
+            this.btnDwldEMCD.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.EXPRESSIONDARK;
+            this.btnDwldEMCD.Click += new System.EventHandler(this.btnDwldEMCD_Click);
+            // 
             // OpenURLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(282, 124);
+            this.ClientSize = new System.Drawing.Size(282, 158);
+            this.Controls.Add(this.btnDwldEMCD);
             this.Controls.Add(this.btnStreamBrowser);
             this.Controls.Add(this.btnDwldClipboard);
             this.Controls.Add(this.btnDwldBrowser);
@@ -97,5 +113,6 @@
         private VIBlend.WinForms.Controls.vButton btnDwldBrowser;
         private VIBlend.WinForms.Controls.vButton btnDwldClipboard;
         private VIBlend.WinForms.Controls.vButton btnStreamBrowser;
+        private VIBlend.WinForms.Controls.vButton btnDwldEMCD;
     }
 }
