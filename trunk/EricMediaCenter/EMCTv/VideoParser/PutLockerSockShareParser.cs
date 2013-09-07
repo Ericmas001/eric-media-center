@@ -11,13 +11,13 @@ namespace EMCTv.VideoParser
         public async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
+            string u = GatheringUtility.GetPageUrl(url, cookies, "", "application/x-www-form-urlencoded");
             string beginurl = "http://www.sockshare.com";
-            if (url.Contains("www.putlocker.com"))
+            if (u.Contains("putlocker.com"))
                 beginurl = "http://www.putlocker.com";
 
             while (res.Contains("Continue as Free User"))
             {
-                string u = GatheringUtility.GetPageUrl(url, cookies, "", "application/x-www-form-urlencoded");
                 string hash = StringUtility.Extract(res, "<input type=\"hidden\" value=\"", "\"");
                 HttpContent content = new FormUrlEncodedContent(new[]
                 {
