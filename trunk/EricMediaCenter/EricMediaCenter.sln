@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCUserWSPlugin", "EMCUserW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCTv", "EMCTv\EMCTv.csproj", "{F9B81F4B-8951-4CAD-A4C5-DAA64B8C34A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCDownloader", "EMCDownloader\EMCDownloader.csproj", "{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -239,6 +241,21 @@ Global
 		{F9B81F4B-8951-4CAD-A4C5-DAA64B8C34A8}.TestLive|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F9B81F4B-8951-4CAD-A4C5-DAA64B8C34A8}.TestLive|Mixed Platforms.Build.0 = Release|Any CPU
 		{F9B81F4B-8951-4CAD-A4C5-DAA64B8C34A8}.TestLive|x86.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.TestLive|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.TestLive|Any CPU.Build.0 = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.TestLive|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.TestLive|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9E238D6-3A33-4DF2-B6D4-DABEDAD01BA3}.TestLive|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
