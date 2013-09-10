@@ -48,10 +48,9 @@ namespace EMCTv.Windows.Forms
             if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.emcd_path) && !String.IsNullOrWhiteSpace(Properties.Settings.Default.emcd_output))
             {
                 string src = m_StreamingInfo.DownloadURL;
-                string dest = Properties.Settings.Default.emcd_output + "/" + m_Show.Title + " S" + m_Episode.NoSeason + "E" + m_Episode.NoEpisode + ".flv";
+                string dest = String.Format("{0}/{1} S{2:00}E{3:00}.flv", Properties.Settings.Default.emcd_output, m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode);
                 // TODO: chg name if already exist (1) (2) ...
                 // TODO: exstension !!
-                // TODO: padding S3E5 => S03E05
                 string args = "\"" + src + "\" \"" + dest + "\"";
                 Process.Start(Properties.Settings.Default.emcd_path, args);
             }
