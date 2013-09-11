@@ -26,6 +26,7 @@ namespace EMCTv.VideoParser
                     {"nowvideo.eu",new VideoWeedParser()},
                     {"videoweed.es",new VideoWeedParser()},
                     {"vidbull.com",new VidBullParser()},
+                    {"vreer.com",new VreerParser()},
                 };
             }
         }
