@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +17,8 @@ namespace EMCDownloader
         static void Main(string[] args)
         {
             App myApp = new App();
-            myApp.Run(args);
+                myApp.Run(args);
+
         }
 
         /// <summary>
