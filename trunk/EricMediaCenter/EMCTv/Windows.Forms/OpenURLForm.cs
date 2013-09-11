@@ -53,6 +53,7 @@ namespace EMCTv.Windows.Forms
                 // TODO: exstension !!
                 string args = "\"" + src + "\" \"" + dest + "\"";
                 Process.Start(Properties.Settings.Default.emcd_path, args);
+                Close();
             }
         }
     }
