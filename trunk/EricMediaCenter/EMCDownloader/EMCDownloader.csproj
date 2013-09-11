@@ -32,9 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EricUtility2011">
+      <HintPath>..\EricUtility\bin\Debug\EricUtility2011.dll</HintPath>
+    </Reference>
+    <Reference Include="EricUtilityNetworking2011">
+      <HintPath>..\EricUtilityNetworking\bin\Debug\EricUtilityNetworking2011.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EricUtilityWinForms\EricUtilityWinForms2011.csproj">
+      <Project>{ABF7D9DE-3646-4737-8EFC-5C3D5FD1CFA5}</Project>
+      <Name>EricUtilityWinForms2011</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

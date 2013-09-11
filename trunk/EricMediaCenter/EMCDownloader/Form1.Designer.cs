@@ -28,25 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.downloadList1 = new EricUtility.Windows.Forms.Downloader.DownloadList();
             this.SuspendLayout();
             // 
-            // listBox1
+            // downloadList1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(748, 442);
-            this.listBox1.TabIndex = 0;
+            this.downloadList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.downloadList1.Location = new System.Drawing.Point(0, 0);
+            this.downloadList1.Margin = new System.Windows.Forms.Padding(4);
+            this.downloadList1.Name = "downloadList1";
+            this.downloadList1.Size = new System.Drawing.Size(966, 442);
+            this.downloadList1.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(748, 442);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(966, 442);
+            this.Controls.Add(this.downloadList1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -56,7 +55,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private EricUtility.Windows.Forms.Downloader.DownloadList downloadList1;
     }
 }
 

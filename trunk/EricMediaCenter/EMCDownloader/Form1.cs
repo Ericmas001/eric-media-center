@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EricUtilityNetworking.Downloader;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,9 +21,6 @@ namespace EMCDownloader
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // The single-instance code is going to save the command line 
-            // arguments in this member variable before opening the first instance
-            // of the app.
             if (this.Args != null)
             {
                 ProcessParameters(null, this.Args);
@@ -33,12 +31,12 @@ namespace EMCDownloader
         public delegate void ProcessParametersDelegate(object sender, string[] args);
         public void ProcessParameters(object sender, string[] args)
         {
-            // The form has loaded, and initialization will have been be done.
-
-            // Add the command-line arguments to our textbox, just to confirm that
-            // it reached here.
             if (args != null && args.Length != 0)
-                listBox1.Items.Add(String.Format("{0} {1}", DateTime.Now.ToString("mm:ss.ff"), String.Join(" ", args)));
+            {
+                //listBox1.Items.Add(String.Format("{0} {1}", DateTime.Now.ToString("HH:mm:ss.ff"), String.Join(" ", args)));
+                //downloadList1.AddDownloadURLs(new ResourceLocation[] { new ResourceLocation() { URL = args[0] } }, 1, args[1], 0);
+                downloadList1.AddDownload(args[0], args[1],10);
+            }
         }
     }
 }
