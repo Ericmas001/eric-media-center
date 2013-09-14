@@ -33,5 +33,13 @@
             get { return m_DownloadURL; }
             set { m_DownloadURL = value; }
         }
+
+        private int m_MaxSegments;
+
+        public int MaxSegments
+        {
+            get { return m_MaxSegments; }
+            set { m_MaxSegments = value; }
+        }
     }
 }

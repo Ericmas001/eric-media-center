@@ -22,6 +22,10 @@ namespace EMCTv.VideoParser
 
     public class VideoWeedParser : IVideoParser
     {
+        public int MaxSegments
+        {
+            get { return 10; }
+        }
         public virtual async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
