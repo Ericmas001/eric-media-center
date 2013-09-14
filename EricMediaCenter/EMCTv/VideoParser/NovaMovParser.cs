@@ -9,6 +9,10 @@ namespace EMCTv.VideoParser
 
     public class NovaMovParser : VideoWeedParser
     {
+        public int MaxSegments
+        {
+            get { return 10; }
+        }
         public override async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
             string res = await base.GetDownloadUrlAsync(url, cookies);

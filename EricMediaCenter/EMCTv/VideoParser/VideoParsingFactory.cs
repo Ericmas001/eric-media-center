@@ -36,6 +36,7 @@ namespace EMCTv.VideoParser
             if (Parsers.ContainsKey(si.Website))
             {
                 si.DownloadURL = await Parsers[si.Website].GetDownloadUrlAsync(si.StreamingURL, new CookieContainer());
+                si.MaxSegments = Parsers[si.Website].MaxSegments;
                 return true;
             }
             return false;

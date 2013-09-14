@@ -35,7 +35,8 @@ namespace EMCDownloader
             {
                 //listBox1.Items.Add(String.Format("{0} {1}", DateTime.Now.ToString("HH:mm:ss.ff"), String.Join(" ", args)));
                 //downloadList1.AddDownloadURLs(new ResourceLocation[] { new ResourceLocation() { URL = args[0] } }, 1, args[1], 0);
-                downloadList1.AddDownload(args[0], args[1],10);
+                int segments = args.Length >= 2 ? int.Parse(args[2]) : 10;
+                downloadList1.AddDownload(args[0], args[1], segments);
             }
         }
     }
