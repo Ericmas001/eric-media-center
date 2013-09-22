@@ -21,20 +21,34 @@ namespace EMCRestService.MovieWebsites
         {
             List<ListedMovie> availables = new List<ListedMovie>();
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
-            string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
-            string itemp = "<div class=\"index_item index_item_ie\">";
-            int start = allShows.IndexOf(itemp) + itemp.Length;
-            while (start >= itemp.Length)
-            {
-                int end = allShows.IndexOf("</div></div>", start);
-                end = end == -1 ? allShows.Length - 1 : end;
-                string item = allShows.Substring(start, end - start);
+            int max = 1;
 
-                ListedMovie entry = new ListedMovie();
-                entry.Name = StringUtility.Extract(item, "<a href=\"/", "\"");
-                entry.Title = StringUtility.Extract(item, " title=\"Watch ", "\"").Trim();
-                availables.Add(entry);
-                start = allShows.IndexOf(itemp, end) + itemp.Length;
+            if( src.Contains("<div class=\"pagination\">"))
+            {
+                string pages = StringUtility.Extract(src, "<div class=\"pagination\">", "</div>");
+                pages = pages.Substring(pages.LastIndexOf("<a href="));
+                max = int.Parse(StringUtility.Extract(src, "&page=", "\""));
+            }
+
+            for (int i = 0; i < max; ++i)
+            {
+                if( i > 0 )
+                    src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i+1));
+                string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
+                string itemp = "<div class=\"index_item index_item_ie\">";
+                int start = allShows.IndexOf(itemp) + itemp.Length;
+                while (start >= itemp.Length)
+                {
+                    int end = allShows.IndexOf("</div></div>", start);
+                    end = end == -1 ? allShows.Length - 1 : end;
+                    string item = allShows.Substring(start, end - start);
+
+                    ListedMovie entry = new ListedMovie();
+                    entry.Name = StringUtility.Extract(item, "<a href=\"/", "\"");
+                    entry.Title = StringUtility.Extract(item, " title=\"Watch ", "\"").Trim();
+                    availables.Add(entry);
+                    start = allShows.IndexOf(itemp, end) + itemp.Length;
+                }
             }
             ListedMovie[] items = availables.ToArray();
             Array.Sort(items);

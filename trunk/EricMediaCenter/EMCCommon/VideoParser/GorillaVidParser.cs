@@ -9,7 +9,7 @@ namespace EMCCommon.VideoParser
     {
         public int MaxSegments
         {
-            get { return 10; }
+            get { return 8; }
         }
         public async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
@@ -30,7 +30,7 @@ namespace EMCCommon.VideoParser
                 });
                 res = await (await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).PostAsync("http://gorillavid.in/cna/" + id, content)).Content.ReadAsStringAsync();
             }
-            return StringUtility.Extract(res, "file:\"", "\"");
+            return StringUtility.Extract(res, "file: \"", "\"");
         }
     }
 }
