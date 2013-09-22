@@ -1,4 +1,5 @@
-﻿using EMCRestService.TvWebsites;
+﻿using EMCRestService.Entries;
+using EMCRestService.TvWebsites;
 using EMCRestService.TvWebsites.Entities;
 using EricUtility2011.Data;
 using Newtonsoft.Json;

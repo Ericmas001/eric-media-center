@@ -1,4 +1,5 @@
-﻿using EMCRestService.TvWebsites.Entities;
+﻿using EMCRestService.Entries;
+using EMCRestService.TvWebsites.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
