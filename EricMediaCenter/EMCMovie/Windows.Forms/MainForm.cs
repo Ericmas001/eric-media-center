@@ -117,25 +117,30 @@ namespace EMCMovie.Windows.Forms
                     MessageBox.Show("An error occured !");
                 else
                 {
-                    if (await VideoParsingFactory.GetDownloadURLAsync(si))
+                    try
                     {
-                        if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                        if (await VideoParsingFactory.GetDownloadURLAsync(si))
                         {
-                            new OpenURLForm(si, m_Movie.Title).ShowDialog();
+                            if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                            {
+                                new OpenURLForm(si, m_Movie.Title).ShowDialog();
+                                etn.ForeColor = Color.DarkGray;
+                            }
+                            else
+                                etn.ForeColor = Color.Red;
+                        }
+                        else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
+                        {
+                            Process.Start(si.StreamingURL);
                             etn.ForeColor = Color.DarkGray;
                         }
                         else
                             etn.ForeColor = Color.Red;
                     }
-                    else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
-                    {
-                        Process.Start(si.StreamingURL);
-                        etn.ForeColor = Color.DarkGray;
-                    }
-                    else
-                        etn.ForeColor = Color.Red;
+                    catch { etn.ForeColor = Color.Red; }
+                    tvLink.SelectedNode = null;
+                    Enable(true);
                 }
-                Enable(true);
             }
         }
 
@@ -202,6 +207,21 @@ namespace EMCMovie.Windows.Forms
             EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
             if (etn == null)
                 e.Cancel = true;
+        }
+
+        private async void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
+            if (etn != null)
+            {
+                Enable(false);
+                var si = await WSUtility.CallWS<StreamingInfo>("movie", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                    Process.Start(si.StreamingURL);
+                Enable(true);
+            }
         }
     }
 }
