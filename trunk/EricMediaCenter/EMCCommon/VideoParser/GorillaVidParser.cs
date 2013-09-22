@@ -9,7 +9,7 @@ namespace EMCCommon.VideoParser
     {
         public int MaxSegments
         {
-            get { return 8; }
+            get { return 2; }
         }
         public async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {

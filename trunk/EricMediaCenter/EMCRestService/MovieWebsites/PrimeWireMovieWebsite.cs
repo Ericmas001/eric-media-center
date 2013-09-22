@@ -15,7 +15,7 @@ using System.Web;
 
 namespace EMCRestService.MovieWebsites
 {
-    public class PrimeWireMovieWebsite : IMovieWebsite
+    public class PrimeWireWebsite : IMovieWebsite
     {
         private async Task<IEnumerable<ListedMovie>> AvailableMoviesAsync(CookieContainer cookies, string baseurl)
         {
@@ -63,15 +63,14 @@ namespace EMCRestService.MovieWebsites
 
                 string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
                 string key = StringUtility.Extract(res, "<input type=\"hidden\" name=\"key\" value=\"", "\"");
-                return await AvailableMoviesAsync(cookies, "http://www.primewire.ag/index.php?search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
+                return await AvailableMoviesAsync(cookies, "http://www.primewire.ag/index.php?search_section=1&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
             }
             catch { return null; }
         }
 
-        public async Task<IEnumerable<ListedMovie>> StartsWithAsync(string letter)
+        public Task<IEnumerable<ListedMovie>> StartsWithAsync(string letter)
         {
             return null;
-            //return await AvailableMoviesAsync("http://www.tubeplus.me/browse/movies/All_Genres/" + letter + "/");
         }
 
         public async Task<Movie> MovieAsync(string movieId)

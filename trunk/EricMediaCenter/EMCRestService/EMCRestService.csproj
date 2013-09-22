@@ -115,6 +115,7 @@
     <Compile Include="Services\WatchSeriesService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="TubePlusHelper.cs" />
+    <Compile Include="TvWebsites\PrimeWireTvWebsite.cs" />
     <Compile Include="TvWebsites\TubePlusTvWebsite.cs" />
     <Compile Include="TvWebsites\Entities\Episode.cs" />
     <Compile Include="Entries\StreamingInfo.cs" />

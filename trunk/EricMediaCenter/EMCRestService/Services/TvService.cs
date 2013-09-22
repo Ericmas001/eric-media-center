@@ -29,7 +29,7 @@ namespace EMCRestService.Services
             {"tubeplus.me",new TubePlusWebsite()},
             {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
             {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
-          //  {"tv-links.eu",new TvLinksWebsite()}, //Forget this one, it's boring now !!
+            {"primewire.ag",new PrimeWireWebsite()},
         };
 
         [WebGet(UriTemplate = "Supported")]

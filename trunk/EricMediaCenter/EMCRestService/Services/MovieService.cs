@@ -26,7 +26,7 @@ namespace EMCRestService.Services
         private static Dictionary<string, IMovieWebsite> m_Supported = new Dictionary<string, IMovieWebsite>()
         {
             {"tubeplus.me",new TubePlusWebsite()},
-            {"primewire.ag",new PrimeWireMovieWebsite()},
+            {"primewire.ag",new PrimeWireWebsite()},
         };
 
         [WebGet(UriTemplate = "Supported")]
