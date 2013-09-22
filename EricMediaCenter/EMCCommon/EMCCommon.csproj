@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80DE2178-8462-421F-BBFB-12D5B77E026E}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{953DDBF4-54A3-4CCF-9700-CE1CB90A2AB2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EMCMovie</RootNamespace>
-    <AssemblyName>EMCMovie</AssemblyName>
+    <RootNamespace>EMCCommon</RootNamespace>
+    <AssemblyName>EMCCommon</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,24 +29,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>movie2.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="VIBlend.WinForms.Controls, Version=9.0.0.0, Culture=neutral, PublicKeyToken=6feea38fef5ea0cf, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,47 +54,54 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Movie.cs" />
-    <Compile Include="Entities\ListedMovie.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Entities\ListedLink.cs" />
+    <Compile Include="Entities\StreamingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Windows.Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows.Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Windows.Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="VideoParser\GorillaVidParser.cs" />
+    <Compile Include="VideoParser\IVideoParser.cs" />
+    <Compile Include="VideoParser\NovaMovParser.cs" />
+    <Compile Include="VideoParser\PutLockerSockShareParser.cs" />
+    <Compile Include="VideoParser\VidBullParser.cs" />
+    <Compile Include="VideoParser\VideoParsingFactory.cs" />
+    <Compile Include="VideoParser\VideoWeedParser.cs" />
+    <Compile Include="VideoParser\VreerParser.cs" />
+    <Compile Include="WebService\WSUtility.cs" />
+    <Compile Include="Windows.Forms\EMCTreeNode.cs" />
+    <Compile Include="Windows.Forms\OpenURLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows.Forms\OpenURLForm.Designer.cs">
+      <DependentUpon>OpenURLForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows.Forms\OpenURLForm.resx">
+      <DependentUpon>OpenURLForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EMCCommon\EMCCommon.csproj">
-      <Project>{953ddbf4-54a3-4ccf-9700-ce1cb90a2ab2}</Project>
-      <Name>EMCCommon</Name>
-    </ProjectReference>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\wait.gif" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EricUtilityCollections\EricUtilityCollections2011.csproj">
       <Project>{e6120916-9399-4bf5-8f95-19d79df74067}</Project>
       <Name>EricUtilityCollections2011</Name>
@@ -109,18 +110,10 @@
       <Project>{980f8de9-2f6e-4a96-849d-23754b364271}</Project>
       <Name>EricUtilityNetworking2011</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EricUtilityWinForms\EricUtilityWinForms2011.csproj">
-      <Project>{abf7d9de-3646-4737-8efc-5c3d5fd1cfa5}</Project>
-      <Name>EricUtilityWinForms2011</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EricUtility\EricUtility2011.csproj">
       <Project>{e88c4aef-1b0b-45c0-a08d-cbcda35c1e62}</Project>
       <Name>EricUtility2011</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="movie.ico" />
-    <Content Include="movie2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,8 +13,10 @@ using EricUtility;
 using System.Web;
 using System.Diagnostics;
 using EMCMovie.Entities;
-using EMCMovie.WebService;
-using EMCMovie.VideoParser;
+using EMCCommon.WebService;
+using EMCCommon.VideoParser;
+using EMCCommon.Entities;
+using EMCCommon.Windows.Forms;
 
 namespace EMCMovie.Windows.Forms
 {
@@ -115,7 +117,7 @@ namespace EMCMovie.Windows.Forms
                     {
                         if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                         {
-                            new OpenURLForm(si, m_Movie).ShowDialog();
+                            new OpenURLForm(si, m_Movie.Title).ShowDialog();
                             etn.ForeColor = Color.DarkGray;
                         }
                         else

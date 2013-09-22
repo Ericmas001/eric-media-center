@@ -115,7 +115,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::EMCTv.Properties.Resources.wait;
+            this.pictureBox1.Image = global::EMCCommon.Properties.Resources.wait;
             this.pictureBox1.Location = new System.Drawing.Point(237, 68);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(47, 48);

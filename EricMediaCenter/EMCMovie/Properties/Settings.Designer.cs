@@ -22,29 +22,5 @@ namespace EMCMovie.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Programmation\\C#\\EricMediaCenter\\EMCDownloader\\bin\\Debug\\EMCDownloader.exe")]
-        public string emcd_path {
-            get {
-                return ((string)(this["emcd_path"]));
-            }
-            set {
-                this["emcd_path"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Eric\\Downloads")]
-        public string emcd_output {
-            get {
-                return ((string)(this["emcd_output"]));
-            }
-            set {
-                this["emcd_output"] = value;
-            }
-        }
     }
 }

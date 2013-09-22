@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EMCCommon.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="emcd_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Programmation\C#\EricMediaCenter\EMCDownloader\bin\Debug\EMCDownloader.exe</Value>
+    </Setting>
+    <Setting Name="emcd_output" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Eric\Downloads</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

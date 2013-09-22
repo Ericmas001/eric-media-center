@@ -14,7 +14,10 @@ using System.Web;
 using System.Diagnostics;
 using EMCTv.Entities;
 using EMCTv.WebService;
-using EMCTv.VideoParser;
+using EMCCommon.VideoParser;
+using EMCCommon.Entities;
+using EMCCommon.WebService;
+using EMCCommon.Windows.Forms;
 
 namespace EMCTv.Windows.Forms
 {
@@ -179,7 +182,7 @@ namespace EMCTv.Windows.Forms
                     {
                         if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                         {
-                            new OpenURLForm(si, m_Show, m_Episode).ShowDialog();
+                            new OpenURLForm(si, String.Format("{0} S{1:00}E{2:00}.flv", m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode)).ShowDialog();
                             etn.ForeColor = Color.DarkGray;
                         }
                         else
