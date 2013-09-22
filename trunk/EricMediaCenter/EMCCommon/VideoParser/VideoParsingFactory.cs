@@ -1,9 +1,6 @@
 ﻿using EMCCommon.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCCommon.VideoParser
@@ -19,7 +16,7 @@ namespace EMCCommon.VideoParser
                     {"gorillavid.in",new GorillaVidParser()},
                     {"gorillavid.com",new GorillaVidParser()},
                     {"putlocker.com",new PutLockerSockShareParser()},
-                    {"sockshare.com",new PutLockerSockShareParser()}, 
+                    {"sockshare.com",new PutLockerSockShareParser()},
                     {"divxstage.eu",new VideoWeedParser()},
                     {"movshare.net",new VideoWeedParser()},
                     {"novamov.com",new NovaMovParser()},

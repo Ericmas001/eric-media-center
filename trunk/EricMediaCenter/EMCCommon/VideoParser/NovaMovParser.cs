@@ -1,12 +1,8 @@
-﻿using EricUtility;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace EMCCommon.VideoParser
 {
-
     public class NovaMovParser : VideoWeedParser
     {
         public override async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)

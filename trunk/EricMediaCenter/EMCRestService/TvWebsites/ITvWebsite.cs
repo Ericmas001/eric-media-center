@@ -18,6 +18,7 @@ namespace EMCRestService.TvWebsites
         StreamingInfo StreamAsync(string website, string args);
 
         string ShowURL(string showId);
+
         string EpisodeURL(string epId);
     }
 }

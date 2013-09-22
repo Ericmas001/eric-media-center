@@ -1,31 +1,25 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace EMCDownloader
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             App myApp = new App();
-                myApp.Run(args);
-
+            myApp.Run(args);
         }
 
         /// <summary>
-        /// We inherit from the VB.NET WindowsFormApplicationBase class, which has the 
+        /// We inherit from the VB.NET WindowsFormApplicationBase class, which has the
         /// single-instance functionality.
         /// </summary>
-        class App : WindowsFormsApplicationBase
+        private class App : WindowsFormsApplicationBase
         {
             public App()
             {
@@ -46,7 +40,7 @@ namespace EMCDownloader
             /// </summary>
             protected override void OnCreateMainForm()
             {
-                // Create an instance of the main form and set it in the application; 
+                // Create an instance of the main form and set it in the application;
                 // but don't try to run it.
                 this.MainForm = new Form1();
 
@@ -60,7 +54,7 @@ namespace EMCDownloader
             }
 
             /// <summary>
-            /// This is called for additional instances. The application model will call this 
+            /// This is called for additional instances. The application model will call this
             /// function, and terminate the additional instance when this returns.
             /// </summary>
             /// <param name="eventArgs"></param>
@@ -82,5 +76,5 @@ namespace EMCDownloader
                     parameters);
             }
         }
-    } 
+    }
 }

@@ -1,18 +1,12 @@
 ﻿using EMCRestService.Entries;
 using EMCRestService.MovieWebsites;
 using EMCRestService.MovieWebsites.Entities;
-using EricUtility2011.Data;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Threading.Tasks;
 
@@ -72,6 +66,7 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].MovieAsync(movieId).Result ?? new Movie());
         }
+
         [WebGet(UriTemplate = "MovieURL/{website}/{movieId}")]
         public string MovieURL(string website, string movieId)
         {

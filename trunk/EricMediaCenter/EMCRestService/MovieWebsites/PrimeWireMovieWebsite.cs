@@ -1,16 +1,12 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.Services;
 using EMCRestService.MovieWebsites.Entities;
-using EMCRestService.VideoParser;
 using EricUtility;
+using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using EricUtility.Networking.Gathering;
 using System.Web;
 
 namespace EMCRestService.MovieWebsites
@@ -23,7 +19,7 @@ namespace EMCRestService.MovieWebsites
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
             int max = 1;
 
-            if( src.Contains("<div class=\"pagination\">"))
+            if (src.Contains("<div class=\"pagination\">"))
             {
                 string pages = StringUtility.Extract(src, "<div class=\"pagination\">", "</div>");
                 pages = pages.Substring(pages.LastIndexOf("<a href="));
@@ -32,8 +28,8 @@ namespace EMCRestService.MovieWebsites
 
             for (int i = 0; i < max; ++i)
             {
-                if( i > 0 )
-                    src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i+1));
+                if (i > 0)
+                    src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i + 1));
                 string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
                 string itemp = "<div class=\"index_item index_item_ie\">";
                 int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -84,7 +80,7 @@ namespace EMCRestService.MovieWebsites
             if (src.Contains("Doesn't look like there are any links"))
                 return null;
 
-            mov.Title = StringUtility.Extract(src, "<a href=\"/"+movieId+"\">", "</a>");
+            mov.Title = StringUtility.Extract(src, "<a href=\"/" + movieId + "\">", "</a>");
 
             string all = StringUtility.Extract(src, mov.Title + " Links", "<div class=\"download_link\">");
 
@@ -105,7 +101,7 @@ namespace EMCRestService.MovieWebsites
 
                 if (!mov.Links.ContainsKey(website))
                     mov.Links.Add(website, new List<string>());
-                mov.Links[website].Add(HttpUtility.UrlEncode(url).Replace("%","."));
+                mov.Links[website].Add(HttpUtility.UrlEncode(url).Replace("%", "."));
             }
             return mov;
         }

@@ -1,13 +1,6 @@
 ﻿using EMCCommon.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EMCCommon.Windows.Forms
@@ -16,6 +9,7 @@ namespace EMCCommon.Windows.Forms
     {
         private StreamingInfo m_StreamingInfo = null;
         private string m_FileName = null;
+
         public OpenURLForm(StreamingInfo si, string fileName)
         {
             m_StreamingInfo = si;

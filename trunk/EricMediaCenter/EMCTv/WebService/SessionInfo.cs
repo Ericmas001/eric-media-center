@@ -2,10 +2,7 @@
 using EMCTv.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace EMCTv.WebService
 {
@@ -29,6 +26,7 @@ namespace EMCTv.WebService
         }
 
         public bool Connected { get { return !String.IsNullOrEmpty(m_Token); } }
+
         public bool StillActive { get { return m_Until > DateTime.Now; } }
 
         public SessionInfo(string user, string pass)
@@ -65,7 +63,7 @@ namespace EMCTv.WebService
                 return false;
 
             var res = await WSUtility.CallWS<UserResponse>("tv", "AddFav", m_User, m_Token, website, showname, showtitle, lastseason.ToString(), lastepisode.ToString());
-            
+
             return res != null && res.Success;
         }
 
