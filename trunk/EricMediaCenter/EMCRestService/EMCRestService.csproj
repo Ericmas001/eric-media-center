@@ -95,6 +95,7 @@
     <Compile Include="Entries\TvEpisodeDetailedEntry.cs" />
     <Compile Include="Entries\TvRageEntry.cs" />
     <Compile Include="Entries\EpGuideEntry.cs" />
+    <Compile Include="MovieWebsites\PrimeWireMovieWebsite.cs" />
     <Compile Include="MovieWebsites\Entities\Movie.cs" />
     <Compile Include="MovieWebsites\Entities\ListedMovie.cs" />
     <Compile Include="MovieWebsites\IMovieWebsite.cs" />
