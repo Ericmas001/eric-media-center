@@ -1,7 +1,5 @@
 ﻿﻿using EMCRestService.Entries;
-using EMCRestService.Services;
 using EMCRestService.TvWebsites.Entities;
-using EMCRestService.VideoParser;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 using System;
@@ -23,7 +21,7 @@ namespace EMCRestService.TvWebsites
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
             int max = 1;
 
-            if( src.Contains("<div class=\"pagination\">"))
+            if (src.Contains("<div class=\"pagination\">"))
             {
                 string pages = StringUtility.Extract(src, "<div class=\"pagination\">", "</div>");
                 pages = pages.Substring(pages.LastIndexOf("<a href="));
@@ -32,8 +30,8 @@ namespace EMCRestService.TvWebsites
 
             for (int i = 0; i < max; ++i)
             {
-                if( i > 0 )
-                    src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i+1));
+                if (i > 0)
+                    src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i + 1));
                 string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
                 string itemp = "<div class=\"index_item index_item_ie\">";
                 int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -95,7 +93,6 @@ namespace EMCRestService.TvWebsites
                 if (endS == -1)
                     endS = allSeasons.IndexOf("<div class=\"clearer\"></div>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-
 
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
                 int no = 0;
@@ -180,7 +177,6 @@ namespace EMCRestService.TvWebsites
                 url = GatheringUtility.GetPageUrl(url, new CookieContainer());
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
         }
-
 
         public string ShowURL(string name)
         {

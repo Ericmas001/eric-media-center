@@ -1,13 +1,8 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.Services;
 using EMCRestService.MovieWebsites.Entities;
-using EMCRestService.VideoParser;
 using EricUtility;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -41,9 +36,9 @@ namespace EMCRestService.MovieWebsites
 
         public async Task<IEnumerable<ListedMovie>> SearchAsync(string keywords)
         {
-           try
+            try
             {
-                 return await AvailableMoviesAsync("http://www.tubeplus.me/search/movies/" + keywords.Replace(" ", "_") + "/");
+                return await AvailableMoviesAsync("http://www.tubeplus.me/search/movies/" + keywords.Replace(" ", "_") + "/");
             }
             catch { return null; }
         }

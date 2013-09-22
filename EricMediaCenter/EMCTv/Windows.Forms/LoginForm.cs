@@ -1,14 +1,6 @@
 ﻿using EMCTv.Properties;
 using EMCTv.WebService;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EMCTv.Windows.Forms
@@ -22,7 +14,9 @@ namespace EMCTv.Windows.Forms
             get { return m_Session; }
             set { m_Session = value; }
         }
-        bool ok;
+
+        private bool ok;
+
         public LoginForm()
         {
             InitializeComponent();
@@ -72,7 +66,7 @@ namespace EMCTv.Windows.Forms
             pictureBox1.Visible = !p;
             txtUser.Enabled = p;
             txtPass.Enabled = p;
-            chkConnect.Enabled = p?chkRemember.Checked:p;
+            chkConnect.Enabled = p ? chkRemember.Checked : p;
             chkRemember.Enabled = p;
             btnConnect.Enabled = p;
         }

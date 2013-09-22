@@ -2,12 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Windows.Forms;
 
 namespace EMCCommon.WebService
 {
@@ -18,6 +15,7 @@ namespace EMCCommon.WebService
             string res = await new HttpClient().GetStringAsync(url);
             return StringUtility.RemoveHTMLTags(HttpUtility.HtmlDecode(HttpUtility.HtmlDecode(res)));
         }
+
         public static async Task<T> CallWS<T>(string ws, string command, params string[] parms)
         {
             //List<string> path = new List<string> { "http://localhost:50082", ws, command };
@@ -34,7 +32,7 @@ namespace EMCCommon.WebService
             catch (Exception e)
             {
                 Exception ex = e;
-                while( ex.InnerException != null )
+                while (ex.InnerException != null)
                     ex = ex.InnerException;
                 //MessageBox.Show(e.ToString());
                 return default(T);

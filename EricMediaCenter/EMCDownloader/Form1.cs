@@ -1,12 +1,4 @@
-﻿using EricUtilityNetworking.Downloader;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace EMCDownloader
@@ -14,6 +6,7 @@ namespace EMCDownloader
     public partial class Form1 : Form
     {
         public string[] Args;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +22,7 @@ namespace EMCDownloader
         }
 
         public delegate void ProcessParametersDelegate(object sender, string[] args);
+
         public void ProcessParameters(object sender, string[] args)
         {
             if (args != null && args.Length != 0)

@@ -1,13 +1,10 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.Services;
 using EMCRestService.TvWebsites.Entities;
-using EMCRestService.VideoParser;
 using EricUtility;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -44,7 +41,7 @@ namespace EMCRestService.TvWebsites
         {
             try
             {
-                 return await AvailableShowsAsync(keywords.Split(' '));
+                return await AvailableShowsAsync(keywords.Split(' '));
             }
             catch { return null; }
         }
@@ -248,7 +245,6 @@ namespace EMCRestService.TvWebsites
             //}
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
-
 
         public string ShowURL(string name)
         {

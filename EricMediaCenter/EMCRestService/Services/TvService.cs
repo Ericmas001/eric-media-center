@@ -5,14 +5,12 @@ using EricUtility2011.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Threading.Tasks;
 
@@ -24,6 +22,7 @@ namespace EMCRestService.Services
     public class TvService
     {
         private SqlServerConnector Connector = new SqlServerConnector("TURNSOL.arvixe.com", "emc2", "emc.webservice", "Emc42FTW");
+
         private static Dictionary<string, ITvWebsite> m_Supported = new Dictionary<string, ITvWebsite>()
         {
             {"tubeplus.me",new TubePlusWebsite()},
@@ -75,6 +74,7 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, false).Result ?? new TvShow());
         }
+
         [WebGet(UriTemplate = "ShowFull/{website}/{showId}")]
         public string ShowFull(string website, string showId)
         {
@@ -82,6 +82,7 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, true).Result ?? new TvShow());
         }
+
         [WebGet(UriTemplate = "ShowURL/{website}/{showId}")]
         public string ShowURL(string website, string showId)
         {
@@ -97,6 +98,7 @@ namespace EMCRestService.Services
                 return null;
             return JsonConvert.SerializeObject(m_Supported[website].EpisodeAsync(epId).Result ?? new Episode());
         }
+
         [WebGet(UriTemplate = "EpisodeURL/{website}/{epId}")]
         public string EpisodeURL(string website, string epId)
         {

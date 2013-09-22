@@ -39,9 +39,10 @@ namespace EMCTv.Entities
             get { return m_ReleaseDate; }
             set { m_ReleaseDate = value; }
         }
+
         public override string ToString()
         {
-            return "Episode " + m_NoEpisode + (String.IsNullOrWhiteSpace(Title)? "" : (" - " + Title));
+            return "Episode " + m_NoEpisode + (String.IsNullOrWhiteSpace(Title) ? "" : (" - " + Title));
         }
     }
 }
