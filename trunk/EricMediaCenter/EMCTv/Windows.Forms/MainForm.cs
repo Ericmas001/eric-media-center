@@ -182,23 +182,28 @@ namespace EMCTv.Windows.Forms
                     MessageBox.Show("An error occured !");
                 else
                 {
-                    if (await VideoParsingFactory.GetDownloadURLAsync(si))
+                    try
                     {
-                        if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                        if (await VideoParsingFactory.GetDownloadURLAsync(si))
                         {
-                            new OpenURLForm(si, String.Format("{0} S{1:00}E{2:00}.flv", m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode)).ShowDialog();
+                            if (!String.IsNullOrWhiteSpace(si.DownloadURL))
+                            {
+                                new OpenURLForm(si, String.Format("{0} S{1:00}E{2:00}.flv", m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode)).ShowDialog();
+                                etn.ForeColor = Color.DarkGray;
+                            }
+                            else
+                                etn.ForeColor = Color.Red;
+                        }
+                        else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
+                        {
+                            Process.Start(si.StreamingURL);
                             etn.ForeColor = Color.DarkGray;
                         }
                         else
                             etn.ForeColor = Color.Red;
                     }
-                    else if (!String.IsNullOrWhiteSpace(si.StreamingURL))
-                    {
-                        Process.Start(si.StreamingURL);
-                        etn.ForeColor = Color.DarkGray;
-                    }
-                    else
-                        etn.ForeColor = Color.Red;
+                    catch { etn.ForeColor = Color.Red; }
+                    tvLink.SelectedNode = null;
                 }
                 Enable(true);
             }
@@ -465,6 +470,21 @@ namespace EMCTv.Windows.Forms
                             tvEpisode.SelectedNode = et;
             }
             btnRefresh_Click(sender, e);
+        }
+
+        private async void openInBrowserToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
+            if (etn != null)
+            {
+                Enable(false);
+                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                    Process.Start(si.StreamingURL);
+                Enable(true);
+            }
         }
     }
 }

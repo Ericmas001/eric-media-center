@@ -41,6 +41,7 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new VIBlend.WinForms.Controls.vButton();
             this.tvSearch = new System.Windows.Forms.TreeView();
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxtSearch.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -86,15 +87,16 @@
             // ctxtLinks
             // 
             this.ctxtLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem3});
+            this.openToolStripMenuItem3,
+            this.openInBrowserToolStripMenuItem});
             this.ctxtLinks.Name = "ctxtLinks";
-            this.ctxtLinks.Size = new System.Drawing.Size(115, 28);
+            this.ctxtLinks.Size = new System.Drawing.Size(188, 74);
             this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
             // 
             // openToolStripMenuItem3
             // 
             this.openToolStripMenuItem3.Name = "openToolStripMenuItem3";
-            this.openToolStripMenuItem3.Size = new System.Drawing.Size(114, 24);
+            this.openToolStripMenuItem3.Size = new System.Drawing.Size(187, 24);
             this.openToolStripMenuItem3.Text = "Open";
             this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
             // 
@@ -111,7 +113,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::EMCCommon.Properties.Resources.wait;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(1075, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(47, 48);
@@ -161,6 +163,13 @@
             this.tvSearch.DoubleClick += new System.EventHandler(this.tvSearch_DoubleClick);
             this.tvSearch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvSearch_MouseDown);
             // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(187, 24);
+            this.openInBrowserToolStripMenuItem.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -199,6 +208,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private VIBlend.WinForms.Controls.vButton btnSearch;
         private System.Windows.Forms.TreeView tvSearch;
+        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
     }
 }
 

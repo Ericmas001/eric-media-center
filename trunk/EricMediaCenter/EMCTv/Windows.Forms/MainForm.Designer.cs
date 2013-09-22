@@ -61,6 +61,7 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
+            this.openInBrowserToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -197,15 +198,16 @@
             // ctxtLinks
             // 
             this.ctxtLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem3});
+            this.openToolStripMenuItem3,
+            this.openInBrowserToolStripMenuItem2});
             this.ctxtLinks.Name = "ctxtLinks";
-            this.ctxtLinks.Size = new System.Drawing.Size(115, 28);
+            this.ctxtLinks.Size = new System.Drawing.Size(188, 74);
             this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
             // 
             // openToolStripMenuItem3
             // 
             this.openToolStripMenuItem3.Name = "openToolStripMenuItem3";
-            this.openToolStripMenuItem3.Size = new System.Drawing.Size(114, 24);
+            this.openToolStripMenuItem3.Size = new System.Drawing.Size(187, 24);
             this.openToolStripMenuItem3.Text = "Open";
             this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
             // 
@@ -401,7 +403,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::EMCCommon.Properties.Resources.wait;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(1075, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(47, 48);
@@ -424,6 +426,13 @@
             this.btnLoadAll.UseVisualStyleBackColor = false;
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
+            // 
+            // openInBrowserToolStripMenuItem2
+            // 
+            this.openInBrowserToolStripMenuItem2.Name = "openInBrowserToolStripMenuItem2";
+            this.openInBrowserToolStripMenuItem2.Size = new System.Drawing.Size(187, 24);
+            this.openInBrowserToolStripMenuItem2.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem2.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem2_Click);
             // 
             // MainForm
             // 
@@ -493,6 +502,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
     }
 }
 
