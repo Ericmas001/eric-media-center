@@ -65,9 +65,11 @@ namespace EMCTv.Windows.Forms
                     {
                         TreeNode tn = new TreeNode(w);
                         tvSearch.Nodes.Add(tn);
-
-                        foreach (ListedShow ls in all[w])
-                            tn.Nodes.Add(new EMCTreeNode<ListedShow>(ls));
+                        if (all[w] != null)
+                            foreach (ListedShow ls in all[w])
+                                tn.Nodes.Add(new EMCTreeNode<ListedShow>(ls));
+                        else
+                            tn.Nodes.Add(new TreeNode("An error occured ...") {ForeColor = Color.Gray });
                     }
                 }
                 Enable(true);

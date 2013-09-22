@@ -43,11 +43,15 @@ namespace EMCRestService.MovieWebsites
 
         public async Task<IEnumerable<ListedMovie>> SearchAsync(string keywords)
         {
-            CookieContainer cookies = new CookieContainer();
+            try
+            {
+                CookieContainer cookies = new CookieContainer();
 
-            string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
-            string key = StringUtility.Extract(res, "<input type=\"hidden\" name=\"key\" value=\"", "\"");
-            return await AvailableMoviesAsync(cookies,"http://www.primewire.ag/index.php?search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
+                string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
+                string key = StringUtility.Extract(res, "<input type=\"hidden\" name=\"key\" value=\"", "\"");
+                return await AvailableMoviesAsync(cookies, "http://www.primewire.ag/index.php?search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
+            }
+            catch { return null; }
         }
 
         public async Task<IEnumerable<ListedMovie>> StartsWithAsync(string letter)

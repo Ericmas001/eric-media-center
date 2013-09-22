@@ -51,9 +51,11 @@ namespace EMCMovie.Windows.Forms
                     {
                         TreeNode tn = new TreeNode(w);
                         tvSearch.Nodes.Add(tn);
-
-                        foreach (ListedMovie lm in all[w])
-                            tn.Nodes.Add(new EMCTreeNode<ListedMovie>(lm));
+                        if (all[w] != null)
+                            foreach (ListedMovie lm in all[w])
+                                tn.Nodes.Add(new EMCTreeNode<ListedMovie>(lm));
+                        else
+                            tn.Nodes.Add(new TreeNode("An error occured ...") {ForeColor = Color.Gray });
                     }
                 }
                 Enable(true);
