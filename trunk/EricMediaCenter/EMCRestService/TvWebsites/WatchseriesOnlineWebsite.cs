@@ -1,4 +1,5 @@
-﻿using EMCRestService.Services;
+﻿using EMCRestService.Entries;
+using EMCRestService.Services;
 using EMCRestService.TvWebsites.Entities;
 using EMCRestService.VideoParser;
 using EricUtility;

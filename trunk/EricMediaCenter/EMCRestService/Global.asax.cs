@@ -29,6 +29,7 @@ namespace EMCRestService
 
             // New Services
             RouteTable.Routes.Add(new ServiceRoute("Tv", new WebServiceHostFactory(), typeof(TvService)));
+            RouteTable.Routes.Add(new ServiceRoute("Movie", new WebServiceHostFactory(), typeof(MovieService)));
             RouteTable.Routes.Add(new ServiceRoute("Users", new WebServiceHostFactory(), typeof(UsersService)));
             RouteTable.Routes.Add(new ServiceRoute("Bot", new WebServiceHostFactory(), typeof(BotService)));
         }

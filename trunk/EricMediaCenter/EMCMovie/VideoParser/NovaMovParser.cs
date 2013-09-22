@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace EMCTv.VideoParser
+namespace EMCMovie.VideoParser
 {
 
     public class NovaMovParser : VideoWeedParser
