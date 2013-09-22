@@ -61,7 +61,9 @@ namespace EMCTv.Windows.Forms
                     MessageBox.Show("An error occured !");
                 else
                 {
-                    foreach (string w in all.Keys)
+                    string[] keys = all.Keys.ToArray();
+                    Array.Sort(keys);
+                    foreach (string w in keys)
                     {
                         TreeNode tn = new TreeNode(w);
                         tvSearch.Nodes.Add(tn);
