@@ -41,12 +41,20 @@ namespace EMCRestService.MovieWebsites
 
         public async Task<IEnumerable<ListedMovie>> SearchAsync(string keywords)
         {
-            return await AvailableMoviesAsync("http://www.tubeplus.me/search/movies/" + keywords.Replace(" ", "_") + "/");
+           try
+            {
+                 return await AvailableMoviesAsync("http://www.tubeplus.me/search/movies/" + keywords.Replace(" ", "_") + "/");
+            }
+            catch { return null; }
         }
 
         public async Task<IEnumerable<ListedMovie>> StartsWithAsync(string letter)
         {
-            return await AvailableMoviesAsync("http://www.tubeplus.me/browse/movies/All_Genres/" + letter + "/");
+            try
+            {
+                return await AvailableMoviesAsync("http://www.tubeplus.me/browse/movies/All_Genres/" + letter + "/");
+            }
+            catch { return null; }
         }
 
         public async Task<Movie> MovieAsync(string movieId)

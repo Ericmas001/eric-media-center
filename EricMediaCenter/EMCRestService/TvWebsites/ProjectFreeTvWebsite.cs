@@ -42,13 +42,21 @@ namespace EMCRestService.TvWebsites
 
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
-            return await AvailableShowsAsync(keywords.Split(' '));
+            try
+            {
+                 return await AvailableShowsAsync(keywords.Split(' '));
+            }
+            catch { return null; }
         }
 
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
-            char debut = letter.ToLower()[0];
-            return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
+            try
+            {
+                char debut = letter.ToLower()[0];
+                return (await AvailableShowsAsync(debut.ToString())).Where(x => x.Title.ToLower()[0] == debut || ((debut < 'a' || debut > 'z') && (x.Title.ToLower()[0] < 'a' || x.Title.ToLower()[0] > 'z')));
+            }
+            catch { return null; }
         }
 
         public async Task<TvShow> ShowAsync(string name, bool full)

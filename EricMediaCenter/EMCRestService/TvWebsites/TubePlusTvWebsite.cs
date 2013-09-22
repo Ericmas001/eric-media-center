@@ -41,12 +41,20 @@ namespace EMCRestService.TvWebsites
 
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
-            return await AvailableShowsAsync("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
+            try
+            {
+                 return await AvailableShowsAsync("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
+            }
+            catch { return null; }
         }
 
         public async Task<IEnumerable<ListedTvShow>> StartsWithAsync(string letter)
         {
-            return await AvailableShowsAsync("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
+            try
+            {
+                 return await AvailableShowsAsync("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
+            }
+            catch { return null; }
         }
 
         public async Task<TvShow> ShowAsync(string name, bool full)
