@@ -44,6 +44,7 @@
             this.tvLink = new System.Windows.Forms.TreeView();
             this.ctxtLinks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBrowserToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnRefreshHard = new VIBlend.WinForms.Controls.vButton();
@@ -61,7 +62,7 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
-            this.openInBrowserToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDebug = new VIBlend.WinForms.Controls.vButton();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -201,7 +202,7 @@
             this.openToolStripMenuItem3,
             this.openInBrowserToolStripMenuItem2});
             this.ctxtLinks.Name = "ctxtLinks";
-            this.ctxtLinks.Size = new System.Drawing.Size(188, 74);
+            this.ctxtLinks.Size = new System.Drawing.Size(188, 52);
             this.ctxtLinks.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtLinks_Opening);
             // 
             // openToolStripMenuItem3
@@ -210,6 +211,13 @@
             this.openToolStripMenuItem3.Size = new System.Drawing.Size(187, 24);
             this.openToolStripMenuItem3.Text = "Open";
             this.openToolStripMenuItem3.Click += new System.EventHandler(this.tvLink_DoubleClick);
+            // 
+            // openInBrowserToolStripMenuItem2
+            // 
+            this.openInBrowserToolStripMenuItem2.Name = "openInBrowserToolStripMenuItem2";
+            this.openInBrowserToolStripMenuItem2.Size = new System.Drawing.Size(187, 24);
+            this.openInBrowserToolStripMenuItem2.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem2.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem2_Click);
             // 
             // tabControl1
             // 
@@ -427,12 +435,18 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
-            // openInBrowserToolStripMenuItem2
+            // btnDebug
             // 
-            this.openInBrowserToolStripMenuItem2.Name = "openInBrowserToolStripMenuItem2";
-            this.openInBrowserToolStripMenuItem2.Size = new System.Drawing.Size(187, 24);
-            this.openInBrowserToolStripMenuItem2.Text = "Open In Browser";
-            this.openInBrowserToolStripMenuItem2.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem2_Click);
+            this.btnDebug.AllowAnimations = true;
+            this.btnDebug.BackColor = System.Drawing.Color.Transparent;
+            this.btnDebug.Location = new System.Drawing.Point(1123, 0);
+            this.btnDebug.Name = "btnDebug";
+            this.btnDebug.RoundedCornersMask = ((byte)(15));
+            this.btnDebug.Size = new System.Drawing.Size(11, 10);
+            this.btnDebug.TabIndex = 20;
+            this.btnDebug.UseVisualStyleBackColor = false;
+            this.btnDebug.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
+            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
             // MainForm
             // 
@@ -440,6 +454,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1134, 433);
+            this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.btnLoadAll);
             this.Controls.Add(this.lblEpisode);
             this.Controls.Add(this.btnLastViewed);
@@ -503,6 +518,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
+        private VIBlend.WinForms.Controls.vButton btnDebug;
     }
 }
 

@@ -18,6 +18,7 @@ using EMCCommon.VideoParser;
 using EMCCommon.Entities;
 using EMCCommon.WebService;
 using EMCCommon.Windows.Forms;
+using VIBlend.Utilities;
 
 namespace EMCTv.Windows.Forms
 {
@@ -484,6 +485,23 @@ namespace EMCTv.Windows.Forms
                 else
                     Process.Start(si.StreamingURL);
                 Enable(true);
+            }
+        }
+
+        private void btnDebug_Click(object sender, EventArgs e)
+        {
+            WSUtility.DebugMode = !WSUtility.DebugMode;
+            if (WSUtility.DebugMode)
+            {
+                this.BackColor = Color.Yellow;
+                this.Text = "EMC Movie ~~ D E B U G ~~";
+                btnDebug.VIBlendTheme = VIBLEND_THEME.METROGREEN;
+            }
+            else
+            {
+                this.BackColor = Color.White;
+                this.Text = "EMC Movie";
+                btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
             }
         }
     }
