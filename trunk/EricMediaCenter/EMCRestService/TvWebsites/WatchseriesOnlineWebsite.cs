@@ -188,7 +188,7 @@ namespace EMCRestService.TvWebsites
             string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("Augu ", "August ");
             ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
-            string all = StringUtility.Extract(src, "<table class=\"postlinks\">", "</table>");
+            string all = StringUtility.Extract(src, "<table class=\"postlinks table tablesorter\">", "</table>");
 
             string linkDeb = "<tr><td class=";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
