@@ -16,7 +16,7 @@ namespace EMCRestService.TvWebsites
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
             string src = await new HttpClient().GetStringAsync("http://www.tvmuse.eu/tv-shows/all_links");
-            string allShows = StringUtility.Extract(src, "<div class=\"cfix\">", "<div class=\"a_center pt_1\">");
+            string allShows = src.Extract("<div class=\"cfix\">", "<div class=\"a_center pt_1\">");
             string itemp = "<li>";
             int start = allShows.IndexOf(itemp) + itemp.Length;
             while (start >= itemp.Length)
@@ -26,8 +26,8 @@ namespace EMCRestService.TvWebsites
                 string item = allShows.Substring(start, end - start);
 
                 ListedTvShow entry = new ListedTvShow();
-                entry.Name = StringUtility.Extract(item, "<a href=\"/tv-shows/", "/\" ");
-                entry.Title = StringUtility.Extract(item, "<span class=\"c1\">", "<");
+                entry.Name = item.Extract( "<a href=\"/tv-shows/", "/\" ");
+                entry.Title = item.Extract( "<span class=\"c1\">", "<");
                 if (keywords.Count(x => entry.Title.ToLower().Contains(x.ToLower()) || entry.Name.ToLower().Contains(x.ToLower())) > 0)
                     availables.Add(entry);
                 start = allShows.IndexOf(itemp, end) + itemp.Length;
@@ -67,21 +67,21 @@ namespace EMCRestService.TvWebsites
 
             if (src.Contains("Page not found!"))
                 return null;
-            show.Title = StringUtility.Extract(src, "<title>Watch ", " online free on Tv-links</title>");
+            show.Title = src.Extract("<title>Watch ", " online free on Tv-links</title>");
             if (show.Title == null)
                 return null;
             show.Title = show.Title.Trim();
-            string n = StringUtility.Extract(src, "<meta property=\"og:url\" content=\"http://www.tvmuse.eu/tv-shows/", "/\"/>");
+            string n = src.Extract("<meta property=\"og:url\" content=\"http://www.tvmuse.eu/tv-shows/", "/\"/>");
             if (n.ToLower() != name.ToLower())
                 return null;
-            string allSeasons = StringUtility.Extract(src, "<!--Episodes-->", "<!--End Episodes-->");
+            string allSeasons = src.Extract("<!--Episodes-->", "<!--End Episodes-->");
             string seasDeb = "<div class=\"bg_imp biggest bold dark clear";
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
             while (startS >= seasDeb.Length)
             {
                 int endS = allSeasons.IndexOf("</ul>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-                int no = int.Parse(StringUtility.Extract(itemS, ">Season ", "<") ?? "-1");
+                int no = int.Parse(itemS.Extract( ">Season ", "<") ?? "-1");
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
                 if (no == -1)
                     continue;
@@ -100,14 +100,14 @@ namespace EMCRestService.TvWebsites
                     if (itemE.Contains("class=\"list cfix gray\""))
                         continue;
 
-                    string noE = StringUtility.Extract(itemE, "/episode_", "/");
+                    string noE = itemE.Extract( "/episode_", "/");
                     episode.Name = name + "-" + "season_" + no + "-episode_" + noE;
                     int id = int.Parse(noE);
                     episode.NoEpisode = int.Parse(noE);
                     episode.NoSeason = no;
-                    episode.Title = StringUtility.Extract(itemE, "<span class=\"c2\">", "</span>");
+                    episode.Title = itemE.Extract( "<span class=\"c2\">", "</span>");
 
-                    string date = StringUtility.Extract(itemE, "<span class=\"c3", "</span>");
+                    string date = itemE.Extract( "<span class=\"c3", "</span>");
                     date = date.Substring(date.IndexOf('>') + 1).Replace("&nbsp;", "");
                     episode.ReleaseDate = DateTime.MinValue;
                     if (!String.IsNullOrWhiteSpace(date))
@@ -133,14 +133,14 @@ namespace EMCRestService.TvWebsites
             if (!src.Contains("<ul id=\"table_search\" class=\"mb_1\">"))
                 return null;
 
-            string nfos = StringUtility.Extract(src, "<div class=\"cfix mb_1\"> <input type=\"text\" value=\"", "\" ");
+            string nfos = src.Extract("<div class=\"cfix mb_1\"> <input type=\"text\" value=\"", "\" ");
             string sep = " - ";
             ep.Title = nfos.Substring(nfos.IndexOf(sep) + sep.Length);
-            ep.NoSeason = int.Parse(StringUtility.Extract(nfos, " Season ", " Episode "));
-            ep.NoEpisode = int.Parse(StringUtility.Extract(nfos, " Episode ", sep));
+            ep.NoSeason = int.Parse(nfos.Extract( " Season ", " Episode "));
+            ep.NoEpisode = int.Parse(nfos.Extract( " Episode ", sep));
             ep.ReleaseDate = DateTime.MinValue;
 
-            string all = StringUtility.Extract(src, "<ul id=\"table_search\" class=\"mb_1\">", "</ul>");
+            string all = src.Extract("<ul id=\"table_search\" class=\"mb_1\">", "</ul>");
 
             string linkDeb = "<li>";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -153,8 +153,8 @@ namespace EMCRestService.TvWebsites
                 if (itemP.Contains("<span class=\"dark\">featured result</span>"))
                     continue;
 
-                string website = StringUtility.Extract(itemP, ">Visit ", "</span>");
-                string url = StringUtility.Extract(itemP, "return frameLink('", "');");
+                string website = itemP.Extract( ">Visit ", "</span>");
+                string url = itemP.Extract( "return frameLink('", "');");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());

@@ -504,5 +504,23 @@ namespace EMCTv.Windows.Forms
                 btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
             }
         }
+
+        private async void openInBrowserToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
+            if (etn != null)
+            {
+                Enable(false);
+                var si = await WSUtility.CallWS<string>("tv", "EpisodeURL", m_Website, etn.Info.Name);
+                if (si == null)
+                    MessageBox.Show("An error occured !");
+                else
+                {
+                    if (!String.IsNullOrWhiteSpace(si))
+                        Process.Start(si);
+                }
+                Enable(true);
+            }
+        }
     }
 }

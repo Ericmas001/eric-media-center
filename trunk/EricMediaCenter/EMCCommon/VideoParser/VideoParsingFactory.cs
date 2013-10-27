@@ -24,6 +24,7 @@ namespace EMCCommon.VideoParser
                     {"videoweed.es",new VideoWeedParser()},
                     {"vidbull.com",new VidBullParser()},
                     {"vreer.com",new VreerParser()},
+                    {"faststream.in",new FastStreamParser()},
                 };
             }
         }

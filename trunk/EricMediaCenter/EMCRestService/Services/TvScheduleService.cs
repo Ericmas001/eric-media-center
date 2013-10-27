@@ -41,7 +41,7 @@ namespace EMCRestService.Services
         public string GetSchedule(string id)
         {
             string src = GatheringUtility.GetPageSource("http://watchseries.li/tvschedule/" + id);
-            string content = StringUtility.Extract(src, "<h2 class=\"listbig\">", "<!-- end of right -->");
+            string content = src.Extract("<h2 class=\"listbig\">", "<!-- end of right -->");
             string lineDebut = "<a href=\"";
             string lineFin = "</a>";
             int index = content.IndexOf(lineDebut);

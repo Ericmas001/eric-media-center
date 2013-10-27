@@ -20,13 +20,13 @@ namespace EMCRestService.VideoParser
             string res = GatheringUtility.GetPageSource(url, cookies);
             while (res.Contains("Please wait while we verify your request"))
             {
-                string id = StringUtility.Extract(res, "<input type=\"hidden\" name=\"id\" value=\"", "\">");
-                string fname = StringUtility.Extract(res, "<input type=\"hidden\" name=\"fname\" value=\"", "\">");
+                string id = res.Extract("<input type=\"hidden\" name=\"id\" value=\"", "\">");
+                string fname = res.Extract("<input type=\"hidden\" name=\"fname\" value=\"", "\">");
                 string post = "op=download1&usr_login=&id=" + id + "&fname=" + fname + "&referer=&channel=cna&method_free=tel%3Fchargement+libre+";
                 res = GatheringUtility.GetPageSource("http://gorillavid.in/cna/" + id, cookies, "op=download1&usr_login=&id=" + id + "&fname=" + fname + "&referer=&channel=cna&method_free=tel%3Fchargement+libre+");
             }
 
-            return StringUtility.Extract(res, "file:\"", "\"");
+            return res.Extract("file:\"", "\"");
         }
     }
 }

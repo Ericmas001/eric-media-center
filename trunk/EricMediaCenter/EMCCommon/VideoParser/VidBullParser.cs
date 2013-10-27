@@ -20,13 +20,13 @@ namespace EMCCommon.VideoParser
             string u = GatheringUtility.GetPageUrl(url, new CookieContainer()).Replace("vidbull.com/", "vidbull.com/embed-") + "-640x318.html";
 
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(u);
-            string scripts = StringUtility.Extract(res, "<script type='text/javascript' src='http://vidbull.com/player/jwplayer.js'></script>", "<br></div>");
+            string scripts = res.Extract("<script type='text/javascript' src='http://vidbull.com/player/jwplayer.js'></script>", "<br></div>");
             scripts = scripts.Replace("eval", "function fct42() {return").Replace(".split('|')))", ".split('|')))}");
             WebBrowser wb = new WebBrowser();
             wb.Navigate("about:blank");
             wb.Document.Write(scripts);
             string info = wb.Document.InvokeScript("fct42").ToString();
-            string finalUrl = StringUtility.Extract(info, "file:\"", "\"");
+            string finalUrl = info.Extract( "file:\"", "\"");
             return finalUrl;
         }
     }

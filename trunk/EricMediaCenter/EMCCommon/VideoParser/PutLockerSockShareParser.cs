@@ -23,7 +23,7 @@ namespace EMCCommon.VideoParser
 
             while (res.Contains("Continue as Free User"))
             {
-                string hash = StringUtility.Extract(res, "<input type=\"hidden\" value=\"", "\"");
+                string hash = res.Extract("<input type=\"hidden\" value=\"", "\"");
                 HttpContent content = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("hash", hash),
@@ -33,10 +33,10 @@ namespace EMCCommon.VideoParser
             }
             if (res.Contains("This file doesn't exist"))
                 return null;
-            //string rssU = beginurl + StringUtility.Extract(res, "playlist: '", "',");
+            //string rssU = beginurl + res.Extract("playlist: '", "',");
             //string info = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(rssU);
-            //return StringUtility.Extract(info, "<media:content url=\"", "\"");
-            string getFile = beginurl + "/get_file.php?" + StringUtility.Extract(res, "<a href=\"/get_file.php?", "\"");
+            //return info.Extract( "<media:content url=\"", "\"");
+            string getFile = beginurl + "/get_file.php?" + res.Extract("<a href=\"/get_file.php?", "\"");
             string finalU = GatheringUtility.GetPageUrl(getFile, cookies, "", "application/x-www-form-urlencoded");
             return finalU;
         }

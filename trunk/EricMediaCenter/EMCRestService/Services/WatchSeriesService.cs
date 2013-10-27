@@ -24,7 +24,7 @@ namespace EMCRestService.Services
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource("http://watchseries.li/");
-            string allShows = StringUtility.Extract(src, "<div class=\"div-home-inside-left\">", "</div>");
+            string allShows = src.Extract("<div class=\"div-home-inside-left\">", "</div>");
             string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(showurl) + showurl.Length;
             while (start >= showurl.Length)
@@ -35,7 +35,7 @@ namespace EMCRestService.Services
                 TvShowEntry entry = new TvShowEntry();
                 entry.ShowName = item.Remove(item.IndexOf("\""));
 
-                //entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
+                //entry.ShowTitle = item.Extract( "\">", "<");
                 entry.ShowTitle = new CultureInfo("en-US", false).TextInfo.ToTitleCase(entry.ShowName.Replace("_", " "));
                 entry.ReleaseYear = 0;
                 availables.Add(entry);
@@ -64,7 +64,7 @@ namespace EMCRestService.Services
         {
             List<string> availables = new List<string>();
             string src = GatheringUtility.GetPageSource(baseurl);
-            string choices = StringUtility.Extract(src, "<ul class=\"pagination\">", "</ul>");
+            string choices = src.Extract("<ul class=\"pagination\">", "</ul>");
             int start = choices.IndexOf(baseurl) + baseurl.Length;
             while (start >= baseurl.Length)
             {
@@ -95,7 +95,7 @@ namespace EMCRestService.Services
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource(baseurl);
-            string allShows = StringUtility.Extract(src, "<div id=\"left\" >", "</ul>") + StringUtility.Extract(src, "<div id=\"right\">", "</ul>");
+            string allShows = src.Extract("<div id=\"left\" >", "</ul>") + src.Extract("<div id=\"right\">", "</ul>");
             string showurl = "http://watchseries.li/serie/";
             int start = allShows.IndexOf(showurl) + showurl.Length;
             while (start >= showurl.Length)
@@ -105,8 +105,8 @@ namespace EMCRestService.Services
 
                 TvShowEntry entry = new TvShowEntry();
                 entry.ShowName = item.Remove(item.IndexOf("\""));
-                entry.ShowTitle = StringUtility.Extract(item, "\">", "<");
-                entry.ReleaseYear = int.Parse(StringUtility.Extract(item, "<span class=\"epnum\">", "</span>"));
+                entry.ShowTitle = item.Extract( "\">", "<");
+                entry.ReleaseYear = int.Parse(item.Extract( "<span class=\"epnum\">", "</span>"));
                 availables.Add(entry);
                 start = allShows.IndexOf(showurl, end) + showurl.Length;
             }
@@ -121,7 +121,7 @@ namespace EMCRestService.Services
         {
             List<TvShowEntry> availables = new List<TvShowEntry>();
             string src = GatheringUtility.GetPageSource("http://watchseries.li/search/" + keywords);
-            string allShows = StringUtility.Extract(src, "<div class=\"episode-summary\">", "</div>");
+            string allShows = src.Extract("<div class=\"episode-summary\">", "</div>");
             if (allShows == null)
                 return null;
             string td = "<td valign=\"top\">";
@@ -133,10 +133,10 @@ namespace EMCRestService.Services
                 string item = allShows.Substring(start, end - start).Trim();
 
                 TvShowEntry entry = new TvShowEntry();
-                entry.ShowName = StringUtility.Extract(item, showurl, "\"");
-                entry.ShowTitle = StringUtility.Extract(item, "><b>", "</b>");
+                entry.ShowName = item.Extract( showurl, "\"");
+                entry.ShowTitle = item.Extract( "><b>", "</b>");
                 string year = entry.ShowTitle.Substring(entry.ShowTitle.LastIndexOf("("));
-                entry.ReleaseYear = int.Parse(StringUtility.Extract(year, "(", ")"));
+                entry.ReleaseYear = int.Parse(year.Extract( "(", ")"));
                 entry.ShowTitle = entry.ShowTitle.Remove(entry.ShowTitle.LastIndexOf("(") - 1);
                 availables.Add(entry);
                 start = allShows.IndexOf(td, end) + td.Length;
@@ -160,34 +160,34 @@ namespace EMCRestService.Services
             if (src.Contains("Um, Where did the page go?"))
                 return null;
 
-            entry.RssFeed = StringUtility.Extract(src, " <a class=\"rss-title\" href=\"../rss/", ".xml");
+            entry.RssFeed = src.Extract(" <a class=\"rss-title\" href=\"../rss/", ".xml");
 
-            string summary = StringUtility.Extract(src, "<div class=\"show-summary\">", "</div>");
+            string summary = src.Extract("<div class=\"show-summary\">", "</div>");
 
-            string imageAndTitle = StringUtility.Extract(summary, "<img src=\"", "</a>");
+            string imageAndTitle = summary.Extract( "<img src=\"", "</a>");
             entry.Logo = imageAndTitle.Remove(imageAndTitle.IndexOf("\""));
-            entry.ShowTitle = StringUtility.Extract(imageAndTitle, "Watch Series - ", "\"");
+            entry.ShowTitle = imageAndTitle.Extract( "Watch Series - ", "\"");
 
-            string rDate = StringUtility.Extract(summary, "<b>Release Date :</b> ", "<br />");
+            string rDate = summary.Extract( "<b>Release Date :</b> ", "<br />");
             entry.ReleaseDate = DateTime.ParseExact(rDate, "dd , MMMM yyyy", CultureInfo.InvariantCulture);
             entry.ReleaseYear = entry.ReleaseDate.Year;
 
-            entry.Genre = StringUtility.Extract(summary, "http://watchseries.li/genres/", "\"");
+            entry.Genre = summary.Extract( "http://watchseries.li/genres/", "\"");
 
-            entry.Status = StringUtility.Extract(summary, "<b>Status : </b>", "<");
+            entry.Status = summary.Extract( "<b>Status : </b>", "<");
             if (entry.Status != null) entry.Status = entry.Status.Trim();
 
-            entry.Network = StringUtility.Extract(summary, "<b>Network : </b>", "<");
+            entry.Network = summary.Extract( "<b>Network : </b>", "<");
             if (entry.Network != null) entry.Network = entry.Network.Trim();
 
-            entry.Imdb = StringUtility.Extract(summary, "http://www.imdb.com/title/", "/");
+            entry.Imdb = summary.Extract( "http://www.imdb.com/title/", "/");
 
-            entry.Description = StringUtility.Extract(summary, "<b>Description :</b> ", "<br />");
+            entry.Description = summary.Extract( "<b>Description :</b> ", "<br />");
             if (entry.Description != null) entry.Description = StringUtility.RemoveHTMLTags(entry.Description).Replace("[+]more", "").Trim();
 
-            entry.NbEpisodes = int.Parse(StringUtility.Extract(summary, "<b>No. of episodes :</b> ", " episode"));
+            entry.NbEpisodes = int.Parse(summary.Extract( "<b>No. of episodes :</b> ", " episode"));
 
-            string allSeasons = StringUtility.Extract(src, "<div id=\"left\">", "<!-- end of left -->") + StringUtility.Extract(src, "<div id=\"right\">", "<!-- end right -->");
+            string allSeasons = src.Extract("<div id=\"left\">", "<!-- end of left -->") + src.Extract("<div id=\"right\">", "<!-- end right -->");
             string seasDeb = "<h2 class=\"lists\">";
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
             int lastS = -1;
@@ -198,10 +198,10 @@ namespace EMCRestService.Services
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
 
-                season.NbEpisodes = int.Parse(StringUtility.Extract(itemS, "  (", " episodes)"));
+                season.NbEpisodes = int.Parse(itemS.Extract( "  (", " episodes)"));
                 season.SeasonName = null;
                 int no = 0;
-                if (!int.TryParse(StringUtility.Extract(itemS, "watchseries.li/season-", "/"), out no))
+                if (!int.TryParse(itemS.Extract( "watchseries.li/season-", "/"), out no))
                     continue;
                 if (no == lastS)
                     season = entry.Seasons.Last();
@@ -215,12 +215,12 @@ namespace EMCRestService.Services
                     int endE = itemS.IndexOf("</li>", startE);
                     string itemE = itemS.Substring(startE, endE - startE).Trim();
 
-                    episode.EpisodeName = StringUtility.Extract(itemE, "href=\"../episode/", ".html");
+                    episode.EpisodeName = itemE.Extract( "href=\"../episode/", ".html");
                     episode.EpisodeId = int.Parse(episode.EpisodeName.Substring(episode.EpisodeName.LastIndexOf("-") + 1));
-                    episode.EpisodeNo = int.Parse(StringUtility.Extract(itemE, ">Episode ", "&nbsp;"));
-                    episode.EpisodeTitle = StringUtility.Extract(itemE, "&nbsp;&nbsp;&nbsp;", "</span>");
+                    episode.EpisodeNo = int.Parse(itemE.Extract( ">Episode ", "&nbsp;"));
+                    episode.EpisodeTitle = itemE.Extract( "&nbsp;&nbsp;&nbsp;", "</span>");
 
-                    string eRDate = StringUtility.Extract(itemE, "<span class=\"epnum\">", "</span>");
+                    string eRDate = itemE.Extract( "<span class=\"epnum\">", "</span>");
                     DateTime d = DateTime.MinValue;
                     DateTime.TryParseExact(eRDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out d);
                     episode.ReleaseDate = d;
@@ -251,10 +251,10 @@ namespace EMCRestService.Services
         //        int end = src.IndexOf("<br class=\"clear\">", start);
         //        string item = src.Substring(start, end - start).Trim();
 
-        //        string site = StringUtility.Extract(item, "<div class=\"site\">", "</div>").Trim();
+        //        string site = item.Extract( "<div class=\"site\">", "</div>").Trim();
         //        if (site.Contains(" "))
         //            site = site.Remove(site.IndexOf(" "));
-        //        int wid = int.Parse(StringUtility.Extract(item, "../open/cale/", "/idepisod/").Trim());
+        //        int wid = int.Parse(item.Extract( "../open/cale/", "/idepisod/").Trim());
 
         //        if (!all.ContainsKey(site))
         //            all.Add(site, new List<int>());
@@ -292,17 +292,17 @@ namespace EMCRestService.Services
             string baseurl = "http://watchseries.li/episode/" + epname + ".html";
             string src = StringUtility.Extract(GatheringUtility.GetPageSource(baseurl), "<div class=\"fullwrap\">", "</div>");
 
-            string showtitle = StringUtility.Extract(src, "<a href=\"http://watchseries.li/serie/", "</a>");
+            string showtitle = src.Extract("<a href=\"http://watchseries.li/serie/", "</a>");
             entry.ShowTitle = showtitle.Substring(showtitle.LastIndexOf('>') + 1);
 
-            entry.EpisodeTitle = StringUtility.Extract(src, "  - ", "</span>").Trim();
+            entry.EpisodeTitle = src.Extract("  - ", "</span>").Trim();
 
-            string airdate = StringUtility.Extract(src, "<b>Air Date:</b> ", "<br />");
+            string airdate = src.Extract("<b>Air Date:</b> ", "<br />");
             DateTime d = DateTime.MinValue;
             DateTime.TryParseExact(airdate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out d);
             entry.ReleaseDate = d;
 
-            string desc = StringUtility.Extract(src, "<p><b>Summary:</b>", "<br /><br />");
+            string desc = src.Extract("<p><b>Summary:</b>", "<br /><br />");
             entry.Description = StringUtility.RemoveHTMLTags(desc.Replace("[+]more", "")).Trim();
 
             return JsonConvert.SerializeObject(entry);
@@ -318,7 +318,7 @@ namespace EMCRestService.Services
         //    //Get link
         //    string gateway = "http://watchseries.li/gateway.php?link=";
         //    string cale = GatheringUtility.GetPageSource("http://watchseries.li/open/cale/" + linkid + "/idepisod/42.html", cookies);
-        //    string token = StringUtility.Extract(cale, gateway, "\"");
+        //    string token = cale.Extract( gateway, "\"");
 
         //    //Get RealURL
         //    string rurl = GatheringUtility.GetPageUrl(gateway + token,cookies,"","application/x-www-form-urlencoded");

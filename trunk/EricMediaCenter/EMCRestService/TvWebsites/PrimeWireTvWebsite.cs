@@ -23,16 +23,16 @@ namespace EMCRestService.TvWebsites
 
             if (src.Contains("<div class=\"pagination\">"))
             {
-                string pages = StringUtility.Extract(src, "<div class=\"pagination\">", "</div>");
+                string pages = src.Extract("<div class=\"pagination\">", "</div>");
                 pages = pages.Substring(pages.LastIndexOf("<a href="));
-                max = int.Parse(StringUtility.Extract(src, "&page=", "\""));
+                max = int.Parse(src.Extract("&page=", "\""));
             }
 
             for (int i = 0; i < max; ++i)
             {
                 if (i > 0)
                     src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i + 1));
-                string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
+                string allShows = "<div class=\"index_item index_item_ie\">" + src.Extract("<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
                 string itemp = "<div class=\"index_item index_item_ie\">";
                 int start = allShows.IndexOf(itemp) + itemp.Length;
                 while (start >= itemp.Length)
@@ -42,8 +42,8 @@ namespace EMCRestService.TvWebsites
                     string item = allShows.Substring(start, end - start);
 
                     ListedTvShow entry = new ListedTvShow();
-                    entry.Name = "tv-" + StringUtility.Extract(item, "<a href=\"/watch-", "\"");
-                    entry.Title = StringUtility.Extract(item, " title=\"Watch ", "\"").Trim();
+                    entry.Name = "tv-" + item.Extract( "<a href=\"/watch-", "\"");
+                    entry.Title = item.Extract( " title=\"Watch ", "\"").Trim();
                     availables.Add(entry);
                     start = allShows.IndexOf(itemp, end) + itemp.Length;
                 }
@@ -60,7 +60,7 @@ namespace EMCRestService.TvWebsites
                 CookieContainer cookies = new CookieContainer();
 
                 string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
-                string key = StringUtility.Extract(res, "<input type=\"hidden\" name=\"key\" value=\"", "\"");
+                string key = res.Extract("<input type=\"hidden\" name=\"key\" value=\"", "\"");
                 return await AvailableShowsAsync(cookies, "http://www.primewire.ag/index.php?search_section=2&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
             }
             catch { return null; }
@@ -80,11 +80,11 @@ namespace EMCRestService.TvWebsites
             string baseurl = "http://www.primewire.ag/" + name;
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
 
-            show.Title = StringUtility.Extract(src, "<a href=\"/" + name + "\">", "</a>");
+            show.Title = src.Extract("<a href=\"/" + name + "\">", "</a>");
             if (String.IsNullOrEmpty(show.Title))
                 return null;
 
-            string allSeasons = StringUtility.Extract(src, show.Title + " Links", "<div class=\"download_link\">");
+            string allSeasons = src.Extract(show.Title + " Links", "<div class=\"download_link\">");
             string seasDeb = "<h2><a href=\"";
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
             while (startS >= seasDeb.Length)
@@ -96,7 +96,7 @@ namespace EMCRestService.TvWebsites
 
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
                 int no = 0;
-                if (!int.TryParse(StringUtility.Extract(itemS, "/season-", "\""), out no))
+                if (!int.TryParse(itemS.Extract( "/season-", "\""), out no))
                     continue;
                 if (!show.Episodes.ContainsKey(no))
                     show.Episodes.Add(no, new List<ListedEpisode>());
@@ -110,8 +110,8 @@ namespace EMCRestService.TvWebsites
                     int endE = itemS.IndexOf("</div>", startE);
                     string itemE = itemS.Substring(startE, endE - startE).Trim();
 
-                    episode.Name = HttpUtility.UrlEncode(StringUtility.Extract(itemE, "<a href=\"/", "\"")).Replace("%", ".");
-                    episode.NoEpisode = int.Parse(StringUtility.Extract(itemE, "-episode-", "\""));
+                    episode.Name = HttpUtility.UrlEncode(itemE.Extract( "<a href=\"/", "\"")).Replace("%", ".");
+                    episode.NoEpisode = int.Parse(itemE.Extract( "-episode-", "\""));
                     episode.NoSeason = no;
 
                     episode.ReleaseDate = DateTime.MinValue;
@@ -137,17 +137,17 @@ namespace EMCRestService.TvWebsites
             if (src.Contains("Doesn't look like there are any links"))
                 return null;
 
-            string title = StringUtility.Extract(src, "<td width=\"70\"><strong>Title:</strong></td>", "</tr>");
-            ep.Title = StringUtility.Extract(title, "<td>", "</td>");
-            ep.NoSeason = int.Parse(StringUtility.Extract(epIdClean, "/season-", "-"));
+            string title = src.Extract("<td width=\"70\"><strong>Title:</strong></td>", "</tr>");
+            ep.Title = title.Extract( "<td>", "</td>");
+            ep.NoSeason = int.Parse(epIdClean.Extract( "/season-", "-"));
             ep.NoEpisode = int.Parse(epIdClean.Substring(epIdClean.IndexOf("-episode-") + 9));
-            string date = StringUtility.Extract(src, "<td width=\"70\"><strong>Air Date:</strong></td>", "</tr>");
-            ep.ReleaseDate = DateTime.ParseExact(StringUtility.Extract(date, "<td>", "</td>"), "MMMM d, yyyy", CultureInfo.InvariantCulture);
+            string date = src.Extract("<td width=\"70\"><strong>Air Date:</strong></td>", "</tr>");
+            ep.ReleaseDate = DateTime.ParseExact(date.Extract( "<td>", "</td>"), "MMMM d, yyyy", CultureInfo.InvariantCulture);
 
             string showName = epIdClean.Remove(epIdClean.IndexOf("/"));
-            string showTitle = StringUtility.Extract(src, "<a href=\"/" + showName + "\">", "</a>");
+            string showTitle = src.Extract("<a href=\"/" + showName + "\">", "</a>");
 
-            string all = StringUtility.Extract(src, showTitle + " Links", "<div class=\"download_link\">");
+            string all = src.Extract(showTitle + " Links", "<div class=\"download_link\">");
 
             string linkDeb = "<span class=quality_dvd>";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -157,8 +157,8 @@ namespace EMCRestService.TvWebsites
                 string itemP = all.Substring(startP, endP - startP).Trim();
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
-                string website = StringUtility.Extract(itemP, "<script type=\"text/javascript\">document.writeln('", "');</script>");
-                string url = StringUtility.Extract(itemP, "<a href=\"/external.php?", "\"");
+                string website = itemP.Extract( "<script type=\"text/javascript\">document.writeln('", "');</script>");
+                string url = itemP.Extract( "<a href=\"/external.php?", "\"");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());
@@ -172,7 +172,7 @@ namespace EMCRestService.TvWebsites
             string url = "http://www.primewire.ag/external.php?" + HttpUtility.UrlDecode(args.Replace(".", "%"));
             string srcUrl = await new HttpClient().GetStringAsync(url);
             if (srcUrl.Contains("frame_header.php?hello=&title="))
-                url = StringUtility.Extract(srcUrl, "</frameset><noframes>", "</noframes>");
+                url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
             else
                 url = GatheringUtility.GetPageUrl(url, new CookieContainer());
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
