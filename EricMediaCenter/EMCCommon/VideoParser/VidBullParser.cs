@@ -21,11 +21,7 @@ namespace EMCCommon.VideoParser
 
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(u);
             string scripts = res.Extract("<script type='text/javascript' src='http://vidbull.com/player/jwplayer.js'></script>", "<br></div>");
-            scripts = scripts.Replace("eval", "function fct42() {return").Replace(".split('|')))", ".split('|')))}");
-            WebBrowser wb = new WebBrowser();
-            wb.Navigate("about:blank");
-            wb.Document.Write(scripts);
-            string info = wb.Document.InvokeScript("fct42").ToString();
+            string info = VideoParsingFactory.ExecuteScript(scripts);
             string finalUrl = info.Extract( "file:\"", "\"");
             return finalUrl;
         }

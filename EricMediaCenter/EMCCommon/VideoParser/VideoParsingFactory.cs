@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EMCCommon.VideoParser
 {
@@ -25,6 +26,7 @@ namespace EMCCommon.VideoParser
                     {"vidbull.com",new VidBullParser()},
                     {"vreer.com",new VreerParser()},
                     {"faststream.in",new FastStreamParser()},
+                    {"filenuke.com",new FileNukeParser()},
                 };
             }
         }
@@ -38,6 +40,15 @@ namespace EMCCommon.VideoParser
                 return true;
             }
             return false;
+        }
+
+        public static string ExecuteScript(string script)
+        {
+            string scripts = script.Replace("eval", "function fct42() {return").Replace(".split('|')))", ".split('|')))}");
+            WebBrowser wb = new WebBrowser();
+            wb.Navigate("about:blank");
+            wb.Document.Write(scripts);
+            return wb.Document.InvokeScript("fct42").ToString();
         }
     }
 }
