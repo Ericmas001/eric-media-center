@@ -163,7 +163,7 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public StreamingInfo StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = "http://www.tvmuse.eu/gateway.php?data=" + args;
             string durl = null;

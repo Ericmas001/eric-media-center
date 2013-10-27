@@ -494,13 +494,13 @@ namespace EMCTv.Windows.Forms
             if (WSUtility.DebugMode)
             {
                 this.BackColor = Color.Yellow;
-                this.Text = "EMC Movie ~~ D E B U G ~~";
+                this.Text = "EMC Tv ~~ D E B U G ~~";
                 btnDebug.VIBlendTheme = VIBLEND_THEME.METROGREEN;
             }
             else
             {
                 this.BackColor = Color.White;
-                this.Text = "EMC Movie";
+                this.Text = "EMC Tv";
                 btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
             }
         }

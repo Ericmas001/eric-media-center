@@ -174,6 +174,7 @@
             // btnDebug
             // 
             this.btnDebug.AllowAnimations = true;
+            this.btnDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDebug.BackColor = System.Drawing.Color.Transparent;
             this.btnDebug.Location = new System.Drawing.Point(1123, 0);
             this.btnDebug.Name = "btnDebug";

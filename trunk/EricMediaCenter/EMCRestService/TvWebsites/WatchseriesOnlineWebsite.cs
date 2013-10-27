@@ -1,11 +1,15 @@
 ﻿using EMCRestService.Entries;
 using EMCRestService.TvWebsites.Entities;
 using EricUtility;
+using EricUtility.Networking.Gathering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EMCRestService.TvWebsites
@@ -188,7 +192,7 @@ namespace EMCRestService.TvWebsites
             string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("Augu ", "August ");
             ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
-            string all = StringUtility.Extract(src, "<table class=\"postlinks\">", "</table>");
+            string all = StringUtility.Extract(src, "<table class=\"postlinks", "</table>");
 
             string linkDeb = "<tr><td class=";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -203,7 +207,7 @@ namespace EMCRestService.TvWebsites
                 int sp = website.IndexOf(" ");
                 if (sp > 1)
                     website = website.Remove(sp);
-                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/getlink.php?l=http://", "\">").Replace("/", "_");
+                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/redirect.php?l=", "\">").Replace("/", "_");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());
@@ -212,10 +216,46 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public StreamingInfo StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://www.watchseries-online.eu/getlink.php?l=http://" + args.Replace("_", "/");
+            string baseurl = "http://www.watchseries-online.eu/redirect.php?l=" + args;
+            HttpClient m_Client = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip });
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, baseurl);
+
+            request.Headers.Host = "www.watchseries-online.eu";
+
+            //Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
+
+            //Accept-Language: fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3
+            request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue("fr"));
+            request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue("fr-fr", 0.8));
+            request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue("en-us", 0.5));
+            request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue("en", 0.5));
+
+            //Accept-Encoding: gzip, deflate
+            request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            request.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+
+            //Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+            //Content-Type: text/html; charset="UTF-8"
+
+            request.Content = new StringContent("l=" + args);
+            request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("text/html");
+
+            //User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0
+            request.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
+
+            HttpResponseMessage result = await m_Client.SendAsync(request);
+            result.EnsureSuccessStatusCode();
+            string src = await result.Content.ReadAsStringAsync();
+            //string src = await new HttpClient().GetStringAsync(baseurl);
+            string url = src.Extract("<a class=\"myButton\" href=\"", "\">");
             string durl = null;
+            //string url = "http://www.watchseries-online.eu/getlink.php?l=http://" + args.Replace("_", "/");
             //if (VideoParsingService.Parsers.ContainsKey(website))
             //{
             //    CookieContainer cookies = new CookieContainer();
