@@ -67,6 +67,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="VideoParser\Abstract2StepsParser.cs" />
+    <Compile Include="VideoParser\FileNukeParser.cs" />
+    <Compile Include="VideoParser\FastStreamParser.cs" />
     <Compile Include="VideoParser\GorillaVidParser.cs" />
     <Compile Include="VideoParser\IVideoParser.cs" />
     <Compile Include="VideoParser\NovaMovParser.cs" />
