@@ -16,7 +16,7 @@ namespace EMCRestService.TvWebsites
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
             string src = await new HttpClient().GetStringAsync("http://www.free-tv-video-online.me/internet/");
-            string allShows = StringUtility.Extract(src, "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" align=\"center\" bgcolor=\"#FFFFFF\">", "<!-- Start of the latest link tables -->");
+            string allShows = src.Extract("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" align=\"center\" bgcolor=\"#FFFFFF\">", "<!-- Start of the latest link tables -->");
             string itemp = "class=\"mnlcategorylist\"";
             int start = allShows.IndexOf(itemp) + itemp.Length;
             while (start >= itemp.Length)
@@ -26,8 +26,8 @@ namespace EMCRestService.TvWebsites
                 string item = allShows.Substring(start, end - start);
 
                 ListedTvShow entry = new ListedTvShow();
-                entry.Name = StringUtility.Extract(item, "><a href=\"", "/\">");
-                entry.Title = StringUtility.Extract(item, "<b>", "</b>");
+                entry.Name = item.Extract( "><a href=\"", "/\">");
+                entry.Title = item.Extract( "<b>", "</b>");
                 if (keywords.Count(x => entry.Title.ToLower().Contains(x.ToLower()) || entry.Name.ToLower().Contains(x.ToLower())) > 0)
                     availables.Add(entry);
                 start = allShows.IndexOf(itemp, end) + itemp.Length;
@@ -66,24 +66,24 @@ namespace EMCRestService.TvWebsites
 
             if (src.Contains("Project Free TV Disclaimer"))
                 return null;
-            show.Title = StringUtility.Extract(src, "<h1 style=\"margin:0; font-size: 20px;\">", "</h1>");
+            show.Title = src.Extract("<h1 style=\"margin:0; font-size: 20px;\">", "</h1>");
             if (show.Title == null)
                 return null;
             Dictionary<int, string> seasons = new Dictionary<int, string>();
-            string allSeasons = StringUtility.Extract(src, " Categories</td>", "<!-- Start of the latest link tables -->");
+            string allSeasons = src.Extract(" Categories</td>", "<!-- Start of the latest link tables -->");
             string seasDeb = "mnlcategorylist\">";
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
             while (startS >= seasDeb.Length)
             {
                 int endS = allSeasons.IndexOf("</td>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
-                string noSt = StringUtility.Extract(itemS, "<b>Season ", "</b>");
+                string noSt = itemS.Extract( "<b>Season ", "</b>");
                 int no = -1;
                 if (!int.TryParse(noSt, out no))
                     no = -1;
                 if (no != -1)
                 {
-                    seasons.Add(no, StringUtility.Extract(itemS, "<a href=\"", ".html\">"));
+                    seasons.Add(no, itemS.Extract( "<a href=\"", ".html\">"));
                     show.Episodes.Add(no, new List<ListedEpisode>());
                 }
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
@@ -94,7 +94,7 @@ namespace EMCRestService.TvWebsites
             {
                 List<ListedEpisode> episodes = (List<ListedEpisode>)show.Episodes[no];
                 string srcS = await new HttpClient().GetStringAsync(baseurl + "/" + seasons[no] + ".html");
-                string allEps = StringUtility.Extract(srcS, "<!-- Start of middle column -->", "<!-- End of the middle_column -->");
+                string allEps = srcS.Extract( "<!-- Start of middle column -->", "<!-- End of the middle_column -->");
                 string epDeb = "<td class=\"episode\">";
                 int startE = allEps.IndexOf(epDeb) + epDeb.Length;
                 while (startE >= epDeb.Length)
@@ -104,15 +104,15 @@ namespace EMCRestService.TvWebsites
                     if (endE == -1)
                         break;
                     string itemS = allEps.Substring(startE, endE - startE).Trim();
-                    ep.Name = show.Name + "-" + seasons[no] + "-" + StringUtility.Extract(itemS, "<a name=\"", "\"></a>");
-                    string eTitle = StringUtility.Extract(itemS, "</a><b>", "</b></td>");
+                    ep.Name = show.Name + "-" + seasons[no] + "-" + itemS.Extract( "<a name=\"", "\"></a>");
+                    string eTitle = itemS.Extract( "</a><b>", "</b></td>");
                     string noEnd = ". ";
                     int iNoEnd = eTitle.IndexOf(noEnd);
                     ep.Title = iNoEnd >= 0 ? eTitle.Substring(iNoEnd + noEnd.Length) : eTitle;
-                    string nfo = StringUtility.Extract(itemS, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
-                    ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
-                    ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
-                    string dt = StringUtility.Extract(nfo, "Air Date: ", "<");
+                    string nfo = itemS.Extract( "<td class=\"mnllinklist\" align=\"right\">", "/div>");
+                    ep.NoSeason = int.Parse(nfo.Extract( ">S", "E"));
+                    ep.NoEpisode = int.Parse(nfo.Extract( ep.NoSeason + "E", "&nbsp;"));
+                    string dt = nfo.Extract( "Air Date: ", "<");
                     ep.ReleaseDate = DateTime.ParseExact(dt, "dd MMMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
                     episodes.Add(ep);
                     startE = allEps.IndexOf(epDeb, endE) + epDeb.Length;
@@ -138,11 +138,11 @@ namespace EMCRestService.TvWebsites
 
             string all = StringUtility.Extract(src.Replace("</td></tr><tr class=\"3\" bgcolor=\"#E3E3E3\" >", "</td></tr></table>"), "<a name=\"" + info[2] + "\">", "</td></tr></table>");
 
-            ep.Title = StringUtility.Extract(all, "</a><b>", "</b");
-            string nfo = StringUtility.Extract(all, "<td class=\"mnllinklist\" align=\"right\">", "/div>");
-            ep.NoSeason = int.Parse(StringUtility.Extract(nfo, ">S", "E"));
-            ep.NoEpisode = int.Parse(StringUtility.Extract(nfo, ep.NoSeason + "E", "&nbsp;"));
-            string dt = StringUtility.Extract(nfo, "Air Date: ", "<");
+            ep.Title = all.Extract( "</a><b>", "</b");
+            string nfo = all.Extract( "<td class=\"mnllinklist\" align=\"right\">", "/div>");
+            ep.NoSeason = int.Parse(nfo.Extract( ">S", "E"));
+            ep.NoEpisode = int.Parse(nfo.Extract( ep.NoSeason + "E", "&nbsp;"));
+            string dt = nfo.Extract( "Air Date: ", "<");
             ep.ReleaseDate = DateTime.ParseExact(dt, "dd MMMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
             string linkDeb = "class=\"mnllinklist dotted\">";
@@ -153,11 +153,11 @@ namespace EMCRestService.TvWebsites
                 string itemP = all.Substring(startP, endP - startP).Trim();
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
-                string website = StringUtility.Extract(itemP, "Host: ", "<br/>");
-                string url = StringUtility.Extract(itemP, "href=\"http://www.free-tv-video-online.me/player/", "\"");
+                string website = itemP.Extract( "Host: ", "<br/>");
+                string url = itemP.Extract( "href=\"http://www.free-tv-video-online.me/player/", "\"");
                 if (url == null)
                 {
-                    url = StringUtility.Extract(itemP, "href=\"http://", "\"").Replace("/", "_");
+                    url = itemP.Extract( "href=\"http://", "\"").Replace("/", "_");
                 }
                 else
                     url = "php_" + url.Replace(".php?id=", "_id_");
@@ -177,7 +177,7 @@ namespace EMCRestService.TvWebsites
             if (args.StartsWith("php_"))
             {
                 string mid = "_id_";
-                string page = StringUtility.Extract(args, "php_", mid) + ".php";
+                string page = args.Extract( "php_", mid) + ".php";
                 args = args.Substring(args.IndexOf(mid) + mid.Length);
                 url = "http://www.free-tv-video-online.me/player/" + page + "?id=" + args;
 

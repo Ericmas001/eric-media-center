@@ -10,7 +10,7 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
     {
         public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
         {
-            string file = StringUtility.Extract(res, "flashvars.file=\"", "\";");
+            string file = res.Extract("flashvars.file=\"", "\";");
             if (file == null)
                 return new ParsedVideoWebsite(url);
 

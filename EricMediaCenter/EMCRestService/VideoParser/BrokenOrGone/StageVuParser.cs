@@ -11,10 +11,10 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
     {
         public ParsedVideoWebsite FindInterestingContent(string res, string url, System.Net.CookieContainer cookies)
         {
-            string id = StringUtility.Extract(res, "pluginplaying[", "]");
+            string id = res.Extract("pluginplaying[", "]");
             if (id == null)
                 return new ParsedVideoWebsite(url);
-            string file = StringUtility.Extract(res, "url[" + id + "] = '", "';");
+            string file = res.Extract("url[" + id + "] = '", "';");
             if (file == null)
                 return new ParsedVideoWebsite(url);
             return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Avi, file);

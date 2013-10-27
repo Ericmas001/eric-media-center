@@ -20,7 +20,7 @@ namespace EMCRestService.TvWebsites
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
             string src = await new HttpClient().GetStringAsync("http://www.watchseries-online.eu/2005/07/index.html");
-            string allShows = StringUtility.Extract(src, "<div id=\"ddmcc_container\">", "<div class=\"cleared\">");
+            string allShows = src.Extract("<div id=\"ddmcc_container\">", "<div class=\"cleared\">");
             string itemp = "<li>";
             int start = allShows.IndexOf(itemp) + itemp.Length;
             while (start >= itemp.Length)
@@ -30,8 +30,8 @@ namespace EMCRestService.TvWebsites
                 string item = allShows.Substring(start, end - start);
 
                 ListedTvShow entry = new ListedTvShow();
-                entry.Name = StringUtility.Extract(item, "http://www.watchseries-online.eu/category/", "\">");
-                entry.Title = StringUtility.Extract(item, entry.Name + "\">", "</a>");
+                entry.Name = item.Extract( "http://www.watchseries-online.eu/category/", "\">");
+                entry.Title = item.Extract( entry.Name + "\">", "</a>");
                 if (keywords.Count(x => entry.Title.ToLower().Contains(x.ToLower()) || entry.Name.ToLower().Contains(x.ToLower())) > 0)
                     availables.Add(entry);
                 start = allShows.IndexOf(itemp, end) + itemp.Length;
@@ -80,12 +80,12 @@ namespace EMCRestService.TvWebsites
                             mid = "X";
                         if (nfo.Contains("×"))
                             mid = "×";
-                        episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "-", mid));
-                        episode.NoEpisode = int.Parse(StringUtility.Extract(nfo, mid, "-"));
+                        episode.NoSeason = int.Parse(nfo.Extract( "-", mid));
+                        episode.NoEpisode = int.Parse(nfo.Extract( mid, "-"));
                     }
                     else if (nfo.StartsWith("S"))
                     {
-                        episode.NoSeason = int.Parse(StringUtility.Extract(nfo, "S", "E"));
+                        episode.NoSeason = int.Parse(nfo.Extract( "S", "E"));
                         episode.NoEpisode = int.Parse(nfo.Substring(nfo.IndexOf('E') + 1));
                     }
                     else
@@ -103,7 +103,7 @@ namespace EMCRestService.TvWebsites
         public List<ListedEpisode> GetEpisodesOnPage(string showname, string src)
         {
             List<ListedEpisode> eps = new List<ListedEpisode>();
-            string all = StringUtility.Extract(src, "<h2 class=\"pagetitle\">", "<div class=\"sidebar2\">");
+            string all = src.Extract("<h2 class=\"pagetitle\">", "<div class=\"sidebar2\">");
             string postDeb = "<div class=\"Post-inner article\">";
             int startP = all.IndexOf(postDeb) + postDeb.Length;
             while (startP >= postDeb.Length)
@@ -113,12 +113,12 @@ namespace EMCRestService.TvWebsites
                 startP = all.IndexOf(postDeb, endP) + postDeb.Length;
 
                 ListedEpisode episode = new ListedEpisode();
-                episode.Name = StringUtility.Extract(itemP, "<a href=\"http://www.watchseries-online.eu/", ".html").Replace("/", "_");
+                episode.Name = itemP.Extract( "<a href=\"http://www.watchseries-online.eu/", ".html").Replace("/", "_");
 
-                string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(itemP, "<span class=\"PostHeader\">", "</a>")).Replace("\n", "");
+                string title = StringUtility.RemoveHTMLTags(itemP.Extract( "<span class=\"PostHeader\">", "</a>")).Replace("\n", "");
                 ExtractTitleAndNos(episode, title, showname);
 
-                string date = StringUtility.Extract(itemP, "alt=\"PostDateIcon\" />", " | ").Replace("\n", "").Replace("th,", ",").Replace("st,", ",").Replace("nd,", ",").Replace("rd,", ",");
+                string date = itemP.Extract( "alt=\"PostDateIcon\" />", " | ").Replace("\n", "").Replace("th,", ",").Replace("st,", ",").Replace("nd,", ",").Replace("rd,", ",");
                 episode.ReleaseDate = DateTime.ParseExact(date, "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
                 eps.Add(episode);
@@ -136,7 +136,7 @@ namespace EMCRestService.TvWebsites
 
             if (src.Contains("Page not found"))
                 return null;
-            show.Title = StringUtility.Extract(src, "Episodes Available for: &#8216;", "&#8217;");
+            show.Title = src.Extract("Episodes Available for: &#8216;", "&#8217;");
             if (show.Title == null)
                 return null;
             List<ListedEpisode> eps = GetEpisodesOnPage(show.Title, src);
@@ -145,9 +145,9 @@ namespace EMCRestService.TvWebsites
             {
                 if (full)
                 {
-                    string navig = StringUtility.Extract(src, "<ol class=\"wp-paginate\">", "class=\"next\">");
+                    string navig = src.Extract("<ol class=\"wp-paginate\">", "class=\"next\">");
                     navig = navig.Substring(navig.LastIndexOf("class='page'>"));
-                    int nbPages = int.Parse(StringUtility.Extract(navig, ">", "</"));
+                    int nbPages = int.Parse(navig.Extract( ">", "</"));
                     for (int i = 2; i <= nbPages; ++i)
                         eps.AddRange(GetEpisodesOnPage(show.Title, await new HttpClient().GetStringAsync(baseurl + "/page/" + i)));
                 }
@@ -185,14 +185,14 @@ namespace EMCRestService.TvWebsites
             if (src.Contains("Page not found"))
                 return null;
 
-            string showname = StringUtility.Extract(src, "rel=\"category tag\">", "</a>");
-            string title = StringUtility.RemoveHTMLTags(StringUtility.Extract(src, "<span class=\"PostHeader\">", "</span>")).Replace("\n", "").Trim();
+            string showname = src.Extract("rel=\"category tag\">", "</a>");
+            string title = StringUtility.RemoveHTMLTags(src.Extract("<span class=\"PostHeader\">", "</span>")).Replace("\n", "").Trim();
             ExtractTitleAndNos(ep, title, showname);
 
-            string date = StringUtility.Extract(src, "alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("Augu ", "August ");
+            string date = src.Extract("alt=\"PostDateIcon\"/>", " | ").Replace("\n", "").Replace("th", "").Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("Augu ", "August ");
             ep.ReleaseDate = DateTime.ParseExact(date.Trim(), "MMMM d, yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
-            string all = StringUtility.Extract(src, "<table class=\"postlinks", "</table>");
+            string all = src.Extract("<table class=\"postlinks", "</table>");
 
             string linkDeb = "<tr><td class=";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -202,12 +202,12 @@ namespace EMCRestService.TvWebsites
                 string itemP = all.Substring(startP, endP - startP).Trim();
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
-                string nfo = StringUtility.Extract(itemP, "<a target=\"_blank\" id=\"hovered\"", "</td>");
-                string website = StringUtility.Extract(nfo, ">", "<");
+                string nfo = itemP.Extract( "<a target=\"_blank\" id=\"hovered\"", "</td>");
+                string website = nfo.Extract( ">", "<");
                 int sp = website.IndexOf(" ");
                 if (sp > 1)
                     website = website.Remove(sp);
-                string url = StringUtility.Extract(nfo, "href=\"http://www.watchseries-online.eu/redirect.php?l=", "\">").Replace("/", "_");
+                string url = nfo.Extract( "href=\"http://www.watchseries-online.eu/redirect.php?l=", "\">").Replace("/", "_");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());

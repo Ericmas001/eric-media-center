@@ -14,10 +14,10 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser.Broken
         }
         public string getVideoUrl(string src)
         {
-            string un = StringUtility.Extract(src, "flashvars.un = \"", "\";");
-            string k1 = StringUtility.Extract(src, "flashvars.k1 = \"", "\";");
-            string k2 = StringUtility.Extract(src, "flashvars.k2 = \"", "\";");
-            string s = StringUtility.Extract(src, "flashvars.s = \"", "\";");
+            string un = src.Extract("flashvars.un = \"", "\";");
+            string k1 = src.Extract("flashvars.k1 = \"", "\";");
+            string k2 = src.Extract("flashvars.k2 = \"", "\";");
+            string s = src.Extract("flashvars.s = \"", "\";");
             string binary = "";
             Dictionary<char, string> assoc = new Dictionary<char, string>();
             assoc.Add('0', "0000");

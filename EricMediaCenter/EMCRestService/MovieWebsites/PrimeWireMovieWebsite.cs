@@ -21,16 +21,16 @@ namespace EMCRestService.MovieWebsites
 
             if (src.Contains("<div class=\"pagination\">"))
             {
-                string pages = StringUtility.Extract(src, "<div class=\"pagination\">", "</div>");
+                string pages = src.Extract("<div class=\"pagination\">", "</div>");
                 pages = pages.Substring(pages.LastIndexOf("<a href="));
-                max = int.Parse(StringUtility.Extract(src, "&page=", "\""));
+                max = int.Parse(src.Extract("&page=", "\""));
             }
 
             for (int i = 0; i < max; ++i)
             {
                 if (i > 0)
                     src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl + "&page=" + (i + 1));
-                string allShows = "<div class=\"index_item index_item_ie\">" + StringUtility.Extract(src, "<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
+                string allShows = "<div class=\"index_item index_item_ie\">" + src.Extract("<div class=\"index_item index_item_ie\">", "<div class=\"col2\">");
                 string itemp = "<div class=\"index_item index_item_ie\">";
                 int start = allShows.IndexOf(itemp) + itemp.Length;
                 while (start >= itemp.Length)
@@ -40,8 +40,8 @@ namespace EMCRestService.MovieWebsites
                     string item = allShows.Substring(start, end - start);
 
                     ListedMovie entry = new ListedMovie();
-                    entry.Name = StringUtility.Extract(item, "<a href=\"/", "\"");
-                    entry.Title = StringUtility.Extract(item, " title=\"Watch ", "\"").Trim();
+                    entry.Name = item.Extract( "<a href=\"/", "\"");
+                    entry.Title = item.Extract( " title=\"Watch ", "\"").Trim();
                     availables.Add(entry);
                     start = allShows.IndexOf(itemp, end) + itemp.Length;
                 }
@@ -58,7 +58,7 @@ namespace EMCRestService.MovieWebsites
                 CookieContainer cookies = new CookieContainer();
 
                 string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
-                string key = StringUtility.Extract(res, "<input type=\"hidden\" name=\"key\" value=\"", "\"");
+                string key = res.Extract("<input type=\"hidden\" name=\"key\" value=\"", "\"");
                 return await AvailableMoviesAsync(cookies, "http://www.primewire.ag/index.php?search_section=1&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
             }
             catch { return null; }
@@ -80,9 +80,9 @@ namespace EMCRestService.MovieWebsites
             if (src.Contains("Doesn't look like there are any links"))
                 return null;
 
-            mov.Title = StringUtility.Extract(src, "<a href=\"/" + movieId + "\">", "</a>");
+            mov.Title = src.Extract("<a href=\"/" + movieId + "\">", "</a>");
 
-            string all = StringUtility.Extract(src, mov.Title + " Links", "<div class=\"download_link\">");
+            string all = src.Extract(mov.Title + " Links", "<div class=\"download_link\">");
 
             string linkDeb = "<span class=quality_dvd>";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -92,12 +92,12 @@ namespace EMCRestService.MovieWebsites
                 string itemP = all.Substring(startP, endP - startP).Trim();
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
-                string website = StringUtility.Extract(itemP, "<script type=\"text/javascript\">document.writeln('", "');</script>");
-                string url = StringUtility.Extract(itemP, "<a href=\"/external.php?", "\"");
+                string website = itemP.Extract( "<script type=\"text/javascript\">document.writeln('", "');</script>");
+                string url = itemP.Extract( "<a href=\"/external.php?", "\"");
 
                 //string srcUrl = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
                 //if (srcUrl.Contains("frame_header.php?hello=&title="))
-                //    url = StringUtility.Extract(srcUrl, "</frameset><noframes>", "</noframes>");
+                //    url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
 
                 if (!mov.Links.ContainsKey(website))
                     mov.Links.Add(website, new List<string>());
@@ -111,7 +111,7 @@ namespace EMCRestService.MovieWebsites
             string url = "http://www.primewire.ag/external.php?" + HttpUtility.UrlDecode(args.Replace(".", "%"));
             string srcUrl = GatheringUtility.GetPageSource(url);
             if (srcUrl.Contains("frame_header.php?hello=&title="))
-                url = StringUtility.Extract(srcUrl, "</frameset><noframes>", "</noframes>");
+                url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
             else
                 url = GatheringUtility.GetPageUrl(url, new CookieContainer());
             string durl = null;

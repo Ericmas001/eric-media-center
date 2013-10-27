@@ -28,11 +28,11 @@ namespace EMCCommon.VideoParser
         public virtual async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
-            string domain = StringUtility.Extract(res, "flashvars.domain=\"", "\"");
-            string file = StringUtility.Extract(res, "flashvars.file=\"", "\"");
-            string key = StringUtility.Extract(res, "flashvars.filekey=\"", "\"");
+            string domain = res.Extract("flashvars.domain=\"", "\"");
+            string file = res.Extract("flashvars.file=\"", "\"");
+            string key = res.Extract("flashvars.filekey=\"", "\"");
             string info = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(domain + "/api/player.api.php?file=" + file + "&key=" + key);
-            string finalUrl = StringUtility.Extract(info, "url=", "&");
+            string finalUrl = info.Extract( "url=", "&");
             return finalUrl;
         }
     }

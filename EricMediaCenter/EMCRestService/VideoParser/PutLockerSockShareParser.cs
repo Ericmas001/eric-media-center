@@ -25,14 +25,14 @@ namespace EMCRestService.VideoParser
             while (res.Contains("Continue as Free User"))
             {
                 string u = GatheringUtility.GetPageUrl(url, cookies, "", "application/x-www-form-urlencoded");
-                string hash = StringUtility.Extract(res, "<input type=\"hidden\" value=\"", "\"");
+                string hash = res.Extract("<input type=\"hidden\" value=\"", "\"");
                 res = GatheringUtility.GetPageSource(url, cookies, "hash=" + hash + "&confirm=Continue+as+Free+User");
             }
             if (res.Contains("This file doesn't exist"))
                 return null;
-            string rssU = beginurl + StringUtility.Extract(res, "playlist: '", "',");
+            string rssU = beginurl + res.Extract("playlist: '", "',");
             string info = GatheringUtility.GetPageSource(rssU, cookies);
-            return StringUtility.Extract(info, "<media:content url=\"", "\"");
+            return info.Extract( "<media:content url=\"", "\"");
         }
     }
 }

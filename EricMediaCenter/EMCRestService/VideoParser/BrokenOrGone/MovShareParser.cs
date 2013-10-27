@@ -15,12 +15,12 @@ namespace EMCVideoParserPluginLib.VideoWebsiteParser
             while (content.Contains("Please click continue to video to prove you're not a robot"))
                 content = GatheringUtility.GetPageSource(url, cookies, "wm=1");
 
-            string newurl = StringUtility.Extract(content, "s1.addVariable(\"file\",\"", "\"");
+            string newurl = content.Extract( "s1.addVariable(\"file\",\"", "\"");
             if (newurl != null)
                 return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Flv,newurl);
             else
             {
-                string divxurl = StringUtility.Extract(content, "<param name=\"src\" value=\"", "\"");
+                string divxurl = content.Extract( "<param name=\"src\" value=\"", "\"");
                 if (divxurl != null)
                     return new ParsedVideoWebsite(url, ParsedVideoWebsite.Extension.Avi, divxurl);
                 else

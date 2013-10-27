@@ -14,7 +14,7 @@ namespace EMCRestService.MovieWebsites
         {
             List<ListedMovie> availables = new List<ListedMovie>();
             string src = await new HttpClient().GetStringAsync(baseurl);
-            string allShows = StringUtility.Extract(src, "<div id=\"list_body\">", "<div id=\"list_footer\">");
+            string allShows = src.Extract("<div id=\"list_body\">", "<div id=\"list_footer\">");
             string itemp = "<div class=\"list_item";
             int start = allShows.IndexOf(itemp) + itemp.Length;
             while (start >= itemp.Length)
@@ -24,8 +24,8 @@ namespace EMCRestService.MovieWebsites
                 string item = allShows.Substring(start, end - start);
 
                 ListedMovie entry = new ListedMovie();
-                entry.Name = StringUtility.Extract(item, "/player/", "/");
-                entry.Title = StringUtility.Extract(item, "<b>", "</b>");
+                entry.Name = item.Extract( "/player/", "/");
+                entry.Title = item.Extract( "<b>", "</b>");
                 availables.Add(entry);
                 start = allShows.IndexOf(itemp, end) + itemp.Length;
             }
@@ -62,10 +62,10 @@ namespace EMCRestService.MovieWebsites
             if (src.Contains("Movie have been removed"))
                 return null;
 
-            string nfos = StringUtility.RemoveBBCodeTags(StringUtility.Extract(src, "<a class=\"none\" href=\"#\">", "</a>"));
-            mov.Title = StringUtility.Extract(nfos, " ", " - ");
+            string nfos = StringUtility.RemoveBBCodeTags(src.Extract("<a class=\"none\" href=\"#\">", "</a>"));
+            mov.Title = nfos.Extract( " ", " - ");
 
-            string all = StringUtility.Extract(src, "<ul id=\"links_list\" class=\"wonline\">", "</ul>");
+            string all = src.Extract("<ul id=\"links_list\" class=\"wonline\">", "</ul>");
 
             string linkDeb = "<li ";
             int startP = all.IndexOf(linkDeb) + linkDeb.Length;
@@ -75,8 +75,8 @@ namespace EMCRestService.MovieWebsites
                 string itemP = all.Substring(startP, endP - startP).Trim();
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
-                string website = StringUtility.Extract(itemP, "<span>Host: </span>", "</div>").Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
-                string url = StringUtility.Extract(itemP, "onclick=\"visited('", "');");
+                string website = itemP.Extract( "<span>Host: </span>", "</div>").Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
+                string url = itemP.Extract( "onclick=\"visited('", "');");
 
                 if (!mov.Links.ContainsKey(website))
                     mov.Links.Add(website, new List<string>());

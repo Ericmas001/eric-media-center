@@ -14,7 +14,7 @@ namespace EMCCommon.VideoParser
         public async Task<string> GetDownloadUrlAsync(string url, System.Net.CookieContainer cookies)
         {
             string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
-            return StringUtility.Extract(res, "file: \"", "\"");
+            return res.Extract("file: \"", "\"");
         }
     }
 }

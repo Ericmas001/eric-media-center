@@ -29,12 +29,12 @@ namespace EMCRestService.Services
                 int i = -1;
                 while ((i = res.IndexOf("GsearchResultClass", i + 1)) >= 0)
                 {
-                    string url = StringUtility.Extract(res, "\"url\":\"", "\"", i);
-                    string title = WebUtility.HtmlDecode(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
+                    string url = res.Extract("\"url\":\"", "\"", i);
+                    string title = WebUtility.HtmlDecode(res.Extract("\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
 
-                    //string title = Uri.UnescapeDataString(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
-                    //string title = WebStringUtility.DecodeString(StringUtility.Extract(res, "\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
-                    string content = StringUtility.Extract(res, "\"content\":\"", "\"", i);
+                    //string title = Uri.UnescapeDataString(res.Extract("\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
+                    //string title = WebStringUtility.DecodeString(res.Extract("\"titleNoFormatting\":\"", "\"", i).Replace("\\u0026", "&"));
+                    string content = res.Extract("\"content\":\"", "\"", i);
                     resultsList.Add(new SearchResultEntry(url, title, content, SearchEngineType.Google));
                 }
             }
@@ -74,15 +74,15 @@ namespace EMCRestService.Services
 
             EpGuideEntry entry = new EpGuideEntry();
 
-            entry.TvRageId = StringUtility.Extract(srcTvRage, "http://www.tvrage.com/shows/id-", "/");
-            entry.TvId = StringUtility.Extract(srcTv, "http://www.tv.com/show/", "/");
-            entry.FutonCriticId = StringUtility.Extract(srcTv, "http://thefutoncritic.com/showatch.aspx?id=", "&#38");
-            entry.ImdbId = StringUtility.Extract(srcTv, "http://us.imdb.com/title/", "\"");
-            entry.ShareTvId = StringUtility.Extract(srcTv, "http://sharetv.org/shows/", "\"");
-            entry.TvClubId = StringUtility.Extract(srcTv, "http://www.avclub.com/tvclub/tvshow/", "\"");
-            entry.TvGuideId = StringUtility.Extract(srcTv, "http://www.tvguide.com/detail/tv-show.aspx?tvobjectid=", "\"");
-            entry.WikiId = StringUtility.Extract(srcTv, "http://en.wikipedia.org/wiki/", "\"");
-            entry.ClickerId = StringUtility.Extract(srcTv, "http://www.clicker.com/tv/", "\"");
+            entry.TvRageId = srcTvRage.Extract( "http://www.tvrage.com/shows/id-", "/");
+            entry.TvId = srcTv.Extract( "http://www.tv.com/show/", "/");
+            entry.FutonCriticId = srcTv.Extract( "http://thefutoncritic.com/showatch.aspx?id=", "&#38");
+            entry.ImdbId = srcTv.Extract( "http://us.imdb.com/title/", "\"");
+            entry.ShareTvId = srcTv.Extract( "http://sharetv.org/shows/", "\"");
+            entry.TvClubId = srcTv.Extract( "http://www.avclub.com/tvclub/tvshow/", "\"");
+            entry.TvGuideId = srcTv.Extract( "http://www.tvguide.com/detail/tv-show.aspx?tvobjectid=", "\"");
+            entry.WikiId = srcTv.Extract( "http://en.wikipedia.org/wiki/", "\"");
+            entry.ClickerId = srcTv.Extract( "http://www.clicker.com/tv/", "\"");
 
             return JsonConvert.SerializeObject(entry);
         }

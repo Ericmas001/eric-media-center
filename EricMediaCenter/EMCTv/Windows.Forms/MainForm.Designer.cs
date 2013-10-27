@@ -63,6 +63,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
             this.btnDebug = new VIBlend.WinForms.Controls.vButton();
+            this.openInBrowserToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -163,9 +164,10 @@
             // 
             this.ctxtEpisode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem2,
+            this.openInBrowserToolStripMenuItem3,
             this.setAsLastViewedToolStripMenuItem});
             this.ctxtEpisode.Name = "ctxtEpisode";
-            this.ctxtEpisode.Size = new System.Drawing.Size(201, 52);
+            this.ctxtEpisode.Size = new System.Drawing.Size(201, 98);
             this.ctxtEpisode.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtEpisode_Opening);
             // 
             // openToolStripMenuItem2
@@ -449,6 +451,13 @@
             this.btnDebug.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
             this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
+            // openInBrowserToolStripMenuItem3
+            // 
+            this.openInBrowserToolStripMenuItem3.Name = "openInBrowserToolStripMenuItem3";
+            this.openInBrowserToolStripMenuItem3.Size = new System.Drawing.Size(200, 24);
+            this.openInBrowserToolStripMenuItem3.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem3.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem3_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -520,6 +529,7 @@
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
         private VIBlend.WinForms.Controls.vButton btnDebug;
+        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem3;
     }
 }
 
