@@ -18,7 +18,7 @@ namespace EMCCommon.VideoParser
             return (await base.GetParameters(res)).Union(new[]
                 {
                     new KeyValuePair<string, string>("channel", ""),
-                    new KeyValuePair<string, string>("method_free", "tel%3Fchargement+libre+"),
+                    new KeyValuePair<string, string>("method_free", "Free Download"),
                 });
         }
     }

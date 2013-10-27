@@ -27,6 +27,8 @@ namespace EMCCommon.VideoParser
                     {"vreer.com",new VreerParser()},
                     {"faststream.in",new FastStreamParser()},
                     {"filenuke.com",new FileNukeParser()},
+                    {"daclips.in",new GorillaVidParser()},
+                    {"movpod.in",new GorillaVidParser()},
                 };
             }
         }
