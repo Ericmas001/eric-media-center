@@ -242,7 +242,6 @@ namespace EMCRestService.TvWebsites
 
             //Content-Type: application/x-www-form-urlencoded; charset=UTF-8
             //Content-Type: text/html; charset="UTF-8"
-
             request.Content = new StringContent("l=" + args);
             request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("text/html");
 
@@ -252,17 +251,10 @@ namespace EMCRestService.TvWebsites
             HttpResponseMessage result = await m_Client.SendAsync(request);
             result.EnsureSuccessStatusCode();
             string src = await result.Content.ReadAsStringAsync();
-            //string src = await new HttpClient().GetStringAsync(baseurl);
-            string url = src.Extract("<a class=\"myButton\" href=\"", "\">");
+
+            string url = src.Extract("<a id=\"redirectButton\" class=\"myButton\" href='", "'>");
             string durl = null;
-            //string url = "http://www.watchseries-online.eu/getlink.php?l=http://" + args.Replace("_", "/");
-            //if (VideoParsingService.Parsers.ContainsKey(website))
-            //{
-            //    CookieContainer cookies = new CookieContainer();
-            //    url = GatheringUtility.GetPageUrl(url, cookies);
-            //    IVideoParser p = VideoParsingService.Parsers[website];
-            //    durl = p.GetDownloadURL(url, new CookieContainer());
-            //}
+
             return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
         }
 
