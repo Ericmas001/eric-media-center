@@ -43,6 +43,7 @@
             this.btnSearch = new VIBlend.WinForms.Controls.vButton();
             this.tvSearch = new System.Windows.Forms.TreeView();
             this.btnDebug = new VIBlend.WinForms.Controls.vButton();
+            this.btnSupported = new VIBlend.WinForms.Controls.vButton();
             this.ctxtSearch.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -185,12 +186,28 @@
             this.btnDebug.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
             this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
+            // btnSupported
+            // 
+            this.btnSupported.AllowAnimations = true;
+            this.btnSupported.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSupported.BackColor = System.Drawing.Color.Transparent;
+            this.btnSupported.Location = new System.Drawing.Point(562, 15);
+            this.btnSupported.Name = "btnSupported";
+            this.btnSupported.RoundedCornersMask = ((byte)(15));
+            this.btnSupported.Size = new System.Drawing.Size(23, 30);
+            this.btnSupported.TabIndex = 20;
+            this.btnSupported.Text = "‡";
+            this.btnSupported.UseVisualStyleBackColor = true;
+            this.btnSupported.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
+            this.btnSupported.Click += new System.EventHandler(this.btnSupported_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1134, 433);
+            this.Controls.Add(this.btnSupported);
             this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnSearch);
@@ -226,6 +243,7 @@
         private System.Windows.Forms.TreeView tvSearch;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private VIBlend.WinForms.Controls.vButton btnDebug;
+        private VIBlend.WinForms.Controls.vButton btnSupported;
     }
 }
 

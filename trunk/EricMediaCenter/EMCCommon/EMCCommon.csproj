@@ -79,6 +79,12 @@
     <Compile Include="VideoParser\VideoWeedParser.cs" />
     <Compile Include="VideoParser\VreerParser.cs" />
     <Compile Include="WebService\WSUtility.cs" />
+    <Compile Include="Windows.Forms\SelectSupportedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows.Forms\SelectSupportedForm.Designer.cs">
+      <DependentUpon>SelectSupportedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows.Forms\EMCTreeNode.cs" />
     <Compile Include="Windows.Forms\OpenURLForm.cs">
       <SubType>Form</SubType>
@@ -91,6 +97,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows.Forms\SelectSupportedForm.resx">
+      <DependentUpon>SelectSupportedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows.Forms\OpenURLForm.resx">
       <DependentUpon>OpenURLForm.cs</DependentUpon>

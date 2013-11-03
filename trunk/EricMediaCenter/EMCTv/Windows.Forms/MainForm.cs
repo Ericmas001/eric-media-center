@@ -29,6 +29,7 @@ namespace EMCTv.Windows.Forms
         string m_Website;
         TvShow m_Show;
         Episode m_Episode;
+        private IEnumerable<string> m_Websites = new string[0];
         public MainForm(SessionInfo session)
         {
             m_Session = session;
@@ -43,6 +44,7 @@ namespace EMCTv.Windows.Forms
             tvLink.Enabled = enable;
             pictureBox1.Visible = !enable;
             lstFavs.Enabled = enable;
+            btnSupported.Enabled = enable;
             btnRefresh.Enabled = enable;
             btnRefreshHard.Enabled = enable;
             btnAddFavorites.Enabled = enable && m_Show != null && m_Fav == null;
@@ -57,7 +59,7 @@ namespace EMCTv.Windows.Forms
                 Enable(false);
                 ClearSearch();
                 m_Fav = null;
-                var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", "all", txtSearch.Text);
+                var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
                 if (all == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -521,6 +523,16 @@ namespace EMCTv.Windows.Forms
                 }
                 Enable(true);
             }
+        }
+
+        private async void btnSupported_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            List<string> all = await WSUtility.CallWS<List<string>>("tv", "supported");
+            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites);
+            ssf.ShowDialog();
+            m_Websites = ssf.Choosen;
+            Enable(true);
         }
     }
 }
