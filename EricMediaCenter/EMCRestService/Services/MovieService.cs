@@ -50,7 +50,7 @@ namespace EMCRestService.Services
             Dictionary<string, object> websites = new Dictionary<string, object>();
             BuildWebsiteList(websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(website) ? null : m_Supported[site].SearchAsync(keywords).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(site) ? null : m_Supported[site].SearchAsync(keywords).Result);
             return JsonConvert.SerializeObject(websites);
         }
 
@@ -60,7 +60,7 @@ namespace EMCRestService.Services
             Dictionary<string, object> websites = new Dictionary<string, object>();
             BuildWebsiteList(websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(website) ? null : m_Supported[site].StartsWithAsync(letter).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(site) ? null : m_Supported[site].StartsWithAsync(letter).Result);
             return JsonConvert.SerializeObject(websites);
         }
 

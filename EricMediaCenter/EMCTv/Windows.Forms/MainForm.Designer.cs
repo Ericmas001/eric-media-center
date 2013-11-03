@@ -40,6 +40,7 @@
             this.tvEpisode = new System.Windows.Forms.TreeView();
             this.ctxtEpisode = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBrowserToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.setAsLastViewedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvLink = new System.Windows.Forms.TreeView();
             this.ctxtLinks = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -63,7 +64,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
             this.btnDebug = new VIBlend.WinForms.Controls.vButton();
-            this.openInBrowserToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSupported = new VIBlend.WinForms.Controls.vButton();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -81,7 +82,7 @@
             this.txtSearch.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.Location = new System.Drawing.Point(6, 6);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(229, 32);
+            this.txtSearch.Size = new System.Drawing.Size(184, 32);
             this.txtSearch.TabIndex = 0;
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
@@ -90,10 +91,10 @@
             this.btnSearch.AllowAnimations = true;
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.BackColor = System.Drawing.Color.Transparent;
-            this.btnSearch.Location = new System.Drawing.Point(241, 6);
+            this.btnSearch.Location = new System.Drawing.Point(196, 8);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.RoundedCornersMask = ((byte)(15));
-            this.btnSearch.Size = new System.Drawing.Size(97, 30);
+            this.btnSearch.Size = new System.Drawing.Size(113, 30);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -167,7 +168,7 @@
             this.openInBrowserToolStripMenuItem3,
             this.setAsLastViewedToolStripMenuItem});
             this.ctxtEpisode.Name = "ctxtEpisode";
-            this.ctxtEpisode.Size = new System.Drawing.Size(201, 98);
+            this.ctxtEpisode.Size = new System.Drawing.Size(201, 76);
             this.ctxtEpisode.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtEpisode_Opening);
             // 
             // openToolStripMenuItem2
@@ -176,6 +177,13 @@
             this.openToolStripMenuItem2.Size = new System.Drawing.Size(200, 24);
             this.openToolStripMenuItem2.Text = "Open";
             this.openToolStripMenuItem2.Click += new System.EventHandler(this.tvEpisode_DoubleClick);
+            // 
+            // openInBrowserToolStripMenuItem3
+            // 
+            this.openInBrowserToolStripMenuItem3.Name = "openInBrowserToolStripMenuItem3";
+            this.openInBrowserToolStripMenuItem3.Size = new System.Drawing.Size(200, 24);
+            this.openInBrowserToolStripMenuItem3.Text = "Open In Browser";
+            this.openInBrowserToolStripMenuItem3.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem3_Click);
             // 
             // setAsLastViewedToolStripMenuItem
             // 
@@ -331,6 +339,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnSupported);
             this.tabPage2.Controls.Add(this.txtSearch);
             this.tabPage2.Controls.Add(this.btnSearch);
             this.tabPage2.Controls.Add(this.tvSearch);
@@ -451,12 +460,20 @@
             this.btnDebug.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
             this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
-            // openInBrowserToolStripMenuItem3
+            // btnSupported
             // 
-            this.openInBrowserToolStripMenuItem3.Name = "openInBrowserToolStripMenuItem3";
-            this.openInBrowserToolStripMenuItem3.Size = new System.Drawing.Size(200, 24);
-            this.openInBrowserToolStripMenuItem3.Text = "Open In Browser";
-            this.openInBrowserToolStripMenuItem3.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem3_Click);
+            this.btnSupported.AllowAnimations = true;
+            this.btnSupported.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSupported.BackColor = System.Drawing.Color.Transparent;
+            this.btnSupported.Location = new System.Drawing.Point(315, 8);
+            this.btnSupported.Name = "btnSupported";
+            this.btnSupported.RoundedCornersMask = ((byte)(15));
+            this.btnSupported.Size = new System.Drawing.Size(23, 30);
+            this.btnSupported.TabIndex = 3;
+            this.btnSupported.Text = "‡";
+            this.btnSupported.UseVisualStyleBackColor = true;
+            this.btnSupported.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
+            this.btnSupported.Click += new System.EventHandler(this.btnSupported_Click);
             // 
             // MainForm
             // 
@@ -530,6 +547,7 @@
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
         private VIBlend.WinForms.Controls.vButton btnDebug;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem3;
+        private VIBlend.WinForms.Controls.vButton btnSupported;
     }
 }
 

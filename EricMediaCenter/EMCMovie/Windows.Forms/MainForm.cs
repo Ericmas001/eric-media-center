@@ -25,6 +25,7 @@ namespace EMCMovie.Windows.Forms
     {
         string m_Website;
         Movie m_Movie;
+        private IEnumerable<string> m_Websites = new string[0];
         public MainForm()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace EMCMovie.Windows.Forms
             txtSearch.Enabled = enable;
             btnSearch.Enabled = enable;
             tvSearch.Enabled = enable;
+            btnSupported.Enabled = enable;
             tvLink.Enabled = enable;
             pictureBox1.Visible = !enable;
         }
@@ -43,7 +45,7 @@ namespace EMCMovie.Windows.Forms
             {
                 Enable(false);
                 ClearSearch();
-                var all = await WSUtility.CallWS<Dictionary<string, List<ListedMovie>>>("movie", "search", "all", txtSearch.Text);
+                var all = await WSUtility.CallWS<Dictionary<string, List<ListedMovie>>>("movie", "search", m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
                 if (all == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -240,6 +242,16 @@ namespace EMCMovie.Windows.Forms
                 this.Text = "EMC Movie";
                 btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
             }
+        }
+
+        private async void btnSupported_Click(object sender, EventArgs e)
+        {
+            Enable(false);
+            List<string> all = await WSUtility.CallWS<List<string>>("movie", "supported");
+            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites);
+            ssf.ShowDialog();
+            m_Websites = ssf.Choosen;
+            Enable(true);
         }
     }
 }
