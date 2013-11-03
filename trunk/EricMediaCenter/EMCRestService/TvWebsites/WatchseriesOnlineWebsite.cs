@@ -207,7 +207,7 @@ namespace EMCRestService.TvWebsites
                 int sp = website.IndexOf(" ");
                 if (sp > 1)
                     website = website.Remove(sp);
-                string url = nfo.Extract( "href=\"http://www.watchseries-online.eu/redirect.php?l=", "\">").Replace("/", "_");
+                string url = nfo.Extract("href=\"http://www.watchseries-online.eu/watch.php?l=", "\">").Replace("/", "_");
 
                 if (!ep.Links.ContainsKey(website))
                     ep.Links.Add(website, new List<string>());
@@ -218,7 +218,7 @@ namespace EMCRestService.TvWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string baseurl = "http://www.watchseries-online.eu/redirect.php?l=" + args;
+            string baseurl = "http://www.watchseries-online.eu/watch.php?l=" + args;
             HttpClient m_Client = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip });
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, baseurl);
 

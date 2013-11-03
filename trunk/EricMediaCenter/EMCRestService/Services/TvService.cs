@@ -29,6 +29,7 @@ namespace EMCRestService.Services
             {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
             {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
             {"primewire.ag",new PrimeWireWebsite()},
+            {"watchseries.to",new WatchSeriesTvWebsite()},
         };
 
         [WebGet(UriTemplate = "Supported")]
