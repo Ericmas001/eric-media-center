@@ -163,18 +163,9 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public async Task<StreamingInfo> StreamAsync(string website, string args)
+        public Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://www.tvmuse.eu/gateway.php?data=" + args;
-            string durl = null;
-            //if (VideoParsingService.Parsers.ContainsKey(website))
-            //{
-            //    CookieContainer cookies = new CookieContainer();
-            //    url = GatheringUtility.GetPageUrl(url, cookies);
-            //    IVideoParser p = VideoParsingService.Parsers[website];
-            //    durl = p.GetDownloadURL(url, new CookieContainer());
-            //}
-            return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
+            return new Task<StreamingInfo>(delegate() { return new StreamingInfo() { StreamingURL = "http://www.tvmuse.eu/gateway.php?data=" + args, Arguments = args, Website = website, DownloadURL = null }; });
         }
 
         public string ShowURL(string showId)

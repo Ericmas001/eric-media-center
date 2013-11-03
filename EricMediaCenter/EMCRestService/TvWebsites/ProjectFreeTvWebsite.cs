@@ -170,10 +170,9 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public async Task<StreamingInfo> StreamAsync(string website, string args)
+        public Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = null;
-            string durl = null;
             if (args.StartsWith("php_"))
             {
                 string mid = "_id_";
@@ -237,13 +236,7 @@ namespace EMCRestService.TvWebsites
             }
             else
                 url = "http://" + args.Replace("_", "/");
-
-            //if (VideoParsingService.Parsers.ContainsKey(website))
-            //{
-            //    IVideoParser p = VideoParsingService.Parsers[website];
-            //    durl = p.GetDownloadURL(url, new CookieContainer());
-            //}
-            return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
+            return new Task<StreamingInfo>(delegate() { return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null }; });
         }
 
         public string ShowURL(string name)
