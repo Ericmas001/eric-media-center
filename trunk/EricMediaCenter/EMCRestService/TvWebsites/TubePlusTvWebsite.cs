@@ -175,18 +175,10 @@ namespace EMCRestService.TvWebsites
             return ep;
         }
 
-        public async Task<StreamingInfo> StreamAsync(string website, string args)
+        public Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = TubePlusHelper.ObtainURL(website, args);
-            string durl = null;
-
-            //if (VideoParsingService.Parsers.ContainsKey(website))
-            //{
-            //    IVideoParser p = VideoParsingService.Parsers[website];
-            //    durl = p.GetDownloadURL(url, new CookieContainer());
-            //}
-
-            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
+            return new Task<StreamingInfo>(delegate() { return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null }; });
         }
 
         public string ShowURL(string name)

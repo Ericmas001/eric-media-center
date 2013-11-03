@@ -31,32 +31,37 @@ namespace EMCRestService.Services
             return JsonConvert.SerializeObject(items);
         }
 
+        private void BuildWebsiteList(Dictionary<string, object> websites, string website)
+        {
+            if (website == "all")
+                m_Supported.Keys.ToList().ForEach(x => websites.Add(x, null));
+            else if (website.StartsWith("some_"))
+            {
+                string[] somes = website.Split('_');
+                somes.Skip(1).ToList().ForEach(x => websites.Add(x, null));
+            }
+            else
+                websites.Add(website, null);
+        }
+
         [WebGet(UriTemplate = "Search/{website}/{keywords}")]
         public string Search(string website, string keywords)
         {
-            if (website == "all")
-            {
-                Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].SearchAsync(keywords).Result));
-                return JsonConvert.SerializeObject(res);
-            }
-            if (!m_Supported.ContainsKey(website))
-                return null;
-            return JsonConvert.SerializeObject(m_Supported[website].SearchAsync(keywords).Result);
+            Dictionary<string, object> websites = new Dictionary<string, object>();
+            BuildWebsiteList(websites, website);
+
+            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(website) ? null : m_Supported[site].SearchAsync(keywords).Result);
+            return JsonConvert.SerializeObject(websites);
         }
 
         [WebGet(UriTemplate = "Letter/{website}/{letter}")]
         public string Letter(string website, string letter)
         {
-            if (website == "all")
-            {
-                Dictionary<string, object> res = new Dictionary<string, object>();
-                Parallel.ForEach(m_Supported.Keys, site => res.Add(site, m_Supported[site].StartsWithAsync(letter).Result));
-                return JsonConvert.SerializeObject(res);
-            }
-            if (!m_Supported.ContainsKey(website))
-                return null;
-            return JsonConvert.SerializeObject(m_Supported[website].StartsWithAsync(letter).Result);
+            Dictionary<string, object> websites = new Dictionary<string, object>();
+            BuildWebsiteList(websites, website);
+
+            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(website) ? null : m_Supported[site].StartsWithAsync(letter).Result);
+            return JsonConvert.SerializeObject(websites);
         }
 
         [WebGet(UriTemplate = "Movie/{website}/{movieId}")]

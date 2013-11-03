@@ -114,15 +114,8 @@ namespace EMCRestService.MovieWebsites
                 url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
             else
                 url = GatheringUtility.GetPageUrl(url, new CookieContainer());
-            string durl = null;
 
-            //if (VideoParsingService.Parsers.ContainsKey(website))
-            //{
-            //    IVideoParser p = VideoParsingService.Parsers[website];
-            //    durl = p.GetDownloadURL(url, new CookieContainer());
-            //}
-
-            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = durl };
+            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
         }
 
         public string MovieURL(string movieId)
