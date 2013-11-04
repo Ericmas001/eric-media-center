@@ -25,7 +25,7 @@ namespace EMCRestService.TvWebsites
             {
                 string pages = src.Extract("<div class=\"pagination\">", "</div>");
                 pages = pages.Substring(pages.LastIndexOf("<a href="));
-                max = int.Parse(src.Extract("&page=", "\""));
+                max = int.Parse(pages.Extract("&page=", "\""));
             }
 
             for (int i = 0; i < max; ++i)
