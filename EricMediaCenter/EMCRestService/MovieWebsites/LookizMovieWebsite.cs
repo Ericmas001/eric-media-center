@@ -14,20 +14,39 @@ namespace EMCRestService.MovieWebsites
         {
             List<ListedMovie> availables = new List<ListedMovie>();
             string src = await new HttpClient().GetStringAsync(baseurl);
-            string allShows = src.Extract("<div id='liste' class='films'>", "<div id='contenu_bottom'>");
-            string itemp = "<div id='film_";
-            int start = allShows.IndexOf(itemp) + itemp.Length;
-            while (start >= itemp.Length)
+            string pages = src.Extract("<div class='pagination'>", "</div>");
+            int max = 1;
+            int lio = pages.LastIndexOf("<a href=\"/recherche/");
+            if (lio > -1)
             {
-                int end = allShows.IndexOf("<div class='boutons'>", start);
-                end = end == -1 ? allShows.Length - 1 : end;
-                string item = allShows.Substring(start, end - start);
+                if (pages.Substring(lio).Contains("title=\"Suivant\""))
+                {
+                    pages = pages.Remove(lio);
+                    lio = pages.LastIndexOf("<a href=\"/recherche/");
+                }
+                max = int.Parse(pages.Substring(lio).Extract("page,", "\""));
+            }
 
-                ListedMovie entry = new ListedMovie();
-                entry.Name = item.Extract("-streaming/", "'>");
-                entry.Title = item.Extract("<h3 class='titre_detail'>", "</h3>");
-                availables.Add(entry);
-                start = allShows.IndexOf(itemp, end) + itemp.Length;
+
+            for (int i = 0; i < max; ++i)
+            {
+                if (i > 0)
+                    src = await new HttpClient().GetStringAsync(baseurl + "-page," + (i + 1));
+                string allShows = src.Extract("<div id='liste' class='films'>", "<div id='contenu_bottom'>");
+                string itemp = "<div id='film_";
+                int start = allShows.IndexOf(itemp) + itemp.Length;
+                while (start >= itemp.Length)
+                {
+                    int end = allShows.IndexOf("<div class='boutons'>", start);
+                    end = end == -1 ? allShows.Length - 1 : end;
+                    string item = allShows.Substring(start, end - start);
+
+                    ListedMovie entry = new ListedMovie();
+                    entry.Name = item.Extract("-streaming/", "'>");
+                    entry.Title = item.Extract("<h3 class='titre_detail'>", "</h3>");
+                    availables.Add(entry);
+                    start = allShows.IndexOf(itemp, end) + itemp.Length;
+                }
             }
             ListedMovie[] items = availables.ToArray();
             Array.Sort(items);

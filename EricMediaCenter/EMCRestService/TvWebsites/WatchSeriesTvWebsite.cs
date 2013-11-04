@@ -21,23 +21,36 @@ namespace EMCRestService.TvWebsites
             {
                 CookieContainer cookies = new CookieContainer();
                 List<ListedTvShow> availables = new List<ListedTvShow>();
-                string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://watchseries.to/search/" + keywords);
-                string allShows = src.Extract("<div class=\"fullwrap\">", "<!-- end fullwrap -->");
-                if (allShows == null)
-                    return null;
-                string td = "<td valign=\"top\">";
-                int start = allShows.IndexOf(td) + td.Length;
-                while (start >= td.Length)
+                bool endReached = false;
+                string baseurl = "http://watchseries.to/search/" + keywords;
+                string url = baseurl;
+                do
                 {
-                    int end = allShows.IndexOf("</tr>", start);
-                    string item = allShows.Substring(start, end - start).Trim();
+                    string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(url);
+                    string allShows = src.Extract("<div class=\"fullwrap\">", "<!-- end fullwrap -->");
+                    if (allShows == null)
+                        return null;
+                    string td = "<td valign=\"top\">";
+                    int start = allShows.IndexOf(td) + td.Length;
+                    while (start >= td.Length)
+                    {
+                        int end = allShows.IndexOf("</tr>", start);
+                        string item = allShows.Substring(start, end - start).Trim();
 
-                    ListedTvShow entry = new ListedTvShow();
-                    entry.Name = item.Extract("<a href=\"/serie/", "\"");
-                    entry.Title = item.Extract("><strong>", "</strong>");
-                    availables.Add(entry);
-                    start = allShows.IndexOf(td, end) + td.Length;
-                }
+                        ListedTvShow entry = new ListedTvShow();
+                        entry.Name = item.Extract("<a href=\"/serie/", "\"");
+                        entry.Title = item.Extract("><strong>", "</strong>");
+                        availables.Add(entry);
+                        start = allShows.IndexOf(td, end) + td.Length;
+                    }
+                    int lio = src.LastIndexOf("\">Next Search Page</a>");
+                    endReached = lio == -1;
+                    if (!endReached)
+                    {
+                        int lioPage = src.LastIndexOf("/page/",lio);
+                        url = baseurl + src.Substring(lioPage, lio - lioPage);
+                    }
+                } while (!endReached);
                 ListedTvShow[] items = availables.ToArray();
                 Array.Sort(items);
                 return items;
