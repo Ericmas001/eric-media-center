@@ -30,6 +30,8 @@ namespace EMCTv.Windows.Forms
         TvShow m_Show;
         Episode m_Episode;
         private IEnumerable<string> m_Websites = new string[0];
+        string m_SearchLang = "en";
+        string m_ShowLang;
         public MainForm(SessionInfo session)
         {
             m_Session = session;
@@ -59,7 +61,7 @@ namespace EMCTv.Windows.Forms
                 Enable(false);
                 ClearSearch();
                 m_Fav = null;
-                var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
+                var all = await WSUtility.CallWS<Dictionary<string, List<ListedShow>>>("tv", "search", m_SearchLang, m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
                 if (all == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -89,6 +91,7 @@ namespace EMCTv.Windows.Forms
                 ClearShow();
                 m_Fav = null;
                 m_Website = etn.Parent.Text;
+                m_ShowLang = m_SearchLang;
                 LoadShow(etn.Info, false);
             }
         }
@@ -97,7 +100,7 @@ namespace EMCTv.Windows.Forms
         {
             Enable(false);
             string command = full ? "showFull" : "show";
-            m_Show = await WSUtility.CallWS<TvShow>("tv", command, m_Website, ls.Name);
+            m_Show = await WSUtility.CallWS<TvShow>("tv", command, m_ShowLang, m_Website, ls.Name);
             if (m_Show == null)
                 MessageBox.Show("An error occured !");
             else
@@ -145,7 +148,7 @@ namespace EMCTv.Windows.Forms
             {
                 Enable(false);
                 ClearEpisode();
-                m_Episode = await WSUtility.CallWS<Episode>("tv", "episode", m_Website, etn.Info.Name);
+                m_Episode = await WSUtility.CallWS<Episode>("tv", "episode", m_ShowLang, m_Website, etn.Info.Name);
 
                 if (m_Episode == null)
                     MessageBox.Show("An error occured !");
@@ -180,7 +183,7 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_ShowLang, m_Website, etn.Info.Website, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -235,6 +238,7 @@ namespace EMCTv.Windows.Forms
                 ClearShow();
                 m_Fav = fts;
                 m_Website = fts.Website;
+                m_ShowLang = fts.Lang;
                 LoadShow(fts, false);
             }
         }
@@ -257,18 +261,18 @@ namespace EMCTv.Windows.Forms
         private async void btnAddFavorites_Click(object sender, EventArgs e)
         {
             Enable(false);
-            if (!(await m_Session.AddFav(m_Website, m_Show.Name, m_Show.Title, m_Show.NoLastSeason, m_Show.NoLastEpisode)))
+            if (!(await m_Session.AddFav(m_ShowLang, m_Website, m_Show.Name, m_Show.Title, m_Show.NoLastSeason, m_Show.NoLastEpisode)))
                 MessageBox.Show("Une erreur est survenue :(");
             ClearFavs();
             lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
-            lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website);
+            lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website && x.Lang == m_ShowLang);
             lstFavs_DoubleClick(sender, e);
         }
 
         private async void btnDelFavorites_Click(object sender, EventArgs e)
         {
             Enable(false);
-            if (!(await m_Session.DelFav(m_Website, m_Show.Name)))
+            if (!(await m_Session.DelFav(m_ShowLang, m_Website, m_Show.Name)))
                 MessageBox.Show("Une erreur est survenue :(");
             btnRefresh_Click(sender, e);
         }
@@ -284,6 +288,7 @@ namespace EMCTv.Windows.Forms
             tvEpisode.Nodes.Clear();
             m_Show = null;
             m_Website = null;
+            m_ShowLang = null;
             lblShow.Text = "";
             ClearEpisode();
         }
@@ -301,7 +306,7 @@ namespace EMCTv.Windows.Forms
         private async void btnLastViewed_Click(object sender, EventArgs e)
         {
             Enable(false);
-            if (!(await m_Session.SetLastViewed(m_Website, m_Show.Name, m_Episode.NoSeason, m_Episode.NoEpisode)))
+            if (!(await m_Session.SetLastViewed(m_ShowLang, m_Website, m_Show.Name, m_Episode.NoSeason, m_Episode.NoEpisode)))
                 MessageBox.Show("Une erreur est survenue :(");
             else
             {
@@ -333,8 +338,10 @@ namespace EMCTv.Windows.Forms
         {
             ListedShow ls = m_Show;
             string website = m_Website;
+            string lang = m_ShowLang;
             ClearShow();
             m_Website = website;
+            m_ShowLang = lang;
             LoadShow(ls, true);
         }
 
@@ -349,7 +356,7 @@ namespace EMCTv.Windows.Forms
             if (fts != null)
             {
                 Enable(false);
-                if (!(await m_Session.DelFav(fts.Website, fts.ShowName)))
+                if (!(await m_Session.DelFav(fts.Lang, fts.Website, fts.ShowName)))
                     MessageBox.Show("Une erreur est survenue :(");
                 btnRefresh_Click(sender, e);
             }
@@ -361,7 +368,7 @@ namespace EMCTv.Windows.Forms
             if (fts != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<string>("tv", "ShowURL", fts.Website, fts.ShowName);
+                var si = await WSUtility.CallWS<string>("tv", "ShowURL", fts.Lang, fts.Website, fts.ShowName);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -379,7 +386,7 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<string>("tv", "ShowURL", etn.Parent.Text, etn.Info.Name);
+                var si = await WSUtility.CallWS<string>("tv", "ShowURL", m_SearchLang, etn.Parent.Text, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -397,13 +404,13 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                if (!(await m_Session.AddFav(etn.Parent.Text, etn.Info.Name, etn.Info.Title, 0, 0)))
+                if (!(await m_Session.AddFav(m_SearchLang, etn.Parent.Text, etn.Info.Name, etn.Info.Title, 0, 0)))
                     MessageBox.Show("Une erreur est survenue :(");
-                if (etn.Parent.Text == m_Website && m_Show != null && etn.Info.Name == m_Show.Name)
+                if (m_SearchLang == m_ShowLang && etn.Parent.Text == m_Website && m_Show != null && etn.Info.Name == m_Show.Name)
                 {
                     ClearFavs();
                     lstFavs.Items.AddRange((await m_Session.Favorites()).ToArray());
-                    lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website);
+                    lstFavs.SelectedItem = lstFavs.Items.OfType<FavoriteTvShow>().First(x => x.ShowName == m_Show.Name && x.Website == m_Website && x.Lang == m_ShowLang);
                     lstFavs_DoubleClick(sender, e);
                 }
                 else
@@ -459,7 +466,7 @@ namespace EMCTv.Windows.Forms
         {
             EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
             Enable(false);
-            if (!(await m_Session.SetLastViewed(m_Website, m_Show.Name, etn.Info.NoSeason, etn.Info.NoEpisode)))
+            if (!(await m_Session.SetLastViewed(m_ShowLang, m_Website, m_Show.Name, etn.Info.NoSeason, etn.Info.NoEpisode)))
                 MessageBox.Show("Une erreur est survenue :(");
             else
             {
@@ -481,7 +488,7 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<StreamingInfo>("tv", "stream", m_ShowLang, m_Website, etn.Info.Website, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -513,7 +520,7 @@ namespace EMCTv.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<string>("tv", "EpisodeURL", m_Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<string>("tv", "EpisodeURL", m_ShowLang, m_Website, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -528,10 +535,11 @@ namespace EMCTv.Windows.Forms
         private async void btnSupported_Click(object sender, EventArgs e)
         {
             Enable(false);
-            List<string> all = await WSUtility.CallWS<List<string>>("tv", "supported");
-            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites);
+            Dictionary<string, IEnumerable<string>> all = await WSUtility.CallWS<Dictionary<string, IEnumerable<string>>>("tv", "supported");
+            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites, m_SearchLang);
             ssf.ShowDialog();
             m_Websites = ssf.Choosen;
+            m_SearchLang = ssf.Lang;
             Enable(true);
         }
     }

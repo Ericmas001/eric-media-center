@@ -3,6 +3,7 @@ using EMCTv.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EricUtility;
 
 namespace EMCTv.WebService
 {
@@ -54,35 +55,44 @@ namespace EMCTv.WebService
             var favs = await WSUtility.CallWS<UserFavsResponse>("tv", "favs", m_User, m_Token);
             if (!favs.Success)
                 return new List<FavoriteTvShow>();
+            foreach (FavoriteTvShow fts in favs.Shows)
+            {
+                fts.Lang = "en";
+                if (fts.Website.StartsWith("|"))
+                {
+                    fts.Lang = fts.Website.Extract("|", "|");
+                    fts.Website = fts.Website.Replace("|" + fts.Lang + "|", "");
+                }
+            }
             return favs.Shows;
         }
 
-        public async Task<bool> AddFav(string website, string showname, string showtitle, int lastseason, int lastepisode)
+        public async Task<bool> AddFav(string lang, string website, string showname, string showtitle, int lastseason, int lastepisode)
         {
             if (!Connected || (!StillActive && !(await Connect())))
                 return false;
 
-            var res = await WSUtility.CallWS<UserResponse>("tv", "AddFav", m_User, m_Token, website, showname, showtitle, lastseason.ToString(), lastepisode.ToString());
+            var res = await WSUtility.CallWS<UserResponse>("tv", "AddFav", m_User, m_Token, lang, website, showname, showtitle, lastseason.ToString(), lastepisode.ToString());
 
             return res != null && res.Success;
         }
 
-        public async Task<bool> DelFav(string website, string showname)
+        public async Task<bool> DelFav(string lang, string website, string showname)
         {
             if (!Connected || (!StillActive && !(await Connect())))
                 return false;
 
-            var res = await WSUtility.CallWS<UserResponse>("tv", "DelFav", m_User, m_Token, website, showname);
+            var res = await WSUtility.CallWS<UserResponse>("tv", "DelFav", m_User, m_Token, lang, website, showname);
 
             return res != null && res.Success;
         }
 
-        public async Task<bool> SetLastViewed(string website, string showname, int lastseason, int lastepisode)
+        public async Task<bool> SetLastViewed(string lang, string website, string showname, int lastseason, int lastepisode)
         {
             if (!Connected || (!StillActive && !(await Connect())))
                 return false;
 
-            var res = await WSUtility.CallWS<UserResponse>("tv", "LastViewed", m_User, m_Token, website, showname, lastseason.ToString(), lastepisode.ToString());
+            var res = await WSUtility.CallWS<UserResponse>("tv", "LastViewed", m_User, m_Token, lang, website, showname, lastseason.ToString(), lastepisode.ToString());
 
             return res != null && res.Success;
         }

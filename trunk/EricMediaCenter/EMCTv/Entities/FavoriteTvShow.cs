@@ -26,6 +26,14 @@ namespace EMCTv.Entities
             set { m_Website = value; }
         }
 
+        private string m_Lang;
+
+        public string Lang
+        {
+            get { return m_Lang; }
+            set { m_Lang = value; }
+        }
+
         public string ShowTitle
         {
             get { return base.Title; }

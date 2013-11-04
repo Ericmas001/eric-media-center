@@ -23,27 +23,39 @@ namespace EMCRestService.Services
     {
         private SqlServerConnector Connector = new SqlServerConnector("TURNSOL.arvixe.com", "emc2", "emc.webservice", "Emc42FTW");
 
-        private static Dictionary<string, ITvWebsite> m_Supported = new Dictionary<string, ITvWebsite>()
+        private static Dictionary<string, Dictionary<string, ITvWebsite>> m_Supported = new Dictionary<string, Dictionary<string, ITvWebsite>>()
         {
-            {"tubeplus.me",new TubePlusWebsite()},
-            {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
-            {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
-            {"primewire.ag",new PrimeWireWebsite()},
-            {"watchseries.to",new WatchSeriesTvWebsite()},
+            {
+                "en",new Dictionary<string, ITvWebsite>
+                    {
+                        {"tubeplus.me",new TubePlusWebsite()},
+                        {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
+                        {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
+                        {"primewire.ag",new PrimeWireWebsite()},
+                        {"watchseries.to",new WatchSeriesTvWebsite()},
+                    }
+            },
         };
 
         [WebGet(UriTemplate = "Supported")]
         public string Supported()
         {
-            string[] items = m_Supported.Keys.ToArray();
-            Array.Sort(items);
-            return JsonConvert.SerializeObject(items);
+            Dictionary<string, IEnumerable<string>> sortedDic = new Dictionary<string, IEnumerable<string>>();
+            string[] lang = m_Supported.Keys.ToArray();
+            Array.Sort(lang);
+            foreach (string l in lang)
+            {
+                string[] websites = m_Supported[l].Keys.ToArray();
+                Array.Sort(websites);
+                sortedDic.Add(l, websites);
+            }
+            return JsonConvert.SerializeObject(sortedDic);
         }
 
-        private void BuildWebsiteList(Dictionary<string, object> websites, string website)
+        private void BuildWebsiteList(string lang, Dictionary<string, object> websites, string website)
         {
             if (website == "all")
-                m_Supported.Keys.ToList().ForEach(x => websites.Add(x, null));
+                m_Supported[lang].Keys.ToList().ForEach(x => websites.Add(x, null));
             else if (website.StartsWith("some_"))
             {
                 string[] somes = website.Split('_');
@@ -53,72 +65,72 @@ namespace EMCRestService.Services
                 websites.Add(website, null);
         }
 
-        [WebGet(UriTemplate = "Search/{website}/{keywords}")]
-        public string Search(string website, string keywords)
+        [WebGet(UriTemplate = "Search/{lang}/{website}/{keywords}")]
+        public string Search(string lang, string website, string keywords)
         {
             Dictionary<string, object> websites = new Dictionary<string, object>();
-            BuildWebsiteList(websites, website);
+            BuildWebsiteList(lang, websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(site) ? null : m_Supported[site].SearchAsync(keywords).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(site)) ? null : m_Supported[lang][site].SearchAsync(keywords).Result);
             return JsonConvert.SerializeObject(websites);
         }
 
-        [WebGet(UriTemplate = "Letter/{website}/{letter}")]
-        public string Letter(string website, string letter)
+        [WebGet(UriTemplate = "Letter/{lang}/{website}/{letter}")]
+        public string Letter(string lang, string website, string letter)
         {
             Dictionary<string, object> websites = new Dictionary<string, object>();
-            BuildWebsiteList(websites, website);
+            BuildWebsiteList(lang, websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(website) ? null : m_Supported[site].StartsWithAsync(letter).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(site)) ? null : m_Supported[lang][site].StartsWithAsync(letter).Result);
             return JsonConvert.SerializeObject(websites);
         }
 
-        [WebGet(UriTemplate = "Show/{website}/{showId}")]
-        public string Show(string website, string showId)
+        [WebGet(UriTemplate = "Show/{lang}/{website}/{showId}")]
+        public string Show(string lang, string website, string showId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, false).Result ?? new TvShow());
+            return JsonConvert.SerializeObject(m_Supported[lang][website].ShowAsync(showId, false).Result ?? new TvShow());
         }
 
-        [WebGet(UriTemplate = "ShowFull/{website}/{showId}")]
-        public string ShowFull(string website, string showId)
+        [WebGet(UriTemplate = "ShowFull/{lang}/{website}/{showId}")]
+        public string ShowFull(string lang, string website, string showId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].ShowAsync(showId, true).Result ?? new TvShow());
+            return JsonConvert.SerializeObject(m_Supported[lang][website].ShowAsync(showId, true).Result ?? new TvShow());
         }
 
-        [WebGet(UriTemplate = "ShowURL/{website}/{showId}")]
-        public string ShowURL(string website, string showId)
+        [WebGet(UriTemplate = "ShowURL/{lang}/{website}/{showId}")]
+        public string ShowURL(string lang, string website, string showId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].ShowURL(showId));
+            return JsonConvert.SerializeObject(m_Supported[lang][website].ShowURL(showId));
         }
 
-        [WebGet(UriTemplate = "Episode/{website}/{epId}")]
-        public string Episode(string website, string epId)
+        [WebGet(UriTemplate = "Episode/{lang}/{website}/{epId}")]
+        public string Episode(string lang, string website, string epId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].EpisodeAsync(epId).Result ?? new Episode());
+            return JsonConvert.SerializeObject(m_Supported[lang][website].EpisodeAsync(epId).Result ?? new Episode());
         }
 
-        [WebGet(UriTemplate = "EpisodeURL/{website}/{epId}")]
-        public string EpisodeURL(string website, string epId)
+        [WebGet(UriTemplate = "EpisodeURL/{lang}/{website}/{epId}")]
+        public string EpisodeURL(string lang, string website, string epId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].EpisodeURL(epId));
+            return JsonConvert.SerializeObject(m_Supported[lang][website].EpisodeURL(epId));
         }
 
-        [WebGet(UriTemplate = "Stream/{website}/{streamWebsite}/{args}")]
-        public string Stream(string website, string streamWebsite, string args)
+        [WebGet(UriTemplate = "Stream/{lang}/{website}/{streamWebsite}/{args}")]
+        public string Stream(string lang, string website, string streamWebsite, string args)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            StreamingInfo info = m_Supported[website].StreamAsync(streamWebsite, args).Result;
+            StreamingInfo info = m_Supported[lang][website].StreamAsync(streamWebsite, args).Result;
             return JsonConvert.SerializeObject( info ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
         }
 
@@ -149,16 +161,19 @@ namespace EMCRestService.Services
             }
         }
 
-        [WebGet(UriTemplate = "AddFav/{user}/{token}/{website}/{showname}/{showtitle}/{lastseason}/{lastepisode}")]
-        public string AddFav(string user, string token, string website, string showname, string showtitle, string lastseason, string lastepisode)
+        [WebGet(UriTemplate = "AddFav/{user}/{token}/{lang}/{website}/{showname}/{showtitle}/{lastseason}/{lastepisode}")]
+        public string AddFav(string user, string token, string lang, string website, string showname, string showtitle, string lastseason, string lastepisode)
         {
+            string websiteLang = website;
+            if (lang != "en")
+                websiteLang = "|" + lang + "|" + websiteLang;
             try
             {
                 Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPFavAddShow", new List<SPParam>
                 {
                         new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
                         new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
-                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
+                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),websiteLang),
                         new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),showname),
                         new SPParam(new SqlParameter("@title", SqlDbType.VarChar, 100),showtitle),
                         new SPParam(new SqlParameter("@lastSeason", SqlDbType.Int),int.Parse(lastseason)),
@@ -179,16 +194,19 @@ namespace EMCRestService.Services
             }
         }
 
-        [WebGet(UriTemplate = "DelFav/{user}/{token}/{website}/{showname}")]
-        public string DelFav(string user, string token, string website, string showname)
+        [WebGet(UriTemplate = "DelFav/{user}/{token}/{lang}/{website}/{showname}")]
+        public string DelFav(string user, string token, string lang, string website, string showname)
         {
+            string websiteLang = website;
+            if (lang != "en")
+                websiteLang = "|" + lang + "|" + websiteLang;
             try
             {
                 Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPFavDelShow", new List<SPParam>
                 {
                         new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
                         new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
-                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
+                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),websiteLang),
                         new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),showname),
                         new SPParam(new SqlParameter("@ok", SqlDbType.Bit),ParamDir.Output),
                         new SPParam(new SqlParameter("@info", SqlDbType.VarChar, 100),ParamDir.Output),
@@ -206,16 +224,19 @@ namespace EMCRestService.Services
             }
         }
 
-        [WebGet(UriTemplate = "LastViewed/{user}/{token}/{website}/{showname}/{lastviewedseason}/{lastviewedepisode}")]
-        public string LastViewed(string user, string token, string website, string showname, string lastviewedseason, string lastviewedepisode)
+        [WebGet(UriTemplate = "LastViewed/{user}/{token}/{lang}/{website}/{showname}/{lastviewedseason}/{lastviewedepisode}")]
+        public string LastViewed(string user, string token, string lang, string website, string showname, string lastviewedseason, string lastviewedepisode)
         {
+            string websiteLang = website;
+            if (lang != "en")
+                websiteLang = "|" + lang + "|" + websiteLang;
             try
             {
                 Dictionary<string, object> p = Connector.ExecuteSP("ericmas001.SPFavLastViewed", new List<SPParam>
                 {
                         new SPParam(new SqlParameter("@username", SqlDbType.VarChar, 50),user),
                         new SPParam(new SqlParameter("@session", SqlDbType.VarChar, 32),token),
-                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),website),
+                        new SPParam(new SqlParameter("@website", SqlDbType.VarChar, 50),websiteLang),
                         new SPParam(new SqlParameter("@name", SqlDbType.VarChar, 50),showname),
                         new SPParam(new SqlParameter("@lastViewedSeason", SqlDbType.Int),int.Parse(lastviewedseason)),
                         new SPParam(new SqlParameter("@lastViewedEpisode", SqlDbType.Int),int.Parse(lastviewedepisode)),
