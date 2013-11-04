@@ -26,6 +26,12 @@ namespace EMCRestService.Services
                         {"primewire.ag",new PrimeWireWebsite()},
                     }
             },
+            {
+                "fr",new Dictionary<string, IMovieWebsite>
+                    {
+                        {"lookiz.ws",new LookizMovieWebsite()},
+                    }
+            },
         };
 
         [WebGet(UriTemplate = "Supported")]
@@ -97,7 +103,8 @@ namespace EMCRestService.Services
         {
             if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[lang][website].StreamAsync(streamWebsite, args) ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
+            StreamingInfo info = m_Supported[lang][website].StreamAsync(streamWebsite, args).Result;
+            return JsonConvert.SerializeObject(info ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
         }
     }
 }

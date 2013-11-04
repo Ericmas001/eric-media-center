@@ -106,15 +106,14 @@ namespace EMCRestService.MovieWebsites
             return mov;
         }
 
-        public StreamingInfo StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = "http://www.primewire.ag/external.php?" + HttpUtility.UrlDecode(args.Replace(".", "%"));
-            string srcUrl = GatheringUtility.GetPageSource(url);
+            string srcUrl = await new HttpClient().GetStringAsync(url);
             if (srcUrl.Contains("frame_header.php?hello=&title="))
-                url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
+                url = srcUrl.Extract("</frameset><noframes>", "</noframes>");
             else
                 url = GatheringUtility.GetPageUrl(url, new CookieContainer());
-
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
         }
 
