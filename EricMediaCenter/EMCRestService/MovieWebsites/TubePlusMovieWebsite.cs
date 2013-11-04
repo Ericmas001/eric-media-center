@@ -85,10 +85,10 @@ namespace EMCRestService.MovieWebsites
             return mov;
         }
 
-        public StreamingInfo StreamAsync(string website, string args)
+        public Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = TubePlusHelper.ObtainURL(website, args);
-            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
+            return new Task<StreamingInfo>(delegate() { return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null }; });
         }
 
         public string MovieURL(string movieId)

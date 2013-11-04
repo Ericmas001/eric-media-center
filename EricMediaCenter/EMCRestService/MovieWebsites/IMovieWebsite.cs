@@ -13,7 +13,7 @@ namespace EMCRestService.MovieWebsites
 
         Task<Movie> MovieAsync(string movieId);
 
-        StreamingInfo StreamAsync(string website, string args);
+        Task<StreamingInfo> StreamAsync(string website, string args);
 
         string MovieURL(string movieId);
     }
