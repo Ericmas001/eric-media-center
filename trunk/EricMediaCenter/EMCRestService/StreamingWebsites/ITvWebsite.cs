@@ -1,9 +1,9 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.TvWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EMCRestService.TvWebsites
+namespace EMCRestService.StreamingWebsites
 {
     public interface ITvWebsite
     {

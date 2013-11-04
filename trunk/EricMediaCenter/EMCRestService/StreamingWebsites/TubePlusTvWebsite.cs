@@ -1,5 +1,5 @@
 ﻿﻿using EMCRestService.Entries;
-using EMCRestService.TvWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EMCRestService.TvWebsites
+namespace EMCRestService.StreamingWebsites
 {
-    public class TubePlusWebsite : ITvWebsite
+    public class TubePlusTvWebsite : ITvWebsite
     {
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(string baseurl)
         {

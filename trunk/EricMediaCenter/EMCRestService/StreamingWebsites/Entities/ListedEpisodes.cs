@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMCRestService.TvWebsites.Entities
+namespace EMCRestService.StreamingWebsites.Entities
 {
     public class ListedEpisode : IComparable<ListedEpisode>
     {

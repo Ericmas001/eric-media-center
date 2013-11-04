@@ -1,4 +1,4 @@
-﻿using EMCRestService.TvWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility2011.Data;
 using Newtonsoft.Json;
 using System;

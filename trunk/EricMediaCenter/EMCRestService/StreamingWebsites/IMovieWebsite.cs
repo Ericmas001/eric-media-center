@@ -1,9 +1,9 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.MovieWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EMCRestService.MovieWebsites
+namespace EMCRestService.StreamingWebsites
 {
     public interface IMovieWebsite
     {

@@ -1,6 +1,6 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.MovieWebsites;
-using EMCRestService.MovieWebsites.Entities;
+using EMCRestService.StreamingWebsites;
+using EMCRestService.StreamingWebsites.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,8 +22,8 @@ namespace EMCRestService.Services
             {
                 "en",new Dictionary<string, IMovieWebsite>
                     {
-                        {"tubeplus.me",new TubePlusWebsite()},
-                        {"primewire.ag",new PrimeWireWebsite()},
+                        {"tubeplus.me",new TubePlusMovieWebsite()},
+                        {"primewire.ag",new PrimeWireMovieWebsite()},
                     }
             },
             {
