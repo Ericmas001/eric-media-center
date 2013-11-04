@@ -1,5 +1,5 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.TvWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 using System;
@@ -12,9 +12,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMCRestService.TvWebsites
+namespace EMCRestService.StreamingWebsites
 {
-    public class WatchseriesOnlineWebsite : ITvWebsite
+    public class WatchseriesOnlineTvWebsite : ITvWebsite
     {
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {

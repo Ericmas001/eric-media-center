@@ -1,6 +1,6 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.TvWebsites;
-using EMCRestService.TvWebsites.Entities;
+using EMCRestService.StreamingWebsites;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility2011.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -28,10 +28,10 @@ namespace EMCRestService.Services
             {
                 "en",new Dictionary<string, ITvWebsite>
                     {
-                        {"tubeplus.me",new TubePlusWebsite()},
-                        {"watchseries-online.eu",new WatchseriesOnlineWebsite()},
+                        {"tubeplus.me",new TubePlusTvWebsite()},
+                        {"watchseries-online.eu",new WatchseriesOnlineTvWebsite()},
                         {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
-                        {"primewire.ag",new PrimeWireWebsite()},
+                        {"primewire.ag",new PrimeWireTvWebsite()},
                         {"watchseries.to",new WatchSeriesTvWebsite()},
                     }
             },

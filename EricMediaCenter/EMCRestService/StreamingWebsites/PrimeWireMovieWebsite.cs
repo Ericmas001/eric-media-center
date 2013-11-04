@@ -1,5 +1,5 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.MovieWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 using System;
@@ -9,9 +9,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace EMCRestService.MovieWebsites
+namespace EMCRestService.StreamingWebsites
 {
-    public class PrimeWireWebsite : IMovieWebsite
+    public class PrimeWireMovieWebsite : IMovieWebsite
     {
         private async Task<IEnumerable<ListedMovie>> AvailableMoviesAsync(CookieContainer cookies, string baseurl)
         {

@@ -1,12 +1,12 @@
 ﻿using EMCRestService.Entries;
-using EMCRestService.MovieWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EMCRestService.MovieWebsites
+namespace EMCRestService.StreamingWebsites
 {
     public class LookizMovieWebsite : IMovieWebsite
     {

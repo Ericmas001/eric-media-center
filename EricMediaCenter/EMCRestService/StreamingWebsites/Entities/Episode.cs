@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EMCRestService.TvWebsites.Entities
+namespace EMCRestService.StreamingWebsites.Entities
 {
     public class Episode : ListedEpisode
     {

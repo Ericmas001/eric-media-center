@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace EMCRestService.MovieWebsites.Entities
+namespace EMCRestService.StreamingWebsites.Entities
 {
-    public class ListedMovie : IComparable<ListedMovie>
+    public class ListedTvShow : IComparable<ListedTvShow>
     {
         private string m_Name;
         private string m_Title;
@@ -19,7 +19,7 @@ namespace EMCRestService.MovieWebsites.Entities
             set { m_Title = value; }
         }
 
-        public int CompareTo(ListedMovie other)
+        public int CompareTo(ListedTvShow other)
         {
             return m_Title.CompareTo(other.Title);
         }

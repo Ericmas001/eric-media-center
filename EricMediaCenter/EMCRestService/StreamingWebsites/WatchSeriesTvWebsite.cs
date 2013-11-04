@@ -1,5 +1,5 @@
 ﻿﻿using EMCRestService.Entries;
-using EMCRestService.TvWebsites.Entities;
+using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 using System;
@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace EMCRestService.TvWebsites
+namespace EMCRestService.StreamingWebsites
 {
     public class WatchSeriesTvWebsite : ITvWebsite
     {

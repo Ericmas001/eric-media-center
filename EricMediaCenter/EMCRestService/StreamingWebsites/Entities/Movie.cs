@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EMCRestService.MovieWebsites.Entities
+namespace EMCRestService.StreamingWebsites.Entities
 {
     public class Movie : ListedMovie
     {
