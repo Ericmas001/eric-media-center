@@ -26,6 +26,7 @@ namespace EMCMovie.Windows.Forms
         string m_Website;
         Movie m_Movie;
         private IEnumerable<string> m_Websites = new string[0];
+        string m_Lang = "en";
         public MainForm()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace EMCMovie.Windows.Forms
             {
                 Enable(false);
                 ClearSearch();
-                var all = await WSUtility.CallWS<Dictionary<string, List<ListedMovie>>>("movie", "search", m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
+                var all = await WSUtility.CallWS<Dictionary<string, List<ListedMovie>>>("movie", "search", m_Lang, m_Websites.Count() == 0 ? "all" : "some_" + String.Join("_", m_Websites), txtSearch.Text);
                 if (all == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -81,7 +82,7 @@ namespace EMCMovie.Windows.Forms
         private async void LoadMovie(ListedMovie ls)
         {
             Enable(false);
-            m_Movie = await WSUtility.CallWS<Movie>("movie", "movie", m_Website, ls.Name);
+            m_Movie = await WSUtility.CallWS<Movie>("movie", "movie", m_Lang, m_Website, ls.Name);
             if (m_Movie == null)
                 MessageBox.Show("An error occured !");
             else
@@ -115,7 +116,7 @@ namespace EMCMovie.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<StreamingInfo>("movie", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<StreamingInfo>("movie", "stream", m_Lang, m_Website, etn.Info.Website, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -175,7 +176,7 @@ namespace EMCMovie.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<string>("movie", "MovieURL", etn.Parent.Text, etn.Info.Name);
+                var si = await WSUtility.CallWS<string>("movie", "MovieURL", m_Lang, etn.Parent.Text, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -218,7 +219,7 @@ namespace EMCMovie.Windows.Forms
             if (etn != null)
             {
                 Enable(false);
-                var si = await WSUtility.CallWS<StreamingInfo>("movie", "stream", m_Website, etn.Info.Website, etn.Info.Name);
+                var si = await WSUtility.CallWS<StreamingInfo>("movie", "stream", m_Lang, m_Website, etn.Info.Website, etn.Info.Name);
                 if (si == null)
                     MessageBox.Show("An error occured !");
                 else
@@ -247,10 +248,11 @@ namespace EMCMovie.Windows.Forms
         private async void btnSupported_Click(object sender, EventArgs e)
         {
             Enable(false);
-            List<string> all = await WSUtility.CallWS<List<string>>("movie", "supported");
-            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites);
+            Dictionary<string, IEnumerable<string>> all = await WSUtility.CallWS<Dictionary<string, IEnumerable<string>>>("movie", "supported");
+            SelectSupportedForm ssf = new SelectSupportedForm(all, m_Websites, m_Lang);
             ssf.ShowDialog();
             m_Websites = ssf.Choosen;
+            m_Lang = ssf.Lang;
             Enable(true);
         }
     }

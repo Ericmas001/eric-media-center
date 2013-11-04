@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
+using EricUtility;
 
 namespace EMCRestService.Services
 {
@@ -30,12 +31,19 @@ namespace EMCRestService.Services
                 foreach (Dictionary<string, object> r in rAll.QueryResults)
                 {
                     string website = (string)r["website"];
+                    string lang = "en";
+                    string realwebsite = website;
+                    if (website.StartsWith("|"))
+                    {
+                        lang = website.Extract("|", "|");
+                        realwebsite = website.Replace("|" + lang + "|", "");
+                    }
                     string name = (string)r["showname"];
                     string title = (string)r["showtitle"];
                     int lastS = (int)r["lastSeason"];
                     int lastE = (int)r["lastEpisode"];
 
-                    string res = tv.Show(website, name);
+                    string res = tv.Show(lang, realwebsite, name);
                     if (res == null)
                     {
                         changes.Add(new { showname = name, website = website, info = "Show not found" });

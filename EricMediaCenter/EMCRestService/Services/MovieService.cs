@@ -17,24 +17,36 @@ namespace EMCRestService.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class MovieService
     {
-        private static Dictionary<string, IMovieWebsite> m_Supported = new Dictionary<string, IMovieWebsite>()
+        private static Dictionary<string, Dictionary<string, IMovieWebsite>> m_Supported = new Dictionary<string, Dictionary<string, IMovieWebsite>>()
         {
-            {"tubeplus.me",new TubePlusWebsite()},
-            {"primewire.ag",new PrimeWireWebsite()},
+            {
+                "en",new Dictionary<string, IMovieWebsite>
+                    {
+                        {"tubeplus.me",new TubePlusWebsite()},
+                        {"primewire.ag",new PrimeWireWebsite()},
+                    }
+            },
         };
 
         [WebGet(UriTemplate = "Supported")]
         public string Supported()
         {
-            string[] items = m_Supported.Keys.ToArray();
-            Array.Sort(items);
-            return JsonConvert.SerializeObject(items);
+            Dictionary<string, IEnumerable<string>> sortedDic = new Dictionary<string, IEnumerable<string>>();
+            string[] lang = m_Supported.Keys.ToArray();
+            Array.Sort(lang);
+            foreach (string l in lang)
+            {
+                string[] websites = m_Supported[l].Keys.ToArray();
+                Array.Sort(websites);
+                sortedDic.Add(l, websites);
+            }
+            return JsonConvert.SerializeObject(sortedDic);
         }
 
-        private void BuildWebsiteList(Dictionary<string, object> websites, string website)
+        private void BuildWebsiteList(string lang, Dictionary<string, object> websites, string website)
         {
             if (website == "all")
-                m_Supported.Keys.ToList().ForEach(x => websites.Add(x, null));
+                m_Supported[lang].Keys.ToList().ForEach(x => websites.Add(x, null));
             else if (website.StartsWith("some_"))
             {
                 string[] somes = website.Split('_');
@@ -44,48 +56,48 @@ namespace EMCRestService.Services
                 websites.Add(website, null);
         }
 
-        [WebGet(UriTemplate = "Search/{website}/{keywords}")]
-        public string Search(string website, string keywords)
+        [WebGet(UriTemplate = "Search/{lang}/{website}/{keywords}")]
+        public string Search(string lang, string website, string keywords)
         {
             Dictionary<string, object> websites = new Dictionary<string, object>();
-            BuildWebsiteList(websites, website);
+            BuildWebsiteList(lang, websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(site) ? null : m_Supported[site].SearchAsync(keywords).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(site)) ? null : m_Supported[lang][site].SearchAsync(keywords).Result);
             return JsonConvert.SerializeObject(websites);
         }
 
-        [WebGet(UriTemplate = "Letter/{website}/{letter}")]
-        public string Letter(string website, string letter)
+        [WebGet(UriTemplate = "Letter/{lang}/{website}/{letter}")]
+        public string Letter(string lang, string website, string letter)
         {
             Dictionary<string, object> websites = new Dictionary<string, object>();
-            BuildWebsiteList(websites, website);
+            BuildWebsiteList(lang, websites, website);
 
-            Parallel.ForEach(websites.Keys, site => websites[site] = !m_Supported.ContainsKey(site) ? null : m_Supported[site].StartsWithAsync(letter).Result);
+            Parallel.ForEach(websites.Keys, site => websites[site] = (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(site)) ? null : m_Supported[lang][site].StartsWithAsync(letter).Result);
             return JsonConvert.SerializeObject(websites);
         }
 
-        [WebGet(UriTemplate = "Movie/{website}/{movieId}")]
-        public string Movie(string website, string movieId)
+        [WebGet(UriTemplate = "Movie/{lang}/{website}/{movieId}")]
+        public string Movie(string lang, string website, string movieId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].MovieAsync(movieId).Result ?? new Movie());
+            return JsonConvert.SerializeObject(m_Supported[lang][website].MovieAsync(movieId).Result ?? new Movie());
         }
 
-        [WebGet(UriTemplate = "MovieURL/{website}/{movieId}")]
-        public string MovieURL(string website, string movieId)
+        [WebGet(UriTemplate = "MovieURL/{lang}/{website}/{movieId}")]
+        public string MovieURL(string lang, string website, string movieId)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].MovieURL(movieId));
+            return JsonConvert.SerializeObject(m_Supported[lang][website].MovieURL(movieId));
         }
 
-        [WebGet(UriTemplate = "Stream/{website}/{streamWebsite}/{args}")]
-        public string Stream(string website, string streamWebsite, string args)
+        [WebGet(UriTemplate = "Stream/{lang}/{website}/{streamWebsite}/{args}")]
+        public string Stream(string lang, string website, string streamWebsite, string args)
         {
-            if (!m_Supported.ContainsKey(website))
+            if (!m_Supported.ContainsKey(lang) || !m_Supported[lang].ContainsKey(website))
                 return null;
-            return JsonConvert.SerializeObject(m_Supported[website].StreamAsync(streamWebsite, args) ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
+            return JsonConvert.SerializeObject(m_Supported[lang][website].StreamAsync(streamWebsite, args) ?? new StreamingInfo() { Website = streamWebsite, Arguments = args });
         }
     }
 }
