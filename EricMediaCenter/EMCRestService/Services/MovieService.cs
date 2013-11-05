@@ -23,6 +23,7 @@ namespace EMCRestService.Services
                     {
                         {TubePlusWebsite.NAME,new TubePlusWebsite()},
                         {PrimeWireWebsite.NAME,new PrimeWireWebsite()},
+                        {VioozMovieWebsite.NAME,new VioozMovieWebsite()},
                     }
             },
             {
