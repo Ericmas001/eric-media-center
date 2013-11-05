@@ -1,5 +1,4 @@
-﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites;
+﻿using EMCRestService.StreamingWebsites;
 using EMCRestService.StreamingWebsites.Entities;
 using EricUtility2011.Data;
 using Newtonsoft.Json;

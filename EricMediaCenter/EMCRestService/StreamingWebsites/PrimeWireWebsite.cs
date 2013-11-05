@@ -1,5 +1,4 @@
-﻿﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using EricUtility.Networking.Gathering;
 using System;
@@ -15,8 +14,8 @@ namespace EMCRestService.StreamingWebsites
 {
     public class PrimeWireWebsite : ITvWebsite, IMovieWebsite
     {
-        public static readonly string NAME { get { return "PrimeWire.ag"; } }
-        public static readonly string URL { get { return "www.primewire.ag"; } }
+        public static string NAME { get { return "PrimeWire.ag"; } }
+        public static string URL { get { return "www.primewire.ag"; } }
 
         private async Task<IEnumerable<T>> AvailableAsync<T>(CookieContainer cookies, string baseurl) where T : IListedStreamingItem, new()
         {

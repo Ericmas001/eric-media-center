@@ -1,5 +1,4 @@
-﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,8 @@ namespace EMCRestService.StreamingWebsites
 {
     public class ProjectFreeTvWebsite : ITvWebsite
     {
-        public static readonly string NAME { get { return "Free-Tv-Video-Online.me"; } }
-        public static readonly string URL { get { return "www.free-tv-video-online.me"; } }
+        public static string NAME { get { return "Free-Tv-Video-Online.me"; } }
+        public static string URL { get { return "www.free-tv-video-online.me"; } }
 
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {

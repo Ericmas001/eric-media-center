@@ -1,5 +1,4 @@
-﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,8 @@ namespace EMCRestService.StreamingWebsites
 {
     public class TvLinksTvWebsite : ITvWebsite
     {
-        public static readonly string NAME { get { return "TVLinks.eu"; } }
-        public static readonly string URL { get { return "www.tvmuse.eu"; } }
+        public static string NAME { get { return "TVLinks.eu"; } }
+        public static string URL { get { return "www.tvmuse.eu"; } }
 
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {
