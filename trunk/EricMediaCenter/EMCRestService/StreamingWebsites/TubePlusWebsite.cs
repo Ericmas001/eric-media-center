@@ -12,6 +12,9 @@ namespace EMCRestService.StreamingWebsites
 {
     public class TubePlusWebsite : ITvWebsite, IMovieWebsite
     {
+        public static readonly string NAME { get { return "TubePlus.me"; } }
+        public static readonly string URL { get { return "www.tubeplus.me"; } }
+
         private async Task<IEnumerable<T>> AvailableAsync<T>(string baseurl) where T : IListedStreamingItem, new()
         {
             List<T> availables = new List<T>();
@@ -40,7 +43,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableAsync<ListedTvShow>("http://www.tubeplus.me/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
+                return await AvailableAsync<ListedTvShow>("http://" + URL + "/search/tv-shows/" + keywords.Replace(" ", "_") + "/");
             }
             catch { return null; }
         }
@@ -49,7 +52,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableAsync<ListedTvShow>("http://www.tubeplus.me/browse/tv-shows/All_Genres/" + letter + "/");
+                return await AvailableAsync<ListedTvShow>("http://" + URL + "/browse/tv-shows/All_Genres/" + letter + "/");
             }
             catch { return null; }
         }
@@ -58,7 +61,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableAsync<ListedMovie>("http://www.tubeplus.me/search/movies/" + keywords.Replace(" ", "_") + "/");
+                return await AvailableAsync<ListedMovie>("http://" + URL + "/search/movies/" + keywords.Replace(" ", "_") + "/");
             }
             catch { return null; }
         }
@@ -67,7 +70,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableAsync<ListedMovie>("http://www.tubeplus.me/browse/movies/All_Genres/" + letter + "/");
+                return await AvailableAsync<ListedMovie>("http://" + URL + "/browse/movies/All_Genres/" + letter + "/");
             }
             catch { return null; }
         }
@@ -80,7 +83,7 @@ namespace EMCRestService.StreamingWebsites
             TvShow show = new TvShow();
             show.Name = name;
             show.IsComplete = true;
-            string baseurl = "http://www.tubeplus.me/info/" + name + "/";
+            string baseurl = "http://" + URL + "/info/" + name + "/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Movie have been removed"))
@@ -159,7 +162,7 @@ namespace EMCRestService.StreamingWebsites
         {
             Episode ep = new Episode();
             ep.Name = epId;
-            string baseurl = "http://www.tubeplus.me/player/" + epId + "/";
+            string baseurl = "http://" + URL + "/player/" + epId + "/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Movie have been removed"))
@@ -197,7 +200,7 @@ namespace EMCRestService.StreamingWebsites
         {
             Movie mov = new Movie();
             mov.Name = movieId;
-            string baseurl = "http://www.tubeplus.me/player/" + movieId + "/";
+            string baseurl = "http://" + URL + "/player/" + movieId + "/";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Movie have been removed"))
@@ -234,17 +237,17 @@ namespace EMCRestService.StreamingWebsites
 
         public string ShowURL(string name)
         {
-            return "http://www.tubeplus.me/info/" + name + "/";
+            return "http://" + URL + "/info/" + name + "/";
         }
 
         public string EpisodeURL(string epId)
         {
-            return "http://www.tubeplus.me/player/" + epId + "/";
+            return "http://" + URL + "/player/" + epId + "/";
         }
 
         public string MovieURL(string movieId)
         {
-            return "http://www.tubeplus.me/player/" + movieId + "/";
+            return "http://" + URL + "/player/" + movieId + "/";
         }
 
 

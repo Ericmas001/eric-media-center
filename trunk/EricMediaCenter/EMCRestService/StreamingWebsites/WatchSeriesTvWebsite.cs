@@ -15,6 +15,9 @@ namespace EMCRestService.StreamingWebsites
 {
     public class WatchSeriesTvWebsite : ITvWebsite
     {
+        public static readonly string NAME { get { return "WatchSeries.to"; } }
+        public static readonly string URL { get { return "watchseries.to"; } }
+
         public async Task<IEnumerable<ListedTvShow>> SearchAsync(string keywords)
         {
             try
@@ -22,7 +25,7 @@ namespace EMCRestService.StreamingWebsites
                 CookieContainer cookies = new CookieContainer();
                 List<ListedTvShow> availables = new List<ListedTvShow>();
                 bool endReached = false;
-                string baseurl = "http://watchseries.to/search/" + keywords;
+                string baseurl = "http://" + URL + "/search/" + keywords;
                 string url = baseurl;
                 do
                 {
@@ -64,12 +67,12 @@ namespace EMCRestService.StreamingWebsites
             {
                 CookieContainer cookies = new CookieContainer();
                 List<ListedTvShow> availables = new List<ListedTvShow>();
-                string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.watchseries.to/letters/" + letter);
+                string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www." + URL + "/letters/" + letter);
                 string allShows = src.Extract("<div class=\"episode-summary\">", "</div>");
                 if (allShows == null)
                     return null;
                 string td = "<td valign=\"top\">";
-                string showurl = "http://watchseries.to/serie/";
+                string showurl = "http://" + URL + "/serie/";
                 int start = allShows.IndexOf(td) + td.Length;
                 while (start >= showurl.Length)
                 {
@@ -96,7 +99,7 @@ namespace EMCRestService.StreamingWebsites
             name = name.Replace(";2pts;", ":");
             show.Name = name;
             show.IsComplete = true;
-            string baseurl = "http://watchseries.to/serie/" + name;
+            string baseurl = "http://" + URL + "/serie/" + name;
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
 
             if (src.Contains("Um, Where did the page go?"))
@@ -111,7 +114,6 @@ namespace EMCRestService.StreamingWebsites
             int startS = allSeasons.IndexOf(seasDeb) + seasDeb.Length;
             while (startS >= seasDeb.Length)
             {
-                //TvSeasonEntry season = new TvSeasonEntry();
                 int endS = allSeasons.IndexOf("</ul>", startS);
                 string itemS = allSeasons.Substring(startS, endS - startS).Trim();
                 startS = allSeasons.IndexOf(seasDeb, endS) + seasDeb.Length;
@@ -158,7 +160,7 @@ namespace EMCRestService.StreamingWebsites
             Episode ep = new Episode();
             ep.Name = epId;
             string epIdClean = HttpUtility.UrlDecode(epId.Replace(".", "%"));
-            string baseurl = "http://watchseries.to/episode/" + epId + ".html";
+            string baseurl = "http://" + URL + "/episode/" + epId + ".html";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             ep.Title = src.Extract(" - ", " - Watch Series</title>").Trim();
@@ -192,7 +194,7 @@ namespace EMCRestService.StreamingWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://www.watchseries.to/open/cale/" + args + ".html";
+            string url = "http://www." + URL + "/open/cale/" + args + ".html";
             string srcUrl = await new HttpClient().GetStringAsync(url);
             string urlBlock = srcUrl.Extract("<div id=\"popup2-middle\" style=\"border: 0px;margin-top: 50px; height: auto;\">","</div>");
             if( urlBlock != null )
@@ -202,12 +204,12 @@ namespace EMCRestService.StreamingWebsites
 
         public string ShowURL(string name)
         {
-            return "http://watchseries.to/serie/" + name;
+            return "http://" + URL + "/serie/" + name;
         }
 
         public string EpisodeURL(string epId)
         {
-            return "http://watchseries.to/episode/" + epId + ".html";
+            return "http://" + URL + "/episode/" + epId + ".html";
         }
     }
 }

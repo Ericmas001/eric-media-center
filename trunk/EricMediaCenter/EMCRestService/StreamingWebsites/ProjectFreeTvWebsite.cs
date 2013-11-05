@@ -12,10 +12,13 @@ namespace EMCRestService.StreamingWebsites
 {
     public class ProjectFreeTvWebsite : ITvWebsite
     {
+        public static readonly string NAME { get { return "Free-Tv-Video-Online.me"; } }
+        public static readonly string URL { get { return "www.free-tv-video-online.me"; } }
+
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
         {
             List<ListedTvShow> availables = new List<ListedTvShow>();
-            string src = await new HttpClient().GetStringAsync("http://www.free-tv-video-online.me/internet/");
+            string src = await new HttpClient().GetStringAsync("http://" + URL + "/internet/");
             string allShows = src.Extract("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" align=\"center\" bgcolor=\"#FFFFFF\">", "<!-- Start of the latest link tables -->");
             string itemp = "class=\"mnlcategorylist\"";
             int start = allShows.IndexOf(itemp) + itemp.Length;
@@ -61,7 +64,7 @@ namespace EMCRestService.StreamingWebsites
             TvShow show = new TvShow();
             show.Name = name;
 
-            string baseurl = "http://www.free-tv-video-online.me/internet/" + name;
+            string baseurl = "http://" + URL + "/internet/" + name;
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Project Free TV Disclaimer"))
@@ -130,7 +133,7 @@ namespace EMCRestService.StreamingWebsites
             Episode ep = new Episode();
             ep.Name = epId;
             string[] info = epId.Split('-');
-            string baseurl = "http://www.free-tv-video-online.me/internet/" + info[0] + "/" + info[1] + ".html";
+            string baseurl = "http://" + URL + "/internet/" + info[0] + "/" + info[1] + ".html";
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Project Free TV Disclaimer"))
@@ -154,7 +157,7 @@ namespace EMCRestService.StreamingWebsites
                 startP = all.IndexOf(linkDeb, endP) + linkDeb.Length;
 
                 string website = itemP.Extract( "Host: ", "<br/>");
-                string url = itemP.Extract( "href=\"http://www.free-tv-video-online.me/player/", "\"");
+                string url = itemP.Extract( "href=\"http://" + URL + "/player/", "\"");
                 if (url == null)
                 {
                     url = itemP.Extract( "href=\"http://", "\"").Replace("/", "_");
@@ -178,7 +181,7 @@ namespace EMCRestService.StreamingWebsites
                 string mid = "_id_";
                 string page = args.Extract( "php_", mid) + ".php";
                 args = args.Substring(args.IndexOf(mid) + mid.Length);
-                url = "http://www.free-tv-video-online.me/player/" + page + "?id=" + args;
+                url = "http://" + URL + "/player/" + page + "?id=" + args;
 
                 switch (website)
                 {
@@ -241,13 +244,13 @@ namespace EMCRestService.StreamingWebsites
 
         public string ShowURL(string name)
         {
-            return "http://www.free-tv-video-online.me/internet/" + name;
+            return "http://" + URL + "/internet/" + name;
         }
 
         public string EpisodeURL(string epId)
         {
             string[] info = epId.Split('-');
-            return "http://www.free-tv-video-online.me/internet/" + info[0] + "/" + info[1] + ".html#" + info[2];
+            return "http://" + URL + "/internet/" + info[0] + "/" + info[1] + ".html#" + info[2];
         }
     }
 }

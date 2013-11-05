@@ -28,11 +28,11 @@ namespace EMCRestService.Services
             {
                 "en",new Dictionary<string, ITvWebsite>
                     {
-                        {"tubeplus.me",new TubePlusWebsite()},
-                        {"watchseries-online.eu",new WatchSeriesOnlineTvWebsite()},
-                        {"free-tv-video-online.me",new ProjectFreeTvWebsite()},
-                        {"primewire.ag",new PrimeWireWebsite()},
-                        {"watchseries.to",new WatchSeriesTvWebsite()},
+                        {TubePlusWebsite.NAME,new TubePlusWebsite()},
+                        {WatchSeriesOnlineTvWebsite.NAME,new WatchSeriesOnlineTvWebsite()},
+                        {ProjectFreeTvWebsite.NAME,new ProjectFreeTvWebsite()},
+                        {PrimeWireWebsite.NAME,new PrimeWireWebsite()},
+                        {WatchSeriesTvWebsite.NAME,new WatchSeriesTvWebsite()},
                     }
             },
         };
