@@ -95,6 +95,7 @@
     <Compile Include="Services\Deprecated\Entities\TvEpisodeDetailedEntry.cs" />
     <Compile Include="Services\Deprecated\Entities\TvRageEntry.cs" />
     <Compile Include="Services\Deprecated\Entities\EpGuideEntry.cs" />
+    <Compile Include="StreamingWebsites\VioozMovieWebsite.cs" />
     <Compile Include="StreamingWebsites\Entities\IListedStreamingItem.cs" />
     <Compile Include="StreamingWebsites\LookizMovieWebsite.cs" />
     <Compile Include="StreamingWebsites\Entities\Movie.cs" />
