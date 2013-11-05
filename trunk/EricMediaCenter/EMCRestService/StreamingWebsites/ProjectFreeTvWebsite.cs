@@ -11,7 +11,7 @@ namespace EMCRestService.StreamingWebsites
 {
     public class ProjectFreeTvWebsite : ITvWebsite
     {
-        public static string NAME { get { return "Free-Tv-Video-Online.me"; } }
+        public static string NAME { get { return "free-tv-video-online.me"; } }
         public static string URL { get { return "www.free-tv-video-online.me"; } }
 
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)

@@ -11,7 +11,7 @@ namespace EMCRestService.StreamingWebsites
 {
     public class TubePlusWebsite : ITvWebsite, IMovieWebsite
     {
-        public static string NAME { get { return "TubePlus.me"; } }
+        public static string NAME { get { return "tubeplus.me"; } }
         public static string URL { get { return "www.tubeplus.me"; } }
 
         private async Task<IEnumerable<T>> AvailableAsync<T>(string baseurl) where T : IListedStreamingItem, new()

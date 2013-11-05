@@ -11,7 +11,7 @@ namespace EMCRestService.StreamingWebsites
 {
     public class VioozMovieWebsite : IMovieWebsite
     {
-        public static string NAME { get { return "Viooz.co"; } }
+        public static string NAME { get { return "viooz.co"; } }
         public static string URL { get { return "viooz.co"; } }
 
         private async Task<IEnumerable<ListedMovie>> AvailableMovieAsync(string baseurl)
