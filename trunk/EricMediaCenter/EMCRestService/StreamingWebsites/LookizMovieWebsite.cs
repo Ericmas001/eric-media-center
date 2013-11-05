@@ -1,5 +1,4 @@
-﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
@@ -10,8 +9,8 @@ namespace EMCRestService.StreamingWebsites
 {
     public class LookizMovieWebsite : IMovieWebsite
     {
-        public static readonly string NAME { get { return "Lookiz.ws"; } }
-        public static readonly string URL { get { return "www.lookiz.ws"; } }
+        public static string NAME { get { return "Lookiz.ws"; } }
+        public static string URL { get { return "www.lookiz.ws"; } }
 
         private async Task<IEnumerable<ListedMovie>> AvailableMoviesAsync(string baseurl)
         {

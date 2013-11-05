@@ -1,5 +1,4 @@
-﻿﻿using EMCRestService.Entries;
-using EMCRestService.StreamingWebsites.Entities;
+﻿using EMCRestService.StreamingWebsites.Entities;
 using EricUtility;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,8 @@ namespace EMCRestService.StreamingWebsites
 {
     public class TubePlusWebsite : ITvWebsite, IMovieWebsite
     {
-        public static readonly string NAME { get { return "TubePlus.me"; } }
-        public static readonly string URL { get { return "www.tubeplus.me"; } }
+        public static string NAME { get { return "TubePlus.me"; } }
+        public static string URL { get { return "www.tubeplus.me"; } }
 
         private async Task<IEnumerable<T>> AvailableAsync<T>(string baseurl) where T : IListedStreamingItem, new()
         {
