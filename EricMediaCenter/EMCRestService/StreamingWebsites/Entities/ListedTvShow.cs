@@ -2,7 +2,7 @@
 
 namespace EMCRestService.StreamingWebsites.Entities
 {
-    public class ListedTvShow : IComparable<ListedTvShow>
+    public class ListedTvShow : IComparable<ListedTvShow>, IListedStreamingItem
     {
         private string m_Name;
         private string m_Title;

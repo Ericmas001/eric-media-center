@@ -2,7 +2,7 @@
 
 namespace EMCRestService.StreamingWebsites.Entities
 {
-    public class ListedMovie : IComparable<ListedMovie>
+    public class ListedMovie : IComparable<ListedMovie>, IListedStreamingItem
     {
         private string m_Name;
         private string m_Title;

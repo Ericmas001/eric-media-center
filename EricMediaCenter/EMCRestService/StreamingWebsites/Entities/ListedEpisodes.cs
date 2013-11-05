@@ -2,7 +2,7 @@
 
 namespace EMCRestService.StreamingWebsites.Entities
 {
-    public class ListedEpisode : IComparable<ListedEpisode>
+    public class ListedEpisode : IComparable<ListedEpisode>, IListedStreamingItem
     {
         private int m_NoSeason;
         private int m_NoEpisode;
