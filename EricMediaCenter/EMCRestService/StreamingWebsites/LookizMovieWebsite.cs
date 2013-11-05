@@ -9,7 +9,7 @@ namespace EMCRestService.StreamingWebsites
 {
     public class LookizMovieWebsite : IMovieWebsite
     {
-        public static string NAME { get { return "Lookiz.ws"; } }
+        public static string NAME { get { return "lookiz.ws"; } }
         public static string URL { get { return "www.lookiz.ws"; } }
 
         private async Task<IEnumerable<ListedMovie>> AvailableMoviesAsync(string baseurl)

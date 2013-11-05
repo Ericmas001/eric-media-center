@@ -15,7 +15,7 @@ namespace EMCRestService.StreamingWebsites
 {
     public class WatchSeriesOnlineTvWebsite : ITvWebsite
     {
-        public static string NAME { get { return "WatchSeries-Online.eu"; } }
+        public static string NAME { get { return "watchseries-online.eu"; } }
         public static string URL { get { return "www.watchseries-online.eu"; } }
 
         private async Task<IEnumerable<ListedTvShow>> AvailableShowsAsync(params string[] keywords)
