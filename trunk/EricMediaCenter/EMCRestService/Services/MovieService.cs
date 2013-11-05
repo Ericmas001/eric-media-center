@@ -22,8 +22,8 @@ namespace EMCRestService.Services
             {
                 "en",new Dictionary<string, IMovieWebsite>
                     {
-                        {"tubeplus.me",new TubePlusMovieWebsite()},
-                        {"primewire.ag",new PrimeWireMovieWebsite()},
+                        {"tubeplus.me",new TubePlusWebsite()},
+                        {"primewire.ag",new PrimeWireWebsite()},
                     }
             },
             {

@@ -3,7 +3,7 @@ using EMCRestService.StreamingWebsites.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EMCRestService.StreamingWebsites
+namespace EMCRestService.StreamingWebsites.Entities
 {
     public interface IMovieWebsite
     {
