@@ -44,7 +44,7 @@ namespace EMCRestService.StreamingWebsites
                     string item = allShows.Substring(start, end - start);
 
                     T entry = new T();
-                    entry.Name = "tv-" + item.Extract("<a href=\"/" + (typeof(T) == typeof(ListedTvShow) ? "watch-" : ""), "\"");
+                    entry.Name = (typeof(T) == typeof(ListedTvShow) ? "tv-" : "") + item.Extract("<a href=\"/" + (typeof(T) == typeof(ListedTvShow) ? "watch-" : ""), "\"");
                     entry.Title = item.Extract(" title=\"Watch ", "\"").Trim();
                     availables.Add(entry);
                     start = allShows.IndexOf(itemp, end) + itemp.Length;
