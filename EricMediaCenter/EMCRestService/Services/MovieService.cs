@@ -22,14 +22,14 @@ namespace EMCRestService.Services
             {
                 "en",new Dictionary<string, IMovieWebsite>
                     {
-                        {"tubeplus.me",new TubePlusWebsite()},
-                        {"primewire.ag",new PrimeWireWebsite()},
+                        {TubePlusWebsite.NAME,new TubePlusWebsite()},
+                        {PrimeWireWebsite.NAME,new PrimeWireWebsite()},
                     }
             },
             {
                 "fr",new Dictionary<string, IMovieWebsite>
                     {
-                        {"lookiz.ws",new LookizMovieWebsite()},
+                        {LookizMovieWebsite.NAME,new LookizMovieWebsite()},
                     }
             },
         };

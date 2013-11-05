@@ -15,6 +15,9 @@ namespace EMCRestService.StreamingWebsites
 {
     public class PrimeWireWebsite : ITvWebsite, IMovieWebsite
     {
+        public static readonly string NAME { get { return "PrimeWire.ag"; } }
+        public static readonly string URL { get { return "www.primewire.ag"; } }
+
         private async Task<IEnumerable<T>> AvailableAsync<T>(CookieContainer cookies, string baseurl) where T : IListedStreamingItem, new()
         {
             List<T> availables = new List<T>();
@@ -59,9 +62,9 @@ namespace EMCRestService.StreamingWebsites
             {
                 CookieContainer cookies = new CookieContainer();
 
-                string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
+                string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://" + URL + "/");
                 string key = res.Extract("<input type=\"hidden\" name=\"key\" value=\"", "\"");
-                return await AvailableAsync<ListedTvShow>(cookies, "http://www.primewire.ag/index.php?search_section=2&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
+                return await AvailableAsync<ListedTvShow>(cookies, "http://" + URL + "/index.php?search_section=2&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
             }
             catch { return null; }
         }
@@ -78,9 +81,9 @@ namespace EMCRestService.StreamingWebsites
             {
                 CookieContainer cookies = new CookieContainer();
 
-                string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://www.primewire.ag/");
+                string res = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync("http://" + URL + "/");
                 string key = res.Extract("<input type=\"hidden\" name=\"key\" value=\"", "\"");
-                return await AvailableAsync<ListedMovie>(cookies, "http://www.primewire.ag/index.php?search_section=1&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
+                return await AvailableAsync<ListedMovie>(cookies, "http://" + URL + "/index.php?search_section=1&search_keywords=" + keywords.Replace(" ", "+") + "&key=" + key);
             }
             catch { return null; }
         }
@@ -96,7 +99,7 @@ namespace EMCRestService.StreamingWebsites
             TvShow show = new TvShow();
             show.Name = name;
             show.IsComplete = true;
-            string baseurl = "http://www.primewire.ag/" + name;
+            string baseurl = "http://" + URL + "/" + name;
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
 
             show.Title = src.Extract("<a href=\"/" + name + "\">", "</a>");
@@ -150,7 +153,7 @@ namespace EMCRestService.StreamingWebsites
             Episode ep = new Episode();
             ep.Name = epId;
             string epIdClean = HttpUtility.UrlDecode(epId.Replace(".", "%"));
-            string baseurl = "http://www.primewire.ag/" + epIdClean;
+            string baseurl = "http://" + URL + "/" + epIdClean;
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             if (src.Contains("Doesn't look like there are any links"))
@@ -191,7 +194,7 @@ namespace EMCRestService.StreamingWebsites
             CookieContainer cookies = new CookieContainer();
             Movie mov = new Movie();
             mov.Name = movieId;
-            string baseurl = "http://www.primewire.ag/" + movieId + "/";
+            string baseurl = "http://" + URL + "/" + movieId + "/";
             string src = await new HttpClient(new HttpClientHandler() { CookieContainer = cookies }).GetStringAsync(baseurl);
 
             if (src.Contains("Doesn't look like there are any links"))
@@ -221,7 +224,7 @@ namespace EMCRestService.StreamingWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string url = "http://www.primewire.ag/external.php?" + HttpUtility.UrlDecode(args.Replace(".", "%"));
+            string url = "http://" + URL + "/external.php?" + HttpUtility.UrlDecode(args.Replace(".", "%"));
             string srcUrl = await new HttpClient().GetStringAsync(url);
             if (srcUrl.Contains("frame_header.php?hello=&title="))
                 url = srcUrl.Extract( "</frameset><noframes>", "</noframes>");
@@ -232,17 +235,17 @@ namespace EMCRestService.StreamingWebsites
 
         public string ShowURL(string name)
         {
-            return "http://www.primewire.ag/" + name;
+            return "http://" + URL + "/" + name;
         }
 
         public string EpisodeURL(string epId)
         {
-            return "http://www.primewire.ag/" + HttpUtility.UrlDecode(epId.Replace(".", "%"));
+            return "http://" + URL + "/" + HttpUtility.UrlDecode(epId.Replace(".", "%"));
         }
 
         public string MovieURL(string movieId)
         {
-            return "http://www.primewire.ag/" + movieId + "/";
+            return "http://" + URL + "/" + movieId + "/";
         }
     }
 }

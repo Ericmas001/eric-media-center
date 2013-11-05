@@ -10,6 +10,9 @@ namespace EMCRestService.StreamingWebsites
 {
     public class LookizMovieWebsite : IMovieWebsite
     {
+        public static readonly string NAME { get { return "Lookiz.ws"; } }
+        public static readonly string URL { get { return "www.lookiz.ws"; } }
+
         private async Task<IEnumerable<ListedMovie>> AvailableMoviesAsync(string baseurl)
         {
             List<ListedMovie> availables = new List<ListedMovie>();
@@ -57,7 +60,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableMoviesAsync("http://www.lookiz.ws/recherche/tf-" + keywords.Replace(" ", "+"));
+                return await AvailableMoviesAsync("http://" + URL + "/recherche/tf-" + keywords.Replace(" ", "+"));
             }
             catch { return null; }
         }
@@ -66,7 +69,7 @@ namespace EMCRestService.StreamingWebsites
         {
             try
             {
-                return await AvailableMoviesAsync("http://www.lookiz.ws/films/titre/" + letter);
+                return await AvailableMoviesAsync("http://" + URL + "/films/titre/" + letter);
             }
             catch { return null; }
         }
@@ -75,7 +78,7 @@ namespace EMCRestService.StreamingWebsites
         {
             Movie mov = new Movie();
             mov.Name = movieId;
-            string baseurl = "http://www.lookiz.ws/films/movie/" + movieId;
+            string baseurl = "http://" + URL + "/films/movie/" + movieId;
             string src = await new HttpClient().GetStringAsync(baseurl);
 
             //if (src.Contains("Movie have been removed"))
@@ -114,7 +117,7 @@ namespace EMCRestService.StreamingWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            string baseurl = "http://www.lookiz.ws/films/link/" + args;
+            string baseurl = "http://" + URL + "/films/link/" + args;
             string src = await new HttpClient().GetStringAsync(baseurl);
             string url = WebsiteGetUrl(website,src);
             return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
@@ -132,7 +135,7 @@ namespace EMCRestService.StreamingWebsites
 
         public string MovieURL(string movieId)
         {
-            return "http://www.lookiz.ws/films/stream/" + movieId;
+            return "http://" + URL + "/films/stream/" + movieId;
         }
     }
 }
