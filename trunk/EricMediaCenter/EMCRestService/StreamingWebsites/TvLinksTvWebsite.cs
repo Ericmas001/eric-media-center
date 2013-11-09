@@ -165,9 +165,9 @@ namespace EMCRestService.StreamingWebsites
             return ep;
         }
 
-        public Task<StreamingInfo> StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            return new Task<StreamingInfo>(delegate() { return new StreamingInfo() { StreamingURL = "http://" + URL + "/gateway.php?data=" + args, Arguments = args, Website = website, DownloadURL = null }; });
+            return new StreamingInfo() { StreamingURL = "http://" + URL + "/gateway.php?data=" + args, Arguments = args, Website = website, DownloadURL = null };
         }
 
         public string ShowURL(string showId)

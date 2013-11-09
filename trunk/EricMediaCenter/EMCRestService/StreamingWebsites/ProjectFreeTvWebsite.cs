@@ -172,7 +172,7 @@ namespace EMCRestService.StreamingWebsites
             return ep;
         }
 
-        public Task<StreamingInfo> StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = null;
             if (args.StartsWith("php_"))
@@ -238,7 +238,7 @@ namespace EMCRestService.StreamingWebsites
             }
             else
                 url = "http://" + args.Replace("_", "/");
-            return new Task<StreamingInfo>(delegate() { return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null }; });
+            return new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
         }
 
         public string ShowURL(string name)

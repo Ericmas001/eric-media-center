@@ -228,10 +228,10 @@ namespace EMCRestService.StreamingWebsites
             return mov;
         }
 
-        public Task<StreamingInfo> StreamAsync(string website, string args)
+        public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
             string url = TubePlusWebsite.ObtainURL(website, args);
-            return new Task<StreamingInfo>(delegate() { return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null }; });
+            return url == null ? null : new StreamingInfo() { StreamingURL = url, Arguments = args, Website = website, DownloadURL = null };
         }
 
         public string ShowURL(string name)
