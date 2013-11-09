@@ -19,7 +19,7 @@ namespace EMCCommon.WebService
 
         public static async Task<T> CallWS<T>(string ws, string command, params string[] parms)
         {
-            List<string> path = new List<string> { (DebugMode ? "http://localhost:50082" : "http://emc.ericmas001.com"), ws, command };
+            List<string> path = new List<string> { (DebugMode ? "http://localhost:50082" : "http://ws.ericmas001.com/emc"), ws, command };
             path.AddRange(parms);
 
             string url = String.Join("/", path.ToArray());
