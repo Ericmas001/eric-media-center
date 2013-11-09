@@ -206,7 +206,8 @@ namespace EMCTv.Windows.Forms
                             if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                             {
                                 new OpenURLForm(si, String.Format("{0} S{1:00}E{2:00}.flv", m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode)).ShowDialog();
-                                await SetLastViewed(m_Episode.NoSeason, m_Episode.NoEpisode);
+                                if( m_Fav != null )
+                                    await SetLastViewed(m_Episode.NoSeason, m_Episode.NoEpisode);
                                 etn.ForeColor = Color.DarkGray;
                             }
                             else
@@ -548,6 +549,14 @@ namespace EMCTv.Windows.Forms
             m_Websites = ssf.Choosen;
             m_SearchLang = ssf.Lang;
             Enable(true);
+        }
+
+        private void findOnOtherWebsitesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FavoriteTvShow fts = lstFavs.SelectedItem as FavoriteTvShow;
+            tabControl1.SelectedTab = tabPage2;
+            txtSearch.Text = fts.Title;
+            btnSearch_Click(sender, e);
         }
     }
 }
