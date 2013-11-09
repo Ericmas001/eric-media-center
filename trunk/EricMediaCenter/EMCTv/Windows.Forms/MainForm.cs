@@ -101,18 +101,26 @@ namespace EMCTv.Windows.Forms
             Enable(false);
             string command = full ? "showFull" : "show";
             m_Show = await WSUtility.CallWS<TvShow>("tv", command, m_ShowLang, m_Website, ls.Name);
+            EMCTreeNode<ListedEpisode> nextEpisode = null;
             if (m_Show == null)
                 MessageBox.Show("An error occured !");
             else
             {
                 lblShow.Text = m_Show.Title;
-                PeupleShow();
+                nextEpisode = PeupleShow();
             }
             Enable(true);
+            if (nextEpisode != null)
+            {
+                tvEpisode.SelectedNode = nextEpisode;
+                nextEpisode.EnsureVisible();
+                tvEpisode_DoubleClick(tvEpisode, new EventArgs());
+            }
         }
 
-        private void PeupleShow()
+        private EMCTreeNode<ListedEpisode> PeupleShow()
         {
+            EMCTreeNode<ListedEpisode> nextEpisode = null;
             if (m_Show != null)
             {
                 foreach (int s in m_Show.Episodes.Keys)
@@ -128,6 +136,8 @@ namespace EMCTv.Windows.Forms
                             tn2.ForeColor = Color.DarkGray;
                         else
                         {
+                            if (nextEpisode == null)
+                                nextEpisode = tn2;
                             tn2.ForeColor = Color.Black;
                             allviewed = false;
                         }
@@ -139,6 +149,7 @@ namespace EMCTv.Windows.Forms
                         tn.ForeColor = Color.Black;
                 }
             }
+            return nextEpisode;
         }
 
         private async void tvEpisode_DoubleClick(object sender, EventArgs e)
@@ -195,6 +206,7 @@ namespace EMCTv.Windows.Forms
                             if (!String.IsNullOrWhiteSpace(si.DownloadURL))
                             {
                                 new OpenURLForm(si, String.Format("{0} S{1:00}E{2:00}.flv", m_Show.Title, m_Episode.NoSeason, m_Episode.NoEpisode)).ShowDialog();
+                                await SetLastViewed(m_Episode.NoSeason, m_Episode.NoEpisode);
                                 etn.ForeColor = Color.DarkGray;
                             }
                             else
@@ -305,21 +317,36 @@ namespace EMCTv.Windows.Forms
 
         private async void btnLastViewed_Click(object sender, EventArgs e)
         {
+            await SetLastViewed(m_Episode.NoSeason, m_Episode.NoEpisode);
+        }
+
+
+        private async void setAsLastViewedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
+            await SetLastViewed(etn.Info.NoSeason, etn.Info.NoEpisode);
+        }
+        private async Task<bool> SetLastViewed(int sId, int eId)
+        {
             Enable(false);
-            if (!(await m_Session.SetLastViewed(m_ShowLang, m_Website, m_Show.Name, m_Episode.NoSeason, m_Episode.NoEpisode)))
+            if (!(await m_Session.SetLastViewed(m_ShowLang, m_Website, m_Show.Name, sId, eId)))
+            {
                 MessageBox.Show("Une erreur est survenue :(");
+                return false;
+            }
             else
             {
-                m_Fav.LastViewedSeason = m_Episode.NoSeason;
-                m_Fav.LastViewedEpisode = m_Episode.NoEpisode;
+                m_Fav.LastViewedSeason = sId;
+                m_Fav.LastViewedEpisode = eId;
                 tvEpisode.Nodes.Clear();
                 PeupleShow();
                 foreach (TreeNode tn in tvEpisode.Nodes)
-                    foreach (EMCTreeNode<ListedEpisode> etn in tn.Nodes)
-                        if (etn.Info.NoSeason == m_Episode.NoSeason && etn.Info.NoEpisode == m_Episode.NoEpisode)
-                            tvEpisode.SelectedNode = etn;
+                    foreach (EMCTreeNode<ListedEpisode> et in tn.Nodes)
+                        if (et.Info.NoSeason == sId && et.Info.NoEpisode == eId)
+                            et.EnsureVisible();
             }
-            btnRefresh_Click(sender, e);
+            btnRefresh_Click(null, new EventArgs());
+            return true;
         }
 
         private void lstFavs_DrawItem(object sender, DrawItemEventArgs e)
@@ -460,26 +487,6 @@ namespace EMCTv.Windows.Forms
             EMCTreeNode<ListedLink> etn = tvLink.SelectedNode as EMCTreeNode<ListedLink>;
             if (etn == null)
                 e.Cancel = true;
-        }
-
-        private async void setAsLastViewedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
-            Enable(false);
-            if (!(await m_Session.SetLastViewed(m_ShowLang, m_Website, m_Show.Name, etn.Info.NoSeason, etn.Info.NoEpisode)))
-                MessageBox.Show("Une erreur est survenue :(");
-            else
-            {
-                m_Fav.LastViewedSeason = etn.Info.NoSeason;
-                m_Fav.LastViewedEpisode = etn.Info.NoEpisode;
-                tvEpisode.Nodes.Clear();
-                PeupleShow();
-                foreach (TreeNode tn in tvEpisode.Nodes)
-                    foreach (EMCTreeNode<ListedEpisode> et in tn.Nodes)
-                        if (et.Info.NoSeason == etn.Info.NoSeason && et.Info.NoEpisode == etn.Info.NoEpisode)
-                            tvEpisode.SelectedNode = et;
-            }
-            btnRefresh_Click(sender, e);
         }
 
         private async void openInBrowserToolStripMenuItem2_Click(object sender, EventArgs e)
