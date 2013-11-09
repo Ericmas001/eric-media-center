@@ -95,8 +95,7 @@ namespace EMCRestService.StreamingWebsites
 
         public async Task<StreamingInfo> StreamAsync(string website, string args)
         {
-            StreamingInfo si = new StreamingInfo() { StreamingURL = "http://" + URL + "/movies/" + args + ".html", Arguments = args, Website = website, DownloadURL = null };
-            return si;
+            return new StreamingInfo() { StreamingURL = "http://" + URL + "/movies/" + args + ".html", Arguments = args, Website = website, DownloadURL = null };
         }
 
         public string MovieURL(string movieId)
