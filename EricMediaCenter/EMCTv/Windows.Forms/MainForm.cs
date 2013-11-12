@@ -49,6 +49,7 @@ namespace EMCTv.Windows.Forms
             btnSupported.Enabled = enable;
             btnRefresh.Enabled = enable;
             btnRefreshHard.Enabled = enable;
+            btnSettings.Enabled = enable;
             btnAddFavorites.Enabled = enable && m_Show != null && m_Fav == null;
             btnDelFavorites.Enabled = enable && m_Show != null && m_Fav != null;
             btnLastViewed.Enabled = enable && m_Episode != null && m_Fav != null;
@@ -505,23 +506,6 @@ namespace EMCTv.Windows.Forms
             }
         }
 
-        private void btnDebug_Click(object sender, EventArgs e)
-        {
-            WSUtility.DebugMode = !WSUtility.DebugMode;
-            if (WSUtility.DebugMode)
-            {
-                this.BackColor = Color.Yellow;
-                this.Text = "EMC Tv ~~ D E B U G ~~";
-                btnDebug.VIBlendTheme = VIBLEND_THEME.METROGREEN;
-            }
-            else
-            {
-                this.BackColor = Color.White;
-                this.Text = "EMC Tv";
-                btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
-            }
-        }
-
         private async void openInBrowserToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             EMCTreeNode<ListedEpisode> etn = tvEpisode.SelectedNode as EMCTreeNode<ListedEpisode>;
@@ -557,6 +541,11 @@ namespace EMCTv.Windows.Forms
             tabControl1.SelectedTab = tabPage2;
             txtSearch.Text = fts.Title;
             btnSearch_Click(sender, e);
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            new GlobalSettingsForm().ShowDialog();
         }
     }
 }
