@@ -38,6 +38,7 @@ namespace EMCMovie.Windows.Forms
             tvSearch.Enabled = enable;
             btnSupported.Enabled = enable;
             tvLink.Enabled = enable;
+            btnSettings.Enabled = enable;
             pictureBox1.Visible = !enable;
         }
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -228,23 +229,6 @@ namespace EMCMovie.Windows.Forms
             }
         }
 
-        private void btnDebug_Click(object sender, EventArgs e)
-        {
-            WSUtility.DebugMode = !WSUtility.DebugMode;
-            if (WSUtility.DebugMode)
-            {
-                this.BackColor = Color.Yellow;
-                this.Text = "EMC Movie ~~ D E B U G ~~";
-                btnDebug.VIBlendTheme = VIBLEND_THEME.METROGREEN;
-            }
-            else
-            {
-                this.BackColor = Color.White;
-                this.Text = "EMC Movie";
-                btnDebug.VIBlendTheme = VIBLEND_THEME.METROORANGE;
-            }
-        }
-
         private async void btnSupported_Click(object sender, EventArgs e)
         {
             Enable(false);
@@ -254,6 +238,11 @@ namespace EMCMovie.Windows.Forms
             m_Websites = ssf.Choosen;
             m_Lang = ssf.Lang;
             Enable(true);
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            new GlobalSettingsForm().ShowDialog();
         }
     }
 }

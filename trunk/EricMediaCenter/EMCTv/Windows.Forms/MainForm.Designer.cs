@@ -55,6 +55,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findOnOtherWebsitesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnSupported = new VIBlend.WinForms.Controls.vButton();
             this.btnAddFavorites = new VIBlend.WinForms.Controls.vButton();
@@ -64,8 +65,7 @@
             this.lblEpisode = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLoadAll = new VIBlend.WinForms.Controls.vButton();
-            this.btnDebug = new VIBlend.WinForms.Controls.vButton();
-            this.findOnOtherWebsitesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSettings = new VIBlend.WinForms.Controls.vButton();
             this.ctxtSearch.SuspendLayout();
             this.ctxtEpisode.SuspendLayout();
             this.ctxtLinks.SuspendLayout();
@@ -315,7 +315,7 @@
             this.removeFromFavoritesToolStripMenuItem,
             this.findOnOtherWebsitesToolStripMenuItem});
             this.ctxtFavs.Name = "ctxtFavs";
-            this.ctxtFavs.Size = new System.Drawing.Size(234, 122);
+            this.ctxtFavs.Size = new System.Drawing.Size(234, 100);
             this.ctxtFavs.Opening += new System.ComponentModel.CancelEventHandler(this.ctxtFavs_Opening);
             // 
             // openToolStripMenuItem
@@ -338,6 +338,13 @@
             this.removeFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
             this.removeFromFavoritesToolStripMenuItem.Text = "Remove From Favorites";
             this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
+            // 
+            // findOnOtherWebsitesToolStripMenuItem
+            // 
+            this.findOnOtherWebsitesToolStripMenuItem.Name = "findOnOtherWebsitesToolStripMenuItem";
+            this.findOnOtherWebsitesToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
+            this.findOnOtherWebsitesToolStripMenuItem.Text = "Find on other websites";
+            this.findOnOtherWebsitesToolStripMenuItem.Click += new System.EventHandler(this.findOnOtherWebsitesToolStripMenuItem_Click);
             // 
             // tabPage2
             // 
@@ -430,9 +437,9 @@
             // 
             this.lblEpisode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEpisode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEpisode.Location = new System.Drawing.Point(815, 9);
+            this.lblEpisode.Location = new System.Drawing.Point(829, 9);
             this.lblEpisode.Name = "lblEpisode";
-            this.lblEpisode.Size = new System.Drawing.Size(254, 39);
+            this.lblEpisode.Size = new System.Drawing.Size(210, 39);
             this.lblEpisode.TabIndex = 14;
             this.lblEpisode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -440,7 +447,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1075, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(1045, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(47, 48);
             this.pictureBox1.TabIndex = 8;
@@ -463,26 +470,21 @@
             this.btnLoadAll.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROBLUE;
             this.btnLoadAll.Click += new System.EventHandler(this.btnLoadAll_Click);
             // 
-            // btnDebug
+            // btnSettings
             // 
-            this.btnDebug.AllowAnimations = true;
-            this.btnDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDebug.BackColor = System.Drawing.Color.Transparent;
-            this.btnDebug.Location = new System.Drawing.Point(1123, 0);
-            this.btnDebug.Name = "btnDebug";
-            this.btnDebug.RoundedCornersMask = ((byte)(15));
-            this.btnDebug.Size = new System.Drawing.Size(11, 10);
-            this.btnDebug.TabIndex = 20;
-            this.btnDebug.UseVisualStyleBackColor = false;
-            this.btnDebug.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.METROORANGE;
-            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
-            // 
-            // findOnOtherWebsitesToolStripMenuItem
-            // 
-            this.findOnOtherWebsitesToolStripMenuItem.Name = "findOnOtherWebsitesToolStripMenuItem";
-            this.findOnOtherWebsitesToolStripMenuItem.Size = new System.Drawing.Size(233, 24);
-            this.findOnOtherWebsitesToolStripMenuItem.Text = "Find on other websites";
-            this.findOnOtherWebsitesToolStripMenuItem.Click += new System.EventHandler(this.findOnOtherWebsitesToolStripMenuItem_Click);
+            this.btnSettings.AllowAnimations = true;
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
+            this.btnSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnSettings.Location = new System.Drawing.Point(1098, 9);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.RoundedCornersMask = ((byte)(15));
+            this.btnSettings.Size = new System.Drawing.Size(24, 30);
+            this.btnSettings.TabIndex = 21;
+            this.btnSettings.Text = "‡";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.VIBlendTheme = VIBlend.Utilities.VIBLEND_THEME.EXPRESSIONDARK;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // MainForm
             // 
@@ -490,7 +492,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1134, 433);
-            this.Controls.Add(this.btnDebug);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnLoadAll);
             this.Controls.Add(this.lblEpisode);
             this.Controls.Add(this.btnLastViewed);
@@ -554,10 +556,10 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem setAsLastViewedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
-        private VIBlend.WinForms.Controls.vButton btnDebug;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem3;
         private VIBlend.WinForms.Controls.vButton btnSupported;
         private System.Windows.Forms.ToolStripMenuItem findOnOtherWebsitesToolStripMenuItem;
+        private VIBlend.WinForms.Controls.vButton btnSettings;
     }
 }
 
