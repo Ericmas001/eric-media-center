@@ -47,7 +47,7 @@ namespace EMCCommon.Windows.Forms
         private void btnEMCDfolder_Click(object sender, EventArgs e)
         {
             if (fbdEMCDfolder.ShowDialog() == DialogResult.OK)
-                txtEMCDpath.Text = fbdEMCDfolder.SelectedPath;
+                txtEMCDfolder.Text = fbdEMCDfolder.SelectedPath;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
