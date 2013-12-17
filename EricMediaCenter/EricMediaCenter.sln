@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCMovie", "EMCMovie\EMCMov
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMCCommon", "EMCCommon\EMCCommon.csproj", "{953DDBF4-54A3-4CCF-9700-CE1CB90A2AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EricMediaCenter", "EricMediaCenter\EricMediaCenter.csproj", "{0F3348E9-DC95-41AA-A316-81398188F76A}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -158,21 +156,6 @@ Global
 		{953DDBF4-54A3-4CCF-9700-CE1CB90A2AB2}.TestLive|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{953DDBF4-54A3-4CCF-9700-CE1CB90A2AB2}.TestLive|Mixed Platforms.Build.0 = Release|Any CPU
 		{953DDBF4-54A3-4CCF-9700-CE1CB90A2AB2}.TestLive|x86.ActiveCfg = Release|Any CPU
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Debug|x86.ActiveCfg = Debug|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Debug|x86.Build.0 = Debug|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Release|Any CPU.ActiveCfg = Release|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Release|Mixed Platforms.Build.0 = Release|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Release|x86.ActiveCfg = Release|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.Release|x86.Build.0 = Release|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.TestLive|Any CPU.ActiveCfg = TestLive|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.TestLive|Mixed Platforms.ActiveCfg = TestLive|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.TestLive|Mixed Platforms.Build.0 = TestLive|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.TestLive|x86.ActiveCfg = TestLive|x86
-		{0F3348E9-DC95-41AA-A316-81398188F76A}.TestLive|x86.Build.0 = TestLive|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
