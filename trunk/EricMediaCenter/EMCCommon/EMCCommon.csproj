@@ -138,27 +138,6 @@
       <Name>EricUtility2011</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\emc2-draft.txt" />
-    <Content Include="Database\TFavShows\SPFavAddShow.sql" />
-    <Content Include="Database\TFavShows\SPFavDelShow.sql" />
-    <Content Include="Database\TFavShows\SPFavLastViewed.sql" />
-    <Content Include="Database\TFavShows\SPUserAllFavs.sql" />
-    <Content Include="Database\TFavShows\TFavShows.sql" />
-    <Content Include="Database\TTvShow\SPTvAddShow.sql" />
-    <Content Include="Database\TTvShow\SPTvAllShows.sql" />
-    <Content Include="Database\TTvShow\SPTvGetShow.sql" />
-    <Content Include="Database\TTvShow\SPTvLastEpisode.sql" />
-    <Content Include="Database\TTvShow\TTvShow.sql" />
-    <Content Include="Database\TUsers\SPUserChangeInfo.sql" />
-    <Content Include="Database\TUsers\SPUserChangePassword.sql" />
-    <Content Include="Database\TUsers\SPUserConnect.sql" />
-    <Content Include="Database\TUsers\SPUserGetInfo.sql" />
-    <Content Include="Database\TUsers\SPUserRefresh.sql" />
-    <Content Include="Database\TUsers\SPUserRegister.sql" />
-    <Content Include="Database\TUsers\SPUserValidToken.sql" />
-    <Content Include="Database\TUsers\TUser.sql" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
